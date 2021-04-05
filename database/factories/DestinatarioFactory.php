@@ -22,11 +22,11 @@ class DestinatarioFactory extends Factory
     public function definition()
     {
         return [
-            'nombre' => $this->faker->name(),
-            'direccion' => $this->faker->streetAddress(),
-            'ciudad' => $this->faker->city(),
-            'telefono' => $this->faker->phoneNumber(),
-            'cp' => $this->faker->postcode(),
+            'nombre_destinatario' => $this->faker->name(),
+            'direccion_destinatario' => $this->faker->streetAddress(),
+            'ciudad_destinatario' => $this->faker->city(),
+            'telefono_destinatario' => $this->faker->phoneNumber(),
+            'cp_destinatario' => $this->faker->postcode(),
         ];
     }
 }

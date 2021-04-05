@@ -17,11 +17,11 @@ class CreateDestinatariosTable extends Migration
     {
         Schema::create('destinatarios', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('direccion');
-            $table->string('ciudad');
-            $table->string('telefono');
-            $table->string('cp');
+            $table->string('nombre_destinatario');
+            $table->string('direccion_destinatario');
+            $table->string('ciudad_destinatario');
+            $table->string('telefono_destinatario');
+            $table->string('cp_destinatario');
             $table->timestamps();
         });
     }

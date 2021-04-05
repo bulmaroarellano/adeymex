@@ -22,16 +22,16 @@ class RemitenteFactory extends Factory
     public function definition()
     {
         return [
-            'nombre' => $this->faker->name(),
-            'direccion' => $this->faker->streetAddress(),
-            'ciudad' => $this->faker->city(),
-            'telefono' => $this->faker->phoneNumber(),
-            'cp' => $this->faker->postcode(),
-            'email' => $this->faker->email(),
-            'peso' => $this->faker->randomDigit(),
-            'largo' => $this->faker->randomDigit(),
-            'ancho' => $this->faker->randomDigit(),
-            'altura' => $this->faker->randomDigit(),
+            'nombre_remitente' => $this->faker->name(),
+            'direccion_remitente' => $this->faker->streetAddress(),
+            'ciudad_remitente' => $this->faker->city(),
+            'telefono_remitente' => $this->faker->phoneNumber(),
+            'cp_remitente' => $this->faker->postcode(),
+            'email_remitente' => $this->faker->email(),
+            'peso_remitente' => $this->faker->randomDigit(),
+            'largo_remitente' => $this->faker->randomDigit(),
+            'ancho_remitente' => $this->faker->randomDigit(),
+            'altura_remitente' => $this->faker->randomDigit(),
         ];
     }
 }

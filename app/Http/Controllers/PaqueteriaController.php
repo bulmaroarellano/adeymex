@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Destinatario;
 use App\Models\Envio;
+use App\Models\Remitente;
 use Illuminate\Http\Request;
 
 class PaqueteriaController extends Controller
@@ -14,7 +16,6 @@ class PaqueteriaController extends Controller
      */
     public function index()
     {
-        //TODO: CAMBIAR A MODEL 'ENVIOS'
         $envios = Envio::paginate(5);
 
         return view('/paqueteria/paquetes', [
@@ -29,7 +30,7 @@ class PaqueteriaController extends Controller
      */
     public function create()
     {
-        //
+        return view('/paqueteria/create');
     }
 
     /**
@@ -40,7 +41,16 @@ class PaqueteriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        //TODO: RELIZAR VALIDACIONES DE LOS CAMPOS 
+        $remitente    = Remitente::create($request->all());
+        $destinatario = Destinatario::create($request->all());
+        $envio        = Envio::create($request->all());
+
+        return view('/paqueteria/show', [
+            'remitente' => $remitente, 
+            'destinatario' => $destinatario,
+        ]);
     }
 
     /**
@@ -49,9 +59,17 @@ class PaqueteriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Envio $envio)
     {
-        //
+
+        $remitente = Remitente::all()->find($envio->id);
+        $destinatario = Destinatario::all()->find($envio->id);
+
+        return view('/paqueteria/show', [
+            'remitente' => $remitente, 
+            'destinatario' => $destinatario,
+        ]);
+
     }
 
     /**
@@ -60,9 +78,16 @@ class PaqueteriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Envio $envio)
     {
-        //
+        $remitente = Remitente::all()->find($envio->id);
+        $destinatario = Destinatario::all()->find($envio->id);
+
+        return view('/paqueteria/edit', [
+            'remitente' => $remitente, 
+            'destinatario' => $destinatario,
+            'envio'=> $envio
+        ]);
     }
 
     /**
@@ -72,9 +97,14 @@ class PaqueteriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Remitente $remitente, Destinatario $destinatario, Envio $envio)
     {
-        //
+        
+        $remitente->update($request->all());
+        $destinatario->update($request->all());
+        $envio->update($request->all());
+
+        return redirect()->route('paquetes.index');
     }
 
     /**
@@ -83,8 +113,14 @@ class PaqueteriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Envio $envio)
     {
-        //
+        $remitente = Remitente::all()->find($envio->id);
+        $destinatario = Destinatario::all()->find($envio->id);
+        $remitente->delete();
+        $destinatario->delete();
+        $envio->delete();
+
+        return redirect()->route('paquetes.index');
     }
 }

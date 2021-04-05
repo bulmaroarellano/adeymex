@@ -64,8 +64,20 @@ Route::group(['prefix' => 'auth'], function () {
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
 //+ Mis rutas 
-Route::resource('paquetes', PaqueteriaController::class);
-//* GET paquetes , alias = paquetes.index 
+// Route::resource('paquetes', PaqueteriaController::class);
+
+Route::get('/paquetes', [PaqueteriaController::class, 'index'])->name('paquetes.index');
+
+Route::get('/paquetes/create', [PaqueteriaController::class, 'create'])->name('paquetes.create');
+Route::post('/paquetes', [PaqueteriaController::class, 'store'])->name('paquetes.store');
+
+Route::get('/paquetes/{envio}', [PaqueteriaController::class, 'show'])->name('paquetes.show');
+Route::get('/paquetes/{envio}/edit', [PaqueteriaController::class, 'edit'])->name('paquetes.edit');
+Route::put('/paquetes/{remitente}{destinatario}{envio}', [PaqueteriaController::class, 'update'])->name('paquetes.update');
+
+Route::delete('/productos/{envio}', [PaqueteriaController::class, 'destroy'])->name('paquetes.destroy'); 
+
+//* GET paquetes , alias = paquetes.index    
 //* POST paquetes , alias = paquetes.store
 //* GET paquetes/create , alias = paquetes.create
 //* GET paquetes/{paquete} , alias = paquetes.show 

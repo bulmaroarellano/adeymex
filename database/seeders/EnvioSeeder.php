@@ -39,13 +39,13 @@ class EnvioSeeder extends Seeder
     {
         
 
-        $nombreEnvio= Remitente::get(['nombre']);
-        $destino = Destinatario::get(['ciudad']);
+        $nombreEnvio= Remitente::get(['nombre_remitente']);
+        $destino = Destinatario::get(['ciudad_destinatario']);
         for($i = 0; $i< count($nombreEnvio->all()) ; $i++){
             $envio = new Envio();
-            $envio->nombre = $nombreEnvio[$i]->nombre;
-            $envio->destino = $destino[$i]->ciudad;
-            $envio->status = $this->faker->randomElement(['Entregado', 'Rechazado', 'En camino']);
+            $envio->nombre_remitente =  $nombreEnvio[$i]->nombre_remitente;
+            $envio->ciudad_destinatario = $destino[$i]->ciudad_destinatario;
+            $envio->status =  $this->faker->randomElement(['Entregado', 'Rechazado', 'En camino']);
             $envio->save();
         } 
 

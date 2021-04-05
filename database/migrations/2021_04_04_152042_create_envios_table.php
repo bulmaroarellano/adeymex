@@ -15,9 +15,9 @@ class CreateEnviosTable extends Migration
     {
         Schema::create('envios', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('destino');
-            $table->string('status');
+            $table->string('nombre_remitente');
+            $table->string('ciudad_destinatario');
+            $table->string('status')->nullable()->default('En camino');
             $table->timestamps();
         });
     }
