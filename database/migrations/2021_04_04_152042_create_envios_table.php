@@ -4,9 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-//* persona que recibe el paquete 
-
-class CreateDestinatariosTable extends Migration
+class CreateEnviosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,13 +13,11 @@ class CreateDestinatariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('destinatarios', function (Blueprint $table) {
+        Schema::create('envios', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('direccion');
-            $table->string('ciudad');
-            $table->string('telefono');
-            $table->string('cp');
+            $table->string('destino');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ class CreateDestinatariosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('destinatarios');
+        Schema::dropIfExists('envios');
     }
 }

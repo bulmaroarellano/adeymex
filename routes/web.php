@@ -15,7 +15,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
-
+use App\Http\Controllers\PaqueteriaController;
 
 // Main Page Route
 // Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware('verified');
@@ -62,5 +62,14 @@ Route::group(['prefix' => 'auth'], function () {
 
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+
 //+ Mis rutas 
+Route::resource('paquetes', PaqueteriaController::class);
+//* GET paquetes , alias = paquetes.index 
+//* POST paquetes , alias = paquetes.store
+//* GET paquetes/create , alias = paquetes.create
+//* GET paquetes/{paquete} , alias = paquetes.show 
+//* PUT paquetes/{paquete} , alias = paquetes.update 
+//* DELETE paquetes/{paquete} , alias = paquetes.destroy
+//* GET paquetes/{paquete}/edit , alias = paquetes.edit
 

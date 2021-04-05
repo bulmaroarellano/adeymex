@@ -24,6 +24,7 @@ class DestinatarioFactory extends Factory
         return [
             'nombre' => $this->faker->name(),
             'direccion' => $this->faker->streetAddress(),
+            'ciudad' => $this->faker->city(),
             'telefono' => $this->faker->phoneNumber(),
             'cp' => $this->faker->postcode(),
         ];

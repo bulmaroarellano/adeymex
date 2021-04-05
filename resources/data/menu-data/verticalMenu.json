@@ -28,7 +28,7 @@
     },
 
     {
-      "url": "productos",
+      "url": "paquetes",
       "name": "Productos",
       "icon": "box",
       "slug": "app-file-manager"
