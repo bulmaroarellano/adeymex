@@ -16,26 +16,26 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card table-responsive">
-                            <table class="datatables-basic table table-bordered">
+                            <table class="table table-bordered table-striped table-condensed cf">
                                 <h2>Remitente</h2>
-                                <thead>
+                                <thead >
                                     {{-- ENCABEZADOS --}}
-                                    <tr>
+                                    <tr class="col-5">
 
-                                        <th>Nombre</th>
-                                        <th>Direccion</th>
-                                        <th>Ciudad </th>
-                                        <th>Telefono </th>
-                                        <th>C.P</th>
-                                        <th>Email</th>
-                                        <th>Peso </th>
-                                        <th>Largo </th>
-                                        <th>Ancho </th>
-                                        <th>Altura </th>
+                                        <th class="">Nombre</th>
+                                        <th class="">Direccion</th>
+                                        <th class="">Ciudad </th>
+                                        <th class="">Telefono </th>
+                                        <th class="">C.P</th>
+                                        <th class="">Email</th>
+                                        <th class="">Peso </th>
+                                        <th class="">Largo </th>
+                                        <th class="">Ancho </th>
+                                        <th class="">Altura </th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
+                                <tbody class="">
+                                    <tr >
                                         <td><input type="text" name="nombre_remitente"    value="{{ old('nombre_remitente') }}"></td>
                                         <td><input type="text" name="direccion_remitente" value="{{ old('direccion_remitente') }}"></td>
                                         <td><input type="text" name="ciudad_remitente"    value="{{ old('ciudad_remitente') }}"></td>

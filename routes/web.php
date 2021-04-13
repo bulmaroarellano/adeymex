@@ -16,6 +16,7 @@ use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\PaqueteriaController;
+use App\Http\Controllers\SucursalesController;
 
 // Main Page Route
 // Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware('verified');
@@ -77,6 +78,7 @@ Route::put('/paquetes/{remitente}{destinatario}{envio}', [PaqueteriaController::
 
 Route::delete('/productos/{envio}', [PaqueteriaController::class, 'destroy'])->name('paquetes.destroy'); 
 
+
 //* GET paquetes , alias = paquetes.index    
 //* POST paquetes , alias = paquetes.store
 //* GET paquetes/create , alias = paquetes.create
@@ -84,4 +86,28 @@ Route::delete('/productos/{envio}', [PaqueteriaController::class, 'destroy'])->n
 //* PUT paquetes/{paquete} , alias = paquetes.update 
 //* DELETE paquetes/{paquete} , alias = paquetes.destroy
 //* GET paquetes/{paquete}/edit , alias = paquetes.edit
+
+//+ Catalogos
+Route::get('/sucursales', [SucursalesController::class, 'index'])->name('sucursales.index');
+Route::get('/sucursales/{sucursal}{edit}', [SucursalesController::class, 'show'])->name('sucursales.show');
+
+Route::put('/sucursales/{sucursal}', [SucursalesController::class, 'update'])->name('sucursales.update');
+
+Route::post('/sucursales', [SucursalesController::class, 'store'])->name('sucursales.store');
+
+
+
+// Route::get('/remitentes', [SucursalesController::class, 'index'])->name('sucursales.index');
+
+// Route::get('/destinatarios', [SucursalesController::class, 'index'])->name('sucursales.index');
+// Route::get('/suministros', [SucursalesController::class, 'index'])->name('sucursales.index');
+// Route::get('/cupones', [SucursalesController::class, 'index'])->name('sucursales.index');
+// Route::get('/paises', [SucursalesController::class, 'index'])->name('sucursales.index');
+
+// Route::get('/codigo-postal', [SucursalesController::class, 'index'])->name('sucursales.index');
+// Route::get('/mercancias', [SucursalesController::class, 'index'])->name('sucursales.index');
+// Route::get('/monedas', [SucursalesController::class, 'index'])->name('sucursales.index');
+// Route::get('/mensajerias', [SucursalesController::class, 'index'])->name('sucursales.index');
+// Route::get('/unidades-medida', [SucursalesController::class, 'index'])->name('sucursales.index');
+
 
