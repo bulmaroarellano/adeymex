@@ -16,6 +16,7 @@ use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\PaqueteriaController;
+use App\Http\Controllers\RemitenteController;
 use App\Http\Controllers\SucursalesController;
 
 // Main Page Route
@@ -88,6 +89,7 @@ Route::delete('/productos/{envio}', [PaqueteriaController::class, 'destroy'])->n
 //* GET paquetes/{paquete}/edit , alias = paquetes.edit
 
 //+ Catalogos
+//-SUCURSALES 
 Route::get('/sucursales', [SucursalesController::class, 'index'])->name('sucursales.index');
 
 Route::get('/sucursales/{sucursal}{edit}', [SucursalesController::class, 'show'])->name('sucursales.show');
@@ -96,7 +98,14 @@ Route::put('/sucursales/{sucursal}', [SucursalesController::class, 'update'])->n
 Route::post('/sucursales', [SucursalesController::class, 'store'])->name('sucursales.store');
 Route::delete('/sucursales/{sucursal}', [SucursalesController::class, 'destroy'])->name('sucursales.destroy');
 
+//-REMITENTES
+Route::get('/remitentes', [RemitenteController::class, 'index'])->name('remitentes.index');
 
+Route::get('/remitentes/{remitente}{edit}', [RemitenteController::class, 'show'])->name('remitentes.show');
+Route::put('/remitentes/{remitente}', [RemitenteController::class, 'update'])->name('remitentes.update');
+
+Route::post('/remitentes/', [RemitenteController::class, 'store'])->name('remitentes.store');
+Route::delete('/remitentes/{remitente}', [RemitenteController::class, 'destroy'])->name('remitentes.destroy');
 
 // Route::get('/remitentes', [SucursalesController::class, 'index'])->name('sucursales.index');
 

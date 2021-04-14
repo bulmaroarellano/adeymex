@@ -4,8 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-//* persona que envia el paquete 
-
 class CreateRemitentesTable extends Migration
 {
     /**
@@ -17,16 +15,19 @@ class CreateRemitentesTable extends Migration
     {
         Schema::create('remitentes', function (Blueprint $table) {
             $table->id();
-            $table-> string('nombre_remitente');
-            $table-> string('direccion_remitente');
-            $table-> string('ciudad_remitente');
-            $table-> string('telefono_remitente');
-            $table-> string('cp_remitente');
-            $table-> string('email_remitente');
-            $table->integer('peso_remitente');
-            $table->integer('largo_remitente');
-            $table->integer('ancho_remitente');
-            $table->integer('altura_remitente');
+            $table->string('sucursal');
+            $table->string('nombre');
+            $table->string('apellidoP');
+            $table->string('apellidoM')->nullable();
+            $table->string('empresa')->nullable();
+            $table->string('telefono');
+            $table->string('email');
+            $table->string('tipoCliente');
+            $table->string('domicilio1');
+            $table->string('domicilio2')->nullable();
+            $table->string('domicilio3')->nullable();
+            $table->string('pais');
+            $table->string('codigoPostal');
             $table->timestamps();
         });
     }
