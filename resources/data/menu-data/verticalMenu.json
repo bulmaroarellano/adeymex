@@ -22,9 +22,79 @@
       ]
     },
 
+
     {
-      "navheader": "Paqueteria",
-      "slug": ""
+      "name": "Catalogos",
+      "icon": "grid",
+      "slug": "",
+      "submenu": [
+        {
+          "url": "/sucursales",
+          "name": "Sucursales",
+          "icon": "home",
+          "slug": "sucursales"
+        },
+        {
+          "url": "/remitentes",
+          "name": "Remitentes",
+          "icon": "users",
+          "slug": "remitententes"
+        },
+        {
+          "url": "/destinatarios",
+          "name": "Destinatarios",
+          "icon": "users",
+          "slug": "destinatarios"
+        },
+        {
+          "url": "/suministros",
+          "name": "Suministros",
+          "icon": "package",
+          "slug": "suministros"
+        },
+        {
+          "url": "/cupones",
+          "name": "Cupones",
+          "icon": "layers",
+          "slug": "cupones"
+        },
+        {
+          "url": "/paises",
+          "name": "Paises",
+          "icon": "flag",
+          "slug": "paises"
+        },
+        {
+          "url": "/codigo-postal",
+          "name": "Codigos Postales",
+          "icon": "globe",
+          "slug": "Codigos Postales"
+        },
+        {
+          "url": "/mercancias",
+          "name": "Mercancias",
+          "icon": "codesandbox",
+          "slug": "Mercancias"
+        },
+        {
+          "url": "/monedas",
+          "name": "Monedas",
+          "icon": "dollar-sign",
+          "slug": "Monedas"
+        },
+        {
+          "url": "/mensajerias",
+          "name": "Mensajerias",
+          "icon": "navigation",
+          "slug": "Mensajerias"
+        },
+        {
+          "url": "/unidades-medida",
+          "name": "Unidades Medida",
+          "icon": "hexagon",
+          "slug": "Unidades Medida"
+        }
+      ]
     },
 
     {
