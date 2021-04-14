@@ -22,7 +22,7 @@ class SucursalFactory extends Factory
     public function definition()
     {
         return [
-            'descripcion'=> $this->faker->firstName(),
+            'descripcion'=> $this->faker->company(),
             'telefono'=> $this->faker->phoneNumber(),
             'email'=> $this->faker->email(),
             'encargado'=> $this->faker->name(),

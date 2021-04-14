@@ -10,15 +10,18 @@ class Remitente extends Model
     use HasFactory;
 
     protected $fillable = [
-        "nombre_remitente",
-        "direccion_remitente",
-        "ciudad_remitente",
-        "telefono_remitente",
-        "cp_remitente",
-        "email_remitente",
-        "peso_remitente",
-        "largo_remitente",
-        "ancho_remitente",
-        "altura_remitente",
+        'sucursal',
+        'nombre',
+        'apellidoP',
+        'apellidoM',
+        'empresa',
+        'telefono',
+        'email',
+        'tipoCliente',
+        'domicilio1',
+        'domicilio2',
+        'domicilio3',
+        'pais',
+        'codigoPostal',
     ];
 }
