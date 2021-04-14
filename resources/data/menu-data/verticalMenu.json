@@ -1,72 +1,56 @@
 {
-  "menu": [
-    {
-      "name": "Dashboards",
-      "badge": "2",
-      "badgeClass": "badge badge-light-warning badge-pill ml-auto mr-1",
-      "icon": "home",
-      "slug": "",
-      "submenu": [
+    "menu": [{
+            "url": "/",
+            "name": "Dashboard",
+            "badgeClass": "badge badge-light-warning badge-pill ml-auto mr-1",
+            "icon": "circle",
+            "slug": "dashboard-paqueteria"
+        },
+
         {
-          "url": "dashboard/analytics",
-          "name": "Analytics",
-          "icon": "circle",
-          "slug": "dashboard-analytics"
+            "navheader": "Paqueteria",
+            "slug": ""
+        },
+
+        {
+            "url": "paquetes",
+            "name": "Productos",
+            "icon": "box",
+            "slug": "app-file-manager"
         },
         {
-          "url": "/",
-          "name": "eCommerce",
-          "icon": "circle",
-          "slug": "dashboard-ecommerce"
-        }
-      ]
-    },
-
-    {
-      "navheader": "Paqueteria",
-      "slug": ""
-    },
-
-    {
-      "url": "paquetes",
-      "name": "Productos",
-      "icon": "box",
-      "slug": "app-file-manager"
-    },
-    {
-      "url": "app/file-manager",
-      "name": "File Manager",
-      "icon": "save",
-      "slug": "app-file-manager"
-    },
-    {
-      "navheader": "Forms & Tables",
-      "slug": ""
-    },
-    {
-      "name": "Datatable",
-      "icon": "grid",
-      "slug": "",
-      "submenu": [
-        {
-          "url": "table/datatable/basic",
-          "name": "Basic",
-          "icon": "circle",
-          "slug": "datatable-basic"
+            "url": "app/file-manager",
+            "name": "File Manager",
+            "icon": "save",
+            "slug": "app-file-manager"
         },
         {
-          "url": "table/datatable/advance",
-          "name": "Advanced",
-          "icon": "circle",
-          "slug": "datatable-advance"
+            "navheader": "Forms & Tables",
+            "slug": ""
+        },
+        {
+            "name": "Datatable",
+            "icon": "grid",
+            "slug": "",
+            "submenu": [{
+                    "url": "table/datatable/basic",
+                    "name": "Basic",
+                    "icon": "circle",
+                    "slug": "datatable-basic"
+                },
+                {
+                    "url": "table/datatable/advance",
+                    "name": "Advanced",
+                    "icon": "circle",
+                    "slug": "datatable-advance"
+                }
+            ]
+        },
+        {
+            "url": "table/ag-grid",
+            "name": "agGrid Table",
+            "icon": "grid",
+            "slug": "ag-grid"
         }
-      ]
-    },
-    {
-      "url": "table/ag-grid",
-      "name": "agGrid Table",
-      "icon": "grid",
-      "slug": "ag-grid"
-    }
-  ]
+    ]
 }

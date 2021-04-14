@@ -26,7 +26,7 @@ Auth::routes(['verify' => true]);
 /* Route Dashboards */
 Route::group(['prefix' => 'dashboard'], function () {
   Route::get('analytics', [DashboardController::class,'dashboardAnalytics'])->name('dashboard-analytics');
-  Route::get('ecommerce', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce');
+ // Route::get('ecommerce', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce');
 });
 /* Route Dashboards */
 
