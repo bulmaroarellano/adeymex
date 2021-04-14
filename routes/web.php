@@ -89,11 +89,12 @@ Route::delete('/productos/{envio}', [PaqueteriaController::class, 'destroy'])->n
 
 //+ Catalogos
 Route::get('/sucursales', [SucursalesController::class, 'index'])->name('sucursales.index');
-Route::get('/sucursales/{sucursal}{edit}', [SucursalesController::class, 'show'])->name('sucursales.show');
 
+Route::get('/sucursales/{sucursal}{edit}', [SucursalesController::class, 'show'])->name('sucursales.show');
 Route::put('/sucursales/{sucursal}', [SucursalesController::class, 'update'])->name('sucursales.update');
 
 Route::post('/sucursales', [SucursalesController::class, 'store'])->name('sucursales.store');
+Route::delete('/sucursales/{sucursal}', [SucursalesController::class, 'destroy'])->name('sucursales.destroy');
 
 
 

@@ -54,11 +54,15 @@
                                         <i class="fas fa-pen-alt"></i>
                                     </a>
 
-                                    {{-- BORRAR --}}
-                                    <a href="" class="btn "
-                                        style="color: rgb(209, 3, 3);">
-                                        <i class="far fa-trash-alt"></i>
-                                    </a>
+                                    <form action="{{ route('sucursales.destroy', $sucursal) }}" method="POST">
+                                        {{-- BORRAR --}}
+                                        @csrf
+                                        @method('delete')
+                                        <button class="btn " style="color: rgb(209, 3, 3);">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+
+                                    </form>
 
                                 </td>
 

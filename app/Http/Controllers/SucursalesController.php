@@ -14,7 +14,7 @@ class SucursalesController extends Controller
      */
     public function index()
     {
-        $sucursales = Sucursal::paginate(5);
+        $sucursales = Sucursal::orderBy('id', 'desc')->paginate(8);
 
         // return view('/paqueteria/catalogos/sucursales')->with([
         //     'sucursales' => $sucursales,
@@ -75,7 +75,7 @@ class SucursalesController extends Controller
      */
     public function edit(Sucursal $sucursal)
     {
-        return redirect()->route('sucursales.index', ['sucursal'=> $sucursal])->with([
+        return redirect()->route('sucursales.index')->with([
             'sucursalVal' => $sucursal, 
             'edit' => true,
         ]);
@@ -88,9 +88,9 @@ class SucursalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Sucursal $sucursal)
     {
-        return $request;
+        $sucursal->update($request->all());
         return redirect()->route('sucursales.index');
     }
 
@@ -100,8 +100,10 @@ class SucursalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Sucursal $sucursal)
     {
-        //
+        // return $sucursal;
+        $sucursal->delete();
+        return redirect()->route('sucursales.index');
     }
 }
