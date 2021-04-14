@@ -14,7 +14,7 @@
                 @endif
 
                 <div class="col-md-12">
-                    {{ session()->get('sucursalesName') ?? 'NADA!!' }}
+                    
                     <div class="row justify-content-between">
 
                         <!-- + Datos generales-->

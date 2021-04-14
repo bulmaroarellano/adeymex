@@ -44,7 +44,9 @@ class RemitenteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Remitente::create($request->all());
+
+        return redirect()->route('remitentes.index');
     }
 
     /**
