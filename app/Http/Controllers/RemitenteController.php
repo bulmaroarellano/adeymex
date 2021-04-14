@@ -15,10 +15,15 @@ class RemitenteController extends Controller
      */
     public function index()
     {
+
         $remitentes = Remitente::orderBy('id', 'desc')->paginate(8);
+        $sucursalesName = Sucursal::all()->pluck('descripcion');
         return view('/paqueteria/catalogos/remitentes', [
             'remitentes' => $remitentes,
+            'sucursalesName' => $sucursalesName, 
+            
         ]);
+        
     }
 
     /**
@@ -52,7 +57,7 @@ class RemitenteController extends Controller
     {
         // $sucursalesName = Sucursal::get(['descripcion']);
         $sucursalesName = Sucursal::all()->pluck('descripcion');
-        return redirect()->route('remitentes.index', )->with([
+        return redirect()->route('remitentes.index' )->with([
             'values' => $remitente, 
             'sucursalesName' => $sucursalesName, 
             'edit' => $edit

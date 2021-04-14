@@ -2,21 +2,19 @@
 <div class="container sucursales-form">
     <div class="row d-flex justify-content-center">
         <div class="col-md-12 ">
-            <form action="{{ session()->get('edit') == 1 
-                    ? route('remitentes.update', session()->get('values') ?? '')
-                    : route('remitentes.store') 
-                    }}"
-                    method="POST"
-            >
+            <form
+                action="{{ session()->get('edit') == 1 ? route('remitentes.update', session()->get('values') ?? '') : route('remitentes.store') }}"
+                method="POST">
 
                 @csrf
                 @if (session()->get('edit') == 1)
 
                     @method('put')
-                   
+
                 @endif
 
                 <div class="col-md-12">
+                    {{ session()->get('sucursalesName') ?? 'NADA!!' }}
                     <div class="row justify-content-between">
 
                         <!-- + Datos generales-->
@@ -36,6 +34,7 @@
                                             <select class="form-control" name="sucursal"
                                                 {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
                                                 <option>{{ session()->get('values')->sucursal ?? '' }}</option>
+
                                                 @if (session()->get('sucursalesName'))
                                                     @foreach (session()->get('sucursalesName') as $sucursalName)
                                                         @if ($sucursalName !== session()->get('values')->sucursal)
@@ -43,7 +42,13 @@
                                                             <option>{{ $sucursalName }}</option>
                                                         @endif
                                                     @endforeach
+                                                @else
+                                                    @foreach ($sucursalesName as $sucursalName)
+                                                        
 
+                                                            <option>{{ $sucursalName }}</option>
+                                                        
+                                                    @endforeach
                                                 @endif
                                             </select>
                                         </div>
