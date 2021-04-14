@@ -3,9 +3,10 @@
 return [
   "Apps & Pages" => "Apps & Pages",
   "User Interface" => "User Interface",
-  "Dashboard" => "Dashboards",
-  "Paqueteria"=>"Paqueteria",
-  "Productos" => "Productos",
+  "Dashboards" => "Dashboards",
+  "Analytics" => "Analytics",
+  "eCommerce" => "eCommerce",
+  "Apps" => "Apps",
   "UI Elements" => "UI Elements",
   "Forms & Tables" => "Forms & Tables",
   "Pages" => "Pages",
@@ -180,6 +181,18 @@ return [
   "Deactivate Account" => "Deactivate Account",
   "Promotional" => "Promotional",
   "message" => "Cake sesame snaps cupcake gingerbread danish I love gingerbread. Apple pie pie jujubes chupa chups muffin halvah lollipop. Chocolate cake oat cake tiramisu marzipan sugar plum. Donut sweet pie oat cake dragée fruitcake cotton candy lemon drops.",
-
+  "Productos" => "Productos",
+  "Catalogos" => "Catalogos",
+  "Sucursales" => "Sucursales",
+  "Remitentes" => "Remitentes",
+  "Destinatarios" => "Destinatarios",
+  "Suministros" => "Suministros",
+  "Cupones" => "Cupones",
+  "Paises" => "Paises",
+  "Codigos Postales" => "Codigos Postales",
+  "Mercancias" => "Mercancias",
+  "Monedas" => "Monedas",
+  "Mensajerias" => "Mensajerias",
+  "Unidades Medida" => "Unidades Medida",
 
 ];
