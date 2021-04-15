@@ -16,6 +16,7 @@ use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\DestinatarioController;
+use App\Http\Controllers\PaisController;
 use App\Http\Controllers\PaqueteriaController;
 use App\Http\Controllers\RemitenteController;
 use App\Http\Controllers\SucursalesController;
@@ -126,8 +127,18 @@ Route::put('/suministros/{suministro}', [SuministroController::class, 'update'])
 
 Route::post('/suministros/', [SuministroController::class, 'store'])->name('suministros.store');
 Route::delete('/suministros/{suministro}', [SuministroController::class, 'destroy'])->name('suministros.destroy');
-// Route::get('/suministros', [SucursalesController::class, 'index'])->name('sucursales.index');
+
+//-PAISES 
+Route::get('/paises', [PaisController::class, 'index'])->name('paises.index');
+
+Route::get('/paises/{pais}{edit}', [PaisController::class, 'show'])->name('paises.show');
+Route::put('/paises/{pais}', [PaisController::class, 'update'])->name('paises.update');
+
+Route::post('/paises/', [PaisController::class, 'store'])->name('paises.store');
+Route::delete('/paises/{pais}', [PaisController::class, 'destroy'])->name('paises.destroy');
+
 // Route::get('/cupones', [SucursalesController::class, 'index'])->name('sucursales.index');
+
 // Route::get('/paises', [SucursalesController::class, 'index'])->name('sucursales.index');
 
 // Route::get('/codigo-postal', [SucursalesController::class, 'index'])->name('sucursales.index');
