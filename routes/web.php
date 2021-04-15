@@ -15,6 +15,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
+use App\Http\Controllers\DestinatarioController;
 use App\Http\Controllers\PaqueteriaController;
 use App\Http\Controllers\RemitenteController;
 use App\Http\Controllers\SucursalesController;
@@ -107,9 +108,16 @@ Route::put('/remitentes/{remitente}', [RemitenteController::class, 'update'])->n
 Route::post('/remitentes/', [RemitenteController::class, 'store'])->name('remitentes.store');
 Route::delete('/remitentes/{remitente}', [RemitenteController::class, 'destroy'])->name('remitentes.destroy');
 
-// Route::get('/remitentes', [SucursalesController::class, 'index'])->name('sucursales.index');
+//-DESTINATARIO
+Route::get('/destinatarios', [DestinatarioController::class, 'index'])->name('destinatarios.index');
 
-// Route::get('/destinatarios', [SucursalesController::class, 'index'])->name('sucursales.index');
+Route::get('/destinatarios/{destinatario}{edit}', [DestinatarioController::class, 'show'])->name('destinatarios.show');
+Route::put('/destinatarios/{destinatario}', [DestinatarioController::class, 'update'])->name('destinatarios.update');
+
+Route::post('/destinatarios/', [DestinatarioController::class, 'store'])->name('destinatarios.store');
+Route::delete('/destinatarios/{destinatario}', [DestinatarioController::class, 'destroy'])->name('destinatarios.destroy');
+
+
 // Route::get('/suministros', [SucursalesController::class, 'index'])->name('sucursales.index');
 // Route::get('/cupones', [SucursalesController::class, 'index'])->name('sucursales.index');
 // Route::get('/paises', [SucursalesController::class, 'index'])->name('sucursales.index');

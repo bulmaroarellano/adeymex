@@ -32,30 +32,30 @@
                     </thead>
                     <tbody>
 
-                        @foreach ($remitentes as $remitente)
+                        @foreach ($destinatarios as $destinatario)
                             <tr>
-                                <td>{{ $remitente->sucursal }}</td>
-                                <td>{{ $remitente->nombre }}</td>
-                                <td>{{ $remitente->apellidoP }}</td>
-                                <td>{{ $remitente->apellidoM }}</td>
-                                <td>{{ $remitente->domicilio1 }}, C.P: {{ $remitente->codigoPostal }},
-                                    {{ $remitente->pais }}
+                                <td>{{ $destinatario->sucursal }}</td>
+                                <td>{{ $destinatario->nombre }}</td>
+                                <td>{{ $destinatario->apellidoP }}</td>
+                                <td>{{ $destinatario->apellidoM }}</td>
+                                <td>{{ $destinatario->domicilio1 }}, C.P: {{ $destinatario->codigoPostal }},
+                                    {{ $destinatario->pais }}
                                 </td>
                                 {{-- + Acciones --}}
                                 <td class="d-flex">
                                     {{-- VER --}}
-                                    <a href="{{ route('remitentes.show', [$remitente, '0']) }}" class="btn"
+                                    <a href="{{ route('destinatarios.show', [$destinatario, '0']) }}" class="btn"
                                         style="color: rgb(66, 66, 219);">
                                         <i class="far fa-eye"></i>
                                     </a>
 
                                     {{-- EDITAR --}}
-                                    <a href="{{ route('remitentes.show', [$remitente, '1']) }}" class="btn"
+                                    <a href="{{ route('destinatarios.show', [$destinatario, '1']) }}" class="btn"
                                         style="color: rgb(66, 66, 219);">
                                         <i class="fas fa-pen-alt"></i>
                                     </a>
 
-                                    <form action="{{ route('remitentes.destroy', $remitente) }}" method="POST">
+                                    <form action="{{ route('destinatarios.destroy', $destinatario) }}" method="POST">
                                         {{-- BORRAR --}}
                                         @csrf
                                         @method('delete')
@@ -75,7 +75,7 @@
                 </table>
             </div>
 
-            {{ $remitentes->links() }}
+            {{ $destinatarios->links() }}
 
         </div>
 

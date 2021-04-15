@@ -10,12 +10,17 @@ class Destinatario extends Model
     use HasFactory;
 
     protected $fillable = [
-        "nombre_destinatario",
-        "direccion_destinatario",
-        "ciudad_destinatario",
-        "telefono_destinatario",
-        "cp_destinatario",
-    ]; 
-
-    
+        'sucursal', 
+        'nombre', 
+        'apellidoP', 
+        'apellidoM', 
+        'empresa', 
+        'telefono', 
+        'email', 
+        'domicilio1', 
+        'domicilio2', 
+        'domicilio3', 
+        'pais', 
+        'codigoPostal', 
+    ];
 }
