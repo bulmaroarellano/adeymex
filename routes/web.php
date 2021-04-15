@@ -19,6 +19,7 @@ use App\Http\Controllers\DestinatarioController;
 use App\Http\Controllers\PaqueteriaController;
 use App\Http\Controllers\RemitenteController;
 use App\Http\Controllers\SucursalesController;
+use App\Http\Controllers\SuministroController;
 
 // Main Page Route
 // Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware('verified');
@@ -117,7 +118,14 @@ Route::put('/destinatarios/{destinatario}', [DestinatarioController::class, 'upd
 Route::post('/destinatarios/', [DestinatarioController::class, 'store'])->name('destinatarios.store');
 Route::delete('/destinatarios/{destinatario}', [DestinatarioController::class, 'destroy'])->name('destinatarios.destroy');
 
+//-SUMINISTROS 
+Route::get('/suministros', [SuministroController::class, 'index'])->name('suministros.index');
 
+Route::get('/suministros/{suministro}{edit}', [SuministroController::class, 'show'])->name('suministros.show');
+Route::put('/suministros/{suministro}', [SuministroController::class, 'update'])->name('suministros.update');
+
+Route::post('/suministros/', [SuministroController::class, 'store'])->name('suministros.store');
+Route::delete('/suministros/{suministro}', [SuministroController::class, 'destroy'])->name('suministros.destroy');
 // Route::get('/suministros', [SucursalesController::class, 'index'])->name('sucursales.index');
 // Route::get('/cupones', [SucursalesController::class, 'index'])->name('sucursales.index');
 // Route::get('/paises', [SucursalesController::class, 'index'])->name('sucursales.index');

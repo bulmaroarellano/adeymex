@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(EnvioSeeder::class);
         $this->call(RemitenteSeeder::class);
         $this->call(DestinatarioSeeder::class);
+        $this->call(SuministroSeeder::class);
 
     }
 }
