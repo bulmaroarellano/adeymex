@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\CodigoPostal;
+use App\Models\Moneda;
 use App\Models\Pais;
 use App\Models\Sucursal;
 use Illuminate\Database\Seeder;
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
         Sucursal::factory(10)->create();
         Pais::factory(10)->create();
         CodigoPostal::factory(10)->create();
+        Moneda::factory(10)->create();
         
         $this->call(RemitenteSeeder::class);
         $this->call(DestinatarioSeeder::class);

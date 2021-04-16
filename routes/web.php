@@ -17,6 +17,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\CodigoPostalController;
 use App\Http\Controllers\DestinatarioController;
+use App\Http\Controllers\MonedaController;
 use App\Http\Controllers\PaisController;
 use App\Http\Controllers\PaqueteriaController;
 use App\Http\Controllers\RemitenteController;
@@ -148,12 +149,18 @@ Route::post('/codigospostales/', [CodigoPostalController::class, 'store'])->name
 Route::delete('/codigospostales/{codigoPostal}', [CodigoPostalController::class, 'destroy'])->name('codigosPostales.destroy');
 
 // Route::get('/cupones', [SucursalesController::class, 'index'])->name('sucursales.index');
-
-// Route::get('/paises', [SucursalesController::class, 'index'])->name('sucursales.index');
-
-// Route::get('/codigo-postal', [SucursalesController::class, 'index'])->name('sucursales.index');
 // Route::get('/mercancias', [SucursalesController::class, 'index'])->name('sucursales.index');
-// Route::get('/monedas', [SucursalesController::class, 'index'])->name('sucursales.index');
+
+//-MONEDAS
+Route::get('/monedas', [MonedaController::class, 'index'])->name('monedas.index');
+
+Route::get('/monedas/{moneda}{edit}', [MonedaController::class, 'show'])->name('monedas.show');
+Route::put('/monedas/{moneda}', [MonedaController::class, 'update'])->name('monedas.update');
+
+Route::post('/monedas/', [MonedaController::class, 'store'])->name('monedas.store');
+Route::delete('/monedas/{moneda}', [MonedaController::class, 'destroy'])->name('monedas.destroy');
+
+
 // Route::get('/mensajerias', [SucursalesController::class, 'index'])->name('sucursales.index');
 // Route::get('/unidades-medida', [SucursalesController::class, 'index'])->name('sucursales.index');
 
