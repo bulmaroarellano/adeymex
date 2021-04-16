@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Destinatario;
+use App\Models\CodigoPostal;
 use App\Models\Pais;
-use App\Models\Remitente;
 use App\Models\Sucursal;
 use Illuminate\Database\Seeder;
 
@@ -22,8 +21,8 @@ class DatabaseSeeder extends Seeder
 
         Sucursal::factory(10)->create();
         Pais::factory(10)->create();
-        //+ Traer los datos de la db de remitente y crear un factory de envios 
-        // $this->call(EnvioSeeder::class);
+        CodigoPostal::factory(10)->create();
+        
         $this->call(RemitenteSeeder::class);
         $this->call(DestinatarioSeeder::class);
         $this->call(SuministroSeeder::class);

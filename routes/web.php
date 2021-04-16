@@ -15,12 +15,14 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
+use App\Http\Controllers\CodigoPostalController;
 use App\Http\Controllers\DestinatarioController;
 use App\Http\Controllers\PaisController;
 use App\Http\Controllers\PaqueteriaController;
 use App\Http\Controllers\RemitenteController;
 use App\Http\Controllers\SucursalesController;
 use App\Http\Controllers\SuministroController;
+use App\Models\CodigoPostal;
 
 // Main Page Route
 // Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware('verified');
@@ -136,6 +138,14 @@ Route::put('/paises/{pais}', [PaisController::class, 'update'])->name('paises.up
 
 Route::post('/paises/', [PaisController::class, 'store'])->name('paises.store');
 Route::delete('/paises/{pais}', [PaisController::class, 'destroy'])->name('paises.destroy');
+//-CODIGOS POSTALES 
+Route::get('/codigospostales', [CodigoPostalController::class, 'index'])->name('codigosPostales.index');
+
+Route::get('/codigospostales/{codigoPostal}{edit}', [CodigoPostalController::class, 'show'])->name('codigosPostales.show');
+Route::put('/codigospostales/{codigoPostal}', [CodigoPostalController::class, 'update'])->name('codigosPostales.update');
+
+Route::post('/codigospostales/', [CodigoPostalController::class, 'store'])->name('codigosPostales.store');
+Route::delete('/codigospostales/{codigoPostal}', [CodigoPostalController::class, 'destroy'])->name('codigosPostales.destroy');
 
 // Route::get('/cupones', [SucursalesController::class, 'index'])->name('sucursales.index');
 
