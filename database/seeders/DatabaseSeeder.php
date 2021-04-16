@@ -6,6 +6,7 @@ use App\Models\CodigoPostal;
 use App\Models\Moneda;
 use App\Models\Pais;
 use App\Models\Sucursal;
+use App\Models\UnidadMedida;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
         Pais::factory(10)->create();
         CodigoPostal::factory(10)->create();
         Moneda::factory(10)->create();
+        UnidadMedida::factory(5)->create();
         
         $this->call(RemitenteSeeder::class);
         $this->call(DestinatarioSeeder::class);

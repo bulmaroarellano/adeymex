@@ -23,7 +23,9 @@ use App\Http\Controllers\PaqueteriaController;
 use App\Http\Controllers\RemitenteController;
 use App\Http\Controllers\SucursalesController;
 use App\Http\Controllers\SuministroController;
+use App\Http\Controllers\UnidadMedidaController;
 use App\Models\CodigoPostal;
+use App\Models\UnidadMedida;
 
 // Main Page Route
 // Route::get('/', [DashboardController::class,'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware('verified');
@@ -162,6 +164,14 @@ Route::delete('/monedas/{moneda}', [MonedaController::class, 'destroy'])->name('
 
 
 // Route::get('/mensajerias', [SucursalesController::class, 'index'])->name('sucursales.index');
-// Route::get('/unidades-medida', [SucursalesController::class, 'index'])->name('sucursales.index');
+
+//-UNIDADES DE MEDIDA 
+Route::get('/unidadesmedidas', [UnidadMedidaController::class, 'index'])->name('unidadesMedida.index');
+
+Route::get('/unidadesmedidas/{unidadMedida}{edit}', [UnidadMedidaController::class, 'show'])->name('unidadesMedida.show');
+Route::put('/unidadesmedidas/{unidadMedida}', [UnidadMedidaController::class, 'update'])->name('unidadesMedida.update');
+
+Route::post('/unidadesmedidas/', [UnidadMedidaController::class, 'store'])->name('unidadesMedida.store');
+Route::delete('/unidadesmedidas/{unidadMedida}', [UnidadMedidaController::class, 'destroy'])->name('unidadesMedida.destroy');
 
 
