@@ -21,15 +21,16 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         // Remitente::factory(10)->create();
 
-        Sucursal::factory(10)->create();
-        Pais::factory(10)->create();
-        CodigoPostal::factory(10)->create();
-        Moneda::factory(10)->create();
-        UnidadMedida::factory(5)->create();
+        Sucursal::factory(8)->create();
+        Pais::factory(8)->create();
+        CodigoPostal::factory(8)->create();
+        Moneda::factory(8)->create();
+        UnidadMedida::factory(8)->create();
         
         $this->call(RemitenteSeeder::class);
         $this->call(DestinatarioSeeder::class);
         $this->call(SuministroSeeder::class);
+        $this->call(MercanciaSeeder::class);
 
     }
 }
