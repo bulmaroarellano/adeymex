@@ -14,7 +14,7 @@
 
     <section class="sucursales">
 
-        @include('paqueteria/components/remitentes_form')
+        @include('paqueteria/components/remitentes_destinatarios_form')
 
         <div class="container mt-2">
 

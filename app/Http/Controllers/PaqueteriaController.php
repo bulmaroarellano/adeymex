@@ -99,7 +99,6 @@ class PaqueteriaController extends Controller
      */
     public function update(Request $request, Remitente $remitente, Destinatario $destinatario, Envio $envio)
     {
-        
         $remitente->update($request->all());
         $destinatario->update($request->all());
         $envio->update($request->all());

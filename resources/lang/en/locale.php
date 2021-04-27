@@ -3,7 +3,7 @@
 return [
   "Apps & Pages" => "Apps & Pages",
   "User Interface" => "User Interface",
-  "Dashboards" => "Dashboards",
+  "Dashboard" => "Dashboard",
   "Analytics" => "Analytics",
   "eCommerce" => "eCommerce",
   "Apps" => "Apps",

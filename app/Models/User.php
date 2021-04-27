@@ -6,10 +6,16 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
+use Lab404\AuthChecker\Models\HasLoginsAndDevices;
+use \Lab404\AuthChecker\Interfaces\HasLoginsAndDevicesInterface;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements HasLoginsAndDevicesInterface
+
 {
-    use HasFactory, Notifiable;
+    use Notifiable, HasLoginsAndDevices;
+    use HasFactory;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +30,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * The attributes that should be hidden for arrays.
-     *
+     *php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="config"
+
      * @var array
      */
     protected $hidden = [

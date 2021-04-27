@@ -1,11 +1,11 @@
 {
     "/js/core/app-menu.js": "/js/core/app-menu.js",
     "/js/core/app.js": "/js/core/app.js",
-    "/css/style.css": "/css/style.css",
     "/css/base/plugins/extensions/ext-component-ratings.css": "/css/base/plugins/extensions/ext-component-ratings.css",
     "/css/base/plugins/extensions/ext-component-media-player.css": "/css/base/plugins/extensions/ext-component-media-player.css",
     "/css/base/plugins/extensions/ext-component-drag-drop.css": "/css/base/plugins/extensions/ext-component-drag-drop.css",
     "/css/base/plugins/extensions/ext-component-context-menu.css": "/css/base/plugins/extensions/ext-component-context-menu.css",
+    "/css/style.css": "/css/style.css",
     "/css/style-rtl.css": "/css/style-rtl.css",
     "/css/custom-rtl.css": "/css/custom-rtl.css",
     "/css/overrides.css": "/css/overrides.css",

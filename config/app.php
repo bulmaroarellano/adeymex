@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+     //   MrEssex\LaravelAuthProfile\AuthProfileServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -174,8 +175,17 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        // custom theme menu provider
         App\Providers\MenuServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        Jaybizzle\LaravelCrawlerDetect\LaravelCrawlerDetectServiceProvider::class,
+        Aliabdulaziz\LaravelExtendedUser\LaravelExtendedUserServiceProvider::class,
+      //  Akibatech\Crud\CrudServiceProvider::class,
+        jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider::class,
+        Jaybizzle\LaravelCrawlerDetect\LaravelCrawlerDetectServiceProvider::class,
+        Spatie\Html\HtmlServiceProvider::class,
+
     ],
 
     /*
@@ -227,8 +237,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        // custom theme helper
         'Helper' => App\Helpers\Helper::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+
     ],
 
 ];

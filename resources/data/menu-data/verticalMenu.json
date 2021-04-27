@@ -1,18 +1,10 @@
 {
     "menu": [{
-            "url": "/",
+            "url": "home",
             "name": "Dashboard",
-            "badgeClass": "badge badge-light-warning badge-pill ml-auto mr-1",
-            "icon": "circle",
-            "slug": "dashboard-paqueteria"
+            "icon": "home",
+            "slug": "home"
         },
-
-
-        <<
-        << < HEAD {
-            "navheader": "Paqueteria",
-            "slug": ""
-        }, === ===
 
         {
             "name": "Catalogos",
@@ -55,7 +47,7 @@
                     "slug": "paises"
                 },
                 {
-                    "url": "/codigo-postal",
+                    "url": "/codigospostales",
                     "name": "Codigos Postales",
                     "icon": "globe",
                     "slug": "Codigos Postales"
@@ -79,15 +71,13 @@
                     "slug": "Mensajerias"
                 },
                 {
-                    "url": "/unidades-medida",
+                    "url": "/unidadesmedidas",
                     "name": "Unidades Medida",
                     "icon": "hexagon",
                     "slug": "Unidades Medida"
                 }
             ]
-        }, >>>
-        >>>
-        > master
+        },
 
         {
             "url": "paquetes",
@@ -95,39 +85,45 @@
             "icon": "box",
             "slug": "app-file-manager"
         },
+
+
         {
-            "url": "app/file-manager",
-            "name": "File Manager",
-            "icon": "save",
-            "slug": "app-file-manager"
-        },
-        {
-            "navheader": "Forms & Tables",
-            "slug": ""
-        },
-        {
-            "name": "Datatable",
-            "icon": "grid",
+            "name": "Page Layouts",
+            "icon": "mail",
             "slug": "",
+            "badge": "5",
+            "badgeClass": "badge badge-pill badge-light-danger ml-auto mr-1",
             "submenu": [{
-                    "url": "table/datatable/basic",
-                    "name": "Basic",
+                    "url": "layouts/collapsed-menu",
+                    "name": "Collapsed Menu",
                     "icon": "circle",
-                    "slug": "datatable-basic"
+                    "slug": "collapsed-menu"
                 },
                 {
-                    "url": "table/datatable/advance",
-                    "name": "Advanced",
+                    "url": "layouts/boxed",
+                    "name": "Layout Boxed",
                     "icon": "circle",
-                    "slug": "datatable-advance"
+                    "slug": "layout-boxed"
+                },
+                {
+                    "url": "layouts/without-menu",
+                    "name": "Without Menu",
+                    "icon": "circle",
+                    "slug": "without-menu"
+                },
+                {
+                    "url": "layouts/empty",
+                    "name": "Layout Empty",
+                    "icon": "circle",
+                    "slug": "layout-empty"
+                },
+                {
+                    "url": "layouts/blank",
+                    "name": "Layout Blank",
+                    "icon": "circle",
+                    "slug": "layout-blank"
                 }
             ]
-        },
-        {
-            "url": "table/ag-grid",
-            "name": "agGrid Table",
-            "icon": "grid",
-            "slug": "ag-grid"
         }
     ]
 }
