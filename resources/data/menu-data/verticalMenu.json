@@ -65,7 +65,7 @@
           "slug": "paises"
         },
         {
-          "url": "/codigo-postal",
+          "url": "/codigospostales",
           "name": "Codigos Postales",
           "icon": "globe",
           "slug": "Codigos Postales"
@@ -89,7 +89,7 @@
           "slug": "Mensajerias"
         },
         {
-          "url": "/unidades-medida",
+          "url": "/unidadesmedidas",
           "name": "Unidades Medida",
           "icon": "hexagon",
           "slug": "Unidades Medida"

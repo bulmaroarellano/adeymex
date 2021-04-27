@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Remitente;
+use App\Models\Destinatario;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
 
-class RemitenteController extends Controller
+class DestinatarioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,15 +15,13 @@ class RemitenteController extends Controller
      */
     public function index()
     {
-
-        $remitentes = Remitente::orderBy('id', 'desc')->paginate(8);
+        $destinatarios = Destinatario::orderBy('id', 'desc')->paginate(8);
         $sucursalesName = Sucursal::all()->pluck('descripcion');
-        return view('/paqueteria/catalogos/remitentes', [
-            'remitentes' => $remitentes,
-            'sucursalesName' => $sucursalesName, 
-            
+        return view('/paqueteria/catalogos/destinatarios', [
+            'destinatarios' => $destinatarios,
+            'sucursalesName' => $sucursalesName,
+
         ]);
-        
     }
 
     /**
@@ -33,7 +31,6 @@ class RemitenteController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -44,9 +41,9 @@ class RemitenteController extends Controller
      */
     public function store(Request $request)
     {
-        Remitente::create($request->all());
-
-        return redirect()->route('remitentes.index');
+   
+        Destinatario::create($request->all());
+        return redirect()->route('destinatarios.index');
     }
 
     /**
@@ -55,13 +52,14 @@ class RemitenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Remitente $remitente, $edit )
+    public function show(Destinatario $destinatario, $edit)
     {
-        // $sucursalesName = Sucursal::get(['descripcion']);
+        //TODO : checar cuando enviar los nombre de las sucursales 
         $sucursalesName = Sucursal::all()->pluck('descripcion');
-        return redirect()->route('remitentes.index' )->with([
-            'values' => $remitente, 
-            'sucursalesName' => $sucursalesName, 
+
+        return redirect()->route('destinatarios.index')->with([
+            'values' => $destinatario,
+            'sucursalesName' => $sucursalesName ?? '',
             'edit' => $edit
         ]);
     }
@@ -84,10 +82,10 @@ class RemitenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Remitente $remitente)
+    public function update(Request $request, Destinatario $destinatario)
     {
-        $remitente->update($request->all());
-        return redirect()->route('remitentes.index');
+        $destinatario->update($request->all());
+        return redirect()->route('destinatarios.index');
     }
 
     /**
@@ -96,10 +94,9 @@ class RemitenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Remitente $remitente)
+    public function destroy(Destinatario $destinatario)
     {
-        $remitente->delete();
-        return redirect()->route('remitentes.index');
-
+        $destinatario->delete();
+        return redirect()->route('destinatarios.index');
     }
 }

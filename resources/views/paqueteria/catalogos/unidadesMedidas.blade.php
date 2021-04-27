@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Remitentes')
+@section('title', 'Unidades de Medida')
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -12,50 +12,43 @@
 @endsection
 @section('content')
 
-    <section class="sucursales">
+    <section class="unidadesMedida">
 
-        @include('paqueteria/components/remitentes_destinatarios_form')
+        @include('paqueteria/components/unidadesMedida_form')
 
         <div class="container mt-2">
-
+        
             <div class="table-responsive">
                 <table class="table mb-3">
                     <thead>
                         <tr>
-                            <th scope="col">Sucursal</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellido Paterno</th>
-                            <th scope="col">Apellido Materno</th>
-                            <th scope="col">Dirección </th>
-                            <th scope="col">Acciones </th>
+                            <th scope="col">Medida</th>
+                            <th scope="col">Abreviación</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-
-                        @foreach ($remitentes as $remitente)
+                       
+                        @foreach ($unidadesMedida as $unidadMedida)
                             <tr>
-                                <td>{{ $remitente->sucursal }}</td>
-                                <td>{{ $remitente->nombre }}</td>
-                                <td>{{ $remitente->apellidoP }}</td>
-                                <td>{{ $remitente->apellidoM }}</td>
-                                <td>{{ $remitente->domicilio1 }}, C.P: {{ $remitente->codigoPostal }},
-                                    {{ $remitente->pais }}
-                                </td>
+                                <td>{{ $unidadMedida->unidadMedida }}</td>
+                                <td>{{ $unidadMedida->abreviacion }}</td>
+                                
                                 {{-- + Acciones --}}
                                 <td class="d-flex">
                                     {{-- VER --}}
-                                    <a href="{{ route('remitentes.show', [$remitente, '0']) }}" class="btn"
+                                    <a href="{{ route('unidadesMedida.show', [$unidadMedida, '0']) }}" class="btn"
                                         style="color: rgb(66, 66, 219);">
                                         <i class="far fa-eye"></i>
                                     </a>
 
                                     {{-- EDITAR --}}
-                                    <a href="{{ route('remitentes.show', [$remitente, '1']) }}" class="btn"
+                                    <a href="{{ route('unidadesMedida.show', [$unidadMedida, '1']) }}" class="btn"
                                         style="color: rgb(66, 66, 219);">
                                         <i class="fas fa-pen-alt"></i>
                                     </a>
 
-                                    <form action="{{ route('remitentes.destroy', $remitente) }}" method="POST">
+                                    <form action="{{ route('unidadesMedida.destroy', $unidadMedida) }}" method="POST">
                                         {{-- BORRAR --}}
                                         @csrf
                                         @method('delete')
@@ -75,7 +68,7 @@
                 </table>
             </div>
 
-            {{ $remitentes->links() }}
+            {{ $unidadesMedida->links() }}
 
         </div>
 

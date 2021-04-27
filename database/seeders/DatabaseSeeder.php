@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Destinatario;
-use App\Models\Remitente;
+use App\Models\CodigoPostal;
+use App\Models\Moneda;
+use App\Models\Pais;
 use App\Models\Sucursal;
+use App\Models\UnidadMedida;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,11 +20,17 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         // Remitente::factory(10)->create();
-        Destinatario::factory(10)->create();
-        Sucursal::factory(10)->create();
-        //+ Traer los datos de la db de remitente y crear un factory de envios 
-        // $this->call(EnvioSeeder::class);
+
+        Sucursal::factory(8)->create();
+        Pais::factory(8)->create();
+        CodigoPostal::factory(8)->create();
+        Moneda::factory(8)->create();
+        UnidadMedida::factory(8)->create();
+        
         $this->call(RemitenteSeeder::class);
+        $this->call(DestinatarioSeeder::class);
+        $this->call(SuministroSeeder::class);
+        $this->call(MercanciaSeeder::class);
 
     }
 }

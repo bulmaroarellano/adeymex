@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Remitentes')
+@section('title', 'Suministros')
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -12,9 +12,9 @@
 @endsection
 @section('content')
 
-    <section class="sucursales">
+    <section class="suministros">
 
-        @include('paqueteria/components/remitentes_destinatarios_form')
+        @include('paqueteria/components/suministros_form')
 
         <div class="container mt-2">
 
@@ -23,39 +23,35 @@
                     <thead>
                         <tr>
                             <th scope="col">Sucursal</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellido Paterno</th>
-                            <th scope="col">Apellido Materno</th>
-                            <th scope="col">Dirección </th>
-                            <th scope="col">Acciones </th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Costo</th>
+                            <th scope="col">Precio al publico</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        @foreach ($remitentes as $remitente)
+                        @foreach ($suministros as $suministro)
                             <tr>
-                                <td>{{ $remitente->sucursal }}</td>
-                                <td>{{ $remitente->nombre }}</td>
-                                <td>{{ $remitente->apellidoP }}</td>
-                                <td>{{ $remitente->apellidoM }}</td>
-                                <td>{{ $remitente->domicilio1 }}, C.P: {{ $remitente->codigoPostal }},
-                                    {{ $remitente->pais }}
-                                </td>
+                                <td>{{ $suministro->sucursal }}</td>
+                                <td>{{ $suministro->producto }}</td>
+                                <td>{{ $suministro->costo }}</td>
+                                <td>{{ $suministro->precioPublico}}</td>
+                                
                                 {{-- + Acciones --}}
                                 <td class="d-flex">
                                     {{-- VER --}}
-                                    <a href="{{ route('remitentes.show', [$remitente, '0']) }}" class="btn"
+                                    <a href="{{ route('suministros.show', [$suministro, '0']) }}" class="btn"
                                         style="color: rgb(66, 66, 219);">
                                         <i class="far fa-eye"></i>
                                     </a>
 
                                     {{-- EDITAR --}}
-                                    <a href="{{ route('remitentes.show', [$remitente, '1']) }}" class="btn"
+                                    <a href="{{ route('suministros.show', [$suministro, '1']) }}" class="btn"
                                         style="color: rgb(66, 66, 219);">
                                         <i class="fas fa-pen-alt"></i>
                                     </a>
 
-                                    <form action="{{ route('remitentes.destroy', $remitente) }}" method="POST">
+                                    <form action="{{ route('suministros.destroy', $suministro) }}" method="POST">
                                         {{-- BORRAR --}}
                                         @csrf
                                         @method('delete')
@@ -75,7 +71,7 @@
                 </table>
             </div>
 
-            {{ $remitentes->links() }}
+            {{ $suministros->links() }}
 
         </div>
 

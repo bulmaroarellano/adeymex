@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Remitente;
 use App\Models\Sucursal;
+use App\Models\Suministro;
 use Illuminate\Http\Request;
 
-class RemitenteController extends Controller
+class SuministroController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,15 +15,12 @@ class RemitenteController extends Controller
      */
     public function index()
     {
-
-        $remitentes = Remitente::orderBy('id', 'desc')->paginate(8);
+        $suministros = Suministro::orderBy('id', 'desc')->paginate(8);
         $sucursalesName = Sucursal::all()->pluck('descripcion');
-        return view('/paqueteria/catalogos/remitentes', [
-            'remitentes' => $remitentes,
+        return view('/paqueteria/catalogos/suministros', [
+            'suministros' => $suministros, 
             'sucursalesName' => $sucursalesName, 
-            
         ]);
-        
     }
 
     /**
@@ -44,23 +41,22 @@ class RemitenteController extends Controller
      */
     public function store(Request $request)
     {
-        Remitente::create($request->all());
+        Suministro::create($request->all());
+        return redirect()->route('suministros.index');
 
-        return redirect()->route('remitentes.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Suministro  $suministro
      * @return \Illuminate\Http\Response
      */
-    public function show(Remitente $remitente, $edit )
+    public function show(Suministro $suministro, $edit)
     {
-        // $sucursalesName = Sucursal::get(['descripcion']);
         $sucursalesName = Sucursal::all()->pluck('descripcion');
-        return redirect()->route('remitentes.index' )->with([
-            'values' => $remitente, 
+        return redirect()->route('suministros.index' )->with([
+            'values' => $suministro, 
             'sucursalesName' => $sucursalesName, 
             'edit' => $edit
         ]);
@@ -69,10 +65,10 @@ class RemitenteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Suministro  $suministro
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Suministro $suministro)
     {
         //
     }
@@ -81,25 +77,26 @@ class RemitenteController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Suministro  $suministro
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Remitente $remitente)
+    public function update(Request $request, Suministro $suministro)
     {
-        $remitente->update($request->all());
-        return redirect()->route('remitentes.index');
+        $suministro->update($request->all());
+        return redirect()->route('suministros.index');
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Suministro  $suministro
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Remitente $remitente)
+    public function destroy(Suministro $suministro)
     {
-        $remitente->delete();
-        return redirect()->route('remitentes.index');
+        $suministro->delete();
+        return redirect()->route('suministros.index');
 
     }
 }

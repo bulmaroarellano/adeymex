@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Remitentes')
+@section('title', 'Paises')
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -12,50 +12,46 @@
 @endsection
 @section('content')
 
-    <section class="sucursales">
+    <section class="paises">
 
-        @include('paqueteria/components/remitentes_destinatarios_form')
+        @include('paqueteria/components/paises_form')
 
         <div class="container mt-2">
-
+        
             <div class="table-responsive">
                 <table class="table mb-3">
                     <thead>
                         <tr>
-                            <th scope="col">Sucursal</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellido Paterno</th>
-                            <th scope="col">Apellido Materno</th>
-                            <th scope="col">Dirección </th>
-                            <th scope="col">Acciones </th>
+                            <th scope="col">Pais</th>
+                            <th scope="col">Codigo</th>
+                            <th scope="col">Moneda</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-
-                        @foreach ($remitentes as $remitente)
+                       
+                        @foreach ($paises as $pais)
                             <tr>
-                                <td>{{ $remitente->sucursal }}</td>
-                                <td>{{ $remitente->nombre }}</td>
-                                <td>{{ $remitente->apellidoP }}</td>
-                                <td>{{ $remitente->apellidoM }}</td>
-                                <td>{{ $remitente->domicilio1 }}, C.P: {{ $remitente->codigoPostal }},
-                                    {{ $remitente->pais }}
-                                </td>
+                                <td>{{ $pais->pais }}</td>
+                                <td>{{ $pais->codigoPais }}</td>
+                                <td>{{ $pais->moneda }}</td>
+                                
+                                
                                 {{-- + Acciones --}}
                                 <td class="d-flex">
                                     {{-- VER --}}
-                                    <a href="{{ route('remitentes.show', [$remitente, '0']) }}" class="btn"
+                                    <a href="{{ route('paises.show', [$pais, '0']) }}" class="btn"
                                         style="color: rgb(66, 66, 219);">
                                         <i class="far fa-eye"></i>
                                     </a>
 
                                     {{-- EDITAR --}}
-                                    <a href="{{ route('remitentes.show', [$remitente, '1']) }}" class="btn"
+                                    <a href="{{ route('paises.show', [$pais, '1']) }}" class="btn"
                                         style="color: rgb(66, 66, 219);">
                                         <i class="fas fa-pen-alt"></i>
                                     </a>
 
-                                    <form action="{{ route('remitentes.destroy', $remitente) }}" method="POST">
+                                    <form action="{{ route('paises.destroy', $pais) }}" method="POST">
                                         {{-- BORRAR --}}
                                         @csrf
                                         @method('delete')
@@ -75,7 +71,7 @@
                 </table>
             </div>
 
-            {{ $remitentes->links() }}
+            {{ $paises->links() }}
 
         </div>
 

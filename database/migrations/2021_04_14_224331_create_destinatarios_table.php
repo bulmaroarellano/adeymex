@@ -4,8 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-//* persona que recibe el paquete 
-
 class CreateDestinatariosTable extends Migration
 {
     /**
@@ -17,11 +15,18 @@ class CreateDestinatariosTable extends Migration
     {
         Schema::create('destinatarios', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_destinatario');
-            $table->string('direccion_destinatario');
-            $table->string('ciudad_destinatario');
-            $table->string('telefono_destinatario');
-            $table->string('cp_destinatario');
+            $table->string('sucursal');
+            $table->string('nombre');
+            $table->string('apellidoP');
+            $table->string('apellidoM')->nullable();
+            $table->string('empresa')->nullable();
+            $table->string('telefono');
+            $table->string('email');
+            $table->string('domicilio1');
+            $table->string('domicilio2')->nullable();
+            $table->string('domicilio3')->nullable();
+            $table->string('pais');
+            $table->string('codigoPostal');
             $table->timestamps();
         });
     }

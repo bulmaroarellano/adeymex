@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Remitentes')
+@section('title', 'Mercancias ')
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -12,50 +12,57 @@
 @endsection
 @section('content')
 
-    <section class="sucursales">
+    <section class="mercancias">
 
-        @include('paqueteria/components/remitentes_destinatarios_form')
+        @include('paqueteria/components/mercancias_form')
 
         <div class="container mt-2">
-
+        
             <div class="table-responsive">
                 <table class="table mb-3">
                     <thead>
                         <tr>
-                            <th scope="col">Sucursal</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellido Paterno</th>
-                            <th scope="col">Apellido Materno</th>
-                            <th scope="col">Dirección </th>
-                            <th scope="col">Acciones </th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Producto en Ingles</th>
+                            <th scope="col">Clave Internacional</th>
+                            <th scope="col">Costo</th>
+                            <th scope="col">Moneda</th>
+                            {{-- <th scope="col">Medida</th> --}}
+                            <th scope="col">Unidad de Medida</th>
+                            {{-- <th scope="col">País</th> --}}
+                            <th scope="col">Peso</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-
-                        @foreach ($remitentes as $remitente)
+                       
+                        @foreach ($mercancias as $mercancia)
                             <tr>
-                                <td>{{ $remitente->sucursal }}</td>
-                                <td>{{ $remitente->nombre }}</td>
-                                <td>{{ $remitente->apellidoP }}</td>
-                                <td>{{ $remitente->apellidoM }}</td>
-                                <td>{{ $remitente->domicilio1 }}, C.P: {{ $remitente->codigoPostal }},
-                                    {{ $remitente->pais }}
-                                </td>
+                                <td>{{ $mercancia->producto }}</td>
+                                <td>{{ $mercancia->productoIngles }}</td>
+                                <td>{{ $mercancia->claveInternacional }}</td>
+                                <td>{{ $mercancia->costo }}</td>
+                                <td>{{ $mercancia->moneda }}</td>
+                                {{-- <td>{{ $mercancia->medida }}</td> --}}
+                                <td>{{ $mercancia->unidadMedida }}</td>
+                                {{-- <td>{{ $mercancia->pais }}</td> --}}
+                                <td>{{ $mercancia->peso }}</td>
+                                
                                 {{-- + Acciones --}}
                                 <td class="d-flex">
                                     {{-- VER --}}
-                                    <a href="{{ route('remitentes.show', [$remitente, '0']) }}" class="btn"
+                                    <a href="{{ route('mercancias.show', [$mercancia, '0']) }}" class="btn"
                                         style="color: rgb(66, 66, 219);">
                                         <i class="far fa-eye"></i>
                                     </a>
 
                                     {{-- EDITAR --}}
-                                    <a href="{{ route('remitentes.show', [$remitente, '1']) }}" class="btn"
+                                    <a href="{{ route('mercancias.show', [$mercancia, '1']) }}" class="btn"
                                         style="color: rgb(66, 66, 219);">
                                         <i class="fas fa-pen-alt"></i>
                                     </a>
 
-                                    <form action="{{ route('remitentes.destroy', $remitente) }}" method="POST">
+                                    <form action="{{ route('mercancias.destroy', $mercancia) }}" method="POST">
                                         {{-- BORRAR --}}
                                         @csrf
                                         @method('delete')
@@ -75,7 +82,7 @@
                 </table>
             </div>
 
-            {{ $remitentes->links() }}
+            {{ $mercancias->links() }}
 
         </div>
 

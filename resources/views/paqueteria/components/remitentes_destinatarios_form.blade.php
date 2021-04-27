@@ -2,9 +2,14 @@
 <div class="container sucursales-form">
     <div class="row d-flex justify-content-center">
         <div class="col-md-12 ">
-            <form
+            <form 
+            @if (session()->get('values')->tipoCliente ?? false) 
                 action="{{ session()->get('edit') == 1 ? route('remitentes.update', session()->get('values') ?? '') : route('remitentes.store') }}"
-                method="POST">
+            @else 
+                action="{{ session()->get('edit') == 1 ? route('destinatarios.update', session()->get('values') ?? '') : route('destinatarios.store') }}"
+                
+            @endif 
+        method="POST">
 
                 @csrf
                 @if (session()->get('edit') == 1)
@@ -14,7 +19,7 @@
                 @endif
 
                 <div class="col-md-12">
-                    {{ session()->get('sucursalesName') ?? 'NADA!!' }}
+
                     <div class="row justify-content-between">
 
                         <!-- + Datos generales-->
@@ -44,10 +49,10 @@
                                                     @endforeach
                                                 @else
                                                     @foreach ($sucursalesName as $sucursalName)
-                                                        
 
-                                                            <option>{{ $sucursalName }}</option>
-                                                        
+
+                                                        <option>{{ $sucursalName }}</option>
+
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -125,17 +130,21 @@
                                                 {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-user-alt"></i>
-                                            <label class="col-form-label ml-1">Tipo cliente</label>
+                                    @if (session()->get('values')->tipoCliente ?? false)
+                                        <div class="form-group row">
+                                            <div class="col-sm-5">
+                                                <i class="fas fa-user-alt"></i>
+                                                <label class="col-form-label ml-1">Tipo cliente</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control" name="tipoCliente"
+                                                    placeholder=""
+                                                    value="{{ session()->get('values')->tipoCliente ?? 'GENERAL' }}"
+                                                    readonly>
+                                            </div>
                                         </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="tipoCliente" placeholder=""
-                                                value="{{ session()->get('values')->tipoCliente ?? 'GENERAL' }}"
-                                                readonly>
-                                        </div>
-                                    </div>
+
+                                    @endif
 
                                 </div>
                             </div>
