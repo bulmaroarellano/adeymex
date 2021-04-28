@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Destinatarios')
+@section('title', 'Mensajerias')
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -12,57 +12,52 @@
 @endsection
 @section('content')
 
-    <section class="sucursales">
+    <section class="monedas">
 
-        @include('paqueteria/components/remitentes_destinatarios_form')
-
-        <div class="container mt-2">
+        @include('paqueteria/components/mensajerias_form')
+        <div class="container mt-2 col-md-9">
 
             <div class="table-responsive">
-                <table class="table mb-3">
+                <table class="table table-striped mb-3">
                     <thead>
                         <tr>
-                            <th scope="col">Sucursal</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellido Paterno</th>
-                            <th scope="col">Apellido Materno</th>
-                            <th scope="col">Dirección </th>
-                            <th scope="col">Acciones </th>
+                            <th scope="col-md-2">Mensajeria</th>
+                            <th scope="col-md-5">Logo</th>
+                            <th scope="col-md-3">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        @foreach ($destinatarios as $destinatario)
+                        @foreach ($mensajerias as $mensajeria)
                             <tr>
-                                <td>{{ $destinatario->sucursal }}</td>
-                                <td>{{ $destinatario->nombre }}</td>
-                                <td>{{ $destinatario->apellidoP }}</td>
-                                <td>{{ $destinatario->apellidoM }}</td>
-                                <td>{{ $destinatario->domicilio1 }}, C.P: {{ $destinatario->codigoPostal }},
-                                    {{ $destinatario->pais }}
+                                <td class="col-md-3">{{ $mensajeria->mensajeria }}</td>
+                                <td class="col-md-3 px-0  justify-content-center">
+                                    <div class="text-center">
+                                        <img src="{{ $mensajeria->logo }}" class="img-fluid" style="max-height: 100px">
+                                      
+                                    </div>
                                 </td>
                                 {{-- + Acciones --}}
-                                <td class="d-flex">
+                                <td class="col-md-3 d-flex">
                                     {{-- VER --}}
-                                    <a href="{{ route('destinatarios.show', [$destinatario, '0']) }}" class="btn"
+                                    <a href="{{ route('mensajerias.show', [$mensajeria, '0']) }}" class="btn"
                                         style="color: rgb(66, 66, 219);">
                                         <i class="far fa-eye"></i>
                                     </a>
 
                                     {{-- EDITAR --}}
-                                    <a href="{{ route('destinatarios.show', [$destinatario, '1']) }}" class="btn"
+                                    <a href="{{ route('mensajerias.show', [$mensajeria, '1']) }}" class="btn"
                                         style="color: rgb(66, 66, 219);">
                                         <i class="fas fa-pen-alt"></i>
                                     </a>
 
-                                    <form action="{{ route('destinatarios.destroy', $destinatario) }}" method="POST">
+                                    <form action="{{ route('mensajerias.destroy', $mensajeria) }}" method="POST">
                                         {{-- BORRAR --}}
                                         @csrf
                                         @method('delete')
                                         <button class="btn " style="color: rgb(209, 3, 3);">
                                             <i class="far fa-trash-alt"></i>
                                         </button>
-
                                     </form>
 
                                 </td>
@@ -75,9 +70,10 @@
                 </table>
             </div>
 
-            {{ $destinatarios->links() }}
+            {{ $mensajerias->links() }}
 
         </div>
+
 
     </section>
 

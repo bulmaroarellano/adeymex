@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Envio extends Model
+class Mensajeria extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $fillable = [
-        "nombre_remitente",
-        "ciudad_destinatario",
+        'mensajeria', 
+        'logo', 
     ];
 }

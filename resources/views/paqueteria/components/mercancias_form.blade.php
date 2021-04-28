@@ -2,229 +2,240 @@
 <div class="container sucursales-form">
     <div class="row d-flex justify-content-center">
         <div class="col-md-12 ">
-            <form 
-                action="{{ session()->get('edit') == 1 ? route('mercancias.update', session()->get('values') ?? '') : route('mercancias.store') }}"
-            
-        method="POST">
 
-                @csrf
-                @if (session()->get('edit') == 1)
-
-                    @method('put')
-
-                @endif
+            {!! Form::open([
+                'route' => session()->get('edit') == 1 ? ['mercancias.update', session()->get('values') ?? ''] : 'mercancias.store',
+                'method' => session()->get('edit') == 1 ? 'PUT' : 'POST',
+            ]) !!}
 
                 <div class="col-md-12">
 
-                    <div class="row justify-content-between">
+                    <div class="row justify-content-center">
 
                         <!-- + Datos generales-->
-                        <div class="col-md-6">
-                            <div class="card sucursales-form__card h-100">
-                                <div class="card-header">Datos generales</div>
-                                <div class="card-body d-flex flex-column justify-content-around mt-1">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header ">
+                                    <h4  class="font-weight-bolder">Datos Generales</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        {{-- DATOS GENERALES --}}
+                                        <div class="col-md-6">
 
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="far fa-user"></i>
-                                            <label class="col-form-label ml-1">Producto</label>
+                                            <div class="form-group">
+                                                <label class="col-form-label text-primary">Producto *</label>
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="far fa-user"></i></span>
+                                                    </div>
+                                                    {!! Form::text(
+                                                        'producto', session()->get('values')->producto ?? '',[
+                                                            'readonly' => session()->has('edit') 
+                                                            ? session()->get('edit') == 0 ? true : false
+                                                            : false,
+                                                            'class' => 'form-control pl-1'
+                                                        ]) 
+                                                    !!}
+                                                </div>
+                                                @error('producto')
+                                                    <small class="alert alert-danger">{{$message}}</small>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-form-label text-primary">Producto Ingles</label>
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="far fa-user"></i></span>
+                                                    </div>
+                                                    {!! Form::text(
+                                                        'productoIngles', session()->get('values')->productoIngles ?? '',[
+                                                            'readonly' => session()->has('edit') 
+                                                            ? session()->get('edit') == 0 ? true : false
+                                                            : false,
+                                                            'class' => 'form-control pl-1'
+                                                        ]) 
+                                                    !!}
+                                                </div>
+                                                @error('productoIngles')
+                                                    <small class="alert alert-danger">{{$message}}</small>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label text-primary">Clave Internacional*</label>
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="far fa-user"></i></span>
+                                                    </div>
+                                                    {!! Form::text(
+                                                        'claveInternacional', session()->get('values')->claveInternacional ?? '',[
+                                                            'readonly' => session()->has('edit') 
+                                                            ? session()->get('edit') == 0 ? true : false
+                                                            : false,
+                                                            'class' => 'form-control pl-1'
+                                                        ]) 
+                                                    !!}
+                                                </div>
+                                                @error('claveInternacional')
+                                                    <small class="alert alert-danger">{{$message}}</small>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-form-label text-primary">Costo*</label>
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="far fa-user"></i></span>
+                                                    </div>
+                                                    {!! Form::text(
+                                                        'costo', session()->get('values')->costo ?? '',[
+                                                            'readonly' => session()->has('edit') 
+                                                            ? session()->get('edit') == 0 ? true : false
+                                                            : false,
+                                                            'class' => 'form-control pl-1'
+                                                        ]) 
+                                                    !!}
+                                                </div>
+                                                @error('costo')
+                                                    <small class="alert alert-danger">{{$message}}</small>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-form-label  text-primary">Moneda</label>
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-coins"></i></span>
+                                                    </div>
+                                                    {{ Form::select('moneda',
+                                                    (session()->has('monedas')) 
+                                                    ? session()->get('monedas')
+                                                    : $monedas, 
+                                                        session()->get('values')->moneda ?? '',[
+                                                           'placeholder' => 'Elegir Moneda',
+                                                           'disabled' => session()->has('values')
+                                                               ? (session()->get('edit') == 1 ? false : true )
+                                                               : false,
+                                                           'class' => 'form-control  col-md-10 pl-1'
+                                                    ])}}
+                                                </div>
+                                                @error('moneda')
+                                                        <small class="alert alert-danger">{{$message}}</small>
+                                                @enderror
+                                            </div>
                                         </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="producto" placeholder=""
-                                                value="{{ session()->get('values')->producto ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
+                                        {{-- PAQUETES  --}}
+                                        <div class="col-md-6">
+
+                                            <div class="form-group">
+                                                <label class="col-form-label text-primary">Medida</label>
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-ruler-horizontal"></i></span>
+                                                    </div>
+                                                    {!! Form::text(
+                                                        'medida', session()->get('values')->medida ?? '',[
+                                                            'readonly' => session()->has('edit') 
+                                                            ? session()->get('edit') == 0 ? true : false
+                                                            : false,
+                                                            'class' => 'form-control pl-1'
+                                                        ]) 
+                                                    !!}
+                                                </div>
+                                                @error('medida')
+                                                    <small class="alert alert-danger">{{$message}}</small>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-form-label  text-primary">Unidad de medida</label>
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-balance-scale"></i></span>
+                                                    </div>
+                                                    {{ Form::select('unidadMedida',
+                                                    (session()->has('unidadMedidas')) 
+                                                    ? session()->get('unidadMedidas')
+                                                    : $unidadMedidas, 
+                                                        session()->get('values')->unidadMedida ?? '',[
+                                                           'placeholder' => 'Elegir Unidad de Medida',
+                                                           'disabled' => session()->has('values')
+                                                               ? (session()->get('edit') == 1 ? false : true )
+                                                               : false,
+                                                           'class' => 'form-control  col-md-10 pl-1'
+                                                    ])}}
+                                                </div>
+                                                @error('unidadMedida')
+                                                        <small class="alert alert-danger">{{$message}}</small>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-form-label  text-primary">Pais</label>
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
+                                                    </div>
+                                                    {{ Form::select('pais',
+                                                    (session()->has('paises')) 
+                                                    ? session()->get('paises')
+                                                    : $paises, 
+                                                        session()->get('values')->pais ?? '',[
+                                                           'placeholder' => 'Elegir Pais',
+                                                           'disabled' => session()->has('values')
+                                                               ? (session()->get('edit') == 1 ? false : true )
+                                                               : false,
+                                                           'class' => 'form-control  col-md-10 pl-1'
+                                                    ])}}
+                                                </div>
+                                                @error('pais')
+                                                        <small class="alert alert-danger">{{$message}}</small>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-form-label text-primary">Peso [Kg]</label>
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"> <i class="fas fa-weight-hanging"></i></span>
+                                                    </div>
+                                                    {!! Form::text(
+                                                        'peso', session()->get('values')->peso ?? '',[
+                                                            'readonly' => session()->has('edit') 
+                                                            ? session()->get('edit') == 0 ? true : false
+                                                            : false,
+                                                            'class' => 'form-control pl-1'
+                                                        ]) 
+                                                    !!}
+                                                </div>
+                                                @error('peso')
+                                                    <small class="alert alert-danger">{{$message}}</small>
+                                                @enderror
+                                            </div>
+
                                         </div>
                                     </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="far fa-user"></i>
-                                            <label class="col-form-label ml-1">Producto Ingles</label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="productoIngles" placeholder=""
-                                                value="{{ session()->get('values')->productoIngles ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="far fa-user"></i>
-                                            <label class="col-form-label ml-1">Clave</label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="claveInternacional" placeholder=""
-                                                value="{{ session()->get('values')->claveInternacional ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-building"></i>
-                                            <label class="col-form-label ml-1">Costo</label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="costo" placeholder=""
-                                                value="{{ session()->get('values')->costo ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-store"></i>
-                                            <label class="col-form-label ml-1">
-                                                Moneda
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <select class="form-control" name="moneda"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                                <option>{{ session()->get('values')->moneda ?? '' }}</option>
-
-                                                @if (session()->get('monedas'))
-                                                    @foreach (session()->get('monedas') as $moneda)
-                                                        @if ($moneda !== session()->get('values')->moneda)
-
-                                                            <option>{{ $moneda }}</option>
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    @foreach ($monedas as $moneda)
-
-
-                                                        <option>{{ $moneda }}</option>
-
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
-
-                        <!-- + Mercancia 2-->
-                        <div class="col-md-6 ">
-                            <div class="card sucursales-form__card h-100">
-                                <div class="card-header text-center">Paquete</div>
-                                <div class="card-body d-flex flex-column justify-content-around">
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-house-user"></i>
-                                            <label class="col-form-label ml-1">Media</label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="medida"
-                                                placeholder="Domicilio 1"
-                                                value="{{ session()->get('values')->medida ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-                                    {{-- UNIDAD DE MEDIDA  --}}
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-store"></i>
-                                            <label class="col-form-label ml-1">
-                                                Unidad de medida
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <select class="form-control" name="unidadMedida"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                                <option>{{ session()->get('values')->unidadMedida ?? '' }}</option>
-
-                                                @if (session()->get('unidadMedidas'))
-                                                    @foreach (session()->get('unidadMedidas') as $unidadMedida)
-                                                        @if ($unidadMedida !== session()->get('values')->unidadMedida)
-
-                                                            <option>{{ $unidadMedida }}</option>
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    @foreach ($unidadMedidas as $unidadMedida)
-
-
-                                                        <option>{{ $unidadMedida }}</option>
-
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-                                    </div>
-                                    {{-- PAISES  --}}
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-store"></i>
-                                            <label class="col-form-label ml-1">
-                                                Pais
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <select class="form-control" name="pais"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                                <option>{{ session()->get('values')->pais ?? '' }}</option>
-
-                                                @if (session()->get('paises'))
-                                                    @foreach (session()->get('paises') as $pais)
-                                                        @if ($pais !== session()->get('values')->pais)
-
-                                                            <option>{{ $pais }}</option>
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    @foreach ($paises as $pais)
-
-
-                                                        <option>{{ $pais }}</option>
-
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-house-user"></i>
-                                            <label class="col-form-label ml-1">Peso [Kg]</label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="peso"
-                                                placeholder=""
-                                                value="{{ session()->get('values')->peso ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-
-                                    
-
-                                    
-
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
 
                     <div class="row d-flex justify-content-sm-around mt-2">
-
                         <button class="btn btn-secondary" type="submit">
                             {{ session()->get('edit') ? 'Actualizar' : 'Crear' }}
                         </button>
-
-                        <button class="btn btn-danger" type="submit">
-                            <i class="fas fa-ban mr-1"></i>
-                            Cancelar
-                        </button>
+                        <a href="{{ route('mercancias.index') }}">
+                            <div class="btn btn-danger">
+                                <i class="fas fa-ban mr-1"></i>
+                                Cancelar
+                            </div>
+                        </a>
 
                     </div>
                 </div>
-            </form>
+
+            {!! Form::close() !!}
         </div>
     </div>
 

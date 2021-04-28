@@ -1,10 +1,5 @@
 {
-    "menu": [{
-            "url": "home",
-            "name": "Dashboard",
-            "icon": "home",
-            "slug": "home"
-        },
+    "menu": [
 
         {
             "name": "Catalogos",
@@ -85,45 +80,39 @@
             "icon": "box",
             "slug": "app-file-manager"
         },
-
-
         {
-            "name": "Page Layouts",
-            "icon": "mail",
+            "url": "app/file-manager",
+            "name": "File Manager",
+            "icon": "save",
+            "slug": "app-file-manager"
+        },
+        {
+            "navheader": "Forms & Tables",
+            "slug": ""
+        },
+        {
+            "name": "Datatable",
+            "icon": "grid",
             "slug": "",
-            "badge": "5",
-            "badgeClass": "badge badge-pill badge-light-danger ml-auto mr-1",
             "submenu": [{
-                    "url": "layouts/collapsed-menu",
-                    "name": "Collapsed Menu",
+                    "url": "table/datatable/basic",
+                    "name": "Basic",
                     "icon": "circle",
-                    "slug": "collapsed-menu"
+                    "slug": "datatable-basic"
                 },
                 {
-                    "url": "layouts/boxed",
-                    "name": "Layout Boxed",
+                    "url": "table/datatable/advance",
+                    "name": "Advanced",
                     "icon": "circle",
-                    "slug": "layout-boxed"
-                },
-                {
-                    "url": "layouts/without-menu",
-                    "name": "Without Menu",
-                    "icon": "circle",
-                    "slug": "without-menu"
-                },
-                {
-                    "url": "layouts/empty",
-                    "name": "Layout Empty",
-                    "icon": "circle",
-                    "slug": "layout-empty"
-                },
-                {
-                    "url": "layouts/blank",
-                    "name": "Layout Blank",
-                    "icon": "circle",
-                    "slug": "layout-blank"
+                    "slug": "datatable-advance"
                 }
             ]
+        },
+        {
+            "url": "table/ag-grid",
+            "name": "agGrid Table",
+            "icon": "grid",
+            "slug": "ag-grid"
         }
     ]
 }

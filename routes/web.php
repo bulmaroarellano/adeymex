@@ -1,15 +1,23 @@
 <?php
 
+use App\Http\Controllers\CodigoPostalController;
+use App\Http\Controllers\DestinatarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaterkitController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\MensajeriaController;
+use App\Http\Controllers\MercanciaController;
+use App\Http\Controllers\MonedaController;
+use App\Http\Controllers\PaisController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PaqueteriaController;
+use App\Http\Controllers\RemitenteController;
 use App\Http\Controllers\SucursalesController;
-
+use App\Http\Controllers\SuministroController;
+use App\Http\Controllers\UnidadMedidaController;
 use Illuminate\Http\Request;
 
 /*
@@ -63,18 +71,77 @@ Route::middleware('auth')->group(function() {
     });
 });
 
-Route::get('/paquetes', [PaqueteriaController::class, 'index'])->name('paquetes.index');
+//+ Catalogos
 
-Route::get('/paquetes/create', [PaqueteriaController::class, 'create'])->name('paquetes.create');
-Route::post('/paquetes', [PaqueteriaController::class, 'store'])->name('paquetes.store');
-
-Route::get('/paquetes/{envio}', [PaqueteriaController::class, 'show'])->name('paquetes.show');
-Route::get('/paquetes/{envio}/edit', [PaqueteriaController::class, 'edit'])->name('paquetes.edit');
-Route::put('/paquetes/{remitente}{destinatario}{envio}', [PaqueteriaController::class, 'update'])->name('paquetes.update');
+//-SUCURSALES 
 Route::get('/sucursales', [SucursalesController::class, 'index'])->name('sucursales.index');
-
 Route::get('/sucursales/{sucursal}{edit}', [SucursalesController::class, 'show'])->name('sucursales.show');
 Route::put('/sucursales/{sucursal}', [SucursalesController::class, 'update'])->name('sucursales.update');
-
 Route::post('/sucursales', [SucursalesController::class, 'store'])->name('sucursales.store');
 Route::delete('/sucursales/{sucursal}', [SucursalesController::class, 'destroy'])->name('sucursales.destroy');
+
+//-REMITENTES
+Route::get('/remitentes', [RemitenteController::class, 'index'])->name('remitentes.index');
+Route::get('/remitentes/{remitente}{edit}', [RemitenteController::class, 'show'])->name('remitentes.show');
+Route::put('/remitentes/{remitente}', [RemitenteController::class, 'update'])->name('remitentes.update');
+Route::post('/remitentes/', [RemitenteController::class, 'store'])->name('remitentes.store');
+Route::delete('/remitentes/{remitente}', [RemitenteController::class, 'destroy'])->name('remitentes.destroy');
+
+//-DESTINATARIO
+Route::get('/destinatarios', [DestinatarioController::class, 'index'])->name('destinatarios.index');
+Route::get('/destinatarios/{destinatario}{edit}', [DestinatarioController::class, 'show'])->name('destinatarios.show');
+Route::put('/destinatarios/{destinatario}', [DestinatarioController::class, 'update'])->name('destinatarios.update');
+Route::post('/destinatarios/', [DestinatarioController::class, 'store'])->name('destinatarios.store');
+Route::delete('/destinatarios/{destinatario}', [DestinatarioController::class, 'destroy'])->name('destinatarios.destroy');
+
+//-SUMINISTROS 
+Route::get('/suministros', [SuministroController::class, 'index'])->name('suministros.index');
+Route::get('/suministros/{suministro}{edit}', [SuministroController::class, 'show'])->name('suministros.show');
+Route::put('/suministros/{suministro}', [SuministroController::class, 'update'])->name('suministros.update');
+Route::post('/suministros/', [SuministroController::class, 'store'])->name('suministros.store');
+Route::delete('/suministros/{suministro}', [SuministroController::class, 'destroy'])->name('suministros.destroy');
+
+//-PAISES 
+Route::get('/paises', [PaisController::class, 'index'])->name('paises.index');
+Route::get('/paises/{pais}{edit}', [PaisController::class, 'show'])->name('paises.show');
+Route::put('/paises/{pais}', [PaisController::class, 'update'])->name('paises.update');
+Route::post('/paises/', [PaisController::class, 'store'])->name('paises.store');
+Route::delete('/paises/{pais}', [PaisController::class, 'destroy'])->name('paises.destroy');
+
+//-CODIGOS POSTALES 
+Route::get('/codigospostales', [CodigoPostalController::class, 'index'])->name('codigosPostales.index');
+Route::get('/codigospostales/{codigoPostal}{edit}', [CodigoPostalController::class, 'show'])->name('codigosPostales.show');
+Route::put('/codigospostales/{codigoPostal}', [CodigoPostalController::class, 'update'])->name('codigosPostales.update');
+Route::post('/codigospostales/', [CodigoPostalController::class, 'store'])->name('codigosPostales.store');
+Route::delete('/codigospostales/{codigoPostal}', [CodigoPostalController::class, 'destroy'])->name('codigosPostales.destroy');
+
+// Route::get('/cupones', [SucursalesController::class, 'index'])->name('sucursales.index');
+
+//-MERCANCIAS 
+Route::get('/mercancias', [MercanciaController::class, 'index'])->name('mercancias.index');
+Route::get('/mercancias/{mercancia}{edit}', [MercanciaController::class, 'show'])->name('mercancias.show');
+Route::put('/mercancias/{mercancia}', [MercanciaController::class, 'update'])->name('mercancias.update');
+Route::post('/mercancias/', [MercanciaController::class, 'store'])->name('mercancias.store');
+Route::delete('/mercancias/{mercancia}', [MercanciaController::class, 'destroy'])->name('mercancias.destroy');
+
+//-MONEDAS
+Route::get('/monedas', [MonedaController::class, 'index'])->name('monedas.index');
+Route::get('/monedas/{moneda}{edit}', [MonedaController::class, 'show'])->name('monedas.show');
+Route::put('/monedas/{moneda}', [MonedaController::class, 'update'])->name('monedas.update');
+Route::post('/monedas/', [MonedaController::class, 'store'])->name('monedas.store');
+Route::delete('/monedas/{moneda}', [MonedaController::class, 'destroy'])->name('monedas.destroy');
+
+//-MENSAJERIAS
+Route::get('/mensajerias', [MensajeriaController::class, 'index'])->name('mensajerias.index');
+Route::get('/mensajerias/{mensajeria}{edit}', [MensajeriaController::class, 'show'])->name('mensajerias.show');
+Route::put('/mensajerias/{mensajeria}', [MensajeriaController::class, 'update'])->name('mensajerias.update');
+Route::post('/mensajerias/', [MensajeriaController::class, 'store'])->name('mensajerias.store');
+Route::delete('/mensajerias/{mensajeria}', [MensajeriaController::class, 'destroy'])->name('mensajerias.destroy');
+
+//-UNIDADES DE MEDIDA 
+Route::get('/unidadesmedidas', [UnidadMedidaController::class, 'index'])->name('unidadesMedida.index');
+Route::get('/unidadesmedidas/{unidadMedida}{edit}', [UnidadMedidaController::class, 'show'])->name('unidadesMedida.show');
+Route::put('/unidadesmedidas/{unidadMedida}', [UnidadMedidaController::class, 'update'])->name('unidadesMedida.update');
+Route::post('/unidadesmedidas/', [UnidadMedidaController::class, 'store'])->name('unidadesMedida.store');
+Route::delete('/unidadesmedidas/{unidadMedida}', [UnidadMedidaController::class, 'destroy'])->name('unidadesMedida.destroy');
+

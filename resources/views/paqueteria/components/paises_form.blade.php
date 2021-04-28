@@ -2,67 +2,78 @@
 <div class="container sucursales-form">
     <div class="row d-flex justify-content-center">
         <div class="col-md-12 ">
-            <form  
-            action="{{ session()->get('edit') == 1 ? route('paises.update', session()->get('values') ?? '') : route('paises.store') }}"
-                method="POST"
-            >
-
-                @csrf
-                @if (session()->get('edit') == 1)
-
-                    @method('put')
-
-                @endif
-
+            
+            {!! Form::open([
+                'route' => session()->get('edit') == 1 ? ['paises.update', session()->get('values') ?? ''] : 'paises.store',
+                'method' => session()->get('edit') == 1 ? 'PUT' : 'POST',
+            ]) !!}
                 <div class="col-md-12">
 
                     <div class="row justify-content-center">
                         <!-- + suministros -->
-                        <div class="col-md-6">
-                            <div class="card sucursales-form__card h-100">
-                                <div class="card-header text-center">Paises</div>
-                                <div class="card-body d-flex flex-column justify-content-around">
-
-                                    <div class="form-group row mt-2">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-globe-americas"></i>
-                                            <label class="col-form-label ml-1">Pais</label>
+                        <div class="col-md-5">
+                            <div class="card">
+                                <div class="card-header ">
+                                    <h4  class="font-weight-bolder">Paises</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 col-form-label">
+                                            <label class="col-form-label text-primary">Pais *</label>
                                         </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="pais"
-                                                placeholder=""
-                                                value="{{ session()->get('values')->pais ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
+                                        <div class="col-sm-9">
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
+                                                </div>
+                                                {!! Form::text('pais', session()->get('values')->pais ?? '', [
+                                                    'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                    'class' => 'form-control pl-1',
+                                                ]) !!}
+                                            </div>
                                         </div>
+                                        @error('pais')
+                                            <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-flag"></i>
-                                            <label class="col-form-label ml-1">Codigo</label>
+                                        <label class="col-sm-3  col-form-label text-primary">Codigo *</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-flag"></i></span>
+                                                </div>
+                                                {!! Form::text('codigoPais', session()->get('values')->codigoPais ?? '', [
+                                                    'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                    'class' => 'form-control pl-1',
+                                                ]) !!}
+                                            </div>
                                         </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="codigoPais"
-                                                placeholder=""
-                                                value="{{ session()->get('values')->codigoPais ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
+                                        @error('codigoPais')
+                                            <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-coins"></i>
-                                            <label class="col-form-label ml-1">Moneda</label>
+                                        
+                                        <label class="col-sm-3 col-form-label text-primary">Moneda</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-coins"></i></span>
+                                                </div>
+                                                {!! Form::text('moneda', session()->get('values')->moneda ?? '', [
+                                                    'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                    'class' => 'form-control pl-1',
+                                                ]) !!}
+                                            </div>
                                         </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="moneda"
-                                                placeholder=""
-                                                value="{{ session()->get('values')->moneda ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
+                                        @error('moneda')
+                                            <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                        @enderror
                                     </div>
-
-                                    
+                                
                                 </div>
                             </div>
                         </div>
@@ -72,21 +83,21 @@
 
                 <div class="row d-flex justify-content-center">
                     <div class="col-md-6">
-                        <div class="row d-flex justify-content-sm-around mt-2">
-
+                        <div class="row d-flex justify-content-sm-around">
                             <button class="btn btn-secondary" type="submit">
                                 {{ session()->get('edit') ? 'Actualizar' : 'Crear' }}
                             </button>
-
-                            <button class="btn btn-danger" type="submit">
-                                <i class="fas fa-ban mr-1"></i>
-                                Cancelar
-                            </button>
-
+                            <a href="{{ route('paises.index') }}">
+                                <div class="btn btn-danger">
+                                    <i class="fas fa-ban mr-1"></i>
+                                    Cancelar
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
-            </form>
+
+            {!! Form::close() !!}
         </div>
     </div>
 

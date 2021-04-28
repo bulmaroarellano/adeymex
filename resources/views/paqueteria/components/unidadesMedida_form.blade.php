@@ -2,51 +2,57 @@
 <div class="container sucursales-form">
     <div class="row d-flex justify-content-center">
         <div class="col-md-12 ">
-            <form 
-                action="{{ session()->get('edit') == 1 ? route('unidadesMedida.update', session()->get('values') ?? '') : route('unidadesMedida.store') }}"
-                method="POST"
-            >
-
-                @csrf
-                @if (session()->get('edit') == 1)
-
-                    @method('put')
-
-                @endif
-
+            {!! Form::open([
+                'route' => session()->get('edit') == 1 ? ['unidadesMedida.update', session()->get('values') ?? ''] : 'unidadesMedida.store',
+                'method' => session()->get('edit') == 1 ? 'PUT' : 'POST',
+            ]) !!}
                 <div class="col-md-12">
 
                     <div class="row justify-content-center">
-                        <!-- + Domicilio-->
-                        <div class="col-md-6 ">
-                            <div class="card sucursales-form__card h-100">
-                                <div class="card-header text-center">Unidades de Medida</div>
+                        <div class="col-md-5 ">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4  class="font-weight-bolder">Unidades de Medida</h4>
+                                </div>
                                 <div class="card-body d-flex flex-column justify-content-around">
 
-                                    <div class="form-group row mt-2">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-weight-hanging"></i>
-                                            <label class="col-form-label ml-1">Unidad</label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="unidadMedida"
-                                                placeholder="kilogramo, litro"
-                                                value="{{ session()->get('values')->unidadMedida ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-
                                     <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-ruler-horizontal"></i>
-                                            <label class="col-form-label ml-1">Abreviación</label>
+                                        <div class="col-sm-3 col-form-label">
+                                            <label class="col-form-label text-primary">Unidad *</label>
                                         </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="abreviacion"
-                                                placeholder="Kg, L, ml"
-                                                value="{{ session()->get('values')->abreviacion ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
+                                        <div class="col-sm-9">
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-weight-hanging"></i></span>
+                                                </div>
+                                                {!! Form::text('unidadMedida', session()->get('values')->unidadMedida ?? '', [
+                                                    'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                    'class' => 'form-control pl-1',
+                                                ]) !!}
+                                            </div>
                                         </div>
+                                        @error('unidadMedida')
+                                            <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 col-form-label">
+                                            <label class="col-form-label text-primary">Abreviación</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-ruler-horizontal"></i></span>
+                                                </div>
+                                                {!! Form::text('abreviacion', session()->get('values')->abreviacion ?? '', [
+                                                    'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                    'class' => 'form-control pl-1',
+                                                ]) !!}
+                                            </div>
+                                        </div>
+                                        @error('abreviacion')
+                                            <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -54,22 +60,24 @@
 
                     </div>
                 </div>
+
                 <div class="row d-flex justify-content-center">
                     <div class="col-md-6">
-                        <div class="row d-flex justify-content-sm-around mt-2">
+                        <div class="row d-flex justify-content-sm-around ">
 
                             <button class="btn btn-secondary" type="submit">
                                 {{ session()->get('edit') ? 'Actualizar' : 'Crear' }}
                             </button>
-
-                            <button class="btn btn-danger" type="submit">
-                                <i class="fas fa-ban mr-1"></i>
-                                Cancelar
-                            </button>
-
+                            <a href="{{ route('unidadesMedida.index') }}">
+                                <div class="btn btn-danger">
+                                    <i class="fas fa-ban mr-1"></i>
+                                    Cancelar
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
+
             </form>
         </div>
     </div>
