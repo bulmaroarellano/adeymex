@@ -20,6 +20,7 @@ class CreateCodigospostalesTable extends Migration
             $table->string('ciudad');
             $table->string('codigoEstado');
             $table->string('municipio');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -32,5 +33,8 @@ class CreateCodigospostalesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('codigospostales');
+        Schema::table('codigospostales', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

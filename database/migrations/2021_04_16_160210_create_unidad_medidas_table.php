@@ -17,6 +17,7 @@ class CreateUnidadMedidasTable extends Migration
             $table->id();
             $table->string('unidadMedida');
             $table->string('abreviacion');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -29,5 +30,8 @@ class CreateUnidadMedidasTable extends Migration
     public function down()
     {
         Schema::dropIfExists('unidad_medidas');
+        Schema::table('unidad_medidas', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

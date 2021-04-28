@@ -27,6 +27,7 @@ class CreateDestinatariosTable extends Migration
             $table->string('domicilio3')->nullable();
             $table->string('pais');
             $table->string('codigoPostal');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -39,5 +40,9 @@ class CreateDestinatariosTable extends Migration
     public function down()
     {
         Schema::dropIfExists('destinatarios');
+        Schema::table('destinatarios', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+        
     }
 }

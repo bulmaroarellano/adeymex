@@ -15,7 +15,7 @@ class CreateSucursalesTable extends Migration
     {
         Schema::create('sucursales', function (Blueprint $table) {
             $table->id();
-            $table->text(  'descripcion');
+            $table->text(  'sucursal');
             $table->text(  'telefono');
             $table->string('email');
             $table->string('encargado');
@@ -24,6 +24,7 @@ class CreateSucursalesTable extends Migration
             $table->string('domicilio3');
             $table->string('pais');
             $table->string('codigoPostal');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -36,5 +37,10 @@ class CreateSucursalesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('sucursales');
+
+        Schema::table('sucursales', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+        
     }
 }

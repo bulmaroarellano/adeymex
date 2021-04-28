@@ -21,13 +21,14 @@ class CreateRemitentesTable extends Migration
             $table->string('apellidoM')->nullable();
             $table->string('empresa')->nullable();
             $table->string('telefono');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('tipoCliente');
             $table->string('domicilio1');
             $table->string('domicilio2')->nullable();
             $table->string('domicilio3')->nullable();
             $table->string('pais');
             $table->string('codigoPostal');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -40,5 +41,8 @@ class CreateRemitentesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('remitentes');
+        Schema::table('remitentes', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

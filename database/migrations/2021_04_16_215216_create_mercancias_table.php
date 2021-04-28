@@ -16,14 +16,15 @@ class CreateMercanciasTable extends Migration
         Schema::create('mercancias', function (Blueprint $table) {
             $table->id();
             $table->string('producto');
-            $table->string('productoIngles');
+            $table->string('productoIngles')->nullable();
             $table->string('claveInternacional');
             $table->string('costo');
-            $table->string('moneda');
-            $table->decimal('medida');
-            $table->string('unidadMedida');
-            $table->string('pais');
-            $table->decimal('peso');
+            $table->string('moneda')->nullable();
+            $table->decimal('medida')->nullable();
+            $table->string('unidadMedida')->nullable();
+            $table->string('pais')->nullable();
+            $table->decimal('peso')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -36,5 +37,8 @@ class CreateMercanciasTable extends Migration
     public function down()
     {
         Schema::dropIfExists('mercancias');
+        Schema::table('mercancias', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

@@ -18,6 +18,7 @@ class CreateMonedasTable extends Migration
             $table->string('moneda');
             $table->string('codigo');
             $table->string('simbolo');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,5 +31,8 @@ class CreateMonedasTable extends Migration
     public function down()
     {
         Schema::dropIfExists('monedas');
+        Schema::table('monedas', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

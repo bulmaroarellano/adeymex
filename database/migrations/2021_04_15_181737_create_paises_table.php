@@ -18,6 +18,7 @@ class CreatePaisesTable extends Migration
             $table->string('pais');
             $table->string('codigoPais');
             $table->string('moneda');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,5 +31,8 @@ class CreatePaisesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('paises');
+        Schema::table('paises', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 }

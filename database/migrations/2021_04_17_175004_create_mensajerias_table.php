@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSuministrosTable extends Migration
+class CreateMensajeriasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateSuministrosTable extends Migration
      */
     public function up()
     {
-        Schema::create('suministros', function (Blueprint $table) {
+        Schema::create('mensajerias', function (Blueprint $table) {
             $table->id();
-            $table->string( 'sucursal');
-            $table->string( 'producto');
-            $table->decimal('costo');
-            $table->decimal('precioPublico')->nullable();
+            $table->string('mensajeria');
+            $table->string('logo')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,8 +29,8 @@ class CreateSuministrosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('suministros');
-        Schema::table('suministros', function (Blueprint $table) {
+        Schema::dropIfExists('mensajerias');
+        Schema::table('mensajerias', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
     }
