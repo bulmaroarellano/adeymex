@@ -33,7 +33,7 @@
 
                         @foreach ($sucursales as $sucursal)
                             <tr>
-                                <td>{{ $sucursal->descripcion }}</td>
+                                <td>{{ $sucursal->sucursal }}</td>
                                 <td>{{ $sucursal->domicilio1 }}, C.P: {{ $sucursal->codigoPostal }},
                                     {{ $sucursal->pais }}
                                 </td>

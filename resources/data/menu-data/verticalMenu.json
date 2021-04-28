@@ -29,12 +29,7 @@
                     "icon": "package",
                     "slug": "suministros"
                 },
-                {
-                    "url": "/cupones",
-                    "name": "Cupones",
-                    "icon": "layers",
-                    "slug": "cupones"
-                },
+                
                 {
                     "url": "/paises",
                     "name": "Paises",

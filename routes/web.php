@@ -48,8 +48,9 @@ Route::get('layouts/blank', [StaterkitController::class, 'layout_blank'])->name(
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::get('/', [StaterkitController::class, 'home'])->name('home');
-    Route::get('home', [StaterkitController::class, 'home'])->name('home');
+    // Route::get('/', [StaterkitController::class, 'home'])->name('home');
+    // Route::get('home', [StaterkitController::class, 'home'])->name('home');
+    Route::get('/', [SucursalesController::class, 'index'])->name('sucursales.index');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);

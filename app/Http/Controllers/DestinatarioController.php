@@ -18,8 +18,8 @@ class DestinatarioController extends Controller
     public function index()
     {
         $destinatarios = Destinatario::orderBy('id', 'desc')->paginate(8);
-        $sucursalesName = Sucursal::all()->pluck('descripcion');
-        $paises = Pais::all()->pluck('pais');
+        $sucursalesName = Sucursal::all()->pluck('sucursal', 'sucursal');
+        $paises = Pais::all()->pluck('pais', 'pais');
         return view('/paqueteria/catalogos/destinatarios', [
             'destinatarios' => $destinatarios,
             'paises' => $paises, 
@@ -59,7 +59,7 @@ class DestinatarioController extends Controller
     public function show(Destinatario $destinatario, $edit)
     {
         //TODO : checar cuando enviar los nombre de las sucursales 
-        $sucursalesName = Sucursal::all()->pluck('descripcion', 'descripcion');
+        $sucursalesName = Sucursal::all()->pluck('sucursal', 'sucursal');
         $paises = Pais::all()->pluck('pais', 'pais');
         return redirect()->route('destinatarios.index')->with([
             'values' => $destinatario,
