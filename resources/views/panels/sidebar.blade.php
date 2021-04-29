@@ -3,16 +3,24 @@ $configData = Helper::applClasses();
 @endphp
 <div class="main-menu menu-fixed {{(($configData['theme'] === 'dark') || ($configData['theme'] === 'semi-dark')) ? 'menu-dark' : 'menu-light'}} menu-accordion menu-shadow" data-scroll-to-active="true">
   <div class="navbar-header">
-    <ul class="nav navbar-nav flex-row">
-      <li class="nav-item mr-auto">
-        <a class="navbar-brand" href="{{url('/')}}">
-          <span class="brand-logo">
+    <ul class="d-flex justify-content-center">
+      <li class="nav-item ">
+        <a class="" href="{{url('/')}}">
+          {{-- <span class="brand-logo">
             <i class="fas fa-shipping-fast"></i>
           </span>
-          <h2 class="brand-text">Adeymex</h2>
+          <h2 class="brand-text">Adeymex</h2> --}}
+          <div class="img-logo " style="width: calc(2.88rem + 2vw)">
+            <img src="../images/logo/adeymex-login.png" alt="" class="img-fluid">
+          </div>
         </a>
       </li>
-      <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
+      {{-- <li class="nav-item ml-5 mt-2">
+        <a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse">
+          <i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i>
+          <i class="d-none d-xl-block collapse-toggle-icon  text-primary" data-feather="disc" data-ticon="disc"></i>
+        </a>
+      </li> --}}
     </ul>
   </div>
   <div class="shadow-bottom"></div>

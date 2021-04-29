@@ -3,7 +3,7 @@
 
         {
             "name": "Catalogos",
-            "icon": "grid",
+            "icon": "hexagon",
             "slug": "",
             "submenu": [{
                     "url": "/sucursales",
@@ -68,19 +68,51 @@
                 }
             ]
         },
-
         {
-            "url": "paquetes",
-            "name": "Productos",
-            "icon": "box",
-            "slug": "app-file-manager"
+            "name": "Envios",
+            "icon": "navigation",
+            "slug": "",
+            "submenu": [
+                {
+                    "url": "/",
+                    "name": "Envios",
+                    "icon": "navigation",
+                    "slug": "envios"
+                },
+                {
+                    "url": "/",
+                    "name": "Recolecciones",
+                    "icon": "package",
+                    "slug": "recolecciones"
+                },
+                {
+                    "url": "/",
+                    "name": "Seguimiento",
+                    "icon": "send",
+                    "slug": "seguimiento"
+                },
+                {
+                    "url": "/",
+                    "name": "Facturas",
+                    "icon": "file",
+                    "slug": "facturas"
+                },
+                {
+                    "url": "/",
+                    "name": "Recepcion",
+                    "icon": "inbox",
+                    "slug": "recepcion"
+                },
+                {
+                    "url": "/",
+                    "name": "Paquetes recibidos",
+                    "icon": "archive",
+                    "slug": "paquetes-recibidos"
+                }
+            ]
         },
-        {
-            "url": "app/file-manager",
-            "name": "File Manager",
-            "icon": "save",
-            "slug": "app-file-manager"
-        },
+        
+        
         {
             "navheader": "Forms & Tables",
             "slug": ""

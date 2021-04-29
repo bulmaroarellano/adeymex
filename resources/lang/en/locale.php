@@ -194,5 +194,11 @@ return [
   "Monedas" => "Monedas",
   "Mensajerias" => "Mensajerias",
   "Unidades Medida" => "Unidades Medida",
+  "Envios" => "Envios",
+  "Recolecciones" => "Recolecciones",
+  "Seguimiento" => "Seguimiento",
+  "Facturas" => "Facturas",
+  "Recepcion" => "Recepcion",
+  "Paquetes recibidos" => "Paquetes recibidos",
 
 ];

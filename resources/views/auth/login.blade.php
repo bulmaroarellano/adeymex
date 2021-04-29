@@ -14,8 +14,11 @@
     <div class="card mb-0">
       <div class="card-body">
         <a href="javascript:void(0);" class="brand-logo">
-          <i class="fas fa-shipping-fast"></i>
-          <h2 class="brand-text text-primary ml-1">Aydemex</h2>
+          {{-- <i class="fas fa-shipping-fast"></i> --}}
+          <div class="img-logo" style="width: calc(2rem + 5vw)">
+            <img src="../images/logo/adeymex-login.png" alt="" class="img-fluid">
+          </div>
+          
         </a>
 
         <h4 class="card-title mb-1">Bienvenido  👋</h4>
