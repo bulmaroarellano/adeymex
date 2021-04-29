@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SucursalRequest;
+use App\Models\Pais;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
 
@@ -15,14 +17,11 @@ class SucursalesController extends Controller
     public function index()
     {
         $sucursales = Sucursal::orderBy('id', 'desc')->paginate(8);
-
-        // return view('/paqueteria/catalogos/sucursales')->with([
-        //     'sucursales' => $sucursales,
-        //     'obj' => $obj,
-        // ]);
+        $paises = Pais::all()->pluck('pais', 'pais');
 
         return view('/paqueteria/catalogos/sucursales', [
             'sucursales' => $sucursales,
+            'paises' => $paises, 
 
         ]);
     }
@@ -43,7 +42,7 @@ class SucursalesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SucursalRequest $request)
     {
         // return $request;
         Sucursal::create($request->all());
@@ -58,11 +57,11 @@ class SucursalesController extends Controller
      */
     public function show(Sucursal $sucursal, $edit)
     {
-
-
+        $paises = Pais::all()->pluck('pais', 'pais');
         
         return redirect()->route('sucursales.index')->with([
-            'sucursalVal' => $sucursal, 
+            'values' => $sucursal, 
+            'paises' => $paises, 
             'edit' => $edit
         ]);
     }
@@ -75,10 +74,7 @@ class SucursalesController extends Controller
      */
     public function edit(Sucursal $sucursal)
     {
-        return redirect()->route('sucursales.index')->with([
-            'sucursalVal' => $sucursal, 
-            'edit' => true,
-        ]);
+        
     }
 
     /**
@@ -88,7 +84,7 @@ class SucursalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sucursal $sucursal)
+    public function update(SucursalRequest $request, Sucursal $sucursal)
     {
         $sucursal->update($request->all());
         return redirect()->route('sucursales.index');

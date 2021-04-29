@@ -1,190 +1,259 @@
 {{-- +  MODAL CREATE --}}
 <div class="container sucursales-form">
     <div class="row d-flex justify-content-center">
-        {{-- {{$data = session()->get('sucursalVal') }} --}}
-        <div class="col-md-12 ">
-            <form
-                action="{{ session()->get('edit') == 1 ? route('sucursales.update', session()->get('sucursalVal') ?? '') : route('sucursales.store') }}"
-                method="POST">
+        {{-- action="{{ session()->get('edit') == 1 ? route('sucursales.update', session()->get('sucursalVal') ?? '') : route('sucursales.store') }}" --}}
 
-                @csrf
-                @if (session()->get('edit') == 1)
-
-                    @method('put')
-                    actulizando
-                @endif
-
-                <div class="col-md-12">
+        <div class="col-md-12">
+            {!! Form::open([
+                'route' => session()->get('edit') == 1 ? ['sucursales.update', session()->get('values') ?? ''] : 'sucursales.store',
+                'method' => session()->get('edit') == 1 ? 'PUT' : 'POST',
+            ]) !!}
+    
+                <div class="card">
                     <div class="row justify-content-between">
-
-                        <!-- + Datos generales-->
-                        <div class="col-md-6">
-                            <div class="card sucursales-form__card h-100">
-                                <div class="card-header">Datos generales</div>
-                                <div class="card-body d-flex flex-column justify-content-around">
-
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-store"></i>
-                                            <label class="col-form-label ml-1">
-                                                Descripción
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="descripcion"
-                                                placeholder="Nombre sucursal"
-                                                value="{{ session()->get('sucursalVal')->descripcion ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
+                            <!-- + Datos generales-->
+                            <div class="col-md-5">
+                                <div class="card sucursales-form__card h-100">
+                                    <div class="card-header">
+                                        <h4  class="font-weight-bolder">Datos generales</h4>
                                     </div>
+                                    <div class="card-body d-flex flex-column justify-content-around">
 
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-phone-alt"></i>
-                                            <label class="col-form-label ml-1">Telefono</label>
+                                        <div class="form-group row">
+                                            <div class="col-sm-4 col-form-label">
+                                                <label class="col-form-label text-primary">Sucursal *</label>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-store"></i></span>
+                                                    </div>
+                                                    {!! Form::text('sucursal', session()->get('values')->sucursal ?? '', [
+                                                        'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                        'class' => 'form-control pl-1',
+                                                    ]) !!}
+                                                </div>
+                                            </div>
+                                            @error('sucursal')
+                                                <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                            @enderror
+                                        </div>
 
+                                        <div class="form-group row">
+                                            <div class="col-sm-4 col-form-label">
+                                                <label class="col-form-label text-primary">Telefono *</label>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                                    </div>
+                                                    {!! Form::input('tel', 'telefono', session()->get('values')->telefono ?? '', [
+                                                        'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                        'class' => 'form-control pl-1', 
+                                                        // 'pattern' => "[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                                                    ]) !!}
+                                                </div>
+                                            </div>
+                                            @error('telefono')
+                                                <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                            @enderror
                                         </div>
-                                        <div class="col-sm-7">
-                                            <input type="tel" class="form-control" name="telefono"
-                                                placeholder="Numero de telefono"
-                                                value="{{ session()->get('sucursalVal')->telefono ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-4 col-form-label">
+                                                <label class="col-form-label text-primary">Email *</label>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                                    </div>
+                                                    {!! Form::email(
+                                                        'email', session()->get('values')->email ?? '',[
+                                                            'readonly' => session()->has('edit') 
+                                                            ? session()->get('edit') == 0 ? true : false
+                                                            : false,
+                                                            'class' => 'form-control col-md-12'
+                                                        ]) 
+                                                    !!}
+                                                </div>
+                                            </div>
+                                            @error('email')
+                                                <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                            @enderror
                                         </div>
+                                        
+                                        <div class="form-group row">
+                                            <div class="col-sm-4 col-form-label">
+                                                <label class="col-form-label text-primary">Encargado *</label>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                                                    </div>
+                                                    {!! Form::text('encargado', session()->get('values')->encargado ?? '', [
+                                                        'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                        'class' => 'form-control pl-1',
+                                                    ]) !!}
+                                                </div>
+                                            </div>
+                                            @error('encargado')
+                                                <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                            @enderror
+                                        </div>  
                                     </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-envelope"></i>
-                                            <label class="col-form-label ml-1">Email</label>
-
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="email" class="form-control" name="email" placeholder="Email"
-                                                value="{{ session()->get('sucursalVal')->email ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-user-alt"></i>
-                                            <label class="col-form-label ml-1">Encargado</label>
-
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="encargado"
-                                                placeholder="Nombre del encargado"
-                                                value="{{ session()->get('sucursalVal')->encargado ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
-                        </div>
+    
+                            <!-- + Domicilio-->
+                            <div class="col-md-7">
+                                <div class="card-header">
+                                    <h4 class="font-weight-bolder">Domicilio</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="">
+                                        <div class="col-md-12">
+                                            <div class="form-group row">
+                                                <div class="col-sm-4 col-form-label">
+                                                    <label class="col-form-label text-primary">Domicilio Linea1 *</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group input-group-merge">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="fas fa-home"></i></span>
+                                                        </div>
+                                                        {!! Form::text('domicilio1', session()->get('values')->domicilio1 ?? '', [
+                                                            'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                            'class' => 'form-control pl-1',
+                                                        ]) !!}
+                                                    </div>
+                                                </div>
+                                                @error('domicilio1')
+                                                    <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                                @enderror
+                                            </div>
 
-                        <!-- + Domicilio-->
-                        <div class="col-md-6 ">
-                            <div class="card sucursales-form__card h-100">
-                                <div class="card-header text-center">Domicilio</div>
-                                <div class="card-body d-flex flex-column justify-content-around">
+                                            <div class="form-group row">
+                                                <div class="col-sm-4 col-form-label">
+                                                    <label class="col-form-label text-primary">Domicilio Linea2 </label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group input-group-merge">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="fas fa-home"></i></span>
+                                                        </div>
+                                                        {!! Form::text('domicilio2', session()->get('values')->domicilio2 ?? '', [
+                                                            'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                            'class' => 'form-control pl-1',
+                                                        ]) !!}
+                                                    </div>
+                                                </div>
+                                                @error('domicilio2')
+                                                    <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                                @enderror
+                                            </div>
 
+                                            <div class="form-group row">
+                                                <div class="col-sm-4 col-form-label">
+                                                    <label class="col-form-label text-primary">Domicilio Linea3 </label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group input-group-merge">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="fas fa-home"></i></span>
+                                                        </div>
+                                                        {!! Form::text('domicilio3', session()->get('values')->domicilio3 ?? '', [
+                                                            'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                            'class' => 'form-control pl-1',
+                                                        ]) !!}
+                                                    </div>
+                                                </div>
+                                                @error('domicilio3')
+                                                    <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                                @enderror
+                                            </div>
 
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-house-user"></i>
-                                            <label class="col-form-label ml-1">Domicilio
-                                                Linea1</label>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6 col-form-label">
+                                                            <label class="col-form-label text-primary">Codigo Postal* </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="input-group input-group-merge">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="far fa-address-card"></i></span>
+                                                                </div>
+                                                                {!! Form::text('codigoPostal', session()->get('values')->codigoPostal ?? '', [
+                                                                    'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                                    'class' => 'form-control ',
+                                                                ]) !!}
+                                                            </div>
+                                                        </div>
+                                                        @error('codigoPostal')
+                                                            <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-3 col-form-label">
+                                                            <label class="col-form-label text-primary">País *</label>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <div class="input-group input-group-merge">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
+                                                                </div>
+                                                                {{ Form::select('pais',
+                                                                (session()->has('paises')) 
+                                                                ? session()->get('paises')
+                                                                : $paises, 
+                                                                session()->has('values') ? session()->get('values')->pais : '',[
+                                                                   'placeholder' => 'Elegir pais',
+                                                                   'disabled' => session()->has('paises')
+                                                                       ? (session()->get('edit') == 1 ? false : true )
+                                                                       : false,
+                                                                   'class' => 'form-control  col-sm-12'
+                                                                ])}}
+                                                            </div>
+                                                        </div>
+                                                        @error('pais')
+                                                            <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+        
                                         </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="domicilio1"
-                                                placeholder="Domicilio 1"
-                                                value="{{ session()->get('sucursalVal')->domicilio1 ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
+        
                                     </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-house-user"></i>
-                                            <label class="col-form-label ml-1">Domicilio
-                                                Linea2</label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="domicilio2"
-                                                placeholder="Domicilio 2"
-                                                value="{{ session()->get('sucursalVal')->domicilio2 ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-house-user"></i>
-                                            <label class="col-form-label ml-1">Domicilio
-                                                Linea3<label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="domicilio3"
-                                                placeholder="Domicilio 3"
-                                                value="{{ session()->get('sucursalVal')->domicilio3 ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-flag"></i>
-                                            <label class="col-form-label ml-1">País</label>
-
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <select class="form-control" name="pais"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                                <option>{{ session()->get('sucursalVal')->pais ?? '' }}</option>
-                                                <option>MX-MEXICO</option>
-                                                <option>US-ESTADOS UNIDOS</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-5">
-                                            <i class="fas fa-address-card"></i>
-                                            <label class="col-form-label ml-1">
-                                                Codigo Postal
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control" name="codigoPostal"
-                                                placeholder="C.P"
-                                                value="{{ session()->get('sucursalVal')->codigoPostal ?? '' }}"
-                                                {{ session()->has('edit') && session()->get('edit') == 0 ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
-                        </div>
-
+    
                     </div>
-
-                    <div class="row d-flex justify-content-sm-around mt-2">
-
+                </div>
+                
+                <div class="row d-flex justify-content-sm-around mt-2">
+    
                         <button class="btn btn-secondary" type="submit">
                             {{ session()->get('edit') ? 'Actualizar' : 'Crear' }}
                         </button>
-
-                        <button class="btn btn-danger" type="submit">
-                            <i class="fas fa-ban mr-1"></i>
-
-                            Cancelar
-                        </button>
-
-                    </div>
+    
+                        <a href="{{ route('sucursales.index') }}">
+                            <div class="btn btn-danger">
+                                <i class="fas fa-ban mr-1"></i>
+                                Cancelar
+                            </div>
+                        </a>
+    
                 </div>
-            </form>
+    
+            {!! Form::close() !!}
+        </div>
         </div>
     </div>
 

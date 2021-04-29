@@ -22,7 +22,7 @@
                 <table class="table mb-3">
                     <thead>
                         <tr>
-                            <th scope="col">Descripción</th>
+                            <th scope="col">Sucursal</th>
                             <th scope="col">Dirección Completa</th>
                             <th scope="col">Telefono</th>
                             <th scope="col">Correo electrónico</th>
