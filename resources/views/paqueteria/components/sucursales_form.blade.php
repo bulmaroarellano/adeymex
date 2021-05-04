@@ -1,7 +1,8 @@
-{{-- +  MODAL CREATE --}}
-<div class="container sucursales-form">
+
+
+
+<div class="container sucursales-form mb-2">
     <div class="row d-flex justify-content-center">
-        {{-- action="{{ session()->get('edit') == 1 ? route('sucursales.update', session()->get('sucursalVal') ?? '') : route('sucursales.store') }}" --}}
 
         <div class="col-md-12">
             {!! Form::open([
@@ -21,7 +22,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-sm-4 col-form-label">
-                                                <label class="col-form-label text-primary">Sucursal *</label>
+                                                <label class="col-form-label ">Sucursal *</label>
                                             </div>
                                             <div class="col-sm-8">
                                                 <div class="input-group input-group-merge">
@@ -41,7 +42,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-sm-4 col-form-label">
-                                                <label class="col-form-label text-primary">Telefono *</label>
+                                                <label class="col-form-label ">Telefono *</label>
                                             </div>
                                             <div class="col-sm-8">
                                                 <div class="input-group input-group-merge">
@@ -62,7 +63,7 @@
 
                                         <div class="form-group row">
                                             <div class="col-sm-4 col-form-label">
-                                                <label class="col-form-label text-primary">Email *</label>
+                                                <label class="col-form-label ">Email *</label>
                                             </div>
                                             <div class="col-sm-8">
                                                 <div class="input-group input-group-merge">
@@ -86,7 +87,7 @@
                                         
                                         <div class="form-group row">
                                             <div class="col-sm-4 col-form-label">
-                                                <label class="col-form-label text-primary">Encargado *</label>
+                                                <label class="col-form-label ">Encargado *</label>
                                             </div>
                                             <div class="col-sm-8">
                                                 <div class="input-group input-group-merge">
@@ -117,7 +118,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group row">
                                                 <div class="col-sm-4 col-form-label">
-                                                    <label class="col-form-label text-primary">Domicilio Linea1 *</label>
+                                                    <label class="col-form-label ">Domicilio Linea1 *</label>
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div class="input-group input-group-merge">
@@ -137,7 +138,7 @@
 
                                             <div class="form-group row">
                                                 <div class="col-sm-4 col-form-label">
-                                                    <label class="col-form-label text-primary">Domicilio Linea2 </label>
+                                                    <label class="col-form-label ">Domicilio Linea2 </label>
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div class="input-group input-group-merge">
@@ -157,7 +158,7 @@
 
                                             <div class="form-group row">
                                                 <div class="col-sm-4 col-form-label">
-                                                    <label class="col-form-label text-primary">Domicilio Linea3 </label>
+                                                    <label class="col-form-label ">Domicilio Linea3 </label>
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <div class="input-group input-group-merge">
@@ -179,7 +180,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group row">
                                                         <div class="col-sm-6 col-form-label">
-                                                            <label class="col-form-label text-primary">Codigo Postal* </label>
+                                                            <label class="col-form-label ">Codigo Postal* </label>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="input-group input-group-merge">
@@ -201,7 +202,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group row">
                                                         <div class="col-sm-3 col-form-label">
-                                                            <label class="col-form-label text-primary">País *</label>
+                                                            <label class="col-form-label ">País *</label>
                                                         </div>
                                                         <div class="col-sm-9">
                                                             <div class="input-group input-group-merge">
@@ -239,7 +240,7 @@
                 
                 <div class="row d-flex justify-content-sm-around mt-2">
     
-                        <button class="btn btn-secondary" type="submit">
+                        <button class="btn btn-success" type="submit">
                             {{ session()->get('edit') ? 'Actualizar' : 'Crear' }}
                         </button>
     
@@ -255,7 +256,9 @@
             {!! Form::close() !!}
         </div>
         </div>
+
     </div>
 
 </div>
-{{-- +  MODAL FIN CREATE --}}
+
+

@@ -6,6 +6,8 @@ use App\Http\Requests\SucursalRequest;
 use App\Models\Pais;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+
 
 class SucursalesController extends Controller
 {
@@ -21,9 +23,35 @@ class SucursalesController extends Controller
 
         return view('/paqueteria/catalogos/sucursales', [
             'sucursales' => $sucursales,
-            'paises' => $paises, 
+            'paises' => $paises,
 
         ]);
+    }
+
+    public function getSucursales(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Sucursal::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($sucursal) {
+                    $actionBtn = '
+                    <td class="">
+                    <form action=" ' . route('sucursales.destroy', $sucursal) . ' " method="POST" class = "d-flex justify-content-around">
+                        <a href=" ' . route('sucursales.show', [$sucursal, '0']) . ' "> <i class="far fa-eye "></i> </a>
+                        <a href=" ' . route('sucursales.show', [$sucursal, '1']) . ' "><i class="fas fa-pen-alt"></i> </a>
+                        ' . csrf_field() . '
+                        ' . method_field('delete') . '
+                        <button class="" style="color: rgb(209, 3, 3);">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                        </form>
+                    </td> ';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     /**
@@ -58,10 +86,10 @@ class SucursalesController extends Controller
     public function show(Sucursal $sucursal, $edit)
     {
         $paises = Pais::all()->pluck('pais', 'pais');
-        
+
         return redirect()->route('sucursales.index')->with([
-            'values' => $sucursal, 
-            'paises' => $paises, 
+            'values' => $sucursal,
+            'paises' => $paises,
             'edit' => $edit
         ]);
     }
@@ -74,7 +102,6 @@ class SucursalesController extends Controller
      */
     public function edit(Sucursal $sucursal)
     {
-        
     }
 
     /**

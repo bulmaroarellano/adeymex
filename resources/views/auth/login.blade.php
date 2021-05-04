@@ -16,7 +16,8 @@
         <a href="javascript:void(0);" class="brand-logo">
           {{-- <i class="fas fa-shipping-fast"></i> --}}
           <div class="img-logo" style="width: calc(2rem + 5vw)">
-            <img src="../images/logo/adeymex-login.png" alt="" class="img-fluid">
+            {{-- <img src="../images/logo/adeymex-login.png" alt="" class="img-fluid"> --}}
+            <img src="{{asset('images/logo/adeymex-login.png')}}" alt="" class="img-fluid">
           </div>
           
         </a>
@@ -58,10 +59,10 @@
               <label class="custom-control-label" for="remember-me"> Remember Me </label>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary btn-block" tabindex="4">Iniciar sesión</button>
+          <button type="submit" class="btn btn-warning btn-block" tabindex="4">Iniciar sesión</button>
         </form>
 
-        <p class="text-center mt-2">
+        {{-- <p class="text-center mt-2">
           <span>New on our platform?</span>
           @if (Route::has('register'))
           <a href="{{ route('register') }}">
@@ -72,9 +73,9 @@
 
         <div class="divider my-2">
           <div class="divider-text">or</div>
-        </div>
+        </div> --}}
 
-        <div class="auth-footer-btn d-flex justify-content-center">
+        {{-- <div class="auth-footer-btn d-flex justify-content-center">
           <a href="javascript:void(0)" class="btn btn-facebook">
             <i data-feather="facebook"></i>
           </a>
@@ -87,7 +88,7 @@
           <a href="javascript:void(0)" class="btn btn-github">
             <i data-feather="github"></i>
           </a>
-        </div>
+        </div> --}}
       </div>
     </div>
     <!-- /Login v1 -->

@@ -13,7 +13,7 @@ use App\Http\Controllers\MercanciaController;
 use App\Http\Controllers\MonedaController;
 use App\Http\Controllers\PaisController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\PaqueteriaController;
+
 use App\Http\Controllers\RemitenteController;
 use App\Http\Controllers\SucursalesController;
 use App\Http\Controllers\SuministroController;
@@ -48,9 +48,9 @@ Route::get('layouts/blank', [StaterkitController::class, 'layout_blank'])->name(
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
 Route::group(['middleware' => ['auth']], function() {
-    // Route::get('/', [StaterkitController::class, 'home'])->name('home');
-    // Route::get('home', [StaterkitController::class, 'home'])->name('home');
-    Route::get('/', [SucursalesController::class, 'index'])->name('sucursales.index');
+    Route::get('/', [StaterkitController::class, 'home'])->name('home');
+    Route::get('home', [StaterkitController::class, 'home'])->name('home');
+    // Route::get('/', [SucursalesController::class, 'index'])->name('sucursales.index');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
@@ -76,6 +76,7 @@ Route::middleware('auth')->group(function() {
 
 //-SUCURSALES 
 Route::get('/sucursales', [SucursalesController::class, 'index'])->name('sucursales.index');
+Route::get('/sucursales/list', [SucursalesController::class, 'getSucursales'])->name('sucursales.list');
 Route::get('/sucursales/{sucursal}{edit}', [SucursalesController::class, 'show'])->name('sucursales.show');
 Route::put('/sucursales/{sucursal}', [SucursalesController::class, 'update'])->name('sucursales.update');
 Route::post('/sucursales', [SucursalesController::class, 'store'])->name('sucursales.store');

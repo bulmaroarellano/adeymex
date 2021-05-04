@@ -11,7 +11,8 @@ $configData = Helper::applClasses();
           </span>
           <h2 class="brand-text">Adeymex</h2> --}}
           <div class="img-logo " style="width: calc(2.88rem + 2vw)">
-            <img src="../images/logo/adeymex-login.png" alt="" class="img-fluid">
+            {{-- <img src="../images/logo/adeymex-login.png" alt="" class="img-fluid"> --}}
+            <img src="{{asset('images/logo/adeymex-login.png')}}" alt="" class="img-fluid">
           </div>
         </a>
       </li>
@@ -43,7 +44,7 @@ $configData = Helper::applClasses();
       }
       @endphp
       <li class="nav-item {{ Route::currentRouteName() === $menu->slug ? 'active' : '' }} {{ $custom_classes }}">
-        <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}">
+        <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}"  onclick="(function(e){e.preventDefault();})(event)">
           <i data-feather="{{ $menu->icon }}"></i>
           <span class="menu-title text-truncate">{{ __('locale.'.$menu->name) }}</span>
           @if (isset($menu->badge))
