@@ -64,6 +64,7 @@
     "/js/scripts/cards/card-advance.js": "/js/scripts/cards/card-advance.js",
     "/js/scripts/cards/card-analytics.js": "/js/scripts/cards/card-analytics.js",
     "/js/scripts/cards/card-statistics.js": "/js/scripts/cards/card-statistics.js",
+    "/js/scripts/catalogos/sucursales.js": "/js/scripts/catalogos/sucursales.js",
     "/js/scripts/charts/chart-apex.js": "/js/scripts/charts/chart-apex.js",
     "/js/scripts/charts/chart-chartjs.js": "/js/scripts/charts/chart-chartjs.js",
     "/js/scripts/components/components-alerts.js": "/js/scripts/components/components-alerts.js",

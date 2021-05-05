@@ -29,10 +29,7 @@
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
-
-                
-            </tbody>
+            
           </table>
         </div>
       </div>
@@ -127,31 +124,6 @@
 @endsection
 @section('page-script')
   {{-- Page js files --}}
-  {{-- <script src="{{ asset(mix('js/scripts/tables/table-datatables-basic.js')) }}"></script> --}}
-  <script type="text/javascript">
-    $(function () {
-      
-      var table = $('.datatables-basic').DataTable({
-          processing: true,
-          serverSide: true,
-          ajax: "{{ route('sucursales.list') }}",
-          columns: [
-            {data: 'sucursal'},
-            {data: 'domicilio1'},
-            {data: 'telefono'},
-            {data: 'email'},
-            {
-                data: 'action', 
-                name: 'action', 
-                orderable: true, 
-                searchable: true
-            },
-              
-          ]
-      });
-      
-    });
-  </script>
-@endsection
+  <script src="{{ asset(mix('js/scripts/catalogos/sucursales.js')) }}"></script>
 
-{{-- <td class="d-flex"> <a href="{{ route("sucursales.show", [$sucursal, "0"]) } "class="btn" style="color: rgb(66, 66, 219);"> <i class="far fa-eye"></i></a></td><td class="d-flex"> <a href="{{ route("sucursales.show", [$sucursal, "0"]) } "class="btn" style="color: rgb(66, 66, 219);"> <i class="far fa-eye"></i></a></td> --}}
+@endsection
