@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Pais;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PaisFactory extends Factory
@@ -22,9 +23,7 @@ class PaisFactory extends Factory
     public function definition()
     {
         return [
-            'pais' => $this->faker->country(), 
-            'codigoPais' => $this->faker->countryCode(),
-            'moneda' => $this->faker->currencyCode(),
+            'nombre' => $this->faker->country,
         ];
     }
 }

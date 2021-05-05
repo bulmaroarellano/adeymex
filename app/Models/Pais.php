@@ -2,19 +2,40 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Scopes\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pais extends Model
 {
-    use HasFactory;
     use SoftDeletes;
-    protected $table = "paises";
+    use HasFactory;
+    use Searchable;
 
-    protected $fillable = [
-        'pais', 
-        'codigoPais', 
-        'moneda', 
-    ];
+    protected $fillable = ['nombre'];
+
+    protected $searchableFields = ['*'];
+
+    protected $table = 'paises';
+
+    public function sucursals()
+    {
+        return $this->hasMany(Sucursal::class);
+    }
+
+    public function remitentes()
+    {
+        return $this->hasMany(Remitente::class);
+    }
+
+    public function destinatarios()
+    {
+        return $this->hasMany(Destinatario::class);
+    }
+
+    public function mercancias()
+    {
+        return $this->hasMany(Mercancia::class);
+    }
 }

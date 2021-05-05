@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreatePaisesTable extends Migration
 {
@@ -14,10 +14,8 @@ class CreatePaisesTable extends Migration
     public function up()
     {
         Schema::create('paises', function (Blueprint $table) {
-            $table->id();
-            $table->string('pais');
-            $table->string('codigoPais');
-            $table->string('moneda');
+            $table->bigIncrements('id');
+            $table->text('nombre');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,8 +29,5 @@ class CreatePaisesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('paises');
-        Schema::table('paises', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
     }
 }

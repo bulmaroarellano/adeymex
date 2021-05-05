@@ -2,16 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\CodigoPostal;
-use App\Models\Mensajeria;
-use App\Models\Moneda;
-use App\Models\Pais;
-use \App\Models\Role;
-use \App\Models\Permission;
-use App\Models\Sucursal;
-use App\Models\UnidadMedida;
 use Illuminate\Database\Seeder;
-use \App\Models\User as User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,23 +13,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call(BlockedTypeTableSeeder::class);
-        $this->call(BlockedItemsTableSeeder::class);    
-       // $this->call(PermissionTableSeeder::class);
-   
-  //      $this->call(PermissionTableSeeder::class);
-        $this->call(CreateUsers::class);
-        Sucursal::factory(8)->create();
-        Pais::factory(8)->create();
-        CodigoPostal::factory(8)->create();
-        Moneda::factory(8)->create();
-        UnidadMedida::factory(8)->create();
-        Mensajeria::factory(8)->create();
-        
-        $this->call(RemitenteSeeder::class);
-        $this->call(DestinatarioSeeder::class);
-        $this->call(SuministroSeeder::class);
-        $this->call(MercanciaSeeder::class);
+        // Adding an admin user
+        $user = \App\Models\User::factory()
+            ->count(1)
+            ->create([
+                'email' => 'admin@admin.com',
+                'password' => \Hash::make('admin'),
+            ]);
+        $this->call(PermissionsSeeder::class);
 
+        $this->call(SucursalSeeder::class);
+        $this->call(SuministroSeeder::class);
+        $this->call(MonedaSeeder::class);
+        $this->call(EmpresaSeeder::class);
+        $this->call(PaisSeeder::class);
+        $this->call(ClienteSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(MercanciaSeeder::class);
+        $this->call(UnidadSeeder::class);
+        $this->call(DestinatarioSeeder::class);
+        $this->call(EncargadoSeeder::class);
+        $this->call(RemitenteSeeder::class);
     }
 }

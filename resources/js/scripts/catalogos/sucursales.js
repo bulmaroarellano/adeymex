@@ -6,7 +6,7 @@ $(function () {
         serverSide: true,
         ajax: "/sucursales/list",
         columns: [
-            { data: 'sucursal' },
+            { data: 'nombre' },
             { data: 'domicilio1' },
             { data: 'telefono' },
             { data: 'email' },

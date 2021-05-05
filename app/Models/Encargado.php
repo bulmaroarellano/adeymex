@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Moneda extends Model
+class Encargado extends Model
 {
     use SoftDeletes;
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['nombre', 'codigo', 'simbolo'];
+    protected $fillable = ['nombre'];
 
     protected $searchableFields = ['*'];
 
-    public function mercancias()
+    public function sucursales()
     {
-        return $this->hasMany(Mercancia::class);
+        return $this->hasMany(Sucursal::class);
     }
 }

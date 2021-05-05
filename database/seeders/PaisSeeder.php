@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Destinatario;
+use App\Models\Pais;
 use Illuminate\Database\Seeder;
 
-class DestinatarioSeeder extends Seeder
+class PaisSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class DestinatarioSeeder extends Seeder
      */
     public function run()
     {
-        Destinatario::factory()
+        Pais::factory()
             ->count(5)
             ->create();
     }

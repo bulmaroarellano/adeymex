@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateMonedasTable extends Migration
 {
@@ -14,10 +14,10 @@ class CreateMonedasTable extends Migration
     public function up()
     {
         Schema::create('monedas', function (Blueprint $table) {
-            $table->id();
-            $table->string('moneda');
-            $table->string('codigo');
-            $table->string('simbolo');
+            $table->bigIncrements('id');
+            $table->text('nombre');
+            $table->text('codigo');
+            $table->text('simbolo');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,8 +31,5 @@ class CreateMonedasTable extends Migration
     public function down()
     {
         Schema::dropIfExists('monedas');
-        Schema::table('monedas', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
     }
 }

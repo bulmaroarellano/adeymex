@@ -7,15 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Moneda extends Model
+class Unidad extends Model
 {
     use SoftDeletes;
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['nombre', 'codigo', 'simbolo'];
+    protected $fillable = ['unidad_medida', 'abreviacion'];
 
     protected $searchableFields = ['*'];
+
+    protected $table = 'unidades';
 
     public function mercancias()
     {

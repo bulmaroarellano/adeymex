@@ -2,18 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Moneda;
+use App\Models\Encargado;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class MonedaFactory extends Factory
+class EncargadoFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Moneda::class;
+    protected $model = Encargado::class;
 
     /**
      * Define the model's default state.
@@ -23,9 +23,7 @@ class MonedaFactory extends Factory
     public function definition()
     {
         return [
-            'nombre' => $this->faker->currencyCode,
-            'codigo' => $this->faker->countryCode,
-            'simbolo' => $this->faker->languageCode,
+            'nombre' => $this->faker->name(),
         ];
     }
 }

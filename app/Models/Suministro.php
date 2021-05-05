@@ -2,19 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Scopes\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Suministro extends Model
 {
-    use HasFactory;
     use SoftDeletes;
-    protected $fillable = [
-        'sucursal', 
-        'producto', 
-        'costo', 
-        'precioPublico', 
+    use HasFactory;
+    use Searchable;
 
-    ];
+    protected $fillable = ['nombre', 'costo', 'precio_publico', 'sucursal_id'];
+
+    protected $searchableFields = ['*'];
+
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class);
+    }
 }
