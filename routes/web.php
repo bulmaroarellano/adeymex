@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\RemitenteController;
 use App\Http\Controllers\SucursalesController;
 use App\Http\Controllers\SuministroController;
+use App\Http\Controllers\UnidadController;
 use App\Http\Controllers\UnidadMedidaController;
 use Illuminate\Http\Request;
 
@@ -84,6 +85,7 @@ Route::delete('/sucursales/{sucursal}', [SucursalesController::class, 'destroy']
 
 //-REMITENTES
 Route::get('/remitentes', [RemitenteController::class, 'index'])->name('remitentes.index');
+Route::get('/remitentes/list', [RemitenteController::class, 'getRemitentes'])->name('remitentes.list');
 Route::get('/remitentes/{remitente}{edit}', [RemitenteController::class, 'show'])->name('remitentes.show');
 Route::put('/remitentes/{remitente}', [RemitenteController::class, 'update'])->name('remitentes.update');
 Route::post('/remitentes/', [RemitenteController::class, 'store'])->name('remitentes.store');
@@ -91,6 +93,7 @@ Route::delete('/remitentes/{remitente}', [RemitenteController::class, 'destroy']
 
 //-DESTINATARIO
 Route::get('/destinatarios', [DestinatarioController::class, 'index'])->name('destinatarios.index');
+Route::get('/destinatarios/list', [DestinatarioController::class, 'getDestinatarios'])->name('destinatarios.list');
 Route::get('/destinatarios/{destinatario}{edit}', [DestinatarioController::class, 'show'])->name('destinatarios.show');
 Route::put('/destinatarios/{destinatario}', [DestinatarioController::class, 'update'])->name('destinatarios.update');
 Route::post('/destinatarios/', [DestinatarioController::class, 'store'])->name('destinatarios.store');
@@ -98,6 +101,7 @@ Route::delete('/destinatarios/{destinatario}', [DestinatarioController::class, '
 
 //-SUMINISTROS 
 Route::get('/suministros', [SuministroController::class, 'index'])->name('suministros.index');
+Route::get('/suministros/list', [SuministroController::class, 'getSuministros'])->name('suministros.list');
 Route::get('/suministros/{suministro}{edit}', [SuministroController::class, 'show'])->name('suministros.show');
 Route::put('/suministros/{suministro}', [SuministroController::class, 'update'])->name('suministros.update');
 Route::post('/suministros/', [SuministroController::class, 'store'])->name('suministros.store');
@@ -105,6 +109,8 @@ Route::delete('/suministros/{suministro}', [SuministroController::class, 'destro
 
 //-PAISES 
 Route::get('/paises', [PaisController::class, 'index'])->name('paises.index');
+Route::get('/paises/list', [PaisController::class, 'getPaises'])->name('paises.list');
+Route::get('/paises-search', [PaisController::class, 'paisesSearch'])->name('paises.search');
 Route::get('/paises/{pais}{edit}', [PaisController::class, 'show'])->name('paises.show');
 Route::put('/paises/{pais}', [PaisController::class, 'update'])->name('paises.update');
 Route::post('/paises/', [PaisController::class, 'store'])->name('paises.store');
@@ -112,6 +118,7 @@ Route::delete('/paises/{pais}', [PaisController::class, 'destroy'])->name('paise
 
 //-CODIGOS POSTALES 
 Route::get('/codigospostales', [CodigoPostalController::class, 'index'])->name('codigosPostales.index');
+Route::get('/codigospostales/list', [CodigoPostalController::class, 'getCodigosPostales'])->name('codigosPostales.list');
 Route::get('/codigospostales/{codigoPostal}{edit}', [CodigoPostalController::class, 'show'])->name('codigosPostales.show');
 Route::put('/codigospostales/{codigoPostal}', [CodigoPostalController::class, 'update'])->name('codigosPostales.update');
 Route::post('/codigospostales/', [CodigoPostalController::class, 'store'])->name('codigosPostales.store');
@@ -121,6 +128,7 @@ Route::delete('/codigospostales/{codigoPostal}', [CodigoPostalController::class,
 
 //-MERCANCIAS 
 Route::get('/mercancias', [MercanciaController::class, 'index'])->name('mercancias.index');
+Route::get('/mercancias/list', [MercanciaController::class, 'getMercancias'])->name('mercancias.list');
 Route::get('/mercancias/{mercancia}{edit}', [MercanciaController::class, 'show'])->name('mercancias.show');
 Route::put('/mercancias/{mercancia}', [MercanciaController::class, 'update'])->name('mercancias.update');
 Route::post('/mercancias/', [MercanciaController::class, 'store'])->name('mercancias.store');
@@ -128,6 +136,7 @@ Route::delete('/mercancias/{mercancia}', [MercanciaController::class, 'destroy']
 
 //-MONEDAS
 Route::get('/monedas', [MonedaController::class, 'index'])->name('monedas.index');
+Route::get('/monedas/list', [MonedaController::class, 'getMonedas'])->name('monedas.list');
 Route::get('/monedas/{moneda}{edit}', [MonedaController::class, 'show'])->name('monedas.show');
 Route::put('/monedas/{moneda}', [MonedaController::class, 'update'])->name('monedas.update');
 Route::post('/monedas/', [MonedaController::class, 'store'])->name('monedas.store');
@@ -141,9 +150,10 @@ Route::post('/mensajerias/', [MensajeriaController::class, 'store'])->name('mens
 Route::delete('/mensajerias/{mensajeria}', [MensajeriaController::class, 'destroy'])->name('mensajerias.destroy');
 
 //-UNIDADES DE MEDIDA 
-Route::get('/unidadesmedidas', [UnidadMedidaController::class, 'index'])->name('unidadesMedida.index');
-Route::get('/unidadesmedidas/{unidadMedida}{edit}', [UnidadMedidaController::class, 'show'])->name('unidadesMedida.show');
-Route::put('/unidadesmedidas/{unidadMedida}', [UnidadMedidaController::class, 'update'])->name('unidadesMedida.update');
-Route::post('/unidadesmedidas/', [UnidadMedidaController::class, 'store'])->name('unidadesMedida.store');
-Route::delete('/unidadesmedidas/{unidadMedida}', [UnidadMedidaController::class, 'destroy'])->name('unidadesMedida.destroy');
+Route::get('/unidadesmedidas', [UnidadController::class, 'index'])->name('unidades.index');
+Route::get('/unidadesmedidas/list', [UnidadController::class, 'getUnidades'])->name('unidades.list');
+Route::get('/unidadesmedidas/{unidadMedida}{edit}', [UnidadController::class, 'show'])->name('unidades.show');
+Route::put('/unidadesmedidas/{unidadMedida}', [UnidadController::class, 'update'])->name('unidades.update');
+Route::post('/unidadesmedidas/', [UnidadController::class, 'store'])->name('unidades.store');
+Route::delete('/unidadesmedidas/{unidadMedida}', [UnidadController::class, 'destroy'])->name('unidades.destroy');
 

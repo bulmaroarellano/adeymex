@@ -9,17 +9,18 @@
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap4.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 @section('content')
 
-    <section class="sucursales">
+@include('paqueteria/components/remitentes_destinatarios_form')
 
-        @include('paqueteria/components/remitentes_destinatarios_form')
+<section id="basic-datatable">
 
-        <div class="container mt-2">
-
-            <div class="table-responsive">
-                <table class="table mb-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="card px-1">
+                <table class="datatables-basic table">
                     <thead>
                         <tr>
                             <th scope="col">Sucursal</th>
@@ -30,57 +31,12 @@
                             <th scope="col">Acciones </th>
                         </tr>
                     </thead>
-                    <tbody>
-
-                        @foreach ($remitentes as $remitente)
-                            <tr>
-                                <td>{{ $remitente->sucursal }}</td>
-                                <td>{{ $remitente->nombre }}</td>
-                                <td>{{ $remitente->apellidoP }}</td>
-                                <td>{{ $remitente->apellidoM }}</td>
-                                <td>{{ $remitente->domicilio1 }}, C.P: {{ $remitente->codigoPostal }},
-                                    {{ $remitente->pais }}
-                                </td>
-                                {{-- + Acciones --}}
-                                <td class="d-flex">
-                                    {{-- VER --}}
-                                    <a href="{{ route('remitentes.show', [$remitente, '0']) }}" class="btn"
-                                        style="color: rgb(66, 66, 219);">
-                                        <i class="far fa-eye"></i>
-                                    </a>
-
-                                    {{-- EDITAR --}}
-                                    <a href="{{ route('remitentes.show', [$remitente, '1']) }}" class="btn"
-                                        style="color: rgb(66, 66, 219);">
-                                        <i class="fas fa-pen-alt"></i>
-                                    </a>
-
-                                    <form action="{{ route('remitentes.destroy', $remitente) }}" method="POST">
-                                        {{-- BORRAR --}}
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn " style="color: rgb(209, 3, 3);">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
-
-                                    </form>
-
-                                </td>
-
-                            </tr>
-                        @endforeach
-
-
-                    </tbody>
                 </table>
             </div>
-
-            {{ $remitentes->links() }}
-
         </div>
+    </div>
 
-    </section>
-
+</section>
 
 
 @endsection
@@ -99,5 +55,12 @@
     <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
 
+@endsection
+
+@section('page-script')
+  {{-- Page js files --}}
+  <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/catalogos/paises-search.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/catalogos/remitentes.js')) }}"></script>
 
 @endsection

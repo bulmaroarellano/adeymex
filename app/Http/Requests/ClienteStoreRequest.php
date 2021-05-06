@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MonedaRequest extends FormRequest
+class ClienteStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class MonedaRequest extends FormRequest
     public function rules()
     {
         return [
-            'moneda' => 'required', 
-            'codigo' => 'required', 
-            'simbolo' => 'required', 
+            'nombre' => ['required', 'max:255', 'string'],
         ];
     }
 }

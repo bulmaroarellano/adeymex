@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RemitenteRequest;
+use App\Http\Requests\RemitenteStoreRequest;
+use App\Http\Requests\RemitenteUpdateRequest;
+use App\Models\Cliente;
+use App\Models\Empresa;
 use App\Models\Pais;
 use App\Models\Remitente;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class RemitenteController extends Controller
 {
@@ -19,15 +24,52 @@ class RemitenteController extends Controller
     {
 
         $remitentes = Remitente::orderBy('id', 'desc')->paginate(8);
-        $sucursalesName = Sucursal::all()->pluck('sucursal', 'sucursal');
-        $paises = Pais::all()->pluck('pais', 'pais');
+        $sucursalesName = Sucursal::all()->pluck('nombre', 'id');
+        $paises = Pais::all()->pluck('nombre', 'id');
+        $clientes = Cliente::all()->pluck('nombre', 'id');
+        $empresas = Empresa::all()->pluck('nombre', 'id');
         return view('/paqueteria/catalogos/remitentes', [
             'remitentes' => $remitentes,
             'paises' => $paises, 
+            'clientes' => $clientes, 
+            'empresas' => $empresas, 
             'sucursalesName' => $sucursalesName, 
             
         ]);
         
+    }
+
+    public function getRemitentes(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Remitente::latest()->get();
+            for ($i=0; $i < count($data); $i++) { 
+                $data[$i]['cliente_id'] = Cliente::where('id', $data[$i]['cliente_id'])->get();
+                $data[$i]['empresa_id'] = Empresa::where('id', $data[$i]['empresa_id'])->get();
+                $data[$i]['sucursal_id'] = Sucursal::where('id', $data[$i]['sucursal_id'])->get();
+                $data[$i]['pais_id'] = Pais::where('id', $data[$i]['pais_id'])->get();
+            }
+           
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($remitente) {
+                    $actionBtn = '
+                    <td class="">
+                    <form action=" ' . route('remitentes.destroy', $remitente) . ' " method="POST" class = "d-flex justify-content-around">
+                        <a href=" ' . route('remitentes.show', [$remitente, '0']) . ' "> <i class="far fa-eye "></i> </a>
+                        <a href=" ' . route('remitentes.show', [$remitente, '1']) . ' "><i class="fas fa-pen-alt"></i> </a>
+                        ' . csrf_field() . '
+                        ' . method_field('delete') . '
+                        <button class="" style="color: rgb(209, 3, 3);">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                        </form>
+                    </td> ';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     /**
@@ -46,7 +88,7 @@ class RemitenteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RemitenteRequest $request)
+    public function store(RemitenteStoreRequest $request)
     {
 
         Remitente::create($request->all());
@@ -62,13 +104,12 @@ class RemitenteController extends Controller
      */
     public function show(Remitente $remitente, $edit )
     {
-        // $sucursalesName = Sucursal::get(['descripcion']);
-        $sucursalesName = Sucursal::all()->pluck('sucursal', 'sucursal');
-        $paises = Pais::all()->pluck('pais', 'pais');
+
+        
+
         return redirect()->route('remitentes.index' )->with([
             'values' => $remitente, 
-            'sucursalesName' => $sucursalesName,
-            'paises' => $paises, 
+           
             'edit' => $edit
         ]);
     }
@@ -91,9 +132,9 @@ class RemitenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RemitenteRequest $request, Remitente $remitente)
+    public function update(RemitenteUpdateRequest $request, Remitente $remitente)
     {
-
+     
         $remitente->update($request->all());
         return redirect()->route('remitentes.index');
     }

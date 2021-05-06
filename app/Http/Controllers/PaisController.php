@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PaisRequest;
+use App\Http\Requests\PaisStoreRequest;
+use App\Http\Requests\PaisUpdateRequest;
 use App\Models\Pais;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class PaisController extends Controller
 {
@@ -23,6 +26,47 @@ class PaisController extends Controller
     
     }
 
+    public function getSuministros(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Pais::latest()->get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($suministro) {
+                    $actionBtn = '
+                    <td class="">
+                    <form action=" ' . route('suministros.destroy', $suministro) . ' " method="POST" class = "d-flex justify-content-around">
+                        <a href=" ' . route('suministros.show', [$suministro, '0']) . ' "> <i class="far fa-eye "></i> </a>
+                        <a href=" ' . route('suministros.show', [$suministro, '1']) . ' "><i class="fas fa-pen-alt"></i> </a>
+                        ' . csrf_field() . '
+                        ' . method_field('delete') . '
+                        <button class="" style="color: rgb(209, 3, 3);">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                        </form>
+                    </td> ';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+    }
+
+
+
+    public function paisesSearch(Request $request)
+    {
+    	$paises = [];
+
+        if($request->has('q')){
+            $search = $request->q;
+            $paises =Pais::select("id", "nombre")
+            		->where('nombre', 'LIKE', "%$search%")->limit(5)
+            		->get();
+        }
+        return response()->json($paises);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -39,7 +83,7 @@ class PaisController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PaisRequest $request)
+    public function store(PaisStoreRequest $request)
     {
         Pais::create($request->all());
         return redirect()->route('paises.index');
@@ -77,7 +121,7 @@ class PaisController extends Controller
      * @param  \App\Models\Pais  $pais
      * @return \Illuminate\Http\Response
      */
-    public function update(PaisRequest $request, Pais $pais)
+    public function update(PaisUpdateRequest $request, Pais $pais)
     {
         
         $pais->update($request->all());

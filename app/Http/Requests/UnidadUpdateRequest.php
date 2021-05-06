@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MercanciaRequest extends FormRequest
+class UnidadUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,8 @@ class MercanciaRequest extends FormRequest
     public function rules()
     {
         return [
-            'producto' => 'required', 
-            'productoIngles' => 'nullable', 
-            'claveInternacional' => 'required', 
-            'costo' => 'required', 
-            'moneda' => 'nullable', 
-            'unidadMedida' => 'nullable', 
-            'pais' => 'nullable', 
-            'peso' => 'nullable', 
+            'unidad_medida' => ['required', 'max:255', 'string'],
+            'abreviacion' => ['required', 'max:255', 'string'],
         ];
     }
 }

@@ -26,13 +26,13 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
                                                 </div>
-                                                {!! Form::text('pais', session()->get('values')->pais ?? '', [
+                                                {!! Form::text('nombre', session()->get('values')->nombre ?? '', [
                                                     'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
                                                     'class' => 'form-control pl-1',
                                                 ]) !!}
                                             </div>
                                         </div>
-                                        @error('pais')
+                                        @error('nombre')
                                             <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
                                         @enderror
                                     </div>

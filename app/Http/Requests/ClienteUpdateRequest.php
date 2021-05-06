@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CodigoPostalRequest extends FormRequest
+class ClienteUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,7 @@ class CodigoPostalRequest extends FormRequest
     public function rules()
     {
         return [
-            'codigoPostal' => 'required|size:5', 
-            'direccion' => 'required', 
-            'ciudad' => 'required', 
-            'codigoEstado' => 'required', 
-            'municipio' => 'required', 
+            'nombre' => ['required', 'max:255', 'string'],
         ];
     }
 }

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SucursalRequest;
+use App\Http\Requests\SucursalStoreRequest;
+use App\Http\Requests\SucursalUpdateRequest;
+use App\Models\Encargado;
 use App\Models\Pais;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
@@ -19,11 +22,14 @@ class SucursalesController extends Controller
     public function index()
     {
         $sucursales = Sucursal::orderBy('id', 'desc')->paginate(8);
-        $paises = Pais::all()->pluck('pais', 'pais');
+        $paises = Pais::all()->pluck('nombre', 'id');
+        $encargados = Encargado::all()->pluck('nombre', 'id');
+
 
         return view('/paqueteria/catalogos/sucursales', [
             'sucursales' => $sucursales,
             'paises' => $paises,
+            'encargados' => $encargados,
 
         ]);
     }
@@ -70,7 +76,7 @@ class SucursalesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SucursalRequest $request)
+    public function store(SucursalStoreRequest $request)
     {
         // return $request;
         Sucursal::create($request->all());
@@ -85,11 +91,9 @@ class SucursalesController extends Controller
      */
     public function show(Sucursal $sucursal, $edit)
     {
-        $paises = Pais::all()->pluck('pais', 'pais');
-
         return redirect()->route('sucursales.index')->with([
             'values' => $sucursal,
-            'paises' => $paises,
+
             'edit' => $edit
         ]);
     }
@@ -111,7 +115,7 @@ class SucursalesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SucursalRequest $request, Sucursal $sucursal)
+    public function update(SucursalUpdateRequest $request, Sucursal $sucursal)
     {
         $sucursal->update($request->all());
         return redirect()->route('sucursales.index');

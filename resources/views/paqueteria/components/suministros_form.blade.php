@@ -25,11 +25,17 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-store"></i></span>
                                                 </div>
-                                                {{ Form::select('sucursal', session()->has('sucursalesName') ? session()->get('sucursalesName') : $sucursalesName, session()->get('values')->sucursal ?? old('sucursales'), [
-                                                    'placeholder' => 'Elegir Sucursal',
-                                                    'disabled' => session()->has('values') ? (session()->get('edit') == 1 ? false : true) : false,
-                                                    'class' => 'form-control  col-md-10 pl-1',
-                                                ]) }}
+                                                {{ Form::select('sucursal_id',
+                                                    (session()->has('sucursalesName')) 
+                                                    ? session()->get('sucursalesName')
+                                                    : $sucursalesName, 
+                                                        session()->get('values')->sucursal_id ?? old('sucursales'),[
+                                                           'placeholder' => 'Elegir Sucursal',
+                                                           'disabled' => session()->has('values')
+                                                               ? (session()->get('edit') == 1 ? false : true )
+                                                               : false,
+                                                           'class' => 'form-control  col-md-10 pl-1'
+                                                ])}}
                                             </div>
                                             @error('sucursal')
                                                 <small class="alert alert-danger">{{ $message }}</small>
@@ -42,12 +48,12 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-archive"></i></span>
                                                 </div>
-                                                {!! Form::text('producto', session()->get('values')->producto ?? '', [
+                                                {!! Form::text('nombre', session()->get('values')->nombre ?? '', [
                                                     'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
                                                     'class' => 'form-control pl-1',
                                                 ]) !!}
                                             </div>
-                                            @error('producto')
+                                            @error('nombre')
                                                 <small class="alert alert-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
@@ -82,7 +88,7 @@
                                                     <span class="input-group-text"><i
                                                             class="fas fa-donate"></i></span>
                                                 </div>
-                                                {!! Form::text('precioPublico', session()->get('values')->precioPublico ?? '', [
+                                                {!! Form::text('precio_publico', session()->get('values')->precio_publico ?? '', [
                                                     'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
                                                     'class' => 'form-control pl-1',
                                                 ]) !!}

@@ -9,17 +9,17 @@
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap4.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 @section('content')
 
-    <section class="mercancias">
+@include('paqueteria/components/mercancias_form')
+<section id="basic-datatable">
 
-        @include('paqueteria/components/mercancias_form')
-
-        <div class="container mt-2">
-        
-            <div class="table-responsive">
-                <table class="table mb-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="card px-1">
+                <table class="datatables-basic table">
                     <thead>
                         <tr>
                             <th scope="col">Producto</th>
@@ -27,67 +27,17 @@
                             <th scope="col">Clave Internacional</th>
                             <th scope="col">Costo</th>
                             <th scope="col">Moneda</th>
-                            {{-- <th scope="col">Medida</th> --}}
                             <th scope="col">Unidad de Medida</th>
-                            {{-- <th scope="col">País</th> --}}
                             <th scope="col">Peso</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                       
-                        @foreach ($mercancias as $mercancia)
-                            <tr>
-                                <td>{{ $mercancia->producto }}</td>
-                                <td>{{ $mercancia->productoIngles }}</td>
-                                <td>{{ $mercancia->claveInternacional }}</td>
-                                <td>{{ $mercancia->costo }}</td>
-                                <td>{{ $mercancia->moneda }}</td>
-                                {{-- <td>{{ $mercancia->medida }}</td> --}}
-                                <td>{{ $mercancia->unidadMedida }}</td>
-                                {{-- <td>{{ $mercancia->pais }}</td> --}}
-                                <td>{{ $mercancia->peso }}</td>
-                                
-                                {{-- + Acciones --}}
-                                <td class="d-flex">
-                                    {{-- VER --}}
-                                    <a href="{{ route('mercancias.show', [$mercancia, '0']) }}" class="btn"
-                                        style="color: rgb(66, 66, 219);">
-                                        <i class="far fa-eye"></i>
-                                    </a>
-
-                                    {{-- EDITAR --}}
-                                    <a href="{{ route('mercancias.show', [$mercancia, '1']) }}" class="btn"
-                                        style="color: rgb(66, 66, 219);">
-                                        <i class="fas fa-pen-alt"></i>
-                                    </a>
-
-                                    <form action="{{ route('mercancias.destroy', $mercancia) }}" method="POST">
-                                        {{-- BORRAR --}}
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn " style="color: rgb(209, 3, 3);">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
-
-                                    </form>
-
-                                </td>
-
-                            </tr>
-                        @endforeach
-
-
-                    </tbody>
                 </table>
             </div>
-
-            {{ $mercancias->links() }}
-
         </div>
+    </div>
 
-    </section>
-
+</section>
 
 
 @endsection
@@ -106,5 +56,13 @@
     <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
 
+
+@endsection
+
+@section('page-script')
+  {{-- Page js files --}}
+  <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/catalogos/paises-search.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/catalogos/mercancias.js')) }}"></script>
 
 @endsection

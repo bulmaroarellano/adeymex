@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MonedaRequest;
-use App\Http\Requests\MonedaStoreRequest;
-use App\Http\Requests\MonedaUpdateRequest;
-use App\Models\Moneda;
+
+use App\Http\Requests\UnidadStoreRequest;
+use App\Http\Requests\UnidadUpdateRequest;
+use App\Models\Unidad;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class MonedaController extends Controller
+class UnidadController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,25 +18,25 @@ class MonedaController extends Controller
      */
     public function index()
     {
-        $monedas = Moneda::orderBy('id', 'desc')->paginate(8);
-
-        return view('/paqueteria/catalogos/monedas', [
-            'monedas' => $monedas,
+        $unidadesMedida = Unidad::orderBy('id', 'desc')->paginate(8);
+        return view('/paqueteria/catalogos/unidadesMedidas', [
+            'unidadesMedida' => $unidadesMedida,
         ]);
+
     }
 
-    public function getMonedas(Request $request)
+    public function getUnidades(Request $request)
     {
         if ($request->ajax()) {
-            $data = Moneda::latest()->get();
+            $data = Unidad::latest()->get();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', function ($moneda) {
+                ->addColumn('action', function ($unidad) {
                     $actionBtn = '
                     <td class="">
-                    <form action=" ' . route('monedas.destroy', $moneda) . ' " method="POST" class = "d-flex justify-content-around">
-                        <a href=" ' . route('monedas.show', [$moneda, '0']) . ' "> <i class="far fa-eye "></i> </a>
-                        <a href=" ' . route('monedas.show', [$moneda, '1']) . ' "><i class="fas fa-pen-alt"></i> </a>
+                    <form action=" ' . route('unidades.destroy', $unidad) . ' " method="POST" class = "d-flex justify-content-around">
+                        <a href=" ' . route('unidades.show', [$unidad, '0']) . ' "> <i class="far fa-eye "></i> </a>
+                        <a href=" ' . route('unidades.show', [$unidad, '1']) . ' "><i class="fas fa-pen-alt"></i> </a>
                         ' . csrf_field() . '
                         ' . method_field('delete') . '
                         <button class="" style="color: rgb(209, 3, 3);">
@@ -67,24 +67,23 @@ class MonedaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MonedaStoreRequest $request)
+    public function store(UnidadStoreRequest $request)
     {
-        Moneda::create($request->all());
-
-        return redirect()->route('monedas.index');
+        Unidad::create($request->all());
+        return redirect()->route('unidades.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Moneda  $moneda
+     * @param  \App\Models\Unidad  $unidadMedida
      * @return \Illuminate\Http\Response
      */
-    public function show(Moneda $moneda, $edit)
+    public function show(Unidad $unidadMedida, $edit)
     {
 
-        return redirect()->route('monedas.index' )->with([
-            'values' => $moneda,  
+        return redirect()->route('unidades.index' )->with([
+            'values' => $unidadMedida,  
             'edit' => $edit
         ]);
     }
@@ -92,10 +91,10 @@ class MonedaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Moneda  $moneda
+     * @param  \App\Models\UnidadMedida  $unidadMedida
      * @return \Illuminate\Http\Response
      */
-    public function edit(Moneda $moneda)
+    public function edit(Unidad $unidadMedida)
     {
         //
     }
@@ -104,26 +103,25 @@ class MonedaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Moneda  $moneda
+     * @param  \App\Models\Unidad  $unidadMedida
      * @return \Illuminate\Http\Response
      */
-    public function update(MonedaUpdateRequest $request, Moneda $moneda)
+    public function update(UnidadUpdateRequest $request, Unidad $unidadMedida)
     {
-        $moneda->update($request->all());
-        return redirect()->route('monedas.index');
+        $unidadMedida->update($request->all());
+        return redirect()->route('unidades.index');
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Moneda  $moneda
+     * @param  \App\Models\UnidadMedida  $unidadMedida
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Moneda $moneda)
+    public function destroy(Unidad $unidadMedida)
     {
-        $moneda->delete();
-        return redirect()->route('monedas.index');
-
+        $unidadMedida->delete();
+        return redirect()->route('unidades.index');
     }
 }

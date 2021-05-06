@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MercanciaRequest;
+use App\Http\Requests\MercanciaStoreRequest;
+use App\Http\Requests\MercanciaUpdateRequest;
 use App\Models\Mercancia;
 use App\Models\Moneda;
 use App\Models\Pais;
+use App\Models\Unidad;
 use App\Models\UnidadMedida;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class MercanciaController extends Controller
 {
@@ -19,9 +23,10 @@ class MercanciaController extends Controller
     public function index()
     {
         $mercancias = Mercancia::orderBy('id', 'desc')->paginate(8);
-        $monedas = Moneda::all()->pluck('moneda', 'moneda');
-        $unidadMedidas = UnidadMedida::all()->pluck('unidadMedida', 'unidadMedida');
-        $paises = Pais::all()->pluck('pais', 'pais');
+
+        $monedas = Moneda::all()->pluck('nombre', 'id');
+        $unidadMedidas = Unidad::all()->pluck('unidad_medida', 'id');
+        $paises = Pais::all()->pluck('nombre', 'id');
 
         return view('/paqueteria/catalogos/mercancias', [
             'mercancias' => $mercancias, 
@@ -29,6 +34,39 @@ class MercanciaController extends Controller
             'unidadMedidas' => $unidadMedidas,
             'paises' => $paises,
         ]);
+    }
+
+    public function getMercancias(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Mercancia::latest()->get();
+            for ($i=0; $i < count($data); $i++) { 
+                
+                $data[$i]['pais_id']   = Pais::where('id', $data[$i]['pais_id'])->get();
+                $data[$i]['moneda_id'] = Moneda::where('id', $data[$i]['moneda_id'])->get();
+                $data[$i]['unidad_id'] = Unidad::where('id', $data[$i]['unidad_id'])->get();
+            }
+           
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($mercancia) {
+                    $actionBtn = '
+                    <td class="">
+                    <form action=" ' . route('mercancias.destroy', $mercancia) . ' " method="POST" class = "d-flex justify-content-around">
+                        <a href=" ' . route('mercancias.show', [$mercancia, '0']) . ' "> <i class="far fa-eye "></i> </a>
+                        <a href=" ' . route('mercancias.show', [$mercancia, '1']) . ' "><i class="fas fa-pen-alt"></i> </a>
+                        ' . csrf_field() . '
+                        ' . method_field('delete') . '
+                        <button class="" style="color: rgb(209, 3, 3);">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                        </form>
+                    </td> ';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     /**
@@ -47,7 +85,7 @@ class MercanciaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MercanciaRequest $request)
+    public function store(MercanciaStoreRequest $request)
     {
         Mercancia::create($request->all());
         return redirect()->route('mercancias.index');
@@ -63,14 +101,8 @@ class MercanciaController extends Controller
     public function show(Mercancia $mercancia, $edit)
 
     {
-        $monedas = Moneda::all()->pluck('moneda', 'moneda');
-        $unidadMedidas = UnidadMedida::all()->pluck('unidadMedida', 'unidadMedida');
-        $paises = Pais::all()->pluck('pais', 'pais');
         return redirect()->route('mercancias.index' )->with([
             'values' => $mercancia,  
-            'monedas' => $monedas,
-            'unidadMedidas' => $unidadMedidas,
-            'paises' => $paises,
             'edit' => $edit
         ]);
     }
@@ -93,7 +125,7 @@ class MercanciaController extends Controller
      * @param  \App\Models\Mercancia  $mercancia
      * @return \Illuminate\Http\Response
      */
-    public function update(MercanciaRequest $request, Mercancia $mercancia)
+    public function update(MercanciaUpdateRequest $request, Mercancia $mercancia)
     {
         $mercancia->update($request->all());
         return redirect()->route('mercancias.index');

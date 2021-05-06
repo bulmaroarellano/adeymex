@@ -3,7 +3,7 @@
     <div class="row d-flex justify-content-center">
         <div class="col-md-12 ">
             {!! Form::open([
-                'route' => session()->get('edit') == 1 ? ['unidadesMedida.update', session()->get('values') ?? ''] : 'unidadesMedida.store',
+                'route' => session()->get('edit') == 1 ? ['unidades.update', session()->get('values') ?? ''] : 'unidades.store',
                 'method' => session()->get('edit') == 1 ? 'PUT' : 'POST',
             ]) !!}
                 <div class="col-md-12">
@@ -25,13 +25,13 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-weight-hanging"></i></span>
                                                 </div>
-                                                {!! Form::text('unidadMedida', session()->get('values')->unidadMedida ?? '', [
+                                                {!! Form::text('unidad_medida', session()->get('values')->unidad_medida ?? '', [
                                                     'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
                                                     'class' => 'form-control pl-1',
                                                 ]) !!}
                                             </div>
                                         </div>
-                                        @error('unidadMedida')
+                                        @error('unidad_medida')
                                             <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -68,7 +68,7 @@
                             <button class="btn btn-secondary" type="submit">
                                 {{ session()->get('edit') ? 'Actualizar' : 'Crear' }}
                             </button>
-                            <a href="{{ route('unidadesMedida.index') }}">
+                            <a href="{{ route('unidades.index') }}">
                                 <div class="btn btn-danger">
                                     <i class="fas fa-ban mr-1"></i>
                                     Cancelar

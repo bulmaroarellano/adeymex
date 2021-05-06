@@ -1,6 +1,15 @@
 {{-- +  MODAL CREATE --}}
 <div class="container sucursales-form">
     <div class="row d-flex justify-content-center">
+        @if ($errors->any())
+             <div class="alert alert-danger">
+                 <ul>
+                     @foreach ($errors->all() as $error)
+                         <li>{{ $error }}</li>
+                     @endforeach
+                 </ul>
+             </div>
+        @endif
         <div class="col-md-12 ">
 
             {!! Form::open([
@@ -25,11 +34,11 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-store"></i></span>
                                             </div>
-                                            {{ Form::select('sucursal',
+                                            {{ Form::select('sucursal_id',
                                             (session()->has('sucursalesName')) 
                                             ? session()->get('sucursalesName')
                                             : $sucursalesName, 
-                                                session()->get('values')->sucursal ?? old('sucursales'),[
+                                                session()->get('values')->sucursal_id ?? old('sucursales'),[
                                                    'placeholder' => 'Elegir Sucursal',
                                                    'disabled' => session()->has('values')
                                                        ? (session()->get('edit') == 1 ? false : true )
@@ -70,7 +79,7 @@
                                                 <span class="input-group-text"><i class="far fa-user"></i></span>
                                             </div>
                                             {!! Form::text(
-                                                'apellidoP', session()->get('values')->apellidoP ?? '',[
+                                                'apellido_paterno', session()->get('values')->apellido_paterno ?? '',[
                                                     'readonly' => session()->has('edit') 
                                                     ? session()->get('edit') == 0 ? true : false
                                                     : false,
@@ -79,7 +88,7 @@
                                             !!}
                                             
                                         </div>
-                                        @error('apellidoP')
+                                        @error('apellido_paterno')
                                             <small class="alert alert-danger">{{$message}}</small>
                                         @enderror
                                     </div>
@@ -91,7 +100,7 @@
                                                 <span class="input-group-text"><i class="far fa-user"></i></span>
                                             </div>
                                             {!! Form::text(
-                                                'apellidoM', session()->get('values')->apellidoM ?? '',[
+                                                'apellido_materno', session()->get('values')->apellido_materno ?? '',[
                                                     'readonly' => session()->has('edit') 
                                                     ? session()->get('edit') == 0 ? true : false
                                                     : false,
@@ -112,14 +121,17 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-building"></i></span>
                                             </div>
-                                            {!! Form::text(
-                                                'empresa', session()->get('values')->empresa ?? '',[
-                                                    'readonly' => session()->has('edit') 
-                                                    ? session()->get('edit') == 0 ? true : false
-                                                    : false, 
-                                                    'class' => 'form-control pl-1'
-                                                ]) 
-                                            !!}
+                                            {{ Form::select('empresa_id',
+                                                    (session()->has('empresas')) 
+                                                    ? session()->get('empresas')
+                                                    : $empresas, 
+                                                    session()->has('values') ? session()->get('values')->empresa_id : '',[
+                                                        'placeholder' => '',
+                                                        'disabled' => session()->has('values')
+                                                            ? (session()->get('edit') == 1 ? false : true )
+                                                            : false,
+                                                        'class' => 'empresas-search form-control  col-sm-12'
+                                            ])}}
                                         </div>
                                     </div>
 
@@ -151,14 +163,18 @@
                                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                                                 </div>
 
-                                                {!! Form::text(
-                                                    'tipoCliente', session()->get('values')->tipoCliente ?? 'General',[
-                                                        'readonly' => session()->has('edit') 
-                                                        ? session()->get('edit') == 0 ? true : true
-                                                        : true,
-                                                        'class' => 'form-control pl-1'
-                                                    ]) 
-                                                !!}
+                                                
+                                                {{ Form::select('cliente_id',
+                                                (session()->has('clientes')) 
+                                                ? session()->get('clientes')
+                                                : $clientes, 
+                                                session()->has('values') ? session()->get('values')->cliente_id : '',[
+                                                   'placeholder' => '',
+                                                   'disabled' => session()->has('clientes')
+                                                       ? (session()->get('edit') == 1 ? false : true )
+                                                       : false,
+                                                   'class' => 'clientes-search form-control  col-sm-12'
+                                                ])}}
                                             </div>
                                         </div>
                                     @endif
@@ -262,7 +278,7 @@
                                                       <span class="input-group-text"><i class="far fa-address-card"></i></span>
                                                     </div>
                                                     {!! Form::text(
-                                                        'codigoPostal', session()->get('values')->codigoPostal ?? '',[
+                                                        'codigo_postal', session()->get('values')->codigo_postal ?? '',[
                                                             'readonly' => session()->has('edit') 
                                                             ? session()->get('edit') == 0 ? true : false
                                                             : false,
@@ -281,21 +297,20 @@
                                                 <label class="col-form-label mr-3 text-primary">País * </label>
                                                 
                                                 <div class="input-group input-group-merge">
-                                                    <div class="input-group-prepend">
-                                                      <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
-                                                    </div>
-                                                    {{ Form::select('pais',
+                                                   
+                                                    {{ Form::select('pais_id',
                                                         (session()->has('paises')) 
                                                         ? session()->get('paises')
                                                         : $paises, 
-                                                        session()->has('values') ? session()->get('values')->pais : '',[
-                                                           'placeholder' => 'Elegir pais',
+                                                        session()->has('values') ? session()->get('values')->pais_id : '',[
+                                                           'placeholder' => '',
                                                            'disabled' => session()->has('paises')
                                                                ? (session()->get('edit') == 1 ? false : true )
                                                                : false,
-                                                           'class' => 'form-control  col-sm-12'
+                                                           'class' => 'paises-search form-control  col-sm-12'
                                                         ])}}
                                                 </div>
+                                                
                                             </div>
                                             @error('pais')
                                                 <small class="alert alert-danger ml-2">{{$message}}</small>

@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DestinatarioRequest;
+use App\Http\Requests\DestinatarioStoreRequest;
+use App\Http\Requests\DestinatarioUpdateRequest;
 use App\Models\Destinatario;
+use App\Models\Empresa;
 use App\Models\Pais;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class DestinatarioController extends Controller
 {
@@ -18,14 +22,48 @@ class DestinatarioController extends Controller
     public function index()
     {
         $destinatarios = Destinatario::orderBy('id', 'desc')->paginate(8);
-        $sucursalesName = Sucursal::all()->pluck('sucursal', 'sucursal');
-        $paises = Pais::all()->pluck('pais', 'pais');
+        $sucursalesName = Sucursal::all()->pluck('nombre', 'id');
+        $paises = Pais::all()->pluck('nombre', 'id');
+        $empresas = Empresa::all()->pluck('nombre', 'id');
         return view('/paqueteria/catalogos/destinatarios', [
             'destinatarios' => $destinatarios,
             'paises' => $paises, 
+            'empresas' => $empresas, 
             'sucursalesName' => $sucursalesName,
 
         ]);
+    }
+
+    public function getDestinatarios(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Destinatario::latest()->get();
+            for ($i=0; $i < count($data); $i++) { 
+                $data[$i]['empresa_id'] = Empresa::where('id', $data[$i]['empresa_id'])->get();
+                $data[$i]['sucursal_id'] = Sucursal::where('id', $data[$i]['sucursal_id'])->get();
+                $data[$i]['pais_id'] = Pais::where('id', $data[$i]['pais_id'])->get();
+            }
+           
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($remitente) {
+                    $actionBtn = '
+                    <td class="">
+                    <form action=" ' . route('remitentes.destroy', $remitente) . ' " method="POST" class = "d-flex justify-content-around">
+                        <a href=" ' . route('remitentes.show', [$remitente, '0']) . ' "> <i class="far fa-eye "></i> </a>
+                        <a href=" ' . route('remitentes.show', [$remitente, '1']) . ' "><i class="fas fa-pen-alt"></i> </a>
+                        ' . csrf_field() . '
+                        ' . method_field('delete') . '
+                        <button class="" style="color: rgb(209, 3, 3);">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                        </form>
+                    </td> ';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     /**
@@ -43,7 +81,7 @@ class DestinatarioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DestinatarioRequest $request)
+    public function store(DestinatarioStoreRequest $request)
     {
    
         Destinatario::create($request->all());
@@ -59,12 +97,10 @@ class DestinatarioController extends Controller
     public function show(Destinatario $destinatario, $edit)
     {
         //TODO : checar cuando enviar los nombre de las sucursales 
-        $sucursalesName = Sucursal::all()->pluck('sucursal', 'sucursal');
-        $paises = Pais::all()->pluck('pais', 'pais');
+
         return redirect()->route('destinatarios.index')->with([
             'values' => $destinatario,
-            'sucursalesName' => $sucursalesName ?? '',
-            'paises' => $paises, 
+
             'edit' => $edit
         ]);
     }
@@ -87,7 +123,7 @@ class DestinatarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(DestinatarioRequest $request, Destinatario $destinatario)
+    public function update(DestinatarioUpdateRequest $request, Destinatario $destinatario)
     {
         $destinatario->update($request->all());
         return redirect()->route('destinatarios.index');

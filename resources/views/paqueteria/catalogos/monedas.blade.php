@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Codigos Postales')
+@section('title', 'Monedas')
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -11,15 +11,13 @@
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
 @endsection
 @section('content')
+@include('paqueteria/components/monedas_form')
+<section id="basic-datatable">
 
-    <section class="monedas">
-
-        @include('paqueteria/components/monedas_form')
-
-        <div class="container mt-2">
-        
-            <div class="table-responsive">
-                <table class="table mb-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="card px-1">
+                <table class="datatables-basic table">
                     <thead>
                         <tr>
                             <th scope="col">Moneda</th>
@@ -28,53 +26,12 @@
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                       
-                        @foreach ($monedas as $moneda)
-                            <tr>
-                                <td>{{ $moneda->moneda }}</td>
-                                <td>{{ $moneda->codigo }}</td>
-                                <td>{{ $moneda->simbolo }}</td>
-                                
-                                {{-- + Acciones --}}
-                                <td class="d-flex">
-                                    {{-- VER --}}
-                                    <a href="{{ route('monedas.show', [$moneda, '0']) }}" class="btn"
-                                        style="color: rgb(66, 66, 219);">
-                                        <i class="far fa-eye"></i>
-                                    </a>
-
-                                    {{-- EDITAR --}}
-                                    <a href="{{ route('monedas.show', [$moneda, '1']) }}" class="btn"
-                                        style="color: rgb(66, 66, 219);">
-                                        <i class="fas fa-pen-alt"></i>
-                                    </a>
-
-                                    <form action="{{ route('monedas.destroy', $moneda) }}" method="POST">
-                                        {{-- BORRAR --}}
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn " style="color: rgb(209, 3, 3);">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
-
-                                    </form>
-
-                                </td>
-
-                            </tr>
-                        @endforeach
-
-
-                    </tbody>
                 </table>
             </div>
-
-            {{ $monedas->links() }}
-
         </div>
+    </div>
 
-    </section>
+</section>
 
 
 
@@ -94,5 +51,11 @@
     <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
 
+@endsection
+
+@section('page-script')
+  {{-- Page js files --}}
+
+  <script src="{{ asset(mix('js/scripts/catalogos/monedas.js')) }}"></script>
 
 @endsection

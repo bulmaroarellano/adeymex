@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SucursalRequest extends FormRequest
+class MonedaStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,9 @@ class SucursalRequest extends FormRequest
     public function rules()
     {
         return [
-            'sucursal' => 'required',
-            'telefono' => 'required',
-            'email' => 'required',
-            'encargado' => 'required',
-            'domicilio1' => 'required',
-            'domicilio2' => 'required',
-            'domicilio3' => 'required',
-            'pais' => 'required',
-            'codigoPostal' => 'required',
+            'nombre' => ['required', 'max:255', 'string'],
+            'codigo' => ['required', 'max:255', 'string'],
+            'simbolo' => ['required', 'max:255', 'string'],
         ];
     }
 }

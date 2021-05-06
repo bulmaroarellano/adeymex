@@ -10,73 +10,31 @@
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
 @endsection
+
 @section('content')
+@include('paqueteria/components/suministros_form')
 
-    <section class="suministros">
+<section id="basic-datatable">
 
-        @include('paqueteria/components/suministros_form')
-
-        <div class="container mt-2">
-
-            <div class="table-responsive">
-                <table class="table mb-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="card px-1">
+                <table class="datatables-basic table">
                     <thead>
                         <tr>
                             <th scope="col">Sucursal</th>
                             <th scope="col">Producto</th>
                             <th scope="col">Costo</th>
                             <th scope="col">Precio al publico</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-
-                        @foreach ($suministros as $suministro)
-                            <tr>
-                                <td>{{ $suministro->sucursal }}</td>
-                                <td>{{ $suministro->producto }}</td>
-                                <td>{{ $suministro->costo }}</td>
-                                <td>{{ $suministro->precioPublico}}</td>
-                                
-                                {{-- + Acciones --}}
-                                <td class="d-flex">
-                                    {{-- VER --}}
-                                    <a href="{{ route('suministros.show', [$suministro, '0']) }}" class="btn"
-                                        style="color: rgb(66, 66, 219);">
-                                        <i class="far fa-eye"></i>
-                                    </a>
-
-                                    {{-- EDITAR --}}
-                                    <a href="{{ route('suministros.show', [$suministro, '1']) }}" class="btn"
-                                        style="color: rgb(66, 66, 219);">
-                                        <i class="fas fa-pen-alt"></i>
-                                    </a>
-
-                                    <form action="{{ route('suministros.destroy', $suministro) }}" method="POST">
-                                        {{-- BORRAR --}}
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn " style="color: rgb(209, 3, 3);">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
-
-                                    </form>
-
-                                </td>
-
-                            </tr>
-                        @endforeach
-
-
-                    </tbody>
                 </table>
             </div>
-
-            {{ $suministros->links() }}
-
         </div>
+    </div>
 
-    </section>
-
+</section>
 
 
 @endsection
@@ -95,5 +53,12 @@
     <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
 
+@endsection
+
+@section('page-script')
+  {{-- Page js files --}}
+
+  <script src="{{ asset(mix('js/scripts/catalogos/suministros.js')) }}"></script>
 
 @endsection
+

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UnidadeMedidaRequest extends FormRequest
+class SuministroUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,10 @@ class UnidadeMedidaRequest extends FormRequest
     public function rules()
     {
         return [
-            'unidadMedida' => 'required', 
-            'abreviacion' => 'required', 
+            'nombre' => ['required', 'max:255', 'string'],
+            'costo' => ['required', 'max:255', 'string'],
+            'precio_publico' => ['required', 'max:255', 'string'],
+            'sucursal_id' => ['required', 'exists:sucursales,id'],
         ];
     }
 }

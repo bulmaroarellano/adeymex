@@ -50,7 +50,7 @@
                                                         <span class="input-group-text"><i class="far fa-user"></i></span>
                                                     </div>
                                                     {!! Form::text(
-                                                        'productoIngles', session()->get('values')->productoIngles ?? '',[
+                                                        'producto_ingles', session()->get('values')->producto_ingles ?? '',[
                                                             'readonly' => session()->has('edit') 
                                                             ? session()->get('edit') == 0 ? true : false
                                                             : false,
@@ -58,7 +58,7 @@
                                                         ]) 
                                                     !!}
                                                 </div>
-                                                @error('productoIngles')
+                                                @error('producto_ingles')
                                                     <small class="alert alert-danger">{{$message}}</small>
                                                 @enderror
                                             </div>
@@ -69,7 +69,7 @@
                                                         <span class="input-group-text"><i class="far fa-user"></i></span>
                                                     </div>
                                                     {!! Form::text(
-                                                        'claveInternacional', session()->get('values')->claveInternacional ?? '',[
+                                                        'clave_internacional', session()->get('values')->clave_internacional ?? '',[
                                                             'readonly' => session()->has('edit') 
                                                             ? session()->get('edit') == 0 ? true : false
                                                             : false,
@@ -77,7 +77,7 @@
                                                         ]) 
                                                     !!}
                                                 </div>
-                                                @error('claveInternacional')
+                                                @error('clave_internacional')
                                                     <small class="alert alert-danger">{{$message}}</small>
                                                 @enderror
                                             </div>
@@ -108,11 +108,11 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-coins"></i></span>
                                                     </div>
-                                                    {{ Form::select('moneda',
+                                                    {{ Form::select('moneda_id',
                                                     (session()->has('monedas')) 
                                                     ? session()->get('monedas')
                                                     : $monedas, 
-                                                        session()->get('values')->moneda ?? '',[
+                                                        session()->get('values')->moneda_id ?? '',[
                                                            'placeholder' => 'Elegir Moneda',
                                                            'disabled' => session()->has('values')
                                                                ? (session()->get('edit') == 1 ? false : true )
@@ -120,7 +120,7 @@
                                                            'class' => 'form-control  col-md-10 pl-1'
                                                     ])}}
                                                 </div>
-                                                @error('moneda')
+                                                @error('moneda_id')
                                                         <small class="alert alert-danger">{{$message}}</small>
                                                 @enderror
                                             </div>
@@ -154,11 +154,11 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-balance-scale"></i></span>
                                                     </div>
-                                                    {{ Form::select('unidadMedida',
+                                                    {{ Form::select('unidad_id',
                                                     (session()->has('unidadMedidas')) 
                                                     ? session()->get('unidadMedidas')
                                                     : $unidadMedidas, 
-                                                        session()->get('values')->unidadMedida ?? '',[
+                                                        session()->get('values')->unidad_id ?? '',[
                                                            'placeholder' => 'Elegir Unidad de Medida',
                                                            'disabled' => session()->has('values')
                                                                ? (session()->get('edit') == 1 ? false : true )
@@ -166,7 +166,7 @@
                                                            'class' => 'form-control  col-md-10 pl-1'
                                                     ])}}
                                                 </div>
-                                                @error('unidadMedida')
+                                                @error('unidad_id')
                                                         <small class="alert alert-danger">{{$message}}</small>
                                                 @enderror
                                             </div>
@@ -174,20 +174,18 @@
                                             <div class="form-group">
                                                 <label class="col-form-label  text-primary">Pais</label>
                                                 <div class="input-group input-group-merge">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="fas fa-globe-americas"></i></span>
-                                                    </div>
-                                                    {{ Form::select('pais',
-                                                    (session()->has('paises')) 
-                                                    ? session()->get('paises')
-                                                    : $paises, 
-                                                        session()->get('values')->pais ?? '',[
-                                                           'placeholder' => 'Elegir Pais',
-                                                           'disabled' => session()->has('values')
+                                                    
+                                                    {{ Form::select('pais_id',
+                                                        (session()->has('paises')) 
+                                                        ? session()->get('paises')
+                                                        : $paises, 
+                                                        session()->has('values') ? session()->get('values')->pais_id : '',[
+                                                           'placeholder' => '',
+                                                           'disabled' => session()->has('paises')
                                                                ? (session()->get('edit') == 1 ? false : true )
                                                                : false,
-                                                           'class' => 'form-control  col-md-10 pl-1'
-                                                    ])}}
+                                                           'class' => 'paises-search form-control  col-sm-12'
+                                                        ])}}
                                                 </div>
                                                 @error('pais')
                                                         <small class="alert alert-danger">{{$message}}</small>
