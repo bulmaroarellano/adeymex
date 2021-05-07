@@ -13,7 +13,7 @@ class Pais extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'codigo', 'moneda_id'];
 
     protected $searchableFields = ['*'];
 
@@ -37,5 +37,10 @@ class Pais extends Model
     public function mercancias()
     {
         return $this->hasMany(Mercancia::class);
+    }
+
+    public function moneda()
+    {
+        return $this->belongsTo(Moneda::class);
     }
 }

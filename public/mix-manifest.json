@@ -64,6 +64,7 @@
     "/js/scripts/cards/card-advance.js": "/js/scripts/cards/card-advance.js",
     "/js/scripts/cards/card-analytics.js": "/js/scripts/cards/card-analytics.js",
     "/js/scripts/cards/card-statistics.js": "/js/scripts/cards/card-statistics.js",
+    "/js/scripts/catalogos/codigos-postales.js": "/js/scripts/catalogos/codigos-postales.js",
     "/js/scripts/catalogos/destinatarios.js": "/js/scripts/catalogos/destinatarios.js",
     "/js/scripts/catalogos/mercancias.js": "/js/scripts/catalogos/mercancias.js",
     "/js/scripts/catalogos/monedas.js": "/js/scripts/catalogos/monedas.js",

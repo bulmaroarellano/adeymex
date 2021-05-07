@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Mercancia;
+use App\Models\Pais;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -29,7 +30,7 @@ class MercanciaFactory extends Factory
             'costo' => $this->faker->randomNumber,
             'medida' => $this->faker->randomNumber,
             'peso' => $this->faker->randomNumber,
-            'pais_id' => \App\Models\Pais::factory(),
+            'pais_id' => $this->faker->randomElement(Pais::pluck('id')->all()),
             'moneda_id' => \App\Models\Moneda::factory(),
             'unidad_id' => \App\Models\Unidad::factory(),
         ];

@@ -27,7 +27,6 @@ class SucursalUpdateRequest extends FormRequest
             'nombre' => ['required', 'max:255', 'string'],
             'telefono' => ['required', 'max:255', 'string'],
             'email' => ['required', 'max:255', 'string'],
-            'encargado_id' => ['required', 'exists:encargados,id'],
             'codigo_postal' => ['required', 'max:255', 'string'],
             'pais_id' => ['required', 'exists:paises,id'],
             'domicilio1' => ['required', 'max:255', 'string'],

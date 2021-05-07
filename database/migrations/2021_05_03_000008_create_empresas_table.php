@@ -17,8 +17,9 @@ class CreateEmpresasTable extends Migration
             $table->bigIncrements('id');
             $table->text('nombre');
             $table->text('descripcion')->nullable();
-            $table->softDeletes();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

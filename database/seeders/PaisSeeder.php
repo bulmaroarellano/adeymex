@@ -15,10 +15,14 @@ class PaisSeeder extends Seeder
      */
     public function run()
     {
+
         $countries = new Countries();
         $paises = $countries->all()->pluck('name.common')->toArray();
         Pais::factory()
-            ->count(count($paises) - 40)
+            ->count(count($paises))
             ->create();
+        // Pais::factory()
+        //     ->count(5)
+        //     ->create();
     }
 }

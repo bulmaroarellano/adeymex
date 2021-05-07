@@ -17,8 +17,9 @@ class CreateUnidadesTable extends Migration
             $table->bigIncrements('id');
             $table->text('unidad_medida');
             $table->text('abreviacion');
-            $table->softDeletes();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

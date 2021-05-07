@@ -18,14 +18,14 @@ class CreateSucursalesTable extends Migration
             $table->text('nombre');
             $table->text('telefono');
             $table->text('email');
-            $table->unsignedBigInteger('encargado_id');
             $table->text('codigo_postal');
-            $table->unsignedBigInteger('pais_id');
             $table->text('domicilio1');
             $table->text('domicilo2')->nullable();
             $table->text('domicilio3')->nullable();
-            $table->softDeletes();
+            $table->unsignedBigInteger('pais_id');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

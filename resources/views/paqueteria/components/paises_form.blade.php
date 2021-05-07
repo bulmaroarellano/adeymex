@@ -44,13 +44,13 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                                 </div>
-                                                {!! Form::text('codigoPais', session()->get('values')->codigoPais ?? '', [
+                                                {!! Form::text('codigo', session()->get('values')->codigo ?? '', [
                                                     'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
                                                     'class' => 'form-control pl-1',
                                                 ]) !!}
                                             </div>
                                         </div>
-                                        @error('codigoPais')
+                                        @error('codigo')
                                             <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -63,13 +63,20 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-coins"></i></span>
                                                 </div>
-                                                {!! Form::text('moneda', session()->get('values')->moneda ?? '', [
-                                                    'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
-                                                    'class' => 'form-control pl-1',
-                                                ]) !!}
+                                                {{ Form::select('moneda_id',
+                                                    (session()->has('monedas')) 
+                                                    ? session()->get('monedas')
+                                                    : $monedas, 
+                                                        session()->get('values')->moneda_id ?? '',[
+                                                           'placeholder' => 'Elegir Moneda',
+                                                           'disabled' => session()->has('values')
+                                                               ? (session()->get('edit') == 1 ? false : true )
+                                                               : false,
+                                                           'class' => 'form-control  col-md-10 pl-1'
+                                            ])}}
                                             </div>
                                         </div>
-                                        @error('moneda')
+                                        @error('moneda_id')
                                             <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
                                         @enderror
                                     </div>

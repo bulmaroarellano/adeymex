@@ -13,12 +13,12 @@ class Encargado extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'sucursal_id'];
 
     protected $searchableFields = ['*'];
 
-    public function sucursales()
+    public function sucursal()
     {
-        return $this->hasMany(Sucursal::class);
+        return $this->belongsTo(Sucursal::class);
     }
 }

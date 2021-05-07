@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SucursalStoreRequest extends FormRequest
+class EncargadoStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,13 +25,7 @@ class SucursalStoreRequest extends FormRequest
     {
         return [
             'nombre' => ['required', 'max:255', 'string'],
-            'telefono' => ['required', 'max:255', 'string'],
-            'email' => ['required', 'max:255', 'string'],
-            'codigo_postal' => ['required', 'max:255', 'string'],
-            'pais_id' => ['required', 'exists:paises,id'],
-            'domicilio1' => ['required', 'max:255', 'string'],
-            'domicilo2' => ['nullable', 'max:255', 'string'],
-            'domicilio3' => ['nullable', 'max:255', 'string'],
+            'sucursal_id' => ['required', 'exists:sucursales,id'],
         ];
     }
 }

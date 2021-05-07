@@ -16,8 +16,11 @@ class CreatePaisesTable extends Migration
         Schema::create('paises', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('nombre');
-            $table->softDeletes();
+            $table->text('codigo');
+            $table->unsignedBigInteger('moneda_id');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

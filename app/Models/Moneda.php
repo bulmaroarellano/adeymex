@@ -21,4 +21,9 @@ class Moneda extends Model
     {
         return $this->hasMany(Mercancia::class);
     }
+
+    public function paises()
+    {
+        return $this->hasMany(Pais::class);
+    }
 }

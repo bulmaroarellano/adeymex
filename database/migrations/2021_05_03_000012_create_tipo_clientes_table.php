@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddForeignsToSucursalesTable extends Migration
+class CreateTipoClientesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class AddForeignsToSucursalesTable extends Migration
      */
     public function up()
     {
-        Schema::table('sucursales', function (Blueprint $table) {
-            $table
-                ->foreign('pais_id')
-                ->references('id')
-                ->on('paises');
+        Schema::create('tipo_clientes', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->text('tipo_cliente');
+
+            $table->timestamps();
         });
     }
 
@@ -28,8 +28,6 @@ class AddForeignsToSucursalesTable extends Migration
      */
     public function down()
     {
-        Schema::table('sucursales', function (Blueprint $table) {
-            $table->dropForeign(['pais_id']);
-        });
+        Schema::dropIfExists('tipo_clientes');
     }
 }

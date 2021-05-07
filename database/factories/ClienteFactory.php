@@ -24,6 +24,7 @@ class ClienteFactory extends Factory
     {
         return [
             'nombre' => $this->faker->name,
+            'tipo_cliente_id' => \App\Models\TipoCliente::factory(),
         ];
     }
 }

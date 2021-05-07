@@ -17,12 +17,11 @@ class Sucursal extends Model
         'nombre',
         'telefono',
         'email',
-        'encargado_id',
         'codigo_postal',
-        'pais_id',
         'domicilio1',
         'domicilo2',
         'domicilio3',
+        'pais_id',
     ];
 
     protected $searchableFields = ['*'];
@@ -51,6 +50,6 @@ class Sucursal extends Model
 
     public function encargado()
     {
-        return $this->belongsTo(Encargado::class);
+        return $this->hasOne(Encargado::class);
     }
 }

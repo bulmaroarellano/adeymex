@@ -16,8 +16,10 @@ class CreateEncargadosTable extends Migration
         Schema::create('encargados', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('nombre');
-            $table->softDeletes();
+            $table->unsignedBigInteger('sucursal_id');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

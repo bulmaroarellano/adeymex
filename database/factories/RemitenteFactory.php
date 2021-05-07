@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Pais;
 use App\Models\Remitente;
-// use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RemitenteFactory extends Factory
@@ -33,7 +33,7 @@ class RemitenteFactory extends Factory
             'domicilio3' => $this->faker->text,
             'codigo_postal' => $this->faker->postcode,
             'sucursal_id' => \App\Models\Sucursal::factory(),
-            'pais_id' => \App\Models\Pais::factory(),
+            'pais_id' => $this->faker->randomElement(Pais::pluck('id')->all()),
             'cliente_id' => \App\Models\Cliente::factory(),
             'empresa_id' => \App\Models\Empresa::factory(),
         ];

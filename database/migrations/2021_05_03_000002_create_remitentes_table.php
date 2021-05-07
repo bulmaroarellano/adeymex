@@ -19,7 +19,7 @@ class CreateRemitentesTable extends Migration
             $table->text('apellido_paterno');
             $table->text('apellido_materno')->nullable();
             $table->text('telefono');
-            $table->text('email')->nullable();
+            $table->string('email')->nullable();
             $table->unsignedBigInteger('cliente_id');
             $table->unsignedBigInteger('empresa_id')->nullable();
             $table->text('domicilio1');
@@ -28,8 +28,9 @@ class CreateRemitentesTable extends Migration
             $table->text('codigo_postal');
             $table->unsignedBigInteger('sucursal_id');
             $table->unsignedBigInteger('pais_id');
-            $table->softDeletes();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

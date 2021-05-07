@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Pais;
 use App\Models\Sucursal;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -30,8 +31,7 @@ class SucursalFactory extends Factory
             'domicilio1' => $this->faker->address,
             'domicilo2' => $this->faker->text,
             'domicilio3' => $this->faker->text,
-            'pais_id' => \App\Models\Pais::factory(),
-            'encargado_id' => \App\Models\Encargado::factory(),
+            'pais_id' => $this->faker->randomElement(Pais::pluck('id')->all()),
         ];
     }
 }

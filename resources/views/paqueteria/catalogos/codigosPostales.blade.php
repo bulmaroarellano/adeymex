@@ -12,14 +12,13 @@
 @endsection
 @section('content')
 
-    <section class="codigosPostales">
+{{-- @include('paqueteria/components/codigosPostales_form') --}}
+<section id="basic-datatable">
 
-        @include('paqueteria/components/codigosPostales_form')
-
-        <div class="container mt-2">
-        
-            <div class="table-responsive">
-                <table class="table mb-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="card px-1">
+                <table class="datatables-basic table">
                     <thead>
                         <tr>
                             <th scope="col">Codigo Postal</th>
@@ -30,57 +29,12 @@
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                       
-                        @foreach ($codigosPostales as $codigoPostal)
-                            <tr>
-                                <td>{{ $codigoPostal->codigoPostal }}</td>
-                                <td>{{ $codigoPostal->direccion }}</td>
-                                <td>{{ $codigoPostal->ciudad }}</td>
-                                <td>{{ $codigoPostal->codigoEstado }}</td>
-                                <td>{{ $codigoPostal->municipio }}</td>
-                                
-                                
-                                {{-- + Acciones --}}
-                                <td class="d-flex">
-                                    {{-- VER --}}
-                                    <a href="{{ route('codigosPostales.show', [$codigoPostal, '0']) }}" class="btn"
-                                        style="color: rgb(66, 66, 219);">
-                                        <i class="far fa-eye"></i>
-                                    </a>
-
-                                    {{-- EDITAR --}}
-                                    <a href="{{ route('codigosPostales.show', [$codigoPostal, '1']) }}" class="btn"
-                                        style="color: rgb(66, 66, 219);">
-                                        <i class="fas fa-pen-alt"></i>
-                                    </a>
-
-                                    <form action="{{ route('codigosPostales.destroy', $codigoPostal) }}" method="POST">
-                                        {{-- BORRAR --}}
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn " style="color: rgb(209, 3, 3);">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
-
-                                    </form>
-
-                                </td>
-
-                            </tr>
-                        @endforeach
-
-
-                    </tbody>
                 </table>
             </div>
-
-            {{ $codigosPostales->links() }}
-
         </div>
+    </div>
 
-    </section>
-
+</section>
 
 
 @endsection
@@ -99,5 +53,11 @@
     <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
 
+
+@endsection
+@section('page-script')
+  {{-- Page js files --}}
+ 
+  <script src="{{ asset(mix('js/scripts/catalogos/codigos-postales.js')) }}"></script>
 
 @endsection

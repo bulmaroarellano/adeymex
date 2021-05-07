@@ -27,8 +27,9 @@ class CreateDestinatariosTable extends Migration
             $table->text('codigo_postal');
             $table->unsignedBigInteger('sucursal_id');
             $table->unsignedBigInteger('pais_id');
-            $table->softDeletes();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

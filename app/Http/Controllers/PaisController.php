@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PaisRequest;
 use App\Http\Requests\PaisStoreRequest;
 use App\Http\Requests\PaisUpdateRequest;
+use App\Models\Moneda;
 use App\Models\Pais;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -19,9 +20,11 @@ class PaisController extends Controller
     public function index()
     {
         $paises = Pais::orderBy('id','desc')->paginate(8);
+        $monedas = Moneda::all()->pluck('nombre', 'id');
        
         return view('/paqueteria/catalogos/paises', [
-            'paises' => $paises
+            'paises' => $paises,
+            'monedas' => $monedas,
         ]);
     
     }
@@ -30,6 +33,10 @@ class PaisController extends Controller
     {
         if ($request->ajax()) {
             $data = Pais::latest()->get();
+            for ($i=0; $i < count($data); $i++) { 
+                $data[$i]['moneda_id'] = Moneda::where('id', $data[$i]['moneda_id'])->get();
+                
+            }
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($pais) {

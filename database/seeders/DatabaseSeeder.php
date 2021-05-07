@@ -22,17 +22,19 @@ class DatabaseSeeder extends Seeder
             ]);
         $this->call(PermissionsSeeder::class);
 
-        $this->call(SucursalSeeder::class);
-        $this->call(SuministroSeeder::class);
         $this->call(MonedaSeeder::class);
-        $this->call(EmpresaSeeder::class);
         $this->call(PaisSeeder::class);
+        $this->call(RemitenteSeeder::class);
+        $this->call(DestinatarioSeeder::class);
+        $this->call(SucursalSeeder::class);
+        $this->call(EncargadoSeeder::class);
+        $this->call(SuministroSeeder::class);
         $this->call(ClienteSeeder::class);
-        $this->call(UserSeeder::class);
+        $this->call(TipoClienteSeeder::class);
+        $this->call(EmpresaSeeder::class);
         $this->call(MercanciaSeeder::class);
         $this->call(UnidadSeeder::class);
-        $this->call(DestinatarioSeeder::class);
-        $this->call(EncargadoSeeder::class);
-        $this->call(RemitenteSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(CodigoPostalSeeder::class);
     }
 }

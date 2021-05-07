@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Str;
 use App\Models\CodigoPostal;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,11 +23,11 @@ class CodigoPostalFactory extends Factory
     public function definition()
     {
         return [
-            'codigoPostal' => $this->faker->postcode(),
-            'direccion' => $this->faker->streetAddress(),
-            'ciudad' => $this->faker->city(),
-            'codigoEstado' => $this->faker->citySuffix(),
-            'municipio' => $this->faker->state(),
+            'codigo_postal' => $this->faker->postcode,
+            'ciudad' => $this->faker->city,
+            'codigo_estado' => $this->faker->countryCode,
+            'municipio' => $this->faker->state,
+            'direccion' => $this->faker->address,
         ];
     }
 }

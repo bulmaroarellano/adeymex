@@ -18,8 +18,9 @@ class CreateMonedasTable extends Migration
             $table->text('nombre');
             $table->text('codigo');
             $table->text('simbolo');
-            $table->softDeletes();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

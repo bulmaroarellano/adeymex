@@ -6,20 +6,19 @@ use App\Models\Scopes\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CodigoPostal extends Model
+class TipoCliente extends Model
 {
     use HasFactory;
     use Searchable;
 
-    protected $fillable = [
-        'codigo_postal',
-        'ciudad',
-        'codigo_estado',
-        'municipio',
-        'direccion',
-    ];
+    protected $fillable = ['tipo_cliente'];
 
     protected $searchableFields = ['*'];
 
-    protected $table = 'codigo_postales';
+    protected $table = 'tipo_clientes';
+
+    public function clientes()
+    {
+        return $this->hasMany(Cliente::class);
+    }
 }

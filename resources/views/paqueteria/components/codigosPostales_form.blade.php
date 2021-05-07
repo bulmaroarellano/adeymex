@@ -26,12 +26,12 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="far fa-address-card"></i></span>
                                                 </div>
-                                                {!! Form::text('codigoPostal', session()->get('values')->codigoPostal ?? '', [
+                                                {!! Form::text('codigo_postal', session()->get('values')->codigo_postal ?? '', [
                                                     'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
                                                     'class' => 'form-control pl-1',
                                                 ]) !!}
                                             </div>
-                                            @error('codigoPostal')
+                                            @error('codigo_postal')
                                                 <small class="alert alert-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
@@ -42,12 +42,12 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-address-card"></i></span>
                                                 </div>
-                                                {!! Form::text('codigoEstado', session()->get('values')->codigoEstado ?? '', [
+                                                {!! Form::text('codigo_estado', session()->get('values')->codigo_estado ?? '', [
                                                     'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
                                                     'class' => 'form-control pl-1',
                                                 ]) !!}
                                             </div>
-                                            @error('codigoEstado')
+                                            @error('codigo_estado')
                                                 <small class="alert alert-danger">{{ $message }}</small>
                                             @enderror
                                         </div>

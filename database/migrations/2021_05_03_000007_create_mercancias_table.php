@@ -24,8 +24,9 @@ class CreateMercanciasTable extends Migration
             $table->unsignedBigInteger('pais_id');
             $table->unsignedBigInteger('moneda_id');
             $table->unsignedBigInteger('unidad_id');
-            $table->softDeletes();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

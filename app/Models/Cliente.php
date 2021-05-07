@@ -13,12 +13,17 @@ class Cliente extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'tipo_cliente_id'];
 
     protected $searchableFields = ['*'];
 
     public function remitentes()
     {
         return $this->hasMany(Remitente::class);
+    }
+
+    public function tipoCliente()
+    {
+        return $this->belongsTo(TipoCliente::class);
     }
 }

@@ -24,6 +24,7 @@ class EncargadoFactory extends Factory
     {
         return [
             'nombre' => $this->faker->name(),
+            'sucursal_id' => \App\Models\Sucursal::factory(),
         ];
     }
 }

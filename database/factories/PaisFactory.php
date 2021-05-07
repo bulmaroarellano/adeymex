@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Moneda;
 use App\Models\Pais;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -28,6 +29,8 @@ class PaisFactory extends Factory
         static $contador = 0;
         return [
             'nombre' => $paises[$contador++],
+            'codigo' => $this->faker->countryCode,
+            'moneda_id' => $this->faker->randomElement(Moneda::pluck('id')->all()),
         ];
     }
 }

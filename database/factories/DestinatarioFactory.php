@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Support\Str;
 use App\Models\Destinatario;
+use App\Models\Pais;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DestinatarioFactory extends Factory
@@ -33,7 +34,7 @@ class DestinatarioFactory extends Factory
             'domicilio3' => $this->faker->address,
             'codigo_postal' => $this->faker->postcode,
             'sucursal_id' => \App\Models\Sucursal::factory(),
-            'pais_id' => \App\Models\Pais::factory(),
+            'pais_id' => $this->faker->randomElement(Pais::pluck('id')->all()),
             'empresa_id' => \App\Models\Empresa::factory(),
         ];
     }

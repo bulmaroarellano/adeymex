@@ -19,8 +19,9 @@ class CreateSuministrosTable extends Migration
             $table->text('costo');
             $table->text('precio_publico');
             $table->unsignedBigInteger('sucursal_id');
-            $table->softDeletes();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
