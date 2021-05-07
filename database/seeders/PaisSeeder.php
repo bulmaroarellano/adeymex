@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Pais;
 use Illuminate\Database\Seeder;
+use PragmaRX\Countries\Package\Services\Countries;
 
 class PaisSeeder extends Seeder
 {
@@ -14,8 +15,10 @@ class PaisSeeder extends Seeder
      */
     public function run()
     {
+        $countries = new Countries();
+        $paises = $countries->all()->pluck('name.common')->toArray();
         Pais::factory()
-            ->count(5)
+            ->count(count($paises) - 40)
             ->create();
     }
 }

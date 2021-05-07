@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Pais;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use PragmaRX\Countries\Package\Services\Countries;
 
 class PaisFactory extends Factory
 {
@@ -22,8 +23,11 @@ class PaisFactory extends Factory
      */
     public function definition()
     {
+        $countries = new Countries();
+        $paises = $countries->all()->pluck('name.common')->toArray();
+        static $contador = 0;
         return [
-            'nombre' => $this->faker->country,
+            'nombre' => $paises[$contador++],
         ];
     }
 }

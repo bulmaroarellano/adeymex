@@ -25,6 +25,7 @@
         "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.2",
         "laraveles/spanish": "^1.5",
+        "pragmarx/countries": "^0.7.2",
         "spatie/laravel-activitylog": "^3.17",
         "spatie/laravel-html": "^2.29",
         "spatie/laravel-permission": "^4.0",

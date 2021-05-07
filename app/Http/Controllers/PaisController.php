@@ -26,18 +26,18 @@ class PaisController extends Controller
     
     }
 
-    public function getSuministros(Request $request)
+    public function getPaises(Request $request)
     {
         if ($request->ajax()) {
             $data = Pais::latest()->get();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', function ($suministro) {
+                ->addColumn('action', function ($pais) {
                     $actionBtn = '
                     <td class="">
-                    <form action=" ' . route('suministros.destroy', $suministro) . ' " method="POST" class = "d-flex justify-content-around">
-                        <a href=" ' . route('suministros.show', [$suministro, '0']) . ' "> <i class="far fa-eye "></i> </a>
-                        <a href=" ' . route('suministros.show', [$suministro, '1']) . ' "><i class="fas fa-pen-alt"></i> </a>
+                    <form action=" ' . route('paises.destroy', $pais) . ' " method="POST" class = "d-flex justify-content-around">
+                        <a href=" ' . route('paises.show', [$pais, '0']) . ' "> <i class="far fa-eye "></i> </a>
+                        <a href=" ' . route('paises.show', [$pais, '1']) . ' "><i class="fas fa-pen-alt"></i> </a>
                         ' . csrf_field() . '
                         ' . method_field('delete') . '
                         <button class="" style="color: rgb(209, 3, 3);">

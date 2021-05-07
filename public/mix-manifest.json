@@ -68,6 +68,7 @@
     "/js/scripts/catalogos/mercancias.js": "/js/scripts/catalogos/mercancias.js",
     "/js/scripts/catalogos/monedas.js": "/js/scripts/catalogos/monedas.js",
     "/js/scripts/catalogos/paises-search.js": "/js/scripts/catalogos/paises-search.js",
+    "/js/scripts/catalogos/paises.js": "/js/scripts/catalogos/paises.js",
     "/js/scripts/catalogos/remitentes.js": "/js/scripts/catalogos/remitentes.js",
     "/js/scripts/catalogos/select2.min.js": "/js/scripts/catalogos/select2.min.js",
     "/js/scripts/catalogos/sucursales.js": "/js/scripts/catalogos/sucursales.js",
