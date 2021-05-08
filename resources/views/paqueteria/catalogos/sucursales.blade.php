@@ -127,6 +127,7 @@
   {{-- Page js files --}}
   <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/catalogos/paises-search.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/catalogos/encargados-search.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/catalogos/sucursales.js')) }}"></script>
 
 @endsection

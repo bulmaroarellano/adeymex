@@ -22,9 +22,7 @@
                                         <div class="form-group">
                                             <label class="col-form-label  text-primary">Sucursal *</label>
                                             <div class="input-group input-group-merge">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-store"></i></span>
-                                                </div>
+                                                
                                                 {{ Form::select('sucursal_id',
                                                     (session()->has('sucursalesName')) 
                                                     ? session()->get('sucursalesName')
@@ -34,7 +32,7 @@
                                                            'disabled' => session()->has('values')
                                                                ? (session()->get('edit') == 1 ? false : true )
                                                                : false,
-                                                           'class' => 'form-control  col-md-10 pl-1'
+                                                           'class' => 'sucursales-search form-control  col-md-10 pl-1'
                                                 ])}}
                                             </div>
                                             @error('sucursal')

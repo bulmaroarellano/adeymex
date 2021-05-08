@@ -51,6 +51,19 @@ class MonedaController extends Controller
         }
     }
 
+    public function monedasSearch(Request $request)
+    {
+    	$paises = [];
+
+        if($request->has('q')){
+            $search = $request->q;
+            $paises = Moneda::select("id", "nombre")
+            		->where('nombre', 'LIKE', "%$search%")->limit(5)
+            		->get();
+        }
+        return response()->json($paises);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

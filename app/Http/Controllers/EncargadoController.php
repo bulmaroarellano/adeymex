@@ -27,6 +27,19 @@ class EncargadoController extends Controller
         return view('app.encargados.index', compact('encargados', 'search'));
     }
 
+    public function encargadosSearch(Request $request)
+    {
+    	$encargados = [];
+
+        if($request->has('q')){
+            $search = $request->q;
+            $encargados = Encargado::select("id", "nombre")
+            		->where('nombre', 'LIKE', "%$search%")->limit(5)
+            		->get();
+        }
+        return response()->json($encargados);
+    }
+
     /**
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response

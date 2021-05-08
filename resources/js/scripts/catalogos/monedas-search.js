@@ -1,11 +1,11 @@
-$('.paises-search').select2({
+$('.monedas-search').select2({
 
-    placeholder: '<i class="fas fa-globe-americas"></i> Buscar Pais',
+    placeholder: '<i class="fas fa-coins"></i> Buscar moneda',
     escapeMarkup : function(markup) {
         return markup;
     },
     ajax: {
-        url: '/paises-search',
+        url: '/monedas-search',
         dataType: 'json',
         delay: 250,
         processResults: function (data) {

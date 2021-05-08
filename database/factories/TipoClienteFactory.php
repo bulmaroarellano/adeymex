@@ -23,7 +23,7 @@ class TipoClienteFactory extends Factory
     public function definition()
     {
         return [
-            'tipo_cliente' => $this->faker->text,
+            'tipo_cliente' => $this->faker->randomElement(['premium', 'general', 'basico', 'express', 'combo']),
         ];
     }
 }

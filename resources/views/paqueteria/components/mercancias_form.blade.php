@@ -105,9 +105,7 @@
                                             <div class="form-group">
                                                 <label class="col-form-label  text-primary">Moneda</label>
                                                 <div class="input-group input-group-merge">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="fas fa-coins"></i></span>
-                                                    </div>
+                                                    
                                                     {{ Form::select('moneda_id',
                                                     (session()->has('monedas')) 
                                                     ? session()->get('monedas')
@@ -117,7 +115,7 @@
                                                            'disabled' => session()->has('values')
                                                                ? (session()->get('edit') == 1 ? false : true )
                                                                : false,
-                                                           'class' => 'form-control  col-md-10 pl-1'
+                                                           'class' => 'monedas-search form-control  col-md-10 pl-1'
                                                     ])}}
                                                 </div>
                                                 @error('moneda_id')
@@ -151,9 +149,7 @@
                                             <div class="form-group">
                                                 <label class="col-form-label  text-primary">Unidad de medida</label>
                                                 <div class="input-group input-group-merge">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="fas fa-balance-scale"></i></span>
-                                                    </div>
+                                                    
                                                     {{ Form::select('unidad_id',
                                                     (session()->has('unidadMedidas')) 
                                                     ? session()->get('unidadMedidas')
@@ -163,7 +159,7 @@
                                                            'disabled' => session()->has('values')
                                                                ? (session()->get('edit') == 1 ? false : true )
                                                                : false,
-                                                           'class' => 'form-control  col-md-10 pl-1'
+                                                           'class' => 'unidades-search form-control  col-md-10 pl-1'
                                                     ])}}
                                                 </div>
                                                 @error('unidad_id')

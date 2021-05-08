@@ -61,8 +61,11 @@
 
 @section('page-script')
   {{-- Page js files --}}
+  <script src="{{ asset(mix('js/scripts/catalogos/mercancias.js')) }}"></script>
+
   <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/catalogos/paises-search.js')) }}"></script>
-  <script src="{{ asset(mix('js/scripts/catalogos/mercancias.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/catalogos/monedas-search.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/catalogos/unidades-search.js')) }}"></script>
 
 @endsection

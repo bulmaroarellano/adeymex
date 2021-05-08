@@ -91,9 +91,7 @@
                                             </div>
                                             <div class="col-sm-8">
                                                 <div class="input-group input-group-merge">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
-                                                    </div>
+                                                    
                                                     {{ Form::select('encargado_id',
                                                         (session()->has('encargados')) 
                                                         ? session()->get('encargados')
@@ -105,6 +103,8 @@
                                                                 : false,
                                                             'class' => 'encargados-search form-control  col-sm-12'
                                                     ])}}
+
+                                                    
                                                 </div>
                                             </div>
                                             @error('encargado_id')

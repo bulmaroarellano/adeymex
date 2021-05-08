@@ -60,6 +60,19 @@ class SucursalesController extends Controller
         }
     }
 
+    public function sucursalesSearch(Request $request)
+    {
+    	$paises = [];
+
+        if($request->has('q')){
+            $search = $request->q;
+            $paises = Sucursal::select("id", "nombre")
+            		->where('nombre', 'LIKE', "%$search%")->limit(5)
+            		->get();
+        }
+        return response()->json($paises);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

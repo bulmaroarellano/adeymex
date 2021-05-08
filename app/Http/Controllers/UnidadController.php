@@ -51,6 +51,19 @@ class UnidadController extends Controller
         }
     }
 
+    public function unidadesSearch(Request $request)
+    {
+    	$paises = [];
+
+        if($request->has('q')){
+            $search = $request->q;
+            $paises = Unidad::select("id", "unidad_medida")
+            		->where('unidad_medida', 'LIKE', "%$search%")->limit(5)
+            		->get();
+        }
+        return response()->json($paises);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

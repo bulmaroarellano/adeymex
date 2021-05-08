@@ -1,11 +1,11 @@
-$('.paises-search').select2({
+$('.encargados-search').select2({
 
-    placeholder: '<i class="fas fa-globe-americas"></i> Buscar Pais',
+    placeholder: '<i class="fas fa-user-alt"></i> Buscar encargado',
     escapeMarkup : function(markup) {
         return markup;
     },
     ajax: {
-        url: '/paises-search',
+        url: '/encargados-search',
         dataType: 'json',
         delay: 250,
         processResults: function (data) {
@@ -18,6 +18,7 @@ $('.paises-search').select2({
                 })
             };
         },
-        cache: true
+        cache: true,
+    
     }
 });

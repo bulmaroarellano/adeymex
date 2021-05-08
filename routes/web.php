@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CodigoPostalController;
 use App\Http\Controllers\DestinatarioController;
+use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\EncargadoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaterkitController;
 use App\Http\Controllers\RoleController;
@@ -78,6 +80,7 @@ Route::middleware('auth')->group(function() {
 //-SUCURSALES 
 Route::get('/sucursales', [SucursalesController::class, 'index'])->name('sucursales.index');
 Route::get('/sucursales/list', [SucursalesController::class, 'getSucursales'])->name('sucursales.list');
+Route::get('/sucursales-search', [SucursalesController::class, 'sucursalesSearch'])->name('sucursales.search');
 Route::get('/sucursales/{sucursal}{edit}', [SucursalesController::class, 'show'])->name('sucursales.show');
 Route::put('/sucursales/{sucursal}', [SucursalesController::class, 'update'])->name('sucursales.update');
 Route::post('/sucursales', [SucursalesController::class, 'store'])->name('sucursales.store');
@@ -137,6 +140,7 @@ Route::delete('/mercancias/{mercancia}', [MercanciaController::class, 'destroy']
 //-MONEDAS
 Route::get('/monedas', [MonedaController::class, 'index'])->name('monedas.index');
 Route::get('/monedas/list', [MonedaController::class, 'getMonedas'])->name('monedas.list');
+Route::get('/monedas-search', [MonedaController::class, 'monedasSearch'])->name('monedas.search');
 Route::get('/monedas/{moneda}{edit}', [MonedaController::class, 'show'])->name('monedas.show');
 Route::put('/monedas/{moneda}', [MonedaController::class, 'update'])->name('monedas.update');
 Route::post('/monedas/', [MonedaController::class, 'store'])->name('monedas.store');
@@ -152,8 +156,12 @@ Route::delete('/mensajerias/{mensajeria}', [MensajeriaController::class, 'destro
 //-UNIDADES DE MEDIDA 
 Route::get('/unidadesmedidas', [UnidadController::class, 'index'])->name('unidades.index');
 Route::get('/unidadesmedidas/list', [UnidadController::class, 'getUnidades'])->name('unidades.list');
+Route::get('/unidades-search', [UnidadController::class, 'unidadesSearch'])->name('unidades.search');
 Route::get('/unidadesmedidas/{unidadMedida}{edit}', [UnidadController::class, 'show'])->name('unidades.show');
 Route::put('/unidadesmedidas/{unidadMedida}', [UnidadController::class, 'update'])->name('unidades.update');
 Route::post('/unidadesmedidas/', [UnidadController::class, 'store'])->name('unidades.store');
 Route::delete('/unidadesmedidas/{unidadMedida}', [UnidadController::class, 'destroy'])->name('unidades.destroy');
 
+//-ENCARGADOS
+Route::get('/encargados-search', [EncargadoController::class, 'encargadosSearch'])->name('encargados.search');
+Route::get('/empresas-search', [EmpresaController::class, 'empresasSearch'])->name('empresas.search');

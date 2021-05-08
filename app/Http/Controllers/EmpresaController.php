@@ -26,6 +26,19 @@ class EmpresaController extends Controller
         return view('app.empresas.index', compact('empresas', 'search'));
     }
 
+    public function empresasSearch(Request $request)
+    {
+    	$paises = [];
+
+        if($request->has('q')){
+            $search = $request->q;
+            $paises =Empresa::select("id", "nombre")
+            		->where('nombre', 'LIKE', "%$search%")->limit(5)
+            		->get();
+        }
+        return response()->json($paises);
+    }
+
     /**
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response

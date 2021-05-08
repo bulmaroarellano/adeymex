@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap4.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 @section('content')
 @include('paqueteria/components/paises_form')
@@ -61,5 +62,7 @@
   {{-- Page js files --}}
 
   <script src="{{ asset(mix('js/scripts/catalogos/paises.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/catalogos/monedas-search.js')) }}"></script>
 
 @endsection

@@ -1,11 +1,11 @@
-$('.paises-search').select2({
+$('.empresas-search').select2({
 
-    placeholder: '<i class="fas fa-globe-americas"></i> Buscar Pais',
+    placeholder: '<i class="far fa-building"></i> Buscar empresa',
     escapeMarkup : function(markup) {
         return markup;
     },
     ajax: {
-        url: '/paises-search',
+        url: '/empresas-search',
         dataType: 'json',
         delay: 250,
         processResults: function (data) {
