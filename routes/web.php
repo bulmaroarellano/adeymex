@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CodigoPostalController;
+use App\Http\Controllers\CotizarController;
 use App\Http\Controllers\DestinatarioController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EncargadoController;
@@ -173,8 +174,11 @@ Route::get('/empresas-search', [EmpresaController::class, 'empresasSearch'])->na
 //-SEPOMEX
 
 Route::get('/sepomex-search', [SepomexController::class, 'sepomexSearch'])->name('sepomex.search');
-//- ENVIOS 
 
+//-cotizacion
+
+Route::get('/cotizacion', [CotizarController::class, 'getCotizacion'])->name('cotizar.cotizacion');
+//- ENVIOS 
 Route::get('/envios', [EnvioController::class, 'index'])->name('envios.index');
 Route::get('/envios/list', [EnvioController::class, 'getMonedas'])->name('envios.list');
 Route::get('/envios/{envio}{edit}', [EnvioController::class, 'show'])->name('envios.show');

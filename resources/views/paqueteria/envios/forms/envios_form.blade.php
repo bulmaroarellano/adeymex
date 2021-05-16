@@ -2,14 +2,15 @@
 <div class="container sucursales-form">
     <div class="row d-flex justify-content-center">
         <div class="col-md-12 ">
-
-            {!! Form::open([]) !!}
+            {{-- FORMULARIO DE COTIZACIONES  --}}
+            {!! Form::open([
+                'route' => 'cotizar.cotizacion',
+                'method' => 'GET'
+            ]) !!}
 
                 <div class="col-md-12">
 
                     <div class="row justify-content-center">
-
-                        <!-- + Datos generales-->
                         <div class="col-md-8">
                             <div class="card">
                                 <div class="card-header ">
@@ -17,7 +18,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        {{-- DATOS GENERALES --}}
+                                        {{-- DATOS GENERALES COTIZACION--}}
                                         <div class="col-md-6">
 
                                             <div class="form-group">
@@ -82,7 +83,29 @@
 
                                         </div>
                                         {{-- PAQUETES  --}}
-                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label  text-primary">Tipo de paquete</label>
+                                                <div class="input-group input-group-merge">
+                                                    
+                                                    {{ Form::select('type_paquete',[
+                                                        '1' => 'paquete',
+                                                        '2' => 'documento',
+                                                        '3' => 'fedex-pak'
+                                                    ], 
+                                                        session()->get('values')->type_paquete ?? '',[
+                                                            'placeholder' => 'Elegir tipo de paquete',
+                                                            'disabled' => session()->has('values')
+                                                                ? (session()->get('edit') == 1 ? false : true )
+                                                                : false,
+                                                            'class' => 'type-paquete form-control  col-md-10 pl-1'
+                                                    ])}}
+                                                </div>
+                                                @error('sucursal')
+                                                        <small class="alert alert-danger">{{$message}}</small>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -91,9 +114,9 @@
 
                     <div class="row d-flex justify-content-sm-around mt-2">
                         <button class="btn btn-secondary" type="submit">
-                            {{ session()->get('edit') ? 'Actualizar' : 'Crear' }}
+                            {{ session()->get('edit') ? 'Cotizar' : 'Crear' }}
                         </button>
-                        <a href="{{ route('mercancias.index') }}">
+                        <a href="{{ route('envios.index') }}">
                             <div class="btn btn-danger">
                                 <i class="fas fa-ban mr-1"></i>
                                 Cancelar
