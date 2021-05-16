@@ -18,6 +18,7 @@ use App\Http\Controllers\PaisController;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\RemitenteController;
+use App\Http\Controllers\SepomexController;
 use App\Http\Controllers\SucursalesController;
 use App\Http\Controllers\SuministroController;
 use App\Http\Controllers\UnidadController;
@@ -171,7 +172,7 @@ Route::get('/empresas-search', [EmpresaController::class, 'empresasSearch'])->na
 
 //-SEPOMEX
 
-Route::get('/sepomex-search', [EmpresaController::class, 'empresasSearch'])->name('empresas.search');
+Route::get('/sepomex-search', [SepomexController::class, 'sepomexSearch'])->name('sepomex.search');
 //- ENVIOS 
 
 Route::get('/envios', [EnvioController::class, 'index'])->name('envios.index');

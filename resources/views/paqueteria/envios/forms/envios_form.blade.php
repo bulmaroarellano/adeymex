@@ -65,14 +65,14 @@
                                                 <label class="col-form-label  text-primary">Direccion destino  </label>
                                                 <div class="input-group input-group-merge">
                                                     
-                                                    {!! Form::text(
-                                                        'destino', session()->get('values')->destino ?? '',[
-                                                            'readonly' => session()->has('edit') 
-                                                            ? session()->get('edit') == 0 ? true : false
-                                                            : false,
-                                                            'class' => 'destino-envio form-control pl-1'
-                                                        ]) 
-                                                    !!}
+                                                    {{ Form::select('destino',  session()->has('sepomex') ?session()->get('values')->destino : [], 
+                                                        session()->has('values') ? session()->get('values')->destino : '',[
+                                                           'placeholder' => '',
+                                                           'disabled' => session()->has('values')
+                                                               ? (session()->get('edit') == 1 ? false : true )
+                                                               : false,
+                                                           'class' => 'sepomex-search form-control  col-sm-12'
+                                                    ])}}
                                                 </div>
                                                 @error('destino')
                                                         <small class="alert alert-danger">{{$message}}</small>

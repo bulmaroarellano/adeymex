@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Envio;
 use App\Models\Sepomex;
-use App\Models\Sucursal;
 use Illuminate\Http\Request;
 
-class EnvioController extends Controller
+class SepomexController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +14,20 @@ class EnvioController extends Controller
      */
     public function index()
     {
-        $sucursalesName = Sucursal::all()->pluck('nombre', 'id');
-        
-        return view('/paqueteria/envios/envios', [
-            'sucursalesName' => $sucursalesName, 
-        ]);
+        //
+    }
+
+
+    public function sepomexSearch(Request $request)
+    {
+        $codigos = [];
+        if ($request->has('q')) {
+            $search = $request->q;
+            $codigos = Sepomex::select("id", "d_codigo", "d_asenta", "D_mnpio","d_estado")
+                ->where('d_codigo', 'LIKE', "%$search%")->limit(5)
+                ->get();
+        }
+        return response()->json($codigos);
     }
 
     /**
@@ -47,26 +54,21 @@ class EnvioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Envio  $envio
+     * @param  \App\Models\Sepomex  $sepomex
      * @return \Illuminate\Http\Response
      */
-    public function show(Envio $envio, $edit)
+    public function show(Sepomex $sepomex)
     {
-        $sepomex = Sepomex::where('id', '2')->pluck('d_codigo', 'id');
-        return redirect()->route('envios.index' )->with([
-            'values' => $envio, 
-            'sepomex' => $sepomex, 
-            'edit' => $edit
-        ]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Envio  $envio
+     * @param  \App\Models\Sepomex  $sepomex
      * @return \Illuminate\Http\Response
      */
-    public function edit(Envio $envio)
+    public function edit(Sepomex $sepomex)
     {
         //
     }
@@ -75,10 +77,10 @@ class EnvioController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Envio  $envio
+     * @param  \App\Models\Sepomex  $sepomex
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Envio $envio)
+    public function update(Request $request, Sepomex $sepomex)
     {
         //
     }
@@ -86,10 +88,10 @@ class EnvioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Envio  $envio
+     * @param  \App\Models\Sepomex  $sepomex
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Envio $envio)
+    public function destroy(Sepomex $sepomex)
     {
         //
     }
