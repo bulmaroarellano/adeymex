@@ -4,6 +4,7 @@ use App\Http\Controllers\CodigoPostalController;
 use App\Http\Controllers\DestinatarioController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EncargadoController;
+use App\Http\Controllers\EnvioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaterkitController;
 use App\Http\Controllers\RoleController;
@@ -81,6 +82,7 @@ Route::middleware('auth')->group(function() {
 Route::get('/sucursales', [SucursalesController::class, 'index'])->name('sucursales.index');
 Route::get('/sucursales/list', [SucursalesController::class, 'getSucursales'])->name('sucursales.list');
 Route::get('/sucursales-search', [SucursalesController::class, 'sucursalesSearch'])->name('sucursales.search');
+Route::get('/sucursales-find', [SucursalesController::class, 'findSucursal'])->name('sucursales.find');
 Route::get('/sucursales/{sucursal}{edit}', [SucursalesController::class, 'show'])->name('sucursales.show');
 Route::put('/sucursales/{sucursal}', [SucursalesController::class, 'update'])->name('sucursales.update');
 Route::post('/sucursales', [SucursalesController::class, 'store'])->name('sucursales.store');
@@ -164,4 +166,17 @@ Route::delete('/unidadesmedidas/{unidadMedida}', [UnidadController::class, 'dest
 
 //-ENCARGADOS
 Route::get('/encargados-search', [EncargadoController::class, 'encargadosSearch'])->name('encargados.search');
+//-EMPRESAS
 Route::get('/empresas-search', [EmpresaController::class, 'empresasSearch'])->name('empresas.search');
+
+//-SEPOMEX
+
+Route::get('/sepomex-search', [EmpresaController::class, 'empresasSearch'])->name('empresas.search');
+//- ENVIOS 
+
+Route::get('/envios', [EnvioController::class, 'index'])->name('envios.index');
+Route::get('/envios/list', [EnvioController::class, 'getMonedas'])->name('envios.list');
+Route::get('/envios/{envio}{edit}', [EnvioController::class, 'show'])->name('envios.show');
+Route::put('/envios/{envios}', [EnvioController::class, 'update'])->name('envios.update');
+Route::post('/envios/', [EnvioController::class, 'store'])->name('envios.store');
+Route::delete('/envios/{envios}', [EnvioController::class, 'destroy'])->name('envios.destroy');

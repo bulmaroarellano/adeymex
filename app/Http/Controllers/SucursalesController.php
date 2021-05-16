@@ -60,15 +60,25 @@ class SucursalesController extends Controller
         }
     }
 
+    public function findSucursal(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $data = Sucursal::where('id', $request->id)->first();
+
+            return response()->json($data);
+        }
+    }
+
     public function sucursalesSearch(Request $request)
     {
-    	$paises = [];
+        $paises = [];
 
-        if($request->has('q')){
+        if ($request->has('q')) {
             $search = $request->q;
             $paises = Sucursal::select("id", "nombre")
-            		->where('nombre', 'LIKE', "%$search%")->limit(5)
-            		->get();
+                ->where('nombre', 'LIKE', "%$search%")->limit(5)
+                ->get();
         }
         return response()->json($paises);
     }

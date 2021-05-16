@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Remitentes')
+@section('title', 'Cotizacion')
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -14,7 +14,7 @@
 
     <section class="envios">
 
-        @include('paqueteria/components/remitentes_destinatarios_form')
+        @include('paqueteria/envios/forms/envios_form')
 
         <div class="container mt-2">
 
@@ -33,54 +33,9 @@
                             <th scope="col">Acciones </th>
                         </tr>
                     </thead>
-                    <tbody>
-
-                        @foreach ($envios as $envio)
-                            <tr>
-                                <td>{{ $envio->sucursal }}</td>
-                                <td>{{ $envio->fechaRegistro }}</td>
-                                <td>{{ $envio->tipoEnvio }}</td>
-                                <td>{{ $envio->numeroSeguimiento }}</td>
-                                <td>{{ $envio->estatusOrigen }}</td>
-                                <td>{{ $envio->estatusDestino }}</td>
-                                <td>{{ $envio->domicilio }}, C.P: {{ $envio->codigoPostal }},
-                                    {{ $envio->pais }}
-                                </td>
-                                {{-- + Acciones --}}
-                                <td class="d-flex">
-                                    {{-- VER --}}
-                                    <a href="{{ route('envios.show', [$envio, '0']) }}" class="btn"
-                                        style="color: rgb(66, 66, 219);">
-                                        <i class="far fa-eye"></i>
-                                    </a>
-
-                                    {{-- EDITAR --}}
-                                    <a href="{{ route('envios.show', [$envio, '1']) }}" class="btn"
-                                        style="color: rgb(66, 66, 219);">
-                                        <i class="fas fa-pen-alt"></i>
-                                    </a>
-
-                                    <form action="{{ route('envios.destroy', $envio) }}" method="POST">
-                                        {{-- BORRAR --}}
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn " style="color: rgb(209, 3, 3);">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
-
-                                    </form>
-
-                                </td>
-
-                            </tr>
-                        @endforeach
-
-
-                    </tbody>
+        
                 </table>
             </div>
-
-            {{ $envios->links() }}
 
         </div>
 
@@ -106,3 +61,12 @@
 
 
 @endsection
+
+
+@section('page-script')
+  {{-- Page js files --}}
+  <script src="{{ asset(mix('js/scripts/envios/find-sucursal.js')) }}"></script>
+  
+
+@endsection
+
