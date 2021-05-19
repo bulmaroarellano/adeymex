@@ -94,6 +94,7 @@
     "/js/scripts/documentation.js": "/js/scripts/documentation.js",
     "/js/scripts/envios/find-sucursal.js": "/js/scripts/envios/find-sucursal.js",
     "/js/scripts/envios/sepomex-search.js": "/js/scripts/envios/sepomex-search.js",
+    "/js/scripts/envios/type-paquete.js": "/js/scripts/envios/type-paquete.js",
     "/js/scripts/extensions/ext-component-blockui.js": "/js/scripts/extensions/ext-component-blockui.js",
     "/js/scripts/extensions/ext-component-clipboard.js": "/js/scripts/extensions/ext-component-clipboard.js",
     "/js/scripts/extensions/ext-component-context-menu.js": "/js/scripts/extensions/ext-component-context-menu.js",

@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Cotizacion')
+@section('title', 'Envio')
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -71,6 +71,7 @@
   <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/catalogos/sucursales-search.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/sepomex-search.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/envios/type-paquete.js')) }}"></script>
   
   
 
