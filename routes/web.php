@@ -93,6 +93,8 @@ Route::delete('/sucursales/{sucursal}', [SucursalesController::class, 'destroy']
 //-REMITENTES
 Route::get('/remitentes', [RemitenteController::class, 'index'])->name('remitentes.index');
 Route::get('/remitentes/list', [RemitenteController::class, 'getRemitentes'])->name('remitentes.list');
+Route::get('/remitentes-search', [RemitenteController::class, 'remitentesSearch'])->name('remitentes.search');
+Route::get('/remitentes-find', [RemitenteController::class, 'findRemitente'])->name('remitentes.search');
 Route::get('/remitentes/{remitente}{edit}', [RemitenteController::class, 'show'])->name('remitentes.show');
 Route::put('/remitentes/{remitente}', [RemitenteController::class, 'update'])->name('remitentes.update');
 Route::post('/remitentes/', [RemitenteController::class, 'store'])->name('remitentes.store');
@@ -101,6 +103,8 @@ Route::delete('/remitentes/{remitente}', [RemitenteController::class, 'destroy']
 //-DESTINATARIO
 Route::get('/destinatarios', [DestinatarioController::class, 'index'])->name('destinatarios.index');
 Route::get('/destinatarios/list', [DestinatarioController::class, 'getDestinatarios'])->name('destinatarios.list');
+Route::get('/destinatarios-search', [DestinatarioController::class, 'destinatariosSearch'])->name('destinatario.search');
+Route::get('/destinatarios-find', [DestinatarioController::class, 'findDestinatario'])->name('destinatario.search');
 Route::get('/destinatarios/{destinatario}{edit}', [DestinatarioController::class, 'show'])->name('destinatarios.show');
 Route::put('/destinatarios/{destinatario}', [DestinatarioController::class, 'update'])->name('destinatarios.update');
 Route::post('/destinatarios/', [DestinatarioController::class, 'store'])->name('destinatarios.store');
@@ -181,6 +185,7 @@ Route::get('/cotizacion', [CotizarController::class, 'getCotizacion'])->name('co
 //- ENVIOS 
 Route::get('/envios', [EnvioController::class, 'index'])->name('envios.index');
 Route::get('/envios/list', [EnvioController::class, 'getMonedas'])->name('envios.list');
+Route::get('/envios-search-cp', [EnvioController::class, 'getCodigosPostales'])->name('envios.postales');
 Route::get('/envios/{envio}{edit}', [EnvioController::class, 'show'])->name('envios.show');
 Route::put('/envios/{envios}', [EnvioController::class, 'update'])->name('envios.update');
 Route::post('/envios/', [EnvioController::class, 'store'])->name('envios.store');

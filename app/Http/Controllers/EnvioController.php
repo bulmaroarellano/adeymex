@@ -6,6 +6,10 @@ use App\Models\Envio;
 use App\Models\Sepomex;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
+use App\Helpers\Helper;
+use stdClass;
+
+use App\Services\FedexEnvios;
 
 class EnvioController extends Controller
 {
@@ -21,6 +25,20 @@ class EnvioController extends Controller
         return view('/paqueteria/envios/envios', [
             'sucursalesName' => $sucursalesName, 
         ]);
+    }
+
+
+    public function getCodigosPostales(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $data = new stdClass();
+           
+            $data->cp_remitente = Sucursal::where('id', $request->id_sucursal)->value('codigo_postal');
+            $data->cp_destinatario = Sepomex::where('id', $request->id_cp_destinatario)->value('d_codigo');
+
+            return response()->json($data);
+        }
     }
 
     /**
@@ -41,7 +59,46 @@ class EnvioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request;
+
+
+        //+  FUNCIONES 
+
+
+        $envio = new FedexEnvios('RdrCFt8NwQuVQaSK', 'Bbd1Nb5m4ekatPZiMp9BUEI3Y', '510087860', '119072943');
+        $envio->configuraciones();
+        
+        $envio->remitenteEnvio(['Col. Centro'], 'Toluca de Lerdo', 'EM', 50000 , 'MX');
+        $envio->remitenteEnvioContacto('Servicios Leo', 'jesus.ca.reyes@outlook.com', 'Jesus', '7223568878');
+
+        $envio->destinatarioEnvio(
+            ['De la Veracruz'],  // direcciones -domicilio1,2, 3
+            'Zinacantepec',
+            'EM',    // state code 
+            (int)$request->destinatario_codigo_postal,
+            'MX'
+        );
+        $envio->destinatarioEnvioContacto(
+            $request->destinatario_nombre_completo,
+            $request->destinatario_telefono,
+        );
+        $envio->especificacionesPaquete(
+            $request->ancho_paquete,
+            $request->alto_paquete,
+            $request->largo,
+            $request->peso,
+            'paquetePrueba'
+        );
+
+        $envio->impuestos();
+
+        $tipoServicio = Helper::getTipoServicio($request->nombreEnvio); // cambiar nombreEnvio -> nombreServicio
+        $tipoPaquete = Helper::getTipoPaquete($request->type_paquete_fedex); 
+        $envio->descEnvio($tipoServicio, $tipoPaquete);
+        
+        $envio->peticionEnvio();
+
+
     }
 
     /**
@@ -52,12 +109,7 @@ class EnvioController extends Controller
      */
     public function show(Envio $envio, $edit)
     {
-        $sepomex = Sepomex::where('id', '2')->pluck('d_codigo', 'id');
-        return redirect()->route('envios.index' )->with([
-            'values' => $envio, 
-            'sepomex' => $sepomex, 
-            'edit' => $edit
-        ]);
+        
     }
 
     /**

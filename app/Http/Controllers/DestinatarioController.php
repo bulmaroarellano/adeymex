@@ -46,12 +46,12 @@ class DestinatarioController extends Controller
            
             return Datatables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', function ($remitente) {
+                ->addColumn('action', function ($destinatario) {
                     $actionBtn = '
                     <td class="">
-                    <form action=" ' . route('remitentes.destroy', $remitente) . ' " method="POST" class = "d-flex justify-content-around">
-                        <a href=" ' . route('remitentes.show', [$remitente, '0']) . ' "> <i class="far fa-eye "></i> </a>
-                        <a href=" ' . route('remitentes.show', [$remitente, '1']) . ' "><i class="fas fa-pen-alt"></i> </a>
+                    <form action=" ' . route('destinatarios.destroy', $destinatario) . ' " method="POST" class = "d-flex justify-content-around">
+                        <a href=" ' . route('destinatarios.show', [$destinatario, '0']) . ' "> <i class="far fa-eye "></i> </a>
+                        <a href=" ' . route('destinatarios.show', [$destinatario, '1']) . ' "><i class="fas fa-pen-alt"></i> </a>
                         ' . csrf_field() . '
                         ' . method_field('delete') . '
                         <button class="" style="color: rgb(209, 3, 3);">
@@ -64,6 +64,30 @@ class DestinatarioController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
+    }
+
+    public function findDestinatario(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $data = Destinatario::where('id', $request->id)->first();
+            $data->nombre_empresa = Empresa::select('nombre')->where('id', $data->empresa_id)->first();
+            $data->nombre_pais = Pais::select('nombre')->where('id', $data->empresa_id)->first();
+            return response()->json($data);
+        }
+    }
+
+    public function destinatariosSearch(Request $request)
+    {
+        $destinatarios = [];
+
+        if ($request->has('q')) {
+            $search = $request->q;
+            $destinatarios = Destinatario::select("id", "nombre")
+                ->where('nombre', 'LIKE', "%$search%")->limit(5)
+                ->get();
+        }
+        return response()->json($destinatarios);
     }
 
     /**

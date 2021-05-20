@@ -4,7 +4,7 @@ $(function () {
 
         processing: true,
         serverSide: true,
-        ajax: "/remitentes/list",
+        ajax: "/destinatarios/list",
         columns: [
             { data: 'sucursal_id.0.nombre' },
             { data: 'nombre' },

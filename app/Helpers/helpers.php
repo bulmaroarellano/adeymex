@@ -1,7 +1,7 @@
 <?php // Code within app\Helpers\Helper.php
 
 namespace App\Helpers;
-
+use FedEx\ShipService\SimpleType;
 use Config;
 
 class Helper
@@ -135,6 +135,41 @@ class Helper
                     Config::set('custom.' . $demo . '.' . $config, $val);
                 }
             }
+        }
+    }
+
+    public static function getTipoServicio($service)
+    {
+        switch ($service) {
+            case 'FedexNacionalDiaSiguiente':
+                return SimpleType\ServiceType::_STANDARD_OVERNIGHT;
+                break;
+            case 'FedexNacionalEconomico':
+                return SimpleType\ServiceType::_FEDEX_EXPRESS_SAVER;
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    }
+
+    public static function getTipoPaquete($numberPaquete)
+    {
+        switch ($numberPaquete) {
+            case '1':
+                return SimpleType\PackagingType ::_YOUR_PACKAGING;
+                break;
+            case '2':
+                return SimpleType\PackagingType::_FEDEX_ENVELOPE;
+                break;
+            case '3':
+                return SimpleType\PackagingType::_FEDEX_PAK;
+                break;
+            
+            default:
+               
+                break;
         }
     }
 }

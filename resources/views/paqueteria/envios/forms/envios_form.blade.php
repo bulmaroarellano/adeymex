@@ -8,254 +8,354 @@
                 'method' => 'GET'
             ]) !!}
 
-                <div class="col-md-12">
+            @include('paqueteria/envios/forms/cotizacion_form')
+            
+            {!! Form::close() !!}
+            
+            {!! Form::open([
+                'route' => 'envios.store',
+                'method' => 'POST'
+            ]) !!}
 
-                    <div class="row justify-content-center">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header ">
-                                    <h4  class="font-weight-bolder">Cotizar</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        {{-- DATOS GENERALES COTIZACION--}}
-                                        <div class="col-md-6">
+            @include('paqueteria/envios/components/cotizacion_result')
+            
+            <div class="col-md-12" id="datos-envio" >
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-body">
+                            <div class="row">
+                                {{-- DATOS ENVIO REMITENTE --}}
+                                <div class="col-md-6">
 
-                                            <div class="form-group">
-                                                <label class="col-form-label  text-primary">Sucursal *</label>
-                                                <div class="input-group input-group-merge">
-                                                    
-                                                    {{ Form::select('sucursal_id',
-                                                    (session()->has('sucursalesName')) 
-                                                    ? session()->get('sucursalesName')
-                                                    : $sucursalesName?? [], 
-                                                        session()->get('values')->sucursal_id ?? old('sucursales'),[
-                                                           'placeholder' => 'Elegir Sucursal',
-                                                           'disabled' => session()->has('values')
-                                                               ? (session()->get('edit') == 1 ? false : true )
-                                                               : false,
-                                                           'class' => 'sucursales-search form-control  col-md-10 pl-1'
-                                                    ])}}
-                                                </div>
-                                                @error('sucursal')
-                                                        <small class="alert alert-danger">{{$message}}</small>
-                                                @enderror
-                                            </div>
-
-                                            {{-- direccion de la sucursal   --}}
-                                            <div class="form-group">
-                                                <label class="col-form-label  text-primary">Direccion Origen </label>
-                                                <div class="input-group input-group-merge">
-                                                    
-                                                    {!! Form::text(
-                                                        'origen', session()->get('values')->origen ?? '',[
-                                                            'readonly' => session()->has('edit') 
-                                                            ? session()->get('edit') == 0 ? true : false
-                                                            : false,
-                                                            'class' => 'origen-envio form-control pl-1'
-                                                        ]) 
-                                                    !!}
-                                                </div>
-                                                @error('cp_sucursal')
-                                                        <small class="alert alert-danger">{{$message}}</small>
-                                                @enderror
-                                            </div>
-
-                                            {{-- BUSCADORES CP_SEṔOMEX  --}}
-                                            <div class="form-group">
-                                                <label class="col-form-label  text-primary">Direccion destino  </label>
-                                                <div class="input-group input-group-merge">
-                                                
-                                                    {{ Form::select('destino',  session()->has('values') ? session()->get('values')->destino : [], 
-                                                        session()->has('values') ? session()->get('values')->destinoCP : old('destino'),[
-                                                           'placeholder' => '',
-                                                           'disabled' => session()->has('values')
-                                                               ? (session()->get('edit') == 1 ? false : true )
-                                                               : false,
-                                                           'class' => 'sepomex-search form-control  col-sm-12'
-                                                    ])}}
-                                                </div>
-                                                @error('destino')
-                                                        <small class="alert alert-danger">{{$message}}</small>
-                                                @enderror
-                                            </div>
-                                            
-
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Nombre del remitente</label>
+                                        <div class="input-group input-group-merge">
+                                            {{ Form::select('remitente_id',session()->get('values')->remitente ?? [] , 
+                                                session()->get('values')->remitente_id ?? '',[
+                                                    'placeholder' => 'Buscar Remitente ',
+                                                    'readonly' => session()->has('values')
+                                                        ? (session()->get('edit') == 1 ? false : true )
+                                                        : false,
+                                                    'class' => 'remitentes-search form-control  col-md-10 pl-1'
+                                            ])}}
                                         </div>
-                                        {{-- PAQUETES  --}}
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label  text-primary">Tipo de paquete</label>
-                                                <div class="input-group input-group-merge">
-                                                    
-                                                    {{ Form::select('type_paquete',[
-                                                        '1' => 'Paquete',
-                                                        '2' => 'Documento',
-                                                        '3' => 'Fedex-pak'
-                                                    ], 
-                                                        session()->get('values')->type_paquete ?? '',[
-                                                            'placeholder' => 'Elegir tipo de paquete',
-                                                            'disabled' => session()->has('values')
-                                                                ? (session()->get('edit') == 1 ? false : true )
-                                                                : false,
-                                                            'class' => 'type-paquete form-control  col-md-10 pl-1'
-                                                    ])}}
-                                                </div>
-                                               
-                                            </div>
-                                            {{-- MEDIDAS --}}
-                                            <div class="row">
-                                                <div class="col-md-3">
-
-                                                    <div class="form-group">
-                                                        <label class="col-form-label  text-primary">Largo (cm)</label>
-                                                        <div class="input-group input-group-merge">
-                                                            
-                                                            {!! Form::text(
-                                                                'largo', session()->get('values')->largo ?? '',[
-                                                                    'readonly' => session()->has('edit') 
-                                                                    ? session()->get('edit') == 0 ? true : false
-                                                                    : false,
-                                                                    'class' => 'largo form-control pl-1'
-                                                                ]) 
-                                                            !!}
-                                                        </div>
-                                   
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-3">
-
-                                                    <div class="form-group">
-                                                        <label class="col-form-label  text-primary">Ancho (cm)</label>
-                                                        <div class="input-group input-group-merge">
-                                                            
-                                                            {!! Form::text(
-                                                                'ancho', session()->get('values')->ancho ?? '',[
-                                                                    'readonly' => session()->has('edit') 
-                                                                    ? session()->get('edit') == 0 ? true : false
-                                                                    : false,
-                                                                    'class' => 'ancho form-control pl-1'
-                                                                ]) 
-                                                            !!}
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label class="col-form-label  text-primary">Alto (cm)</label>
-                                                        <div class="input-group input-group-merge">
-                                                            
-                                                            {!! Form::text(
-                                                                'alto', session()->get('values')->alto ?? '',[
-                                                                    'readonly' => session()->has('edit') 
-                                                                    ? session()->get('edit') == 0 ? true : false
-                                                                    : false,
-                                                                    'class' => 'alto form-control pl-1'
-                                                                ]) 
-                                                            !!}
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label class="col-form-label  text-primary">Peso (kg)</label>
-                                                        <div class="input-group input-group-merge">
-                                                            
-                                                            {!! Form::text(
-                                                                'peso', session()->get('values')->peso ?? '',[
-                                                                    'readonly' => session()->has('edit') 
-                                                                    ? session()->get('edit') == 0 ? true : false
-                                                                    : false,
-                                                                    'class' => 'peso form-control pl-1'
-                                                                ]) 
-                                                            !!}
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="row d-flex justify-content-sm-around mt-2">
-                                                <button class="btn btn-success" type="submit">
-                                                    {{ session()->get('edit') ? 'otra' : 'Cotizar' }}
-                                                </button>
-                                                <a href="{{ route('envios.index') }}">
-                                                    <div class="btn btn-danger">
-                                                        <i class="fas fa-ban mr-1"></i>
-                                                        Cancelar
-                                                    </div>
-                                                </a>
-                        
-                                            </div>
-                                        </div>
-                
                                     </div>
+                                    {{-- PINTAR EN FUNCION DEL ID DEL REMITENTES O SINO CREAR UN ENVIO  --}}
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Nombre completo del remitente</label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'remitente_nombre_completo', session()->get('values')->remitente_nombre_completo ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'remitente-nombre-completo form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Empresa</label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'remitente_empresa', session()->get('values')->remitente_empresa ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'remitente-empresa form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                    {{-- CODIGO_POSTAL EN FUNCION DE LA COTIZACION --}}
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Codigo Postal</label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'remitente_codigo_postal', session()->get('values')->remitente_codigo_postal ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'remitente-codigo-postal form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Pais de Origen</label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'remitente_pais', session()->get('values')->remitente_pais ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'remitente-pais form-control pl-1'
+                                                ]) 
+                                            !!}
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Domicilio 1 </label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'remitente_domicilio1', session()->get('values')->remitente_domicilio1 ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'remitente-domicilio1 form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Domicilio 2</label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'remitente_domicilio2', session()->get('values')->remitente_domicilio2 ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'remitente-domicilio2 form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Domicilio 3</label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'remitente_domicilio3', session()->get('values')->remitente_domicilio3 ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'remitente-domicilio3 form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Telefono </label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'remitente_telefono', session()->get('values')->remitente_telefono ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'remitente-telefono form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Correo </label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'remitente_email', session()->get('values')->remitente_email ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'remitente-email form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
                                 </div>
+                                
+                                {{-- DATOS ENVIO DESTINATARIO --}}
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Nombre del destinatario</label>
+                                        <div class="input-group input-group-merge">
+                                            {{ Form::select('destinatario_id',session()->get('values')->destinatario ?? [] , 
+                                                session()->get('values')->destinatario_id ?? '',[
+                                                    'placeholder' => 'Buscar Destinatario ',
+                                                    'readonly' => session()->has('values')
+                                                        ? (session()->get('edit') == 1 ? false : true )
+                                                        : false,
+                                                    'class' => 'destinatarios-search form-control  col-md-10 pl-1'
+                                            ])}}
+                                        </div>
+                                    </div>
+                                    {{-- PINTAR EN FUNCION DEL ID DEL REMITENTES O SINO CREAR UN ENVIO  --}}
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Nombre completo del destinatario</label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'destinatario_nombre_completo', session()->get('values')->destinatario_nombre_completo ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'destinatario-nombre-completo form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Empresa</label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'destinatario_empresa', session()->get('values')->destinatario_empresa ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'destinatario-empresa form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                    {{-- CODIGO_POSTAL EN FUNCION DE LA COTIZACION --}}
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Codigo Postal</label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'destinatario_codigo_postal', session()->get('values')->destinatario_codigo_postal ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'destinatario-codigo-postal form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Pais de Origen</label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'destinatario_pais', session()->get('values')->destinatario_pais ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'destinatario-pais form-control pl-1'
+                                                ]) 
+                                            !!}
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Domicilio 1 </label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'destinatario_domicilio1', session()->get('values')->destinatario_domicilio1 ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'destinatario-domicilio1 form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Domicilio 2</label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'destinatario_domicilio2', session()->get('values')->destinatario_domicilio2 ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'destinatario-domicilio2 form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Domicilio 3</label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'destinatario_domicilio3', session()->get('values')->destinatario_domicilio3 ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'destinatario-domicilio3 form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Telefono </label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'destinatario_telefono', session()->get('values')->destinatario_telefono ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'destinatario-telefono form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Correo </label>
+                                        <div class="input-group input-group-merge">
+                                            
+                                            {!! Form::text(
+                                                'destinatario_email', session()->get('values')->destinatario_email ?? '',[
+                                                    'readonly' => session()->has('edit') 
+                                                    ? session()->get('edit') == 0 ? true : false
+                                                    : false,
+                                                    'class' => 'destinatario-email form-control pl-1'
+                                                ]) 
+                                            !!}
+                                        </div>
+                                    </div>
+
+                                </div>
+                                
+                            </div>
+                            <div class="row d-flex justify-content-sm-around mt-2">
+                                <button class="btn btn-success" type="submit">
+                                    {{ session()->get('edit') ? 'otra' : 'Enviar' }}
+                                </button>
+                                <a href="{{ route('envios.index') }}">
+                                    <div class="btn btn-danger">
+                                        <i class="fas fa-ban mr-1"></i>
+                                        Cancelar
+                                    </div>
+                                </a>
+        
                             </div>
                         </div>
-
-                        {{-- RESULTADO FEDEX COTIZACION  --}}
-                        
-                        @if ( !empty(session()->get('rateReplyDetails')) )
-
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">FEDEX COTIZACION</div>
-                                    <div class="card-body">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Linea de transporte</th>
-                                                    <th>Fecha estimada</th>
-                                                    <th>Detalles del envio</th>
-                                                    <th>Costo Final </th>
-                                                    <th>Agregar</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                
-                                                @foreach (session()->get('rateReplyDetails') as $rateReplyDetail)
-                                                    
-                                                    <tr>
-                                                        <th>FEDEX</th>
-                                                        <th>{{$rateReplyDetail->DeliveryTimestamp}}</th>
-                                                        <th>{{$rateReplyDetail->ServiceDescription->Names[1]->Value}}</th>
-                                                        
-                                                        
-                                                        <th>
-                                                            {{$rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->TotalNetCharge->Amount}}
-                                                        </th>
-                                                        <th>
-                                                            <div class="form-check bg-primary d-flex align-items-center">
-                                                                <input class="form-check-input" type="radio" name="gridRadios"
-                                                                id="{{trim($rateReplyDetail->ServiceDescription->Names[1]->Value)}}" 
-                                                                value="{{trim($rateReplyDetail->ServiceDescription->Names[1]->Value)}}" >
-                                                                
-                                                            </div>
-
-                                                        </th>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        
-                        
-                        
-                        
                     </div>
-
-                    
                 </div>
+            </div>
 
             {!! Form::close() !!}
+                
+            
         </div>
     </div>
 

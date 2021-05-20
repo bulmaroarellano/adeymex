@@ -72,6 +72,30 @@ class RemitenteController extends Controller
         }
     }
 
+    public function findRemitente(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $data = Remitente::where('id', $request->id)->first();
+            $data->nombre_empresa = Empresa::select('nombre')->where('id', $data->empresa_id)->first();
+            $data->nombre_pais = Pais::select('nombre')->where('id', $data->empresa_id)->first();
+            return response()->json($data);
+        }
+    }
+
+    public function remitentesSearch(Request $request)
+    {
+        $remitentes = [];
+
+        if ($request->has('q')) {
+            $search = $request->q;
+            $remitentes = Remitente::select("id", "nombre")
+                ->where('nombre', 'LIKE', "%$search%")->limit(5)
+                ->get();
+        }
+        return response()->json($remitentes);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -67,10 +67,13 @@
 @section('page-script')
   {{-- Page js files --}}
   <script src="{{ asset(mix('js/scripts/envios/find-sucursal.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/envios/show-datos-envio.js')) }}"></script>
 
   <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/catalogos/sucursales-search.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/sepomex-search.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/envios/remitentes-search.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/envios/destinatarios-search.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/type-paquete.js')) }}"></script>
   
   
