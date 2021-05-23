@@ -110,7 +110,7 @@ class FedexEnvios
 
     }
 
-    public function remitenteEnvioContacto($nombreCompania, $email, $nombre, $telefono)
+    public function remitenteEnvioContacto($nombre, $telefono, $email,$nombreCompania)
     {
 
         $this->shipperContact
@@ -150,7 +150,7 @@ class FedexEnvios
 
     public function especificacionesPaquete($ancho, $alto, $largo, $peso, $descripcion)
     {
-
+    
         $this->packageLineItem
             ->setSequenceNumber(1)
             ->setItemDescription($descripcion)
@@ -217,7 +217,9 @@ class FedexEnvios
         // echo '<pre>';
         // var_dump($result);
         // echo '</pre>';
-
+        
+        return $result;
+        
         file_put_contents('label.pdf', $result->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image);
         // var_dump($result->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image);
     }

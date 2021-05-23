@@ -1,6 +1,6 @@
 {{-- RESULTADO FEDEX COTIZACION --}}
 
-@if (!empty(session()->get('rateReplyDetails')))
+@if (session()->get('successCotizacion') == "SUCCESS" || session()->get('successCotizacion') == "WARNING")
 
     <div class="col-md-12">
         <div class="card">
@@ -18,12 +18,16 @@
                     </thead>
                     <tbody>
 
-                        @foreach (session()->get('rateReplyDetails') as $rateReplyDetail)
+                        @php
+                            $rateReplyDetails = session()->get('rateReply')->RateReplyDetails
+                        @endphp
+
+                        @foreach ($rateReplyDetails as $rateReplyDetail)
 
                             @php
-                                $nombreEnvio = str_replace(' ', '',$rateReplyDetail->ServiceDescription->Names[1]->Value);
-                                $montoEnvio = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->TotalNetCharge->Amount;
-                                $fechaEstimadaEnvio = $rateReplyDetail->DeliveryTimestamp;   
+                                $nombreEnvio = str_replace(' ', '',$rateReplyDetail->ServiceDescription->Names[1]->Value ??  'no');
+                                $montoEnvio = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->TotalNetCharge->Amount ?? 'no';
+                                $fechaEstimadaEnvio = $rateReplyDetail->DeliveryTimestamp ?? 'no';   
                             @endphp
 
                             <tr>
@@ -31,7 +35,7 @@
                                 <th>{{ $fechaEstimadaEnvio }}</th>
                                 <th>{{ $rateReplyDetail->ServiceDescription->Names[1]->Value  }}</th>
 
-                                <th>
+                                <th id="{{$nombreEnvio}}-monto">
                                     {{ $montoEnvio }}
                             
                                 </th>
@@ -49,13 +53,22 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <input type="hidden" name="sucursal_id"  value="" id="sucursal_id_envio" >
                     <input type="hidden" name="type_paquete_fedex"  value="" id="type-paquete-fedex" >
                     <input type="hidden" name="largo_paquete" value="" id="largo-paquete-fedex" >
                     <input type="hidden" name="ancho_paquete" value="" id="ancho-paquete-fedex" >
                     <input type="hidden" name="alto_paquete"  value="" id="alto-paquete-fedex" >
                     <input type="hidden" name="peso_paquete"  value="" id="peso-paquete-fedex" >
-
             </div>
         </div>
+    </div>
+
+    @include('paqueteria/envios/components/cotizacion_precios')
+@endif
+
+@if (session()->get('successCotizacion') == "FAILURE")
+    <div class="">
+        <small class="text-danger">ERROR EN AL PETICION </small>
+        <small>{{session()->get('rateReply')->Notifications[0]->Message }}</small>
     </div>
 @endif

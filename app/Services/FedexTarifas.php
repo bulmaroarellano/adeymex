@@ -108,10 +108,14 @@ class FedexTarifas
             //     }
             //     echo "<hr />";
             // }
-            return $rateReply->RateReplyDetails;
+            // echo '<pre>';
+            // var_dump($rateReply);
+            // echo '</pre>';
+            // return $rateReply->RateReplyDetails;
+            return $rateReply;
         }
         
-        return null;
+        return $rateReply;
         
 
     }

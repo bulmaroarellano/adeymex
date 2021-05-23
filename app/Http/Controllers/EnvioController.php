@@ -7,6 +7,8 @@ use App\Models\Sepomex;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
+use App\Models\Destinatario;
+use App\Models\Remitente;
 use stdClass;
 
 use App\Services\FedexEnvios;
@@ -59,17 +61,31 @@ class EnvioController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
+        // return $request;
 
 
         //+  FUNCIONES 
-
+        $sucursal = Sucursal::where('id', $request->sucursal_id)->first();
+        $remitente = Remitente::where('id', $request->remitente_id)->first();
+        $destinatario = Destinatario::where('id', $request->destinatario_id)->first();
 
         $envio = new FedexEnvios('RdrCFt8NwQuVQaSK', 'Bbd1Nb5m4ekatPZiMp9BUEI3Y', '510087860', '119072943');
         $envio->configuraciones();
         
-        $envio->remitenteEnvio(['Col. Centro'], 'Toluca de Lerdo', 'EM', 50000 , 'MX');
-        $envio->remitenteEnvioContacto('Servicios Leo', 'jesus.ca.reyes@outlook.com', 'Jesus', '7223568878');
+        $envio->remitenteEnvio(
+            ['Col. Centro'],
+            'Toluca de Lerdo',
+            'EM',
+            50000,
+            'MX'
+        ); // direccion de la sucursal  (data --> $sucursal )
+
+        $envio->remitenteEnvioContacto(
+            $request->remitente_nombre_completo,
+            $request->remitente_telefono, 
+            $request->remitente_email,
+            $remitente->remitente_empresa,
+        ); // datos de la persona que hace el pedido 
 
         $envio->destinatarioEnvio(
             ['De la Veracruz'],  // direcciones -domicilio1,2, 3
@@ -82,23 +98,34 @@ class EnvioController extends Controller
             $request->destinatario_nombre_completo,
             $request->destinatario_telefono,
         );
+
         $envio->especificacionesPaquete(
-            $request->ancho_paquete,
-            $request->alto_paquete,
-            $request->largo,
-            $request->peso,
+            (int) $request->ancho_paquete,
+            (int) $request->alto_paquete,
+            (int) $request->largo_paquete,
+            (float) $request->peso_paquete,
             'paquetePrueba'
         );
-
         $envio->impuestos();
 
         $tipoServicio = Helper::getTipoServicio($request->nombreEnvio); // cambiar nombreEnvio -> nombreServicio
         $tipoPaquete = Helper::getTipoPaquete($request->type_paquete_fedex); 
         $envio->descEnvio($tipoServicio, $tipoPaquete);
+        $processShipmentReply =  $envio->peticionEnvio();
+
+        $successEnvio = $processShipmentReply->HighestSeverity;
+  
+        return redirect()->route('envios.list')->with([
+            'processShipmentReply' => $processShipmentReply,
+            'successEnvio' => $successEnvio,
+        ]);
+
+
+    }
+
+    public function listEnvios()
+    {
         
-        $envio->peticionEnvio();
-
-
     }
 
     /**

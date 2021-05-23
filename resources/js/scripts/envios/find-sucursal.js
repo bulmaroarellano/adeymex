@@ -7,7 +7,7 @@ $(function(){
             type: 'get', 
             url: '/sucursales-find' ,
             data: {'id': sucursalId}, 
-            success : (data) => {
+            success : (data) => { 
                 document.querySelector('.origen-envio').value = ` ${data.codigo_postal} - ${data.domicilio1}`;
             }
         });

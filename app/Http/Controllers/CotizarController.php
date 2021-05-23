@@ -23,7 +23,8 @@ class CotizarController extends Controller
         $tarifas->remitente(['Col. Centro'], 'Toluca de Lerdo', 'EM', 50000, 'MX');
         $tarifas->destinatario([$sepomex->d_asenta], $sepomex->D_mnpio, 'EM', $sepomex->d_codigo, 'MX');
         $tarifas->paquetes((int)$request->peso, (int)$request->largo, (int)$request->ancho, (int) $request->alto);
-        $rateReplyDetails = $tarifas->peticion();
+        $rateReply = $tarifas->peticion();
+        $successCotizacion = $rateReply->HighestSeverity;
 
         $values = new stdClass();
         $values->sucursal_id = $request->sucursal_id;
@@ -42,7 +43,8 @@ class CotizarController extends Controller
 
         return redirect()->route('envios.index')->with([
 
-            'rateReplyDetails' => $rateReplyDetails,
+            'rateReply' => $rateReply,
+            'successCotizacion' => $successCotizacion,
             'values' => $values,
         ]);
 

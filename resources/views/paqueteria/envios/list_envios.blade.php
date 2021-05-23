@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Crear Envio')
+@section('title', 'Envios')
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -13,40 +13,32 @@
 @endsection
 @section('content')
 
-<section class="envios">
+    <section class="envios">
 
-    <div class="container envios-form">
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-12">
-                {{-- FORMULARIO DE COTIZACIONES  --}}
-                {!! Form::open([
-                    'route' => 'cotizar.cotizacion',
-                    'method' => 'GET'
-                ]) !!}
+        <div class="container mt-2">
 
-                @include('paqueteria/envios/forms/cotizacion_form')
-                
-                {!! Form::close() !!}
-
-                {!! Form::open([
-                    'route' => 'envios.store',
-                    'method' => 'POST'
-                ]) !!}
-                
-                @include('paqueteria/envios/components/cotizacion_result')
-                @include('paqueteria/envios/forms/envios_form')
-                
-                {!! Form::close() !!}
-                
-                @include('paqueteria/envios/components/envio_result')
-
-
-
+            <div class="table-responsive">
+                <table class="table mb-3">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sucursal</th>
+                            <th scope="col">Fecha de registro</th>
+                            <th scope="col">Tipo de envio </th>
+                            <th scope="col">Numero de seguimiento</th>
+                            <th scope="col">Estatus Origen</th>
+                            <th scope="col">Estatus Destino</th>
+                            <th scope="col">Direccion Origen</th>
+                            <th scope="col">Direccion Destino</th>
+                            <th scope="col">Acciones </th>
+                        </tr>
+                    </thead>
+        
+                </table>
             </div>
         </div>
-    </div>
 
-</section>
+    </section>
+
 
 
 @endsection
@@ -65,23 +57,11 @@
     <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
 
-
 @endsection
 
 
 @section('page-script')
   {{-- Page js files --}}
-  <script src="{{ asset(mix('js/scripts/envios/find-sucursal.js')) }}"></script>
-  <script src="{{ asset(mix('js/scripts/envios/show-datos-envio.js')) }}"></script>
-
-  <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
-  <script src="{{ asset(mix('js/scripts/catalogos/sucursales-search.js')) }}"></script>
-  <script src="{{ asset(mix('js/scripts/envios/sepomex-search.js')) }}"></script>
-  <script src="{{ asset(mix('js/scripts/envios/remitentes-search.js')) }}"></script>
-  <script src="{{ asset(mix('js/scripts/envios/destinatarios-search.js')) }}"></script>
-  <script src="{{ asset(mix('js/scripts/envios/type-paquete.js')) }}"></script>
-  
-  
-
+    
 @endsection
 

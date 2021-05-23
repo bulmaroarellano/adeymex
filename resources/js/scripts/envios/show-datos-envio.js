@@ -2,6 +2,9 @@ $("input[type='radio'][name='nombreEnvio']").on("change", function(){
     
   if($(this).is(':checked')){
 
+      const envioSeleccionado = $(this).val();
+      console.log(`Seleccionado es ${envioSeleccionado}`)
+
       $("#datos-envio").show();
       const id_cp_destinatario = document.querySelector('.sepomex-search').value;
       const id_sucursal = document.querySelector('.sucursales-search').value;
@@ -11,6 +14,7 @@ $("input[type='radio'][name='nombreEnvio']").on("change", function(){
       const anchoPaquete = document.querySelector('.ancho').value;
       const altoPaquete  = document.querySelector('.alto').value;
       const pesoPaquete  = document.querySelector('.peso').value;
+      const sucursalId  = document.querySelector('.sucursales-search').value;
      
       $.ajax({
         type: 'get', 
@@ -29,6 +33,7 @@ $("input[type='radio'][name='nombreEnvio']").on("change", function(){
           document.querySelector('#ancho-paquete-fedex').value = `${anchoPaquete}`;
           document.querySelector('#alto-paquete-fedex').value  = `${altoPaquete}`;
           document.querySelector('#peso-paquete-fedex').value  = `${pesoPaquete}`;
+          document.querySelector('#sucursal_id_envio').value  = `${sucursalId}`;
 
 
 
