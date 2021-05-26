@@ -1,5 +1,14 @@
 @if (session()->get('successEnvio') == "SUCCESS" || session()->get('successEnvio') == "WARNING")
 
+    @php
+        $tipoServicio = session()->get('processShipmentReply')->CompletedShipmentDetail->ServiceDescription->ServiceType ;
+        $numeroGuia = session()->get('processShipmentReply')->CompletedShipmentDetail->MasterTrackingId->TrackingNumber ;
+    @endphp
+
+    <ul>
+        <li>Tipo de envio  {{$tipoServicio}}</li>
+        <li>NUmero de guia {{$numeroGuia}}</li>
+    </ul>
     
 
     

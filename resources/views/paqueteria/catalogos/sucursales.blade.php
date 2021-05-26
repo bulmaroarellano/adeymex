@@ -13,7 +13,7 @@
 
 @endsection
 @section('content')
-@include('paqueteria/components/sucursales_form')
+@include('paqueteria/catalogos/components/sucursales_form')
     <!-- Basic table -->
 <section id="basic-datatable">
     <div class="row">

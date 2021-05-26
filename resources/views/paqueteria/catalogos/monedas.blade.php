@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
 @endsection
 @section('content')
-@include('paqueteria/components/monedas_form')
+@include('paqueteria/catalogos/components/monedas_form')
 <section id="basic-datatable">
 
     <div class="row">

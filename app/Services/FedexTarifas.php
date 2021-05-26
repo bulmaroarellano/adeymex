@@ -68,14 +68,14 @@ class FedexTarifas
         // $this->rateRequest->RequestedShipment->RateRequestTypes = [SimpleType\RateRequestType::_PREFERRED, SimpleType\RateRequestType::_LIST];
         $this->rateRequest->RequestedShipment->RateRequestTypes = [SimpleType\RateRequestType::_PREFERRED];
 
-
+        // $this->rateRequest->RequestedShipment->PackagingType = SimpleType\PackagingType::_FEDEX_ENVELOPE;
         $this->rateRequest->RequestedShipment->PackageCount = 1;
 
         //create package line items
         $this->rateRequest->RequestedShipment->RequestedPackageLineItems = [new ComplexType\RequestedPackageLineItem()];
 
         //package 1
-        $this->rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Weight->Value = 5;
+        $this->rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Weight->Value = $peso;
         $this->rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Weight->Units = SimpleType\WeightUnits::_KG;
         $this->rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Dimensions->Length = $largo;
         $this->rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Dimensions->Width = $ancho;

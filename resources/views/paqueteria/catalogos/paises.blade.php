@@ -12,7 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 @section('content')
-@include('paqueteria/components/paises_form')
+@include('paqueteria/catalogos/components/paises_form')
 
 
 <section id="basic-datatable">

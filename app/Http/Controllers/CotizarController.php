@@ -18,11 +18,12 @@ class CotizarController extends Controller
         $sepomex = Sepomex::where('id', $request->destino)->first();
 
         $tarifas = new FedexTarifas('RdrCFt8NwQuVQaSK', 'Bbd1Nb5m4ekatPZiMp9BUEI3Y', '510087860', '119072943', 'NMP');
+        // $tarifas = new FedexTarifas('4J4xrVU6gOh0EJ9p', 'Ko7Vmc7pJ3XryfZsXhKSm07op', '510087100', '119225568', 'NMP');
 
         $tarifas->version();
         $tarifas->remitente(['Col. Centro'], 'Toluca de Lerdo', 'EM', 50000, 'MX');
         $tarifas->destinatario([$sepomex->d_asenta], $sepomex->D_mnpio, 'EM', $sepomex->d_codigo, 'MX');
-        $tarifas->paquetes((int)$request->peso, (int)$request->largo, (int)$request->ancho, (int) $request->alto);
+        $tarifas->paquetes((float)$request->peso, (int)$request->largo, (int)$request->ancho, (int) $request->alto);
         $rateReply = $tarifas->peticion();
         $successCotizacion = $rateReply->HighestSeverity;
 
@@ -36,6 +37,7 @@ class CotizarController extends Controller
         $values->destinoCP = $request->destino;
         $values->origen = $request->origen;
         $values->type_paquete = $request->type_paquete;
+        $values->cargo_logistica = $request->cargo_logistica;
         $values->largo = $request->largo;
         $values->ancho = $request->ancho;
         $values->alto = $request->alto;

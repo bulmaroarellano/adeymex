@@ -14,7 +14,7 @@
 
     <section class="monedas">
 
-        @include('paqueteria/components/mensajerias_form')
+        @include('paqueteria/catalogos/components/mensajerias_form')
         <div class="container mt-2 col-md-9">
 
             <div class="table-responsive">

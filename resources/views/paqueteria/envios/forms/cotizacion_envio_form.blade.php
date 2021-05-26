@@ -10,7 +10,6 @@
                     <div class="row">
                         {{-- DATOS GENERALES COTIZACION--}}
                         <div class="col-md-6">
-
                             <div class="form-group">
                                 <label class="col-form-label  text-primary">Sucursal *</label>
                                 <div class="input-group input-group-merge">
@@ -93,10 +92,30 @@
                                 </div>
                                
                             </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="col-form-label  text-primary">Cargos por Logistica Interna*</label>
+                                        <div class="input-group input-group-merge">
+                                            <div class="input-group input-group-merge">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">MXN</span>
+                                                </div>
+                                                {!! Form::input('number', 'cargo_logistica', session()->get('values')->cargo_logistica ?? null, [
+                                                    'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
+                                                    'min' => '0', 
+                                                    'class' => 'form-control pl-1 cargo-logistica', 
+                                                    // 'pattern' => "[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                                                ]) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             {{-- MEDIDAS --}}
                             <div class="row">
                                 <div class="col-md-3">
-
                                     <div class="form-group">
                                         <label class="col-form-label  text-primary">Largo (cm)</label>
                                         <div class="input-group input-group-merge">
@@ -110,9 +129,7 @@
                                                 ]) 
                                             !!}
                                         </div>
-                   
                                     </div>
-
                                 </div>
                                 <div class="col-md-3">
 

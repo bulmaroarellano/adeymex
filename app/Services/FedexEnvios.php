@@ -217,10 +217,11 @@ class FedexEnvios
         // echo '<pre>';
         // var_dump($result);
         // echo '</pre>';
+        $numberTracking = $result->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
+        file_put_contents("envio-{$numberTracking}.pdf", $result->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image);
         
         return $result;
         
-        file_put_contents('label.pdf', $result->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image);
         // var_dump($result->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image);
     }
 }

@@ -25,44 +25,58 @@
                         @foreach ($rateReplyDetails as $rateReplyDetail)
 
                             @php
-                                $nombreEnvio = str_replace(' ', '',$rateReplyDetail->ServiceDescription->Names[1]->Value ??  'no');
-                                $montoEnvio = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->TotalNetCharge->Amount ?? 'no';
-                                $fechaEstimadaEnvio = $rateReplyDetail->DeliveryTimestamp ?? 'no';   
-                            @endphp
 
+                                $nombreServicio = $rateReplyDetail->ServiceType;
+                                $montoEnvio = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->TotalNetCharge->Amount ?? 'error';
+                                $fechaEstimadaEnvio = $rateReplyDetail->DeliveryTimestamp ?? 'error';   
+
+                            @endphp
+                            {{-- {{$rateReplyDetail->ServiceType}} --}}
                             <tr>
                                 <th>FEDEX</th>
                                 <th>{{ $fechaEstimadaEnvio }}</th>
                                 <th>{{ $rateReplyDetail->ServiceDescription->Names[1]->Value  }}</th>
 
-                                <th id="{{$nombreEnvio}}-monto">
+                                <th id="{{$nombreServicio}}-monto">
                                     {{ $montoEnvio }}
                             
                                 </th>
 
                                 <th>
                                     <div class="form-check bg-primary d-flex align-items-center">
-                                        <input class="form-check-input" type="radio" name="nombreEnvio"
-                                            id="{{ $nombreEnvio }}"
-                                            value="{{ $nombreEnvio }}">
+                                        <input class="form-check-input" type="radio" name="nombreServicio"
+                                            id="{{ $nombreServicio }}"
+                                            value="{{ $nombreServicio }}">
 
                                     </div>
 
                                 </th>
                             </tr>
+
+                                {{-- @foreach ($rateReplyDetail->RatedShipmentDetails as $ratedShipmentDetail)
+                                        @foreach ($ratedShipmentDetail->ShipmentRateDetail->Surcharges as $surcharge)
+                                            <input type="hidden" value="{{$surcharge->Amount->Amount}}" id="{{$nombreServicio}}-fuel">
+                                         @endforeach
+
+                                    @foreach ($ratedShipmentDetail->ShipmentRateDetail->Taxes as $tax)
+                                        <input type="hidden" value="{{$tax->Amount->Amount}}" id="{{$nombreServicio}}-tax">
+                                    @endforeach
+                                @endforeach --}}
+                                @php
+                                    $cargo = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->Surcharges[0]->Amount->Amount;
+                                    $impuesto = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->Taxes[0]->Amount->Amount;
+                                @endphp
+                                    <input type="hidden" value="{{$cargo}}" id="{{$nombreServicio}}-fuel">
+                                    <input type="hidden" value="{{$impuesto}}" id="{{$nombreServicio}}-tax">
+
+
+
                             @endforeach
                         </tbody>
                     </table>
-                    <input type="hidden" name="sucursal_id"  value="" id="sucursal_id_envio" >
-                    <input type="hidden" name="type_paquete_fedex"  value="" id="type-paquete-fedex" >
-                    <input type="hidden" name="largo_paquete" value="" id="largo-paquete-fedex" >
-                    <input type="hidden" name="ancho_paquete" value="" id="ancho-paquete-fedex" >
-                    <input type="hidden" name="alto_paquete"  value="" id="alto-paquete-fedex" >
-                    <input type="hidden" name="peso_paquete"  value="" id="peso-paquete-fedex" >
             </div>
         </div>
     </div>
-
     @include('paqueteria/envios/components/cotizacion_precios')
 @endif
 

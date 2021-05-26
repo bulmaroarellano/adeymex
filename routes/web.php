@@ -183,8 +183,8 @@ Route::get('/sepomex-search', [SepomexController::class, 'sepomexSearch'])->name
 
 Route::get('/cotizacion', [CotizarController::class, 'getCotizacion'])->name('cotizar.cotizacion');
 //- ENVIOS 
-Route::get('/envios', [EnvioController::class, 'index'])->name('envios.index');
-Route::get('/envios/list', [EnvioController::class, 'listEnvios'])->name('envios.list');
+Route::get('/envio', [EnvioController::class, 'index'])->name('envios.index');
+Route::get('/envios', [EnvioController::class, 'listEnvios'])->name('envios.list');
 Route::get('/envios-search-cp', [EnvioController::class, 'getCodigosPostales'])->name('envios.postales');
 Route::get('/envios/{envio}{edit}', [EnvioController::class, 'show'])->name('envios.show');
 Route::put('/envios/{envio}', [EnvioController::class, 'update'])->name('envios.update');

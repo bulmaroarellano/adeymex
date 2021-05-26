@@ -24,7 +24,7 @@ class EnvioController extends Controller
     {
         $sucursalesName = Sucursal::all()->pluck('nombre', 'id');
         
-        return view('/paqueteria/envios/envios', [
+        return view('/paqueteria/envios/envio', [
             'sucursalesName' => $sucursalesName, 
         ]);
     }
@@ -37,7 +37,11 @@ class EnvioController extends Controller
             $data = new stdClass();
            
             $data->cp_remitente = Sucursal::where('id', $request->id_sucursal)->value('codigo_postal');
-            $data->cp_destinatario = Sepomex::where('id', $request->id_cp_destinatario)->value('d_codigo');
+            // $data->cp_destinatario = Sepomex::where('id', $request->id_cp_destinatario)->value('d_codigo');
+            $codigoSelect = Sepomex::select('id', 'd_codigo')->where('id', 'LIKE', $request->id_cp_destinatario )->get();
+
+            $data->cp_destinatario = $codigoSelect->d_codigo;
+            $data->id_cp_destinatario = $codigoSelect->id;
 
             return response()->json($data);
         }
@@ -61,7 +65,7 @@ class EnvioController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
+        return $request;
 
 
         //+  FUNCIONES 
@@ -86,10 +90,11 @@ class EnvioController extends Controller
             $request->remitente_email,
             $remitente->remitente_empresa,
         ); // datos de la persona que hace el pedido 
+        $ciudad = Sepomex::where('id', $request->id_cp_destinatario)->value('d_ciudad');
 
         $envio->destinatarioEnvio(
-            ['De la Veracruz'],  // direcciones -domicilio1,2, 3
-            'Zinacantepec',
+            [$request->destinatario_domicilio1, $request->destinatario_domicilio2, $request->destinatario_domicilio3],  // direcciones -domicilio1,2, 3
+            $ciudad,
             'EM',    // state code 
             (int)$request->destinatario_codigo_postal,
             'MX'
@@ -106,15 +111,25 @@ class EnvioController extends Controller
             (float) $request->peso_paquete,
             'paquetePrueba'
         );
+    
         $envio->impuestos();
-
-        $tipoServicio = Helper::getTipoServicio($request->nombreEnvio); // cambiar nombreEnvio -> nombreServicio
+       
         $tipoPaquete = Helper::getTipoPaquete($request->type_paquete_fedex); 
-        $envio->descEnvio($tipoServicio, $tipoPaquete);
-        $processShipmentReply =  $envio->peticionEnvio();
 
+        $envio->descEnvio($request->nombreServicio, $tipoPaquete);
+        
+        $processShipmentReply =  $envio->peticionEnvio();
         $successEnvio = $processShipmentReply->HighestSeverity;
-  
+        
+        if ($successEnvio == "SUCCESS" || $successEnvio == "WARNING") {
+            //CREAR UN NUEVO ENVIO
+
+        } else {
+            // ENVIAR UN ERROR 
+            
+        }
+        
+
         return redirect()->route('envios.list')->with([
             'processShipmentReply' => $processShipmentReply,
             'successEnvio' => $successEnvio,
@@ -125,6 +140,8 @@ class EnvioController extends Controller
 
     public function listEnvios()
     {
+
+        return view('/paqueteria/envios/envios');
         
     }
 

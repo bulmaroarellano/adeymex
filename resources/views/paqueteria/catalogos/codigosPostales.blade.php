@@ -14,7 +14,7 @@
 
 {{-- @include('paqueteria/components/codigosPostales_form') --}}
 <section id="basic-datatable">
-    @include('paqueteria/components/codigosPostales_form')
+    @include('paqueteria/catalogos/components/codigosPostales_form')
     <div class="row">
         <div class="col-12">
             <div class="card px-1">
