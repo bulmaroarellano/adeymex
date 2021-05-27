@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        @include('paqueteria/envios/components/envio_result')
+        
 
     </section>
 

@@ -13,15 +13,23 @@ class Envio extends Model
     use Searchable;
 
     protected $fillable = [
-        'tipo_envio', 
+        'tipo_servicio', 
+        'tipo_paquete', 
+        'largo_paquete', 
+        'ancho_paquete', 
+        'alto_paquete', 
+        'peso_paquete', 
         'numero_guia', 
-        'status_pago', 
-        'status_recoleccion', 
-        'remitente_cp_envio', 
-        'destinatario_cp_envio',
+        'url_guia', 
+         
+        'origen_cp_envio', 
+        'destino_cp_envio', 
         'sucursal_id', 
         'remitente_id', 
-        'destinatario_id',  
+        'destinatario_id',   
+        'destinatario_id',   
+        'pago_id',   
+
     ];
 
     protected $table = 'envios';
@@ -40,6 +48,11 @@ class Envio extends Model
     public function destinatario()
     {    
         return $this->belongsTo(Destinatario::class);
+    }
+
+    public function pago()
+    {    
+        return $this->belongsTo(Pago::class);
     }
 
 

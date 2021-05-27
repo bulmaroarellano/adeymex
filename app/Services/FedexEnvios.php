@@ -186,8 +186,8 @@ class FedexEnvios
     {
         $this->requestedShipment->setShipTimestamp(date('c'));
         $this->requestedShipment->setDropoffType(new SimpleType\DropoffType(SimpleType\DropoffType::_REGULAR_PICKUP));
-        $this->requestedShipment->setServiceType(new SimpleType\ServiceType($tipoServicio));
-        $this->requestedShipment->setPackagingType(new SimpleType\PackagingType($tipoPaquete));
+        $this->requestedShipment->setServiceType(new SimpleType\ServiceType($tipoServicio)); // (FEDEX_GROUND)
+        $this->requestedShipment->setPackagingType(new SimpleType\PackagingType($tipoPaquete)); //(_YOUR_PAKING)
         
         $this->requestedShipment->setShipper($this->shipper);
         $this->requestedShipment->setRecipient($this->recipient);
@@ -209,7 +209,7 @@ class FedexEnvios
         $this->processShipmentRequest->setClientDetail($this->clientDetail);
         $this->processShipmentRequest->setVersion($this->version);
         $this->processShipmentRequest->setRequestedShipment($this->requestedShipment);
-
+        // var_dump($this->requestedShipment);
         $result = $this->shipService->getProcessShipmentReply($this->processShipmentRequest);
         
         // var_dump($result);
@@ -217,8 +217,8 @@ class FedexEnvios
         // echo '<pre>';
         // var_dump($result);
         // echo '</pre>';
-        $numberTracking = $result->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
-        file_put_contents("envio-{$numberTracking}.pdf", $result->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image);
+        
+        
         
         return $result;
         

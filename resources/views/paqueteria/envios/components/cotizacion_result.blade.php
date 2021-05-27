@@ -44,7 +44,7 @@
 
                                 <th>
                                     <div class="form-check bg-primary d-flex align-items-center">
-                                        <input class="form-check-input" type="radio" name="nombreServicio"
+                                        <input class="form-check-input" type="radio" name="tipo_servicio"
                                             id="{{ $nombreServicio }}"
                                             value="{{ $nombreServicio }}">
 

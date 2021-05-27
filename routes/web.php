@@ -188,5 +188,5 @@ Route::get('/envios', [EnvioController::class, 'listEnvios'])->name('envios.list
 Route::get('/envios-search-cp', [EnvioController::class, 'getCodigosPostales'])->name('envios.postales');
 Route::get('/envios/{envio}{edit}', [EnvioController::class, 'show'])->name('envios.show');
 Route::put('/envios/{envio}', [EnvioController::class, 'update'])->name('envios.update');
-Route::post('/envios/', [EnvioController::class, 'store'])->name('envios.store');
+Route::post('/envios', [EnvioController::class, 'store'])->name('envios.store');
 Route::delete('/envios/{envio}', [EnvioController::class, 'destroy'])->name('envios.destroy');

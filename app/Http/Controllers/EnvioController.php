@@ -8,6 +8,7 @@ use App\Models\Sucursal;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use App\Models\Destinatario;
+use App\Models\Estado;
 use App\Models\Remitente;
 use stdClass;
 
@@ -19,7 +20,10 @@ class EnvioController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+    */
+    private $envioID;
+    
+
     public function index()
     {
         $sucursalesName = Sucursal::all()->pluck('nombre', 'id');
@@ -39,9 +43,9 @@ class EnvioController extends Controller
             $data->cp_remitente = Sucursal::where('id', $request->id_sucursal)->value('codigo_postal');
             // $data->cp_destinatario = Sepomex::where('id', $request->id_cp_destinatario)->value('d_codigo');
             $codigoSelect = Sepomex::select('id', 'd_codigo')->where('id', 'LIKE', $request->id_cp_destinatario )->get();
-
-            $data->cp_destinatario = $codigoSelect->d_codigo;
-            $data->id_cp_destinatario = $codigoSelect->id;
+            
+            $data->cp_destinatario = $codigoSelect[0]->d_codigo;
+            $data->id_cp_destinatario = $codigoSelect[0]->id;
 
             return response()->json($data);
         }
@@ -65,8 +69,8 @@ class EnvioController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
-
+        
+        // return $request;
 
         //+  FUNCIONES 
         $sucursal = Sucursal::where('id', $request->sucursal_id)->first();
@@ -90,12 +94,13 @@ class EnvioController extends Controller
             $request->remitente_email,
             $remitente->remitente_empresa,
         ); // datos de la persona que hace el pedido 
-        $ciudad = Sepomex::where('id', $request->id_cp_destinatario)->value('d_ciudad');
-
+        $ciudad = Sepomex::where('id', $request->id_cp_destinatario)->value('D_mnpio');
+        // return $ciudad;
+        $abreviacion = Estado::where('nombre', $ciudad)->value('abreviacion');
         $envio->destinatarioEnvio(
             [$request->destinatario_domicilio1, $request->destinatario_domicilio2, $request->destinatario_domicilio3],  // direcciones -domicilio1,2, 3
             $ciudad,
-            'EM',    // state code 
+            $abreviacion,    // state code 
             (int)$request->destinatario_codigo_postal,
             'MX'
         );
@@ -115,24 +120,47 @@ class EnvioController extends Controller
         $envio->impuestos();
        
         $tipoPaquete = Helper::getTipoPaquete($request->type_paquete_fedex); 
-
-        $envio->descEnvio($request->nombreServicio, $tipoPaquete);
-        
+       
+        $envio->descEnvio($request->tipo_servicio, $tipoPaquete);
         $processShipmentReply =  $envio->peticionEnvio();
-        $successEnvio = $processShipmentReply->HighestSeverity;
+
         
+      
+        $successEnvio = $processShipmentReply->HighestSeverity;
+      
         if ($successEnvio == "SUCCESS" || $successEnvio == "WARNING") {
             //CREAR UN NUEVO ENVIO
+            $numberTracking = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
+            $urlGuia = "envio-{$numberTracking}.pdf";
+            file_put_contents($urlGuia, $processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image);
+            // return [$request->all()];
+            
+            $varEnvio = $request->all();        
+            $varEnvio['tipo_paquete'] = $tipoPaquete;
+            $varEnvio['numero_guia'] = $numberTracking;
+            $varEnvio['url_guia'] = $urlGuia;
+            $varEnvio['origen_cp_envio'] = '50000';
+            $varEnvio['destino_cp_envio'] = $request->destinatario_codigo_postal;
+            
+            $this->envioID = Envio::create($varEnvio);
 
         } else {
             // ENVIAR UN ERROR 
             
         }
         
+        $precios = new stdClass();
+        $precios->cargo_logistica_interna = $request->cargo_logistica_interna;
+        $precios->costo_sucursal_envio = $request->costo_sucursal_envio;
+        $precios->cargos_envio = $request->cargos_envio;
+        $precios->impuestos_envio = $request->impuestos_envio;
+        $precios->precio_total_sucursal = $request->precio_total_sucursal;
 
-        return redirect()->route('envios.list')->with([
+        return redirect()->route('envios.index')->with([
             'processShipmentReply' => $processShipmentReply,
             'successEnvio' => $successEnvio,
+            'urlGuia' => $urlGuia, 
+            'precios' => $precios,
         ]);
 
 

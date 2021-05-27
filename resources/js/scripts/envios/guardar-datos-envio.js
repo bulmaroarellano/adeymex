@@ -1,4 +1,4 @@
-$("input[type='radio'][name='nombreServicio']").on("change", function(){
+$("input[type='radio'][name='tipo_servicio']").on("change", function(){
     
   if($(this).is(':checked')){
       
@@ -30,7 +30,7 @@ $("input[type='radio'][name='nombreServicio']").on("change", function(){
         'id_cp_destinatario' : id_cp_destinatario, 
       },
       success: (data) => {
-        
+        console.log(data);
         //+ Valores agregados a los desgloce de costos 
 
         document.querySelector('#precio-envio-fedex').innerText  = `${precioEnvioSelec}`;

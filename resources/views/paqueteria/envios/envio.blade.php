@@ -34,15 +34,17 @@
                 
                 {!! Form::open([
                     'route' => 'envios.store',
-                    'method' => 'POST'
-                ]) !!}
+                    'method' => 'POST',
+                    'class' => 'enviar'
+                ]) !!}                
+                
                 @include('paqueteria/envios/components/cotizacion_result')
                 @include('paqueteria/envios/helpers/variables_envio')
                 @include('paqueteria/envios/forms/datos_envio_form')
                 
                 
                 {!! Form::close() !!}
-                
+                @include('paqueteria/envios/components/envio_result')
 
 
 
@@ -76,6 +78,7 @@
 @section('page-script')
   {{-- Page js files --}}
   <script src="{{ asset(mix('js/scripts/envios/find-sucursal.js')) }}"></script>
+  
   <script src="{{ asset(mix('js/scripts/envios/guardar-datos-envio.js')) }}"></script>
 
   <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
