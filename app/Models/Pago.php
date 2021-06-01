@@ -22,7 +22,7 @@ class Pago extends Model
         'costo_publico_envio', 
         'cargos_envio', 
         'impuestos_envio', 
-        'cargos_logistica_interna', 
+        'cargo_logistica_interna', 
         'precio_total_sucursal', 
     ];
     protected $searchableFields = ['*'];

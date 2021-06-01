@@ -15,6 +15,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\MensajeriaController;
 use App\Http\Controllers\MercanciaController;
 use App\Http\Controllers\MonedaController;
+use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PaisController;
 use Illuminate\Support\Facades\Auth;
 
@@ -176,17 +177,25 @@ Route::get('/encargados-search', [EncargadoController::class, 'encargadosSearch'
 Route::get('/empresas-search', [EmpresaController::class, 'empresasSearch'])->name('empresas.search');
 
 //-SEPOMEX
-
 Route::get('/sepomex-search', [SepomexController::class, 'sepomexSearch'])->name('sepomex.search');
 
 //-cotizacion
-
 Route::get('/cotizacion', [CotizarController::class, 'getCotizacion'])->name('cotizar.cotizacion');
+
 //- ENVIOS 
 Route::get('/envio', [EnvioController::class, 'index'])->name('envios.index');
-Route::get('/envios', [EnvioController::class, 'listEnvios'])->name('envios.list');
+Route::get('/envio-paqueteria', [EnvioController::class, 'selecPaqueteria'])->name('envios.paqueteria');
+Route::get('/envios', [EnvioController::class, 'listEnvios'])->name('envios.lista');
+Route::get('/envios/list', [EnvioController::class, 'getEnvios'])->name('envios.list');
 Route::get('/envios-search-cp', [EnvioController::class, 'getCodigosPostales'])->name('envios.postales');
 Route::get('/envios/{envio}{edit}', [EnvioController::class, 'show'])->name('envios.show');
 Route::put('/envios/{envio}', [EnvioController::class, 'update'])->name('envios.update');
 Route::post('/envios', [EnvioController::class, 'store'])->name('envios.store');
 Route::delete('/envios/{envio}', [EnvioController::class, 'destroy'])->name('envios.destroy');
+
+// PAGOS 
+Route::get('/pago', [PagoController::class, 'index'])->name('pagos.index');
+Route::get('/pagos/{pago}{edit}', [PagoController::class, 'show'])->name('pagos.show');
+Route::put('/pagos/{pago}', [PagoController::class, 'update'])->name('pagos.update');
+Route::post('/pagos', [PagoController::class, 'store'])->name('pagos.store');
+Route::delete('/pagos/{pago}', [PagoController::class, 'destroy'])->name('pagos.destroy');

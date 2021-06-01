@@ -19,10 +19,10 @@ class CreatePagosTable extends Migration
             $table->text('cantidad_pago');
             $table->text('referencia_pago');
             $table->text('costo_sucursal_envio');
-            $table->text('costo_publico_envio');
+            $table->text('costo_publico_envio')->nullable();
             $table->text('cargos_envio');
             $table->text('impuestos_envio');
-            $table->text('cargos_logistica_interna');
+            $table->text('cargo_logistica_interna');
             $table->text('precio_total_sucursal');
 
             $table->timestamps();

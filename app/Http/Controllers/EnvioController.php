@@ -9,10 +9,15 @@ use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use App\Models\Destinatario;
 use App\Models\Estado;
+use App\Models\Pago;
 use App\Models\Remitente;
 use stdClass;
 
+
+
 use App\Services\FedexEnvios;
+use Barryvdh\DomPDF\Facade as PDF;
+use Yajra\DataTables\Facades\DataTables;
 
 class EnvioController extends Controller
 {
@@ -21,8 +26,6 @@ class EnvioController extends Controller
      *
      * @return \Illuminate\Http\Response
     */
-    private $envioID;
-    
 
     public function index()
     {
@@ -51,6 +54,17 @@ class EnvioController extends Controller
         }
     }
 
+    public function selecPaqueteria(Request $request)
+    {
+
+
+        return redirect()->route('envios.index')->with([
+            'paqueteria' =>  $request->paqueteria
+        ]);
+
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -70,7 +84,7 @@ class EnvioController extends Controller
     public function store(Request $request)
     {
         
-        // return $request;
+        return $request;
 
         //+  FUNCIONES 
         $sucursal = Sucursal::where('id', $request->sucursal_id)->first();
@@ -94,9 +108,10 @@ class EnvioController extends Controller
             $request->remitente_email,
             $remitente->remitente_empresa,
         ); // datos de la persona que hace el pedido 
+
         $ciudad = Sepomex::where('id', $request->id_cp_destinatario)->value('D_mnpio');
-        // return $ciudad;
         $abreviacion = Estado::where('nombre', $ciudad)->value('abreviacion');
+        
         $envio->destinatarioEnvio(
             [$request->destinatario_domicilio1, $request->destinatario_domicilio2, $request->destinatario_domicilio3],  // direcciones -domicilio1,2, 3
             $ciudad,
@@ -118,17 +133,15 @@ class EnvioController extends Controller
         );
     
         $envio->impuestos();
-       
         $tipoPaquete = Helper::getTipoPaquete($request->type_paquete_fedex); 
-       
+        
         $envio->descEnvio($request->tipo_servicio, $tipoPaquete);
+        
         $processShipmentReply =  $envio->peticionEnvio();
 
-        
-      
         $successEnvio = $processShipmentReply->HighestSeverity;
       
-        if ($successEnvio == "SUCCESS" || $successEnvio == "WARNING") {
+        if ($successEnvio == "SUCCESS" || $successEnvio == "WARNING" || $successEnvio == "NOTE") {
             //CREAR UN NUEVO ENVIO
             $numberTracking = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
             $urlGuia = "envio-{$numberTracking}.pdf";
@@ -142,16 +155,16 @@ class EnvioController extends Controller
             $varEnvio['origen_cp_envio'] = '50000';
             $varEnvio['destino_cp_envio'] = $request->destinatario_codigo_postal;
             
-            $this->envioID = Envio::create($varEnvio);
+            Envio::create($varEnvio);
 
         } else {
             // ENVIAR UN ERROR 
             
         }
-        
         $precios = new stdClass();
-        $precios->cargo_logistica_interna = $request->cargo_logistica_interna;
+        
         $precios->costo_sucursal_envio = $request->costo_sucursal_envio;
+        $precios->cargo_logistica_interna = $request->cargo_logistica_interna;
         $precios->cargos_envio = $request->cargos_envio;
         $precios->impuestos_envio = $request->impuestos_envio;
         $precios->precio_total_sucursal = $request->precio_total_sucursal;
@@ -166,11 +179,58 @@ class EnvioController extends Controller
 
     }
 
+    public function ticket(Request $request)
+    {
+        
+        return $request;
+        $pdf = PDF::loadView('paqueteria.envios.components.ticket_pago', [
+            'costo_sucursal' => $this->precios->costo_sucursal_envio ?? '0', 
+            'cargo_logistica' => $this->precios->cargo_logistica_interna, 
+            'cargo_envio' => $this->precios->cargos_envio, 
+            'impuesto' => $this->precios->impuestos_envio, 
+            'total_precio' => $this->precios->precio_total_sucursal, 
+        ])->setPaper('A5', 'portrait');
+        return $pdf->download('ticket.pdf');
+
+    }
+
     public function listEnvios()
     {
 
         return view('/paqueteria/envios/envios');
         
+    }
+
+    public function getEnvios(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Envio::latest()->get();
+            for ($i=0; $i < count($data); $i++) { 
+                $data[$i]['sucursal_id'] = Sucursal::where('id', $data[$i]['sucursal_id'])->get();
+                $data[$i]['remitente_id'] = Remitente::where('id', $data[$i]['remitente_id'])->get();
+                $data[$i]['destinatario_id'] = Destinatario::where('id', $data[$i]['destinatario_id'])->get();
+                $data[$i]['pago_id'] = Pago::where('id', $data[$i]['pago_id'])->get();
+            }
+           
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($envio) {
+                    $actionBtn = '
+                    <td class="">
+                    <form action=" ' . route('envios.destroy', $envio) . ' " method="POST" class = "d-flex justify-content-around">
+                        <a href=" ' . route('envios.show', [$envio, '0']) . ' "> <i class="far fa-eye "></i> </a>
+                        ' . csrf_field() . '
+                        ' . method_field('delete') . '
+                        <button class="" style="color: rgb(209, 3, 3);">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                        </form>
+                    </td> ';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     /**

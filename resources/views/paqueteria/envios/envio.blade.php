@@ -2,6 +2,7 @@
 
 @section('title', 'Crear Envio')
 
+
 @section('vendor-style')
     {{-- vendor css files --}}
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/dataTables.bootstrap4.min.css')) }}">
@@ -16,42 +17,57 @@
 {{-- COTIZAR-RESULT  --}}
 {{-- COTIZACION-PRECIOS --}}
 
-
-<section class="envios">
-
-    <div class="container envios-form">
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-12">
-                {{-- FORMULARIO DE COTIZACIONES  --}}
-                {!! Form::open([
-                    'route' => 'cotizar.cotizacion',
-                    'method' => 'GET'
-                ]) !!}
-
-                @include('paqueteria/envios/forms/cotizacion_envio_form')
+<section class="envio">
+    <h3 class="paqueteria-selec ml-1">Selecciona una paqueteria</h3>
+    {!! Form::open([
+      'route' => 'envios.paqueteria',
+      'method' => 'GET'
+    ]) !!}
+      <div class="container mb-1">
+          <div class="row d-flex justify-content-center">
+              <div class="btn-group btn-group-toggle btn-group btn-group-lg" data-toggle="buttons">
+              
+                  <label class="btn btn-secondary active">
+                    <input type="radio" name="paqueteria" id="paqueteria-fedex" value="fedex" 
+                      autocomplete="off" onchange="this.form.submit();"
+                      {{session()->get('paqueteria') == 'fedex' ? 'checked' : '' }}
+                    > 
+                    
+                    FEDEX
+                  </label>
                 
-                {!! Form::close() !!}
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="paqueteria" id="paqueteria-dhl" value="dhl" 
+                      autocomplete="off" onchange="this.form.submit();"
+                      {{session()->get('paqueteria') == 'dhl' ? 'checked' : '' }}
+                    >
+                    DHL
+                  </label>
                 
-                {!! Form::open([
-                    'route' => 'envios.store',
-                    'method' => 'POST',
-                    'class' => 'enviar'
-                ]) !!}                
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="paqueteria" id="paqueteria-ups" value="ups" 
+                      autocomplete="off" onchange="this.form.submit();"
+                      {{session()->get('paqueteria') == 'ups' ? 'checked' : '' }}
+                    > 
+                    UPS
+                  </label>
                 
-                @include('paqueteria/envios/components/cotizacion_result')
-                @include('paqueteria/envios/helpers/variables_envio')
-                @include('paqueteria/envios/forms/datos_envio_form')
-                
-                
-                {!! Form::close() !!}
-                @include('paqueteria/envios/components/envio_result')
+              </div>
+          </div>
+      </div>
+    {!! Form::close() !!}
+    
+    @if (session()->get('paqueteria') == 'fedex')
+      @include('paqueteria/envios/components/envio-fedex/envio-fedex')    
+    @endif
+    
+    @if (session()->get('paqueteria') == 'dhl')
+      @include('paqueteria/envios/components/envio-dhl/envio-dhl')    
+    @endif
 
-
-
-            </div>
-        </div>
-    </div>
-
+    
+    
+    
 </section>
 
 
@@ -77,8 +93,9 @@
 
 @section('page-script')
   {{-- Page js files --}}
+  <script src="{{ asset(mix('js/scripts/envios/envio.js')) }}"></script>
+
   <script src="{{ asset(mix('js/scripts/envios/find-sucursal.js')) }}"></script>
-  
   <script src="{{ asset(mix('js/scripts/envios/guardar-datos-envio.js')) }}"></script>
 
   <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>

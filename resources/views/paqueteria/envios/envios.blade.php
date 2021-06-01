@@ -13,33 +13,39 @@
 @endsection
 @section('content')
 
-    <section class="envios">
+<section class="envios" id="basic-datatable">
 
-        <div class="container mt-2">
-
-            <div class="table-responsive">
-                <table class="table mb-3">
-                    <thead>
-                        <tr>
-                            <th scope="col">Sucursal</th>
-                            <th scope="col">Fecha de registro</th>
-                            <th scope="col">Tipo de envio </th>
-                            <th scope="col">Numero de seguimiento</th>
-                            <th scope="col">Estatus Origen</th>
-                            <th scope="col">Estatus Destino</th>
-                            <th scope="col">Direccion Origen</th>
-                            <th scope="col">Direccion Destino</th>
-                            <th scope="col">Acciones </th>
-                        </tr>
-                    </thead>
-        
-                </table>
+    <div class="row">
+        <div class="col-md-2 mb-1">
+            <a href="{{route('envios.index')}}">
+                <button class="btn btn-primary">Nuevo Envio</button>
+            </a>
+        </div>
+        <div class="col-12">
+            <div class="card px-1">
+                <div class="table-responsive">
+                    <table class="datatables-basic table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sucursal</th>
+                                <th scope="col">Fecha de registro</th>
+                                <th scope="col">Tipo de envio </th>
+                                <th scope="col">Numero de seguimiento</th>
+                                <th scope="col">Direccion Remitente</th>
+                                <th scope="col">Direccion Destino</th>
+                                <th scope="col">Acciones </th>
+                            </tr>
+                        </thead>
+            
+                    </table>
+                </div>
             </div>
         </div>
+    </div>
 
-        
+    
 
-    </section>
+</section>
 
 
 
@@ -64,6 +70,6 @@
 
 @section('page-script')
   {{-- Page js files --}}
-    
+  <script src="{{ asset(mix('js/scripts/envios/envios.js')) }}"></script>
 @endsection
 

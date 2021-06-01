@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Envio;
 use App\Models\Pago;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,12 @@ class PagoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request;
+        $nuevoPago = Pago::create($request->all());
+        Envio::where('id', $nuevoPago->id)->update(['pago_id' => $nuevoPago->id]);
+        
+        return redirect()->route('envios.list');
+
     }
 
     /**

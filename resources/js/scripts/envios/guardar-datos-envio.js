@@ -5,6 +5,7 @@ $("input[type='radio'][name='tipo_servicio']").on("change", function(){
     $("#datos-envio").show();
 
     const nombreServicio = $(this).val();
+    console.log(`nombreServicio ${nombreServicio}`);
     
     const precioEnvioSelec = document.querySelector(`#${nombreServicio}-monto`).innerText;
     const costFuel = document.querySelector(`#${nombreServicio}-fuel`).value;
@@ -77,6 +78,77 @@ $("input[type='radio'][name='tipo_servicio']").on("change", function(){
       $("#datos-envio").hide();
 
     }
+});
+
+
+$("input[type='radio'][name='global_product_code']").on("change", function(){
+    
+  if($(this).is(':checked')){
+      
+    $("#datos-envio").show();
+
+    const globalProductCode = $(this).val();
+    const localProductCode = document.getElementById(`${globalProductCode}-local`).value; 
+    const precioEnvioSelec = document.getElementById(`${globalProductCode}-monto`).innerText;
+    const impuestos = document.getElementById(`${globalProductCode}-tax`).value;
+    
+    const id_sucursal = document.querySelector('.sucursales-search').value;
+    const id_cp_destinatario = document.querySelector('.sepomex-search').value;
+    const cargoLogistica  = document.querySelector('.cargo-logistica').value;
+
+    //+ DIMENSIONES DEL PAQUETE 
+    const largoPaquete = document.querySelector('.largo').value;
+    const anchoPaquete = document.querySelector('.ancho').value;
+    const altoPaquete  = document.querySelector('.alto').value;
+    const pesoPaquete  = document.querySelector('.peso').value;
+    
+    $.ajax({
+      type: 'get', 
+      url : '/envios-search-cp', 
+      data : {
+        'id_sucursal': id_sucursal,
+        'id_cp_destinatario' : id_cp_destinatario, 
+      },
+      success: (data) => {
+      
+        document.querySelector('#precio-envio-dhl').innerText  = `${precioEnvioSelec}`;
+        document.querySelector('#precio-impuestos').innerText  = `${impuestos}`;
+        document.querySelector('#precio-logistica-interna').innerText  = `${cargoLogistica}`;
+        const suma = parseFloat(precioEnvioSelec) + parseFloat(cargoLogistica) +  parseFloat(impuestos);
+        document.querySelector('#precio-total').innerText  = `${suma.toFixed(2)}`;
+
+        //+ VARIABLES  GENERALES 
+        document.querySelector('#sucursal-id-envio').value  = `${id_sucursal}`;
+        document.querySelector('#local-product-code').value  = `${localProductCode}`;
+
+        //+ VARIABLES DIMENSIONES PAQUETE 
+        document.querySelector('#largo-paquete-dhl').value = `${largoPaquete}`;
+        document.querySelector('#ancho-paquete-dhl').value = `${anchoPaquete}`;
+        document.querySelector('#alto-paquete-dhl').value  = `${altoPaquete}`;
+        document.querySelector('#peso-paquete-dhl').value  = `${pesoPaquete}`;
+
+        //+ VARIABLES COSTOS E IMPUESTOS 
+        document.querySelector('#costo-envio-sucursal').value  = `${precioEnvioSelec}`;
+        document.querySelector('#impuestos-envio').value  = `${impuestos}`;
+        document.querySelector('#cargo-logistica').value  = `${cargoLogistica}`;
+        document.querySelector('#precio-total-sucursal').value  = `${suma.toFixed(2)}`;
+
+        //+ Valores agregados al datos_envio_form.blade
+        document.querySelector('.remitente-codigo-postal ').value    = `${data.cp_remitente}`;
+        document.querySelector('.destinatario-codigo-postal ').value = `${data.cp_destinatario}`;
+
+      }
+    });
+
+
+  }else{
+    
+    // $("#datos-envio").hide();
+
+  }
+
+
+
 });
 
 

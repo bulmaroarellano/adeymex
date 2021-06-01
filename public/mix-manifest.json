@@ -93,6 +93,8 @@
     "/js/scripts/customizer.js": "/js/scripts/customizer.js",
     "/js/scripts/documentation.js": "/js/scripts/documentation.js",
     "/js/scripts/envios/destinatarios-search.js": "/js/scripts/envios/destinatarios-search.js",
+    "/js/scripts/envios/envio.js": "/js/scripts/envios/envio.js",
+    "/js/scripts/envios/envios.js": "/js/scripts/envios/envios.js",
     "/js/scripts/envios/find-sucursal.js": "/js/scripts/envios/find-sucursal.js",
     "/js/scripts/envios/guardar-datos-envio.js": "/js/scripts/envios/guardar-datos-envio.js",
     "/js/scripts/envios/remitentes-search.js": "/js/scripts/envios/remitentes-search.js",

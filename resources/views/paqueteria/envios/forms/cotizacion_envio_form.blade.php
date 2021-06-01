@@ -203,9 +203,6 @@
                 </div>
             </div>
         </div>
-
-        
-        
     </div>
-    
 </div>
+<input type="hidden" value="{{session()->get('paqueteria')}}" id="nombre-paqueteria" name="nombre_paqueteria">

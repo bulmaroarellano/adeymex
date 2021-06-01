@@ -1,6 +1,6 @@
 {{-- RESULTADO FEDEX COTIZACION --}}
 
-@if (session()->get('successCotizacion') == "SUCCESS" || session()->get('successCotizacion') == "WARNING")
+@if (session()->get('successCotizacion') == "SUCCESS" || session()->get('successCotizacion') == "WARNING" || session()->get('successCotizacion')==  "NOTE")
 
     <div class="col-md-12">
         <div class="card">
@@ -63,8 +63,8 @@
                                     @endforeach
                                 @endforeach --}}
                                 @php
-                                    $cargo = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->Surcharges[0]->Amount->Amount;
-                                    $impuesto = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->Taxes[0]->Amount->Amount;
+                                    $cargo = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->Surcharges[0]->Amount->Amount ?? 'error';
+                                    $impuesto = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->Taxes[0]->Amount->Amount ?? 'error';
                                 @endphp
                                     <input type="hidden" value="{{$cargo}}" id="{{$nombreServicio}}-fuel">
                                     <input type="hidden" value="{{$impuesto}}" id="{{$nombreServicio}}-tax">
@@ -79,10 +79,12 @@
     </div>
     @include('paqueteria/envios/components/cotizacion_precios')
 @endif
-
+<small>{{session()->get('rateReply')->Notifications[0]->Message ?? ''}}</small>
+<small>{{session()->get('successCotizacion') ?? ''}}</small>
 @if (session()->get('successCotizacion') == "FAILURE")
     <div class="">
         <small class="text-danger">ERROR EN AL PETICION </small>
         <small>{{session()->get('rateReply')->Notifications[0]->Message }}</small>
+        
     </div>
 @endif
