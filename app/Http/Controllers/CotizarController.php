@@ -14,6 +14,7 @@ class CotizarController extends Controller
 
     public function getCotizacion(Request $request)
     {
+        // return $request;
 
         $sucursal = Sucursal::where('id', $request->sucursal_id)->first();
         $sepomex = Sepomex::where('id', $request->destino)->first();

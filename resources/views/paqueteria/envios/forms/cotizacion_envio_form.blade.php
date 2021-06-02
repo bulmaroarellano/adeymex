@@ -205,4 +205,4 @@
         </div>
     </div>
 </div>
-<input type="hidden" value="{{session()->get('paqueteria')}}" id="nombre-paqueteria" name="nombre_paqueteria">
+<input type="hidden" value="{{session()->get('paqueteria')}}" name="nombre_paqueteria" class="nombre-paqueteria">

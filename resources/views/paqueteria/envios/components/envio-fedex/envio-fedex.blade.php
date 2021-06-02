@@ -23,6 +23,7 @@
             
             
             {!! Form::close() !!}
+            
             {!! Form::open([
                 'route' => 'pagos.store',
                 'method' => 'POST',

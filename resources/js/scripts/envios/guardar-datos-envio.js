@@ -22,6 +22,7 @@ $("input[type='radio'][name='tipo_servicio']").on("change", function(){
     const altoPaquete  = document.querySelector('.alto').value;
     const pesoPaquete  = document.querySelector('.peso').value;
     const cargoLogistica  = document.querySelector('.cargo-logistica').value;
+    const nombrePaqueteria  = document.querySelector('.nombre-paqueteria').value;
 
     $.ajax({
       type: 'get', 
@@ -95,6 +96,7 @@ $("input[type='radio'][name='global_product_code']").on("change", function(){
     const id_sucursal = document.querySelector('.sucursales-search').value;
     const id_cp_destinatario = document.querySelector('.sepomex-search').value;
     const cargoLogistica  = document.querySelector('.cargo-logistica').value;
+    const nombrePaqueteria  = document.querySelector('.nombre-paqueteria').value;
 
     //+ DIMENSIONES DEL PAQUETE 
     const largoPaquete = document.querySelector('.largo').value;
@@ -120,6 +122,7 @@ $("input[type='radio'][name='global_product_code']").on("change", function(){
         //+ VARIABLES  GENERALES 
         document.querySelector('#sucursal-id-envio').value  = `${id_sucursal}`;
         document.querySelector('#local-product-code').value  = `${localProductCode}`;
+        document.querySelector('#nombre-paqueteria').value  = `${nombrePaqueteria}`;
 
         //+ VARIABLES DIMENSIONES PAQUETE 
         document.querySelector('#largo-paquete-dhl').value = `${largoPaquete}`;
@@ -132,6 +135,7 @@ $("input[type='radio'][name='global_product_code']").on("change", function(){
         document.querySelector('#impuestos-envio').value  = `${impuestos}`;
         document.querySelector('#cargo-logistica').value  = `${cargoLogistica}`;
         document.querySelector('#precio-total-sucursal').value  = `${suma.toFixed(2)}`;
+        document.querySelector('#id-cp-destinatario').value  = `${data.id_cp_destinatario}`;
 
         //+ Valores agregados al datos_envio_form.blade
         document.querySelector('.remitente-codigo-postal ').value    = `${data.cp_remitente}`;
@@ -143,7 +147,7 @@ $("input[type='radio'][name='global_product_code']").on("change", function(){
 
   }else{
     
-    // $("#datos-envio").hide();
+    $("#datos-envio").hide();
 
   }
 
