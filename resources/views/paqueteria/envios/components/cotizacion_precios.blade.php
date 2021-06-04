@@ -58,6 +58,22 @@
                                     </tr>
                                 @endif
 
+                                @if (session()->get('paqueteria') == 'ups')
+                                    <tr>
+                                        <th>Costo Envio ups</th>
+                                        <th id="precio-envio-ups"></th>
+                                    </tr>
+                                   
+                                    <tr>
+                                        <th>Cargo por logistica Interna</th>
+                                        <th id="precio-logistica-interna"></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-danger">Precio Total</th>
+                                        <th id="precio-total"></th>
+                                    </tr>
+                                @endif
+
                             </tbody>
                         </table>
                     </div>

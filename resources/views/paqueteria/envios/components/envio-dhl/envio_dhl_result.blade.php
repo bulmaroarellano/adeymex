@@ -15,7 +15,7 @@
         <div class="card-header">Costo Total</div>
         <div class="card-body">
             <ul>
-                {{-- <li>Costo Envio {{$precios->costo_sucursal_envio}}</li> --}}
+                <li>Costo Envio {{$precios->costo_sucursal_envio}}</li>
                 <li>Cargos {{$precios->cargos_envio}}</li>
                 <li>Impuestos {{$precios->impuestos_envio}}</li>
                 <li>Cargo Logistica Interna {{$precios->cargo_logistica_interna}}</li>

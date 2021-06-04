@@ -6,6 +6,7 @@
 <input type="hidden" name="alto_paquete"  value="" id="alto-paquete-fedex" >
 <input type="hidden" name="peso_paquete"  value="" id="peso-paquete-fedex" >
 <input type="hidden" name="cargo_logistica_interna"  value="" id="cargo-logistica" >
+<input type="hidden" name="nombre_paqueteria"  value="" id="nombre-paqueteria" >
 
 {{-- <input type="hidden" name="costo_publico_envio"  value="" id="costo-publico-envio" > --}}
 <input type="hidden" name="costo_sucursal_envio"  value="" id="costo-sucursal-envio" >

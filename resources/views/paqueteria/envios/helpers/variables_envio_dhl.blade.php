@@ -10,7 +10,7 @@
 <input type="hidden" name="peso_paquete"  value="" id="peso-paquete-dhl" >
 
 {{-- Costos e impuestos --}}
-<input type="hidden" name="costo_envio_sucursal"  value="" id="costo-envio-sucursal" >
+<input type="hidden" name="costo_sucursal_envio"  value="" id="costo-sucursal-envio" >
 <input type="hidden" name="impuestos_envio"  value="" id="impuestos-envio" >
 <input type="hidden" name="cargo_logistica_interna"  value="" id="cargo-logistica" >
 <input type="hidden" name="precio_total_sucursal"  value="" id="precio-total-sucursal" >

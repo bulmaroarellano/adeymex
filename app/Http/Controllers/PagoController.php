@@ -40,7 +40,7 @@ class PagoController extends Controller
         $nuevoPago = Pago::create($request->all());
         Envio::where('id', $nuevoPago->id)->update(['pago_id' => $nuevoPago->id]);
         
-        return redirect()->route('envios.list');
+        return redirect()->route('envios.lista');
 
     }
 

@@ -11,6 +11,6 @@
 <input type="hidden" name="precio_total_sucursal"     value="{{$precios->precio_total_sucursal}}" id="precio-total-sucursal" >
 
 
+<input type="hidden" name="cargos_envio" value="{{$precios->cargos_envio}}" id="cargos-envio">    
 @if ($nombrePaqueteria == "fedex")
-    <input type="hidden" name="cargos_envio"              value="{{$precios->cargos_envio}}" id="cargos-envio">    
 @endif

@@ -6,6 +6,7 @@ use App\Models\Sepomex;
 use App\Models\Sucursal;
 use App\Services\DhlCotizacion;
 use App\Services\FedexTarifas;
+use App\Services\UpsTarifas;
 use Illuminate\Http\Request;
 use stdClass;
 
@@ -59,6 +60,19 @@ class CotizarController extends Controller
                 'values' => $values,
                 'paqueteria' => $request->nombre_paqueteria
             ]);         
+        }
+
+        if ($request->nombre_paqueteria == "ups") {
+            
+            $rateResponse = $this->getCotizacionUps($request, $sepomex);
+            return redirect()->route('envios.index')->with([
+
+                'rateResponse' => $rateResponse,
+                // 'successCotizacion' => $rateReply->HighestSeverity,
+                'values' => $values,
+                
+                'paqueteria' => $request->nombre_paqueteria
+            ]);    
 
         }
         
@@ -71,6 +85,7 @@ class CotizarController extends Controller
         // $tarifas = new FedexTarifas('4J4xrVU6gOh0EJ9p', 'Ko7Vmc7pJ3XryfZsXhKSm07op', '510087100', '119225568', 'NMP');
         $tarifas->version();
         $tarifas->remitente(['Col. Centro'], 'Toluca de Lerdo', 'EM', 50000, 'MX');
+        //!  FALTA ABREVIACION
         $tarifas->destinatario([$sepomex->d_asenta], $sepomex->D_mnpio, 'EM', $sepomex->d_codigo, 'MX');
         $tarifas->paquetes((float)$request->peso, (int)$request->largo, (int)$request->ancho, (int) $request->alto);
         $rateReply = $tarifas->peticion();
@@ -93,6 +108,37 @@ class CotizarController extends Controller
 
         return $getQuoteResponse;
 
+    }
+
+    public function getCotizacionUps($request, $sepomex)
+    {
+
+        $tarifas = new UpsTarifas('FD890B5FA3A41F75', '795ITMEX5345', '710IX24ZQ496');
+        $tarifas->setContactoRemitente(
+            '', 
+            '', 
+            '',
+            '', 
+            '', 
+            '', 
+            '50000',
+            'MX'
+        );
+        $tarifas->enviarTo(
+            '', 
+            '', 
+            '', 
+            '', 
+            '', 
+            $sepomex->d_codigo, 
+            'MX'
+        );
+        $tarifas->setPaquete((float)$request->peso, (int) $request->alto, (int) $request->largo,(int) $request->ancho);
+        $rateResponse = $tarifas->getTarifa();
+   
+
+        return $rateResponse;
+        
     }
 
 

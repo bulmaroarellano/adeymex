@@ -100,12 +100,12 @@ class EnvioController extends Controller
         
         $precios->impuestos_envio = $request->impuestos_envio;
         $precios->precio_total_sucursal = $request->precio_total_sucursal;
-
+        $precios->cargos_envio = $request->cargos_envio ?? '0';
         
         if ($request->nombre_paqueteria == "fedex") {
 
             $tipoPaquete = Helper::getTipoPaquete($request->type_paquete_fedex); 
-            $precios->cargos_envio = $request->cargos_envio;
+            
             $processShipmentReply = $this->getEnvioFedex($request, $remitente, $destinatario, $tipoPaquete);
             $successEnvio = $processShipmentReply->HighestSeverity;
 
@@ -145,8 +145,8 @@ class EnvioController extends Controller
             
 
             $requestShipment = $this->getEnvioDhl($request, $remitente, $destinatario);
+            // return $requestShipment;
             $successEnvio = $requestShipment['Note']['ActionNote'];
-            // return $successEnvio;
 
             if ($successEnvio == "Success") {
 
@@ -177,6 +177,12 @@ class EnvioController extends Controller
 
 
         }
+
+        if ($request->nombre_paqueteria == "ups") {
+            return $request;
+        }
+
+        return $request;
 
         
 

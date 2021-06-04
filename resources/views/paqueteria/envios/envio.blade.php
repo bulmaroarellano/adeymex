@@ -65,6 +65,10 @@
       @include('paqueteria/envios/components/envio-dhl/envio-dhl')    
     @endif
 
+    @if (session()->get('paqueteria') == 'ups')
+      @include('paqueteria/envios/components/envio-ups/envio-ups')    
+    @endif
+
     
     
     
