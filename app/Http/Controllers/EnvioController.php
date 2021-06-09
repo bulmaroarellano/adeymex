@@ -11,6 +11,7 @@ use App\Models\Destinatario;
 use App\Models\Estado;
 use App\Models\Pago;
 use App\Models\Remitente;
+use App\Models\Zip;
 use App\Services\DhlEnvio;
 use stdClass;
 
@@ -28,40 +29,27 @@ class EnvioController extends Controller
      * @return \Illuminate\Http\Response
     */
 
+    private $remitente;
+    private $destinatario;
+
     public function index()
     {
         $sucursalesName = Sucursal::all()->pluck('nombre', 'id');
         
         return view('/paqueteria/envios/envio', [
             'sucursalesName' => $sucursalesName, 
+            
         ]);
     }
 
 
-    public function getCodigosPostales(Request $request)
-    {
-        if ($request->ajax()) {
 
-            $data = new stdClass();
-           
-            $data->cp_remitente = Sucursal::where('id', $request->id_sucursal)->value('codigo_postal');
-            // $data->cp_destinatario = Sepomex::where('id', $request->id_cp_destinatario)->value('d_codigo');
-            $codigoSelect = Sepomex::select('id', 'd_codigo')->where('id', 'LIKE', $request->id_cp_destinatario )->get();
-            
-            $data->cp_destinatario = $codigoSelect[0]->d_codigo;
-            $data->id_cp_destinatario = $codigoSelect[0]->id;
-
-            return response()->json($data);
-        }
-    }
 
     public function selecPaqueteria(Request $request)
     {
 
 
-        return redirect()->route('envios.index')->with([
-            'paqueteria' =>  $request->paqueteria
-        ]);
+        return $request;
 
 
     }
@@ -88,11 +76,48 @@ class EnvioController extends Controller
     {
         
         // return $request;
+       
+        if (! is_numeric($request->remitente_id)) {
+            // CREAR NUEVO REMITENTE 
+            $this->remitente = Remitente::create([
+                'nombre' => $request->remitente_id, 
+                'apellido_paterno' => $request->remitente_nombre_completo, 
+                'telefono' => $request->remitente_telefono, 
+                'email' => $request->remitente_email, 
+                'cliente_id' => 1,  
+                'domicilio1' => $request->remitente_domicilio1, 
+                'domicilio2' => $request->remitente_domicilio2, 
+                'domicilio3' => $request->remitente_domicilio3, 
+                'sucursal_id' => $request->sucursal_id, 
+                
+            ]);
+
+        }else{
+            $this->remitente = Remitente::where('id', $request->remitente_id)->first();
+        }
+
+        if (! is_numeric($request->destinatario_id)) {
+
+            $this->destinatario = Destinatario::create([
+                'nombre' => $request->destinatario_id, 
+                'apellido_paterno' => $request->destinatario_nombre_completo, 
+                'telefono' => $request->destinatario_telefono, 
+                'email' => $request->destinatario_email, 
+                'cliente_id' => 1,  
+                'domicilio1' => $request->destinatario_domicilio1, 
+                'domicilio2' => $request->destinatario_domicilio2, 
+                'domicilio3' => $request->destinatario_domicilio3, 
+                'sucursal_id' => $request->sucursal_id, 
+            ]);
+
+        }else{
+            $this->destinatario = Destinatario::where('id', $request->destinatario_id)->first();
+        }
 
         //+  FUNCIONES 
         $sucursal = Sucursal::where('id', $request->sucursal_id)->first();
-        $remitente = Remitente::where('id', $request->remitente_id)->first();
-        $destinatario = Destinatario::where('id', $request->destinatario_id)->first();
+        
+        
         $precios = new stdClass();
         
         $precios->costo_sucursal_envio = $request->costo_sucursal_envio;
@@ -102,13 +127,13 @@ class EnvioController extends Controller
         $precios->precio_total_sucursal = $request->precio_total_sucursal;
         $precios->cargos_envio = $request->cargos_envio ?? '0';
         
-        if ($request->nombre_paqueteria == "fedex") {
+        if ($request->nombre_paqueteria == "FEDEX") {
 
             $tipoPaquete = Helper::getTipoPaquete($request->type_paquete_fedex); 
             
-            $processShipmentReply = $this->getEnvioFedex($request, $remitente, $destinatario, $tipoPaquete);
+            $processShipmentReply = $this->getEnvioFedex($request, $this->remitente, $this->destinatario, $tipoPaquete);
             $successEnvio = $processShipmentReply->HighestSeverity;
-
+            // return $processShipmentReply;
             if ( $successEnvio == "SUCCESS" || $successEnvio == "WARNING" || $successEnvio == "NOTE" ) {
                 //CREAR UN NUEVO ENVIO
                 $numberTracking = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
@@ -117,6 +142,7 @@ class EnvioController extends Controller
                 // return [$request->all()];
                 
                 $varEnvio = $request->all();        
+                $varEnvio['paqueteria'] = $request->nombre_paqueteria;
                 $varEnvio['tipo_paquete'] = 'YOUR_PACKING';
                 $varEnvio['numero_guia'] = $numberTracking;
                 $varEnvio['url_guia'] = $urlGuia;
@@ -138,13 +164,12 @@ class EnvioController extends Controller
                 
             }
 
-
         }
 
-        if ($request->nombre_paqueteria == "dhl") {
+        if ($request->nombre_paqueteria == "DHL") {
             
 
-            $requestShipment = $this->getEnvioDhl($request, $remitente, $destinatario);
+            $requestShipment = $this->getEnvioDhl($request, $this->remitente, $this->destinatario);
             // return $requestShipment;
             $successEnvio = $requestShipment['Note']['ActionNote'];
 
@@ -155,6 +180,7 @@ class EnvioController extends Controller
                 file_put_contents($urlGuia, base64_decode($requestShipment['LabelImage']['OutputImage']));
 
                 $varEnvio = $request->all();        
+                $varEnvio['paqueteria'] = $request->nombre_paqueteria;
                 $varEnvio['tipo_paquete'] = 'YOUR_PACKAGING';
                 $varEnvio['numero_guia'] = $numberTracking;
                 $varEnvio['url_guia'] = $urlGuia;
@@ -178,23 +204,10 @@ class EnvioController extends Controller
 
         }
 
-        if ($request->nombre_paqueteria == "ups") {
+        if ($request->nombre_paqueteria == "UPS") {
             return $request;
         }
-
-        return $request;
-
-        
-
-        
-
-        
-      
-        
-        
-
-        
-
+        // return $request;
 
     }
 
@@ -218,15 +231,17 @@ class EnvioController extends Controller
             $remitente->remitente_empresa,
         ); // datos de la persona que hace el pedido 
 
-        $ciudad = Sepomex::where('id', $request->id_cp_destinatario)->value('D_mnpio');
-        $abreviacion = Estado::where('nombre', $ciudad)->value('abreviacion');
+        $ciudad = Zip::where('id', $request->id_cp_destinatario)->value('admin_name1');
+        $abreviacion = Zip::where('id', $request->id_cp_destinatario)->value('code_name1');
+        $countryCode = Zip::where('id', $request->id_cp_destinatario)->value('country_code');
+        // $abreviacion = Estado::where('nombre', $ciudad)->value('abreviacion');
         
         $envio->destinatarioEnvio(
             [$request->destinatario_domicilio1, $request->destinatario_domicilio2, $request->destinatario_domicilio3],  // direcciones -domicilio1,2, 3
             $ciudad,
             $abreviacion,    // state code 
             (int)$request->destinatario_codigo_postal,
-            'MX'
+            $countryCode
         );
         $envio->destinatarioEnvioContacto(
             $request->destinatario_nombre_completo,
@@ -242,7 +257,7 @@ class EnvioController extends Controller
         );
     
         $envio->impuestos();
-        $envio->descEnvio($request->tipo_servicio, $tipoPaquete);
+        $envio->descEnvio($request->paqueteria_code, $tipoPaquete);
         $processShipmentReply =  $envio->peticionEnvio();
 
         return $processShipmentReply;
@@ -267,7 +282,7 @@ class EnvioController extends Controller
         );
 
         $envio->setPaquete($request->peso_paquete, $request->largo_paquete, $request->ancho_paquete, $request->alto_paquete);
-        $envio->detallesEnvio($request->peso_paquete, $request->global_product_code, $request->local_product_code, 'paquete de prueba');
+        $envio->detallesEnvio($request->peso_paquete, $request->paqueteria_code, $request->local_product_code, 'paquete de prueba');
         $envio->setRemitente(
             $request->remitente_id, 
             $request->remitente_empresa, 
@@ -300,7 +315,12 @@ class EnvioController extends Controller
 
     }
 
-    public function listEnvios(){ return view('/paqueteria/envios/envios'); }
+    public function listEnvios()
+    {
+        
+
+        return view('/paqueteria/envios/envios'); 
+    }
         
     
 
@@ -322,6 +342,7 @@ class EnvioController extends Controller
                     <td class="">
                     <form action=" ' . route('envios.destroy', $envio) . ' " method="POST" class = "d-flex justify-content-around">
                         <a href=" ' . route('envios.show', [$envio, '0']) . ' "> <i class="far fa-eye "></i> </a>
+                        <a href=" ' . route('tracking.track', $envio) . ' "> <i class="fas fa-sync"></i> </a>
                         ' . csrf_field() . '
                         ' . method_field('delete') . '
                         <button class="" style="color: rgb(209, 3, 3);">

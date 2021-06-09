@@ -50,25 +50,66 @@
                                 @enderror
                             </div>
 
-                            {{-- BUSCADORES CP_SEṔOMEX  --}}
+                            {{-- BUSCADORES ZIP'S  --}}
                             <div class="form-group">
                                 <label class="col-form-label  text-primary">Direccion destino  </label>
-                                <div class="input-group input-group-merge">
-                                
-                                    {{ Form::select('destino',  session()->has('values') ? session()->get('values')->destino : [], 
-                                        session()->has('values') ? session()->get('values')->destinoCP : old('destino'),[
-                                           'placeholder' => '',
-                                           'readonly' => session()->has('values')
-                                               ? (session()->get('edit') == 1 ? false : true )
-                                               : false,
-                                           'class' => 'sepomex-search form-control  col-sm-12'
-                                    ])}}
-                                </div>
+                                    <div class="row no-gutters">
+                                        <div class="col-md-10">
+                                            {{ Form::select('destino',  session()->has('values') ? session()->get('values')->destino : [], 
+                                                session()->has('values') ? session()->get('values')->destinoCP : old('destino'),[
+                                                   'placeholder' => '',
+                                                   'readonly' => session()->has('values')
+                                                       ? (session()->get('edit') == 1 ? false : true )
+                                                       : false,
+                                                   'class' => 'zips-search form-control  col-sm-10'
+                                            ])}}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="input-group">
+                                                    {{ Form::select('country_code',[
+                                                        'CA' => 'CA',
+                                                        'US' => 'US',
+                                                        'MX' => 'MX',
+                                                        'AR' => 'AR',
+                                                        'BR' => 'BR',
+                                                        'DE' => 'DE',
+                                                        'ES' => 'ES',
+                                                        'FR' => 'FR',
+                                                    ], 
+                                                        session()->get('values')->country_code ?? 'MX',[
+                                                            'placeholder' => 'Pais',
+                                                            'readonly' => session()->has('values')
+                                                                ? (session()->get('edit') == 1 ? false : true )
+                                                                : false,
+                                                            'class' => 'country-code form-control  col-md-12 pl-1'
+                                                    ])}}
+                                            </div>
+                                        </div>
+                                    </div>
                                 @error('destino')
                                         <small class="alert alert-danger">{{$message}}</small>
                                 @enderror
                             </div>
-                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label  text-primary">Seguro de envio</label>
+                                    <div class="input-group input-group-merge">
+                                        <div class="input-group input-group-merge">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">MXN</span>
+                                            </div>
+                                            {!! Form::input('number', 'seguro_envio', session()->get('values')->seguro_envio ?? '0', [
+                                                'readonly' => session()->has('edit')  
+                                                ?  session()->get('edit') == 0 ? true : false 
+                                                : false,
+                                                'min' => '0', 
+                                                'class' => 'form-control pl-1 seguro-envio ', 
+                                                // 'pattern' => "[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                                            ]) !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                         {{-- PAQUETES  --}}
@@ -205,4 +246,4 @@
         </div>
     </div>
 </div>
-<input type="hidden" value="{{session()->get('paqueteria')}}" name="nombre_paqueteria" class="nombre-paqueteria">
+

@@ -13,6 +13,7 @@ class Envio extends Model
     use Searchable;
 
     protected $fillable = [
+        'paqueteria',
         'tipo_servicio', 
         'tipo_paquete', 
         'largo_paquete', 
@@ -21,7 +22,6 @@ class Envio extends Model
         'peso_paquete', 
         'numero_guia', 
         'url_guia', 
-         
         'origen_cp_envio', 
         'destino_cp_envio', 
         'sucursal_id', 

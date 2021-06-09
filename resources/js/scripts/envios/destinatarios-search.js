@@ -1,6 +1,7 @@
 $('.destinatarios-search').select2({
 
     placeholder: '<i class="fas fa-address-card"></i> Buscar Remitente',
+    tags: true, 
     escapeMarkup : function(markup) {
         return markup;
     },

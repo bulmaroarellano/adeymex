@@ -30,8 +30,6 @@ class CreateMensajeriasTable extends Migration
     public function down()
     {
         Schema::dropIfExists('mensajerias');
-        Schema::table('mensajerias', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
+    
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sepomex;
 use App\Models\Sucursal;
+use App\Models\Zip;
 use App\Services\DhlCotizacion;
 use App\Services\FedexTarifas;
 use App\Services\UpsTarifas;
@@ -15,17 +16,15 @@ class CotizarController extends Controller
 
     public function getCotizacion(Request $request)
     {
-        // return $request;
+    //    return $request;
 
         $sucursal = Sucursal::where('id', $request->sucursal_id)->first();
-        $sepomex = Sepomex::where('id', $request->destino)->first();
+        // $sepomex = Sepomex::where('id', $request->destino)->first();
+        $zip = Zip::where('id', $request->destino)->first();
 
         $values = new stdClass();
         $values->sucursal_id = $request->sucursal_id;
-        // $values->destino = $request->destino;
-        $values->destino = [
-            $request->destino => "{$sepomex->d_codigo} {$sepomex->d_asenta} - {$sepomex->D_mnpio}, {$sepomex->d_estado}"
-        ];
+        
         $values->destinoCP = $request->destino;
         $values->origen = $request->origen;
         $values->type_paquete = $request->type_paquete;
@@ -35,50 +34,31 @@ class CotizarController extends Controller
         $values->alto = $request->alto;
         $values->peso = $request->peso;
 
-        if($request->nombre_paqueteria == "fedex"){
-            
-            $rateReply = $this->getCotizacionFedex($request, $sepomex);
-            
-            return redirect()->route('envios.index')->with([
-
-                'rateReply' => $rateReply,
-                'successCotizacion' => $rateReply->HighestSeverity,
-                'values' => $values,
-                'paqueteria' => $request->nombre_paqueteria
-            ]);
-
-        }
-
-        if ($request->nombre_paqueteria == "dhl") {
+        $values->country_code = $request->country_code;
+        $values->seguro_envio = $request->seguro_envio;
         
-            $quoteResponse = $this->getCotizacionDhl($request, $sepomex);
+        // $values = $request;
+        $values->destino = [
+            $request->destino => "{$zip->postal_code} {$zip->place_name} - {$zip->admin_name2}, {$zip->admin_name1}"
+        ];
 
-            return redirect()->route('envios.index')->with([
 
-                'quoteResponse' => $quoteResponse,
-                // 'successCotizacion' => $rateReply->HighestSeverity,
-                'values' => $values,
-                'paqueteria' => $request->nombre_paqueteria
-            ]);         
-        }
-
-        if ($request->nombre_paqueteria == "ups") {
+        
             
-            $rateResponse = $this->getCotizacionUps($request, $sepomex);
-            return redirect()->route('envios.index')->with([
-
-                'rateResponse' => $rateResponse,
-                // 'successCotizacion' => $rateReply->HighestSeverity,
-                'values' => $values,
-                
-                'paqueteria' => $request->nombre_paqueteria
-            ]);    
-
-        }
+        $rateReply = $this->getCotizacionFedex($request, $zip); // FEDEX
+        $quoteResponse = $this->getCotizacionDhl($request, $zip); // DHL 
+        $rateResponse = $this->getCotizacionUps($request, $zip); // UPS
+        
+        return redirect()->route('envios.index')->with([
+            'rateReply' => $rateReply,
+            'quoteResponse' => $quoteResponse,
+            'rateResponse' => $rateResponse,
+            'values' => $values
+        ]);
         
     }
 
-    public function getCotizacionFedex($request, $sepomex)
+    public function getCotizacionFedex($request, $zip)
     {
       
         $tarifas = new FedexTarifas('RdrCFt8NwQuVQaSK', 'Bbd1Nb5m4ekatPZiMp9BUEI3Y', '510087860', '119072943', 'NMP');
@@ -86,7 +66,7 @@ class CotizarController extends Controller
         $tarifas->version();
         $tarifas->remitente(['Col. Centro'], 'Toluca de Lerdo', 'EM', 50000, 'MX');
         //!  FALTA ABREVIACION
-        $tarifas->destinatario([$sepomex->d_asenta], $sepomex->D_mnpio, 'EM', $sepomex->d_codigo, 'MX');
+        $tarifas->destinatario([$zip->place_name], $zip->admin_name2, $zip->code_name1, $zip->postal_code, $zip->country_code);
         $tarifas->paquetes((float)$request->peso, (int)$request->largo, (int)$request->ancho, (int) $request->alto);
         $rateReply = $tarifas->peticion();
         
@@ -97,20 +77,20 @@ class CotizarController extends Controller
     }
 
 
-    public function getCotizacionDhl($request, $sepomex)
+    public function getCotizacionDhl($request, $zip)
     {
         $tarifas = new DhlCotizacion('v62_9kV6umb2sA', 'ooc0Yf6DHG');
         $tarifas->setPaquete((float) $request->peso, (int) $request->largo, (int) $request->ancho, (int) $request->alto);
 
         $tarifas->setRemitente('MX', '50000', 'Toluca');
-        $tarifas->setDestinatario('MX',$sepomex->d_codigo ,$sepomex->D_mnpio);
+        $tarifas->setDestinatario($zip->country_code,$zip->postal_code ,$zip->admin_name2);
         $getQuoteResponse = $tarifas->getCotizacion();
 
         return $getQuoteResponse;
 
     }
 
-    public function getCotizacionUps($request, $sepomex)
+    public function getCotizacionUps($request, $zip)
     {
 
         $tarifas = new UpsTarifas('FD890B5FA3A41F75', '795ITMEX5345', '710IX24ZQ496');
@@ -129,9 +109,9 @@ class CotizarController extends Controller
             '', 
             '', 
             '', 
-            '', 
-            $sepomex->d_codigo, 
-            'MX'
+            $zip->code_name1, 
+            $zip->postal_code, 
+            $zip->country_code
         );
         $tarifas->setPaquete((float)$request->peso, (int) $request->alto, (int) $request->largo,(int) $request->ancho);
         $rateResponse = $tarifas->getTarifa();

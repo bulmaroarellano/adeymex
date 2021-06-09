@@ -125,14 +125,14 @@ class FedexEnvios
             ->setContact($this->shipperContact);
     }
 
-    public function destinatarioEnvio(array $direccion, $ciudad, $estado, $codigoPostal)
+    public function destinatarioEnvio(array $direccion, $ciudad, $estado, $codigoPostal, $countryCode)
     {
         $this->recipientAddress
             ->setStreetLines($direccion)
             ->setCity($ciudad)
             ->setStateOrProvinceCode($estado)
             ->setPostalCode($codigoPostal)
-            ->setCountryCode('MX');
+            ->setCountryCode($countryCode);
     }
 
     public function destinatarioEnvioContacto($nombre, $telefono)
