@@ -8,6 +8,7 @@ use App\Models\Sucursal;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use App\Models\Destinatario;
+use App\Models\Empresa;
 use App\Models\Estado;
 use App\Models\Pago;
 use App\Models\Remitente;
@@ -119,10 +120,8 @@ class EnvioController extends Controller
         
         
         $precios = new stdClass();
-        
         $precios->costo_sucursal_envio = $request->costo_sucursal_envio;
         $precios->cargo_logistica_interna = $request->cargo_logistica_interna;
-        
         $precios->impuestos_envio = $request->impuestos_envio;
         $precios->precio_total_sucursal = $request->precio_total_sucursal;
         $precios->cargos_envio = $request->cargos_envio ?? '0';
@@ -133,15 +132,22 @@ class EnvioController extends Controller
             
             $processShipmentReply = $this->getEnvioFedex($request, $this->remitente, $this->destinatario, $tipoPaquete);
             $successEnvio = $processShipmentReply->HighestSeverity;
-            // return $processShipmentReply;
+
+            // return $successEnvio;
+
             if ( $successEnvio == "SUCCESS" || $successEnvio == "WARNING" || $successEnvio == "NOTE" ) {
                 //CREAR UN NUEVO ENVIO
                 $numberTracking = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
                 $urlGuia = "fedex-guias/envio-{$numberTracking}.pdf";
+                $urlGuiaInvoice = "fedex-guias/invoice-{$numberTracking}.pdf";
+                
+                
                 file_put_contents($urlGuia, $processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image);
+                file_put_contents($urlGuiaInvoice, $processShipmentReply->CompletedShipmentDetail->ShipmentDocuments[0]->Parts[0]->Image);
                 // return [$request->all()];
                 
                 $varEnvio = $request->all();        
+                $varEnvio['tipo_servicio'] = $request->paqueteria_code;
                 $varEnvio['paqueteria'] = $request->nombre_paqueteria;
                 $varEnvio['tipo_paquete'] = 'YOUR_PACKING';
                 $varEnvio['numero_guia'] = $numberTracking;
@@ -151,33 +157,32 @@ class EnvioController extends Controller
                 
                 Envio::create($varEnvio);
 
-                return redirect()->route('envios.index')->with([
-                    'processShipmentReply' => $processShipmentReply,
-                    'successEnvio' => $successEnvio,
-                    'urlGuia' => $urlGuia, 
-                    'precios' => $precios,
-                    'paqueteria' => $request->nombre_paqueteria,
-                ]);
+                // return redirect()->route('envios.index')->with([
+                //     'processShipmentReply' => $processShipmentReply,
+                //     'successEnvio' => $successEnvio,
+                //     'urlGuia' => $urlGuia, 
+                //     'precios' => $precios,
+                //     'paqueteria' => $request->nombre_paqueteria,
+                // ]);
     
-            } else {
-                // ENVIAR UN ERROR 
-                
-            }
+            } 
 
         }
 
         if ($request->nombre_paqueteria == "DHL") {
             
-
             $requestShipment = $this->getEnvioDhl($request, $this->remitente, $this->destinatario);
             // return $requestShipment;
             $successEnvio = $requestShipment['Note']['ActionNote'];
+
 
             if ($successEnvio == "Success") {
 
                 $numberTracking = $requestShipment['AirwayBillNumber'];
                 $urlGuia = "dhl-guias/envio-{$numberTracking}.pdf";
+                $urlGuiaInvoice = "dhl-guias/invoice-{$numberTracking}.pdf";
                 file_put_contents($urlGuia, base64_decode($requestShipment['LabelImage']['OutputImage']));
+                file_put_contents($urlGuiaInvoice, base64_decode($requestShipment['LabelImage']['MultiLabels']['MultiLabel']['DocImageVal']));
 
                 $varEnvio = $request->all();        
                 $varEnvio['paqueteria'] = $request->nombre_paqueteria;
@@ -223,12 +228,13 @@ class EnvioController extends Controller
             50000,
             'MX'
         ); // direccion de la sucursal  (data --> $sucursal )
-
+        $empresa = Empresa::where('id', $remitente->empresa_id)->value('nombre');
         $envio->remitenteEnvioContacto(
-            $request->remitente_nombre_completo,
-            $request->remitente_telefono, 
-            $request->remitente_email,
-            $remitente->remitente_empresa,
+            "{$remitente->nombre} {$remitente->apellido_paterno}",
+            $remitente->telefono,
+            $remitente->email,  
+            $empresa ?? '',
+
         ); // datos de la persona que hace el pedido 
 
         $ciudad = Zip::where('id', $request->id_cp_destinatario)->value('admin_name1');
@@ -236,15 +242,16 @@ class EnvioController extends Controller
         $countryCode = Zip::where('id', $request->id_cp_destinatario)->value('country_code');
         // $abreviacion = Estado::where('nombre', $ciudad)->value('abreviacion');
         
+        
         $envio->destinatarioEnvio(
-            [$request->destinatario_domicilio1, $request->destinatario_domicilio2, $request->destinatario_domicilio3],  // direcciones -domicilio1,2, 3
+            [$destinatario->domicilio1, $destinatario->domicilio2, $destinatario->domicilio3],  // direcciones -domicilio1,2, 3
             $ciudad,
             $abreviacion,    // state code 
             (int)$request->destinatario_codigo_postal,
             $countryCode
         );
         $envio->destinatarioEnvioContacto(
-            $request->destinatario_nombre_completo,
+            "{$destinatario->nombre} {$destinatario->apellido_paterno}",
             $request->destinatario_telefono,
         );
 
@@ -257,6 +264,7 @@ class EnvioController extends Controller
         );
     
         $envio->impuestos();
+        $envio->setInternational();
         $envio->descEnvio($request->paqueteria_code, $tipoPaquete);
         $processShipmentReply =  $envio->peticionEnvio();
 
@@ -265,34 +273,40 @@ class EnvioController extends Controller
 
     public function getEnvioDhl($request, $remitente, $destinatario)
     {
-        $ciudad = Sepomex::where('id', $request->id_cp_destinatario)->value('D_mnpio');
+        $countryCode = Zip::where('id', $request->id_cp_destinatario)->value('country_code');
+        $countryName = Zip::where('id', $request->id_cp_destinatario)->value('country_name');
+        $ciudad = Zip::where('id', $request->id_cp_destinatario)->value('admin_name1');
         
+        $empresaRemitente = Empresa::where('id', $remitente->empresa_id)->value('nombre');
+        $empresaDestinatario = Empresa::where('id', $destinatario->empresa_id)->value('nombre');
+
         $envio = new DhlEnvio('v62_9kV6umb2sA', 'ooc0Yf6DHG');
         $envio->facturacion('980055830');
-        $envio->setDestinatario(
-            $request->destinatario_empresa,
-            substr($request->destinatario_domicilio1, 0, 20),
-            $ciudad,
-            $request->destinatario_codigo_postal,
-            'MX', 
-            'MEXICO',
-            substr($request->destinatario_nombre_completo, 0, 20), 
-            $request->destinatario_telefono, 
-            $request->destinatario_email
-        );
-
-        $envio->setPaquete($request->peso_paquete, $request->largo_paquete, $request->ancho_paquete, $request->alto_paquete);
-        $envio->detallesEnvio($request->peso_paquete, $request->paqueteria_code, $request->local_product_code, 'paquete de prueba');
         $envio->setRemitente(
-            $request->remitente_id, 
-            $request->remitente_empresa, 
+            $remitente->id, 
+            substr($empresaRemitente, 0, 20) ?? '', 
             'Col. Centro', 
             'Toluca de Lerdo', 
-            '50000', 
-            substr($request->remitente_nombre_completo, 0, 20), 
-            $request->remitente_telefono, 
-            $request->remitente_email
+            '52280', 
+            "{$remitente->nombre} {$remitente->apellido_paterno}", 
+            $remitente->telefono, 
+            $remitente->email
         );
+
+        $envio->setDestinatario(
+            substr($empresaDestinatario, 0, 20) ?? '',
+            substr($destinatario->domicilio1, 0, 25),
+            $ciudad,
+            $request->destinatario_codigo_postal,
+            $countryCode, 
+            $countryName,
+            "{$destinatario->nombre} {$destinatario->apellido_paterno}", 
+            $destinatario->telefono, 
+            $destinatario->email
+        );
+        $envio->setPaquete($request->peso_paquete, $request->largo_paquete, $request->ancho_paquete, $request->alto_paquete);
+        $envio->detallesEnvio($request->peso_paquete, $request->paqueteria_code, $request->local_product_code, 'paquete de prueba');
+        $envio->setInternational($request->peso_paquete, $request->peso_paquete, '', '20', 'product description');
 
         $requestShipment = $envio->getEnvio();
 

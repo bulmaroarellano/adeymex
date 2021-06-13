@@ -15,8 +15,9 @@ class CreateZipsTable extends Migration
     {
         Schema::create('zips', function (Blueprint $table) {
             $table->id();
-            $table->text('postal_code');
             $table->text('country_code');
+            $table->text('country_name');
+            $table->text('postal_code');
             $table->text('place_name');
             $table->text('admin_name1');
             $table->text('code_name1');

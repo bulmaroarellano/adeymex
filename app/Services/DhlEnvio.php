@@ -6,7 +6,11 @@ use DHL\Datatype\GB\Piece;
 use DHL\Entity\GB\ShipmentRequest;
 
 use DHL\Client\Web as WebserviceClient;
-
+use DHL\Datatype\AM\Dutiable;
+use DHL\Datatype\AM\ExportDeclaration;
+use DHL\Datatype\AM\ExportLineItem;
+use DHL\Datatype\AM\GrossWeight;
+use DHL\Datatype\AM\Weight;
 
 class DhlEnvio  
 {
@@ -37,6 +41,33 @@ class DhlEnvio
     {
         $this->envio->Billing->ShipperAccountNumber = $_accountNumber;
         $this->envio->Billing->ShippingPaymentType  = 'S';
+    }
+
+    public function setRemitente(
+        $_remitenteID,
+        $_compania,
+        $_direccion,
+        $_ciudad,
+        $_codigoPostal,
+        $_nombre, 
+        $_telefono,
+        $_email
+    )
+    {   
+
+        $this->envio->Shipper->ShipperID   = $_remitenteID;
+        $this->envio->Shipper->CompanyName = $_compania;
+        $this->envio->Shipper->addAddressLine($_direccion);
+        $this->envio->Shipper->City = $_ciudad;
+
+        $this->envio->Shipper->PostalCode  = $_codigoPostal;
+        $this->envio->Shipper->CountryCode = 'MX';
+        $this->envio->Shipper->CountryName = 'MEXICO';
+
+        $this->envio->Shipper->Contact->PersonName  = $_nombre;
+        $this->envio->Shipper->Contact->PhoneNumber = $_telefono;
+        $this->envio->Shipper->Contact->Email       = $_email;
+        
     }
 
     public function setDestinatario(
@@ -79,7 +110,6 @@ class DhlEnvio
         
     }
 
-
     public function detallesEnvio($_pesoTotal, $_globalProductCode, $_localProductCode, $_descripcion)
     {
         
@@ -97,40 +127,58 @@ class DhlEnvio
         $this->envio->ShipmentDetails->IsDutiable    = 'N';
         $this->envio->ShipmentDetails->CurrencyCode  = 'MXN';
 
+        $this->envio->EProcShip = 'N';
+        $this->envio->LabelImageFormat = 'PDF';
+        $this->envio;
 
     }
 
-    public function setRemitente(
-        $_remitenteID,
-        $_compania,
-        $_direccion,
-        $_ciudad,
-        $_codigoPostal,
-        $_nombre, 
-        $_telefono,
-        $_email
+    public function setInternational(
+        $_pesoNeto,
+        $_pesoBruto,
+        $_declaredValue,
+        $_precioUnitario, 
+        $_productDescription, 
     )
-    {   
+    {
+        $dutitable = new Dutiable();
+        $dutitable->DeclaredValue = $_declaredValue;
+        $dutitable->DeclaredCurrency = 'USD';
 
-        $this->envio->Shipper->ShipperID   = $_remitenteID;
-        $this->envio->Shipper->CompanyName = $_compania;
-        $this->envio->Shipper->addAddressLine($_direccion);
-        $this->envio->Shipper->City = $_ciudad;
+        $exportDeclaration = new ExportDeclaration();
+        $exportDeclaration->InvoiceNumber = '1';
+        $exportDeclaration->InvoiceDate = date('Y-m-d');
 
-        $this->envio->Shipper->PostalCode  = $_codigoPostal;
-        $this->envio->Shipper->CountryCode = 'MX';
-        $this->envio->Shipper->CountryName = 'MEXICO';
+        $exportLineItem = new ExportLineItem();
+        $exportLineItem->LineNumber ="1";
+        $exportLineItem->Quantity = "2";
+        $exportLineItem->QuantityUnit = 'PCS';
+        $exportLineItem->Description= $_productDescription;
+        $exportLineItem->Value = $_precioUnitario;
 
-        $this->envio->Shipper->Contact->PersonName  = $_nombre;
-        $this->envio->Shipper->Contact->PhoneNumber = $_telefono;
-        $this->envio->Shipper->Contact->Email       = $_email;
+        $weight = new Weight();
+        $weight->Weight = $_pesoNeto;
+        $weight->WeightUnit = 'K';
         
+        $grossWeight = new GrossWeight();
+        $grossWeight->Weight = $_pesoBruto;
+        $grossWeight->WeightUnit = 'K';
+
+        $exportLineItem->Weight = $weight;
+        $exportLineItem->GrossWeight = $grossWeight;
+        
+        $exportDeclaration->ExportLineItem = $exportLineItem;
+
+    
+
+        $this->shipment->UseDHLInvoice = 'Y';
+        $this->shipment->Dutiable = $dutitable;
+        $this->shipment->ExportDeclaration = $exportDeclaration;
     }
 
     public function getEnvio()
     {   
-        $this->envio->EProcShip = 'N';
-        $this->envio->LabelImageFormat = 'PDF';
+        
         $client = new WebserviceClient('staging');
         $respXML = $client->call($this->envio);
 

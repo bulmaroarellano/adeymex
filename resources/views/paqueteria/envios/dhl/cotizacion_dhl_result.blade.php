@@ -1,5 +1,5 @@
 @php
-    $qtdShps = session()->get('quoteResponse')['BkgDetails']['QtdShp'];
+    $qtdShps = session()->get('quoteResponse')['BkgDetails']['QtdShp'] ;
 @endphp
 
 @foreach ($qtdShps as $qtdShp)
