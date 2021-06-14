@@ -92,6 +92,7 @@
     "/js/scripts/components/components-tooltips.js": "/js/scripts/components/components-tooltips.js",
     "/js/scripts/customizer.js": "/js/scripts/customizer.js",
     "/js/scripts/documentation.js": "/js/scripts/documentation.js",
+    "/js/scripts/envios/data-international.js": "/js/scripts/envios/data-international.js",
     "/js/scripts/envios/destinatarios-search.js": "/js/scripts/envios/destinatarios-search.js",
     "/js/scripts/envios/envios.js": "/js/scripts/envios/envios.js",
     "/js/scripts/envios/find-sucursal.js": "/js/scripts/envios/find-sucursal.js",

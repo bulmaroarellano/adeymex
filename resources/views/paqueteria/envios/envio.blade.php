@@ -41,7 +41,17 @@
       @include('paqueteria/envios/components/forms/datos_envio_form')
       @include('paqueteria/envios/helpers/variables_envio')
       
+      
 
+    {!! Form::close() !!}
+
+    {!! Form::open([
+      // 'route' => 'envios.store',
+      'method' => 'POST',
+      'id' => 'data_intl'
+
+    ]) !!}    
+      @include('paqueteria/envios/components/data_international')
     {!! Form::close() !!}
     
     
@@ -76,6 +86,7 @@
 
   <script src="{{ asset(mix('js/scripts/envios/find-sucursal.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/guardar-datos-envio.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/envios/data-international.js')) }}"></script>
 
   <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/catalogos/sucursales-search.js')) }}"></script>

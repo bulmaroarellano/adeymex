@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CodigoPostalController;
 use App\Http\Controllers\CotizarController;
+use App\Http\Controllers\DataIntlController;
 use App\Http\Controllers\DestinatarioController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EncargadoController;
@@ -208,3 +209,5 @@ Route::delete('/pagos/{pago}', [PagoController::class, 'destroy'])->name('pagos.
 //TRACKING ENVIO 
 Route::get('/tracking/{envio}', [TrackingController::class, 'track'])->name('tracking.track');
 
+// DATA INTERNATIONAL
+Route::post('/intl-data', [DataIntlController::class, 'index'])->name('intl.index');
