@@ -3,25 +3,29 @@
 @endphp
 
 @foreach ($qtdShps as $qtdShp)
-
-    @if ((float) $qtdShp['ShippingCharge'] > 0)
-
-        @php
-            $globalProductCode = $qtdShp['GlobalProductCode'];
-            $localProductCode = $qtdShp['LocalProductCode'];
-            $nombreServicio = $qtdShp['ProductShortName'];
-        @endphp
-
+    @php
+        $globalProductCode = $qtdShp['GlobalProductCode'];
+        $localProductCode = $qtdShp['LocalProductCode'];
+        $nombreServicio = $qtdShp['ProductShortName'];
+    @endphp
+    
+    @if (
+            (float) $qtdShp['ShippingCharge'] > 0 && 
+            !( 
+                $nombreServicio == "DOMESTICO ENVIO RETORNO" || 
+                $nombreServicio == "EXPRESS DOMESTIC 12:00"  ||
+                $nombreServicio == "EXPRESS 12:00"  
+            )
+        )
         <tr>
 
             <th id="{{$globalProductCode}}-paqueteria">DHL</th>
-            <th>{{ $qtdShp['DeliveryDate'] }}</th>
+            <th>{{ $qtdShp['DeliveryDate']['DlvyDateTime'] }}</th>
             <th>{{ $nombreServicio }}</th>
             {{-- <th id="{{ $globalProductCode }}-monto"> {{ $qtdShp['ShippingCharge'] }}</th> --}}
             <th id="{{ $globalProductCode }}-monto"> {{ $qtdShp['QtdSInAdCur'][1]['TotalAmount'] }} {{$qtdShp['QtdSInAdCur'][1]['CurrencyCode']}}</th>
             <th>
                 <div class="form-check bg-primary d-flex align-items-center">
-                    {{-- <input class="form-check-input" type="radio" name="global_product_code" --}}
                     <input class="form-check-input" type="radio" name="paqueteria_code"
                         id="{{ $globalProductCode }}" value="{{ $globalProductCode }}">
 

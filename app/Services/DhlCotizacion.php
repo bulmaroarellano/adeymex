@@ -24,6 +24,8 @@ class DhlCotizacion
         $this->cotizacion->MessageReference = '1234567890123456789012345678901';
         $this->cotizacion->BkgDetails->Date = date('Y-m-d');
         $this->cotizacion->BkgDetails->InsuredCurrency = 'MXN';
+        $this->cotizacion->SoftwareName = 'ADEyMEX';
+        $this->cotizacion->SoftwareVersion = '1.0';
 
     }
 

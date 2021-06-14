@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use DHL\Datatype\GB\Piece;
-use DHL\Entity\GB\ShipmentRequest;
+
 
 use DHL\Client\Web as WebserviceClient;
 use DHL\Datatype\AM\Dutiable;
@@ -11,27 +11,30 @@ use DHL\Datatype\AM\ExportDeclaration;
 use DHL\Datatype\AM\ExportLineItem;
 use DHL\Datatype\AM\GrossWeight;
 use DHL\Datatype\AM\Weight;
+use DHL\Entity\AM\ShipmentRequest;
 
 class DhlEnvio  
 {
 
-    private $envio;
+    private $shipment;
     private $piece;
     
     public function __construct($_siteID, $_password) {
         
         $this->piece = new Piece();
-        $this->envio = new ShipmentRequest();
+        $this->shipment = new ShipmentRequest();
 
-        $this->envio->SiteID   = $_siteID; 
-        $this->envio->Password = $_password; 
+        $this->shipment->SiteID   = $_siteID; 
+        $this->shipment->Password = $_password; 
 
-        $this->envio->MessageTime      = '2021-06-02T09:30:47-05:00';
-        $this->envio->MessageReference = '1234567890123456789012345678901';
-        $this->envio->RegionCode       = 'AM';
-        $this->envio->NewShipper       = 'Y';
-        $this->envio->LanguageCode     = 'es';
-        $this->envio->PiecesEnabled    = 'Y';
+        $this->shipment->MessageTime      = '2021-06-02T09:30:47-05:00';
+        $this->shipment->MessageReference = '1234567890123456789012345678901';
+        $this->shipment->SoftwareName = 'ADEyMEX';
+        $this->shipment->SoftwareVersion = '1.0';
+        $this->shipment->RegionCode       = 'AM';
+        $this->shipment->NewShipper       = 'Y';
+        $this->shipment->LanguageCode     = 'es';
+        $this->shipment->PiecesEnabled    = 'Y';
         
 
     }
@@ -39,8 +42,8 @@ class DhlEnvio
 
     public function facturacion($_accountNumber)
     {
-        $this->envio->Billing->ShipperAccountNumber = $_accountNumber;
-        $this->envio->Billing->ShippingPaymentType  = 'S';
+        $this->shipment->Billing->ShipperAccountNumber = $_accountNumber;
+        $this->shipment->Billing->ShippingPaymentType  = 'S';
     }
 
     public function setRemitente(
@@ -55,18 +58,18 @@ class DhlEnvio
     )
     {   
 
-        $this->envio->Shipper->ShipperID   = $_remitenteID;
-        $this->envio->Shipper->CompanyName = $_compania;
-        $this->envio->Shipper->addAddressLine($_direccion);
-        $this->envio->Shipper->City = $_ciudad;
+        $this->shipment->Shipper->ShipperID   = $_remitenteID;
+        $this->shipment->Shipper->CompanyName = $_compania;
+        $this->shipment->Shipper->addAddressLine($_direccion);
+        $this->shipment->Shipper->City = $_ciudad;
 
-        $this->envio->Shipper->PostalCode  = $_codigoPostal;
-        $this->envio->Shipper->CountryCode = 'MX';
-        $this->envio->Shipper->CountryName = 'MEXICO';
+        $this->shipment->Shipper->PostalCode  = $_codigoPostal;
+        $this->shipment->Shipper->CountryCode = 'MX';
+        $this->shipment->Shipper->CountryName = 'MEXICO';
 
-        $this->envio->Shipper->Contact->PersonName  = $_nombre;
-        $this->envio->Shipper->Contact->PhoneNumber = $_telefono;
-        $this->envio->Shipper->Contact->Email       = $_email;
+        $this->shipment->Shipper->Contact->PersonName  = $_nombre;
+        $this->shipment->Shipper->Contact->PhoneNumber = $_telefono;
+        $this->shipment->Shipper->Contact->Email       = $_email;
         
     }
 
@@ -82,22 +85,22 @@ class DhlEnvio
         $_emailRemitente,
 
     ){
-        $this->envio->Consignee->CompanyName = $_compania;
-        $this->envio->Consignee->addAddressLine($_direccion);
-        $this->envio->Consignee->City        = $_ciudad;
-        $this->envio->Consignee->PostalCode  = $_codigoPostal;
-        $this->envio->Consignee->CountryCode = $_codigoPais;
-        $this->envio->Consignee->CountryName = $_nombrePais;
-        $this->envio->Consignee->CountryName = $_nombrePais;
-        $this->envio->Consignee->Contact->PersonName  = $_nombreRemitente;
-        $this->envio->Consignee->Contact->PhoneNumber = $_telefonoRemitente;
-        $this->envio->Consignee->Contact->Email       = $_emailRemitente;
+        $this->shipment->Consignee->CompanyName = $_compania;
+        $this->shipment->Consignee->addAddressLine($_direccion);
+        $this->shipment->Consignee->City        = $_ciudad;
+        $this->shipment->Consignee->PostalCode  = $_codigoPostal;
+        $this->shipment->Consignee->CountryCode = $_codigoPais;
+        $this->shipment->Consignee->CountryName = $_nombrePais;
+        $this->shipment->Consignee->CountryName = $_nombrePais;
+        $this->shipment->Consignee->Contact->PersonName  = $_nombreRemitente;
+        $this->shipment->Consignee->Contact->PhoneNumber = $_telefonoRemitente;
+        $this->shipment->Consignee->Contact->Email       = $_emailRemitente;
 
     }
 
     public function setPaquete($_peso, $_largo, $_ancho, $_alto)
     {
-        $this->envio->ShipmentDetails->NumberOfPieces = 1;
+        $this->shipment->ShipmentDetails->NumberOfPieces = 1;
         $this->piece->PieceID = '1';
         
         $this->piece->Depth  = $_largo;
@@ -105,7 +108,7 @@ class DhlEnvio
         $this->piece->Height = $_alto;
         $this->piece->Weight = $_peso;
 
-        $this->envio->ShipmentDetails->addPiece($this->piece);
+        $this->shipment->ShipmentDetails->addPiece($this->piece);
 
         
     }
@@ -113,23 +116,23 @@ class DhlEnvio
     public function detallesEnvio($_pesoTotal, $_globalProductCode, $_localProductCode, $_descripcion)
     {
         
-        $this->envio->ShipmentDetails->Weight     = $_pesoTotal;
-        $this->envio->ShipmentDetails->WeightUnit = 'K';
+        $this->shipment->ShipmentDetails->Weight     = $_pesoTotal;
+        $this->shipment->ShipmentDetails->WeightUnit = 'K';
 
-        $this->envio->ShipmentDetails->GlobalProductCode = $_globalProductCode;
-        $this->envio->ShipmentDetails->LocalProductCode  = $_localProductCode;
+        $this->shipment->ShipmentDetails->GlobalProductCode = $_globalProductCode;
+        $this->shipment->ShipmentDetails->LocalProductCode  = $_localProductCode;
         
-        $this->envio->ShipmentDetails->Date     = date('Y-m-d');
-        $this->envio->ShipmentDetails->Contents = $_descripcion;
-        $this->envio->ShipmentDetails->DoorTo   = 'DD';
+        $this->shipment->ShipmentDetails->Date     = date('Y-m-d');
+        $this->shipment->ShipmentDetails->Contents = $_descripcion;
+        $this->shipment->ShipmentDetails->DoorTo   = 'DD';
         
-        $this->envio->ShipmentDetails->DimensionUnit = 'C';
-        $this->envio->ShipmentDetails->IsDutiable    = 'N';
-        $this->envio->ShipmentDetails->CurrencyCode  = 'MXN';
+        $this->shipment->ShipmentDetails->DimensionUnit = 'C';
+        $this->shipment->ShipmentDetails->IsDutiable    = 'N';
+        $this->shipment->ShipmentDetails->CurrencyCode  = 'MXN';
 
-        $this->envio->EProcShip = 'N';
-        $this->envio->LabelImageFormat = 'PDF';
-        $this->envio;
+        $this->shipment->EProcShip = 'N';
+        $this->shipment->LabelImageFormat = 'PDF';
+        $this->shipment;
 
     }
 
@@ -180,7 +183,7 @@ class DhlEnvio
     {   
         
         $client = new WebserviceClient('staging');
-        $respXML = $client->call($this->envio);
+        $respXML = $client->call($this->shipment);
 
         // echo '<pre>';
         //     var_dump($respXML);
