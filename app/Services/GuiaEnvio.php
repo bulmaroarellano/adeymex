@@ -73,7 +73,17 @@ class GuiaEnvio
 
         if ( !( $this->request->country_code == "MX" )) {
             // ESTABLECER VALORES INTERNACIONALES
-            $envio->setInternational();
+            $interData = array(
+                "desc_producto" => $this->request->desc_producto,
+                "cantidad" => $this->request->cantidad,
+                "unidad_medida" => $this->request->unidad_medida,
+                "precio_unitario" => $this->request->precio_unitario,
+                "peso_neto" => $this->request->peso_neto,
+                "peso_bruto" => $this->request->peso_bruto,
+            );
+
+            // return $interData;
+            $envio->setInternational($interData);
         }
 
         $envio->descEnvio($this->request->paqueteria_code, $tipoPaquete);
@@ -132,17 +142,19 @@ class GuiaEnvio
 
         if ( !( $this->request->country_code == "MX" )) {
             // ESTABLECER VALORES INTERNACIONALES
-            $envio->setInternational(
-                $this->request->peso_paquete, 
-                $this->request->peso_paquete,
-                 '100', 
-                 '20', // precio Unitario
-                 'product description'
+            $interData = array(
+                "desc_producto" => $this->request->desc_producto,
+                "cantidad" => $this->request->cantidad,
+                "unidad_medida" => $this->request->unidad_medida,
+                "precio_unitario" => $this->request->precio_unitario,
+                "peso_neto" => $this->request->peso_neto,
+                "peso_bruto" => $this->request->peso_bruto,
             );
+            $envio->setInternational($interData, '30');
         }
 
         $requestShipment = $envio->getEnvio();
-        $successEnvio    = $requestShipment['Note']['ActionNote'];
+        $successEnvio    = $requestShipment['Note']['ActionNote'] ?? "error";
 
         return array($requestShipment, $successEnvio);
 

@@ -136,13 +136,7 @@ class DhlEnvio
 
     }
 
-    public function setInternational(
-        $_pesoNeto,
-        $_pesoBruto,
-        $_declaredValue,
-        $_precioUnitario, 
-        $_productDescription, 
-    )
+    public function setInternational(array $dataInter, $_declaredValue )
     {
         $dutitable = new Dutiable();
         $dutitable->DeclaredValue = $_declaredValue;
@@ -151,32 +145,46 @@ class DhlEnvio
         $exportDeclaration = new ExportDeclaration();
         $exportDeclaration->InvoiceNumber = '1';
         $exportDeclaration->InvoiceDate = date('Y-m-d');
+        // $exportDeclaration->InterConsignee = 'Intermediate Consignee';
+        // $exportDeclaration->IsPartiesRelation = 'N';
+        $this->shipment->ExportDeclaration = $exportDeclaration;
 
-        $exportLineItem = new ExportLineItem();
-        $exportLineItem->LineNumber ="1";
-        $exportLineItem->Quantity = "2";
-        $exportLineItem->QuantityUnit = 'PCS';
-        $exportLineItem->Description= $_productDescription;
-        $exportLineItem->Value = $_precioUnitario;
+        // $lineItems = array();
+        $descripciones = $dataInter['desc_producto'];
+        $pesosNeto = $dataInter['peso_neto'];
+        $cantidades = $dataInter['cantidad'];
+        $unidades = $dataInter['unidad_medida'];
+        $precios = $dataInter['precio_unitario'];
 
-        $weight = new Weight();
-        $weight->Weight = $_pesoNeto;
-        $weight->WeightUnit = 'K';
+        foreach ($descripciones as $key => $value) {
+
+            $exportLineItem = new ExportLineItem();
+            $exportLineItem->LineNumber ="1";
+            $exportLineItem->Quantity = $cantidades[$key];
+            $exportLineItem->QuantityUnit = $unidades[$key];
+            $exportLineItem->Description= $value;
+            $exportLineItem->Value = $precios[$key];
+
+            $weight = new Weight();
+            $weight->Weight = $pesosNeto[$key];
+            $weight->WeightUnit = 'K';
+            
+            $grossWeight = new GrossWeight();
+            $grossWeight->Weight = $pesosNeto[$key];
+            $grossWeight->WeightUnit = 'K';
+
+            $exportLineItem->Weight = $weight;
+            $exportLineItem->GrossWeight = $grossWeight;
+            
+            
+            
+            $this->shipment->ExportDeclaration->addExportLineItem($exportLineItem);
+        }
         
-        $grossWeight = new GrossWeight();
-        $grossWeight->Weight = $_pesoBruto;
-        $grossWeight->WeightUnit = 'K';
-
-        $exportLineItem->Weight = $weight;
-        $exportLineItem->GrossWeight = $grossWeight;
-        
-        $exportDeclaration->ExportLineItem = $exportLineItem;
-
-    
 
         $this->shipment->UseDHLInvoice = 'Y';
         $this->shipment->Dutiable = $dutitable;
-        $this->shipment->ExportDeclaration = $exportDeclaration;
+        
     }
 
     public function getEnvio()
@@ -193,9 +201,9 @@ class DhlEnvio
         $json = json_encode($xmltoJson);
         $resp = json_decode($json,TRUE);
         
-        // echo '<pre>';
-        //     var_dump($resp);
-        // echo '</pre>';
+        echo '<pre>';
+            var_dump($resp);
+        echo '</pre>';
 
         // Store it as a . PDF file in the filesystem
         

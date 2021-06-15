@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-header">
         
-                    <h4 class="font-weight-bolder">Desglose de costos </h4>
+                    <h4 class="font-weight-bolder">Desglose de costos envio</h4>
                 </div>
                 <div class="card-body">
                     <div class="container ">

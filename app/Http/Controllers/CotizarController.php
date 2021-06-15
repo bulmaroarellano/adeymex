@@ -53,7 +53,8 @@ class CotizarController extends Controller
             'rateReply' => $rateReply,
             'quoteResponse' => $quoteResponse,
             'rateResponse' => $rateResponse,
-            'values' => $values
+            'values' => $values,
+            'countryCode' => $request->country_code,
         ]);
         
     }

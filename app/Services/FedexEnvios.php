@@ -192,23 +192,41 @@ class FedexEnvios
         $this->requestedShipment->setShippingChargesPayment($this->shippingChargesPayment);
     }
 
-    public function setInternational()
+    public function setInternational(array $dataInter)
     {
         $CommercialInvoice = new ComplexType\CommercialInvoice();
+        $CommercialInvoice->setPurpose(new SimpleType\PurposeOfShipmentType(SimpleType\PurposeOfShipmentType::_SOLD));
         
-        //+ gastos de flete 
-
-        $FreightCharge = new ComplexType\Money([
-            'Currency' => 'USD',
-            'Amount' => '10'
-        ]);
-
-        $CommercialInvoice
-            ->setPurpose(new SimpleType\PurposeOfShipmentType(SimpleType\PurposeOfShipmentType::_SOLD))
-            ->setFreightCharge($FreightCharge);
-            //->setDeclarationStatement('bla bla');
+        $commodities = array();
+        $descripciones = $dataInter['desc_producto'];
+        $pesos = $dataInter['peso_neto'];
+        $cantidades = $dataInter['cantidad'];
+        $unidades = $dataInter['unidad_medida'];
+        $precios = $dataInter['precio_unitario'];
         
+        foreach ($descripciones as $key => $value) {
+            
+            $commodities[] = array(
+                'NumberOfPieces' => 1,
+                'Description' => $value,
+                'CountryOfManufacture' => 'MX',
+                'Weight' => array(
+                  'Units' => 'KG',
+                  'Value' => $pesos[$key],
+                ),
+                'Quantity' => $cantidades[$key],
+                'QuantityUnits' => $unidades[$key],
+                'UnitPrice' => array(
+                  'Currency' => 'USD',
+                  'Amount' => $precios[$key]
+                ),
+                'CustomsValue' => array(
+                  'Currency' => 'USD',
+                  'Amount' => $precios[$key]
+                )
+            );
 
+        }
         $CustomsClearanceDetail = [
             'DutiesPayment' => new ComplexType\Payment([
               'PaymentType' => 'SENDER', // valid values RECIPIENT, SENDER and THIRD_PARTY
@@ -225,27 +243,7 @@ class FedexEnvios
               'Currency' => 'USD',
               'Amount' => 400.0
             ]),
-            'Commodities' => [
-              [
-                'NumberOfPieces' => 1,
-                'Description' => 'Books',
-                'CountryOfManufacture' => 'MX',
-                'Weight' => array(
-                  'Units' => 'KG',
-                  'Value' => 0.5
-                ),
-                'Quantity' => 1,
-                'QuantityUnits' => 'EA',
-                'UnitPrice' => array(
-                  'Currency' => 'USD',
-                  'Amount' => 100.000000
-                ),
-                'CustomsValue' => array(
-                  'Currency' => 'USD',
-                  'Amount' => 400.000000
-                )
-              ]
-            ],
+            'Commodities' =>$commodities,
             'ExportDetail' => new ComplexType\ExportDetail([
               'B13AFilingOption' => 'NOT_REQUIRED'
             ]),

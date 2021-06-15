@@ -1,39 +1,39 @@
 
-
-
-
-<div class="col-md-12">
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-        
-                    <h4 class="font-weight-bolder">Envios Internacionales </h4>
-                </div>
-                <div class="card-body">
-                    <div class="container ">
-                        
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col-sm">Descripcion Producto (Ingles)</th>
-                                        <th scope="col-sm">Cantidad</th>
-                                        <th scope="col-sm">Unidad de medida</th>
-                                        <th scope="col-sm">Precio Unitario</th>
-                                        <th scope="col-sm">Peso Neto</th>
-                                        <th scope="col-sm">Peso Bruto</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="data-intl">
-    
-    
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="row" id="data-intl" style="display: none">
+    <div class="col-12">
+      <div class="card p-1">
+        <div class="card-header">
+          <h4 class="card-title">Detalles envio Internacional</h4>
         </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+                <tr>
+                    <th>Producto (Ingles)</th>
+                    <th>Cantidad</th>
+                    <th>Unidad de medida</th>
+                    <th>Precio Unitario</th>
+                    <th>Peso Neto</th>
+                    <th>Peso Bruto</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input class="form-control " type="text" name="desc_producto[]"/></td>
+                    <td><input class="form-control" type="text" name="cantidad[]"/></td>
+                    <td><input class="form-control" type="text" name="unidad_medida[]"/></td>
+                    <td><input class="form-control" type="text" name="precio_unitario[]"/></td>
+                    <td><input class="form-control" type="text" name="peso_neto[]"/></td>
+                    <td><input class="form-control" type="text" name="peso_bruto[]"/></td>
+                    <td><button class="btn btn-success" id="add_btn"><i class="fas fa-plus-circle"></i></button></td>
+                </tr>
+            
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 </div>
+
+

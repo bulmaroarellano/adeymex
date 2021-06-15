@@ -3,6 +3,7 @@ $("input[type='radio'][name='paqueteria_code']").on("change", function(){
   if($(this).is(':checked')){
 
     $("#datos-envio").show();
+
     const paqueteriaCode = $(this).val();    
     const nombrePaqueteria = document.getElementById(`${paqueteriaCode}-paqueteria`).innerText;
 
@@ -33,6 +34,11 @@ $("input[type='radio'][name='paqueteria_code']").on("change", function(){
     const cargoLogistica = document.querySelector('.cargo-logistica').value;
     const countryCode   = document.querySelector('.country-code').value;
     const seguroEnvio   = document.querySelector('.seguro-envio').value;
+    if ( !( countryCode === "MX" ) ) {
+      $("#data-intl").show();
+    
+    }
+
     //+ DIMENSIONES DEL PAQUETE 
     const largoPaquete = document.querySelector('.largo').value;
     const anchoPaquete = document.querySelector('.ancho').value;

@@ -69,7 +69,10 @@ class EnvioController extends Controller
     public function store(Request $request)
     {
         
+        
+        
         // return $request;
+        
        
         if (! is_numeric($request->remitente_id)) {
             
@@ -218,11 +221,11 @@ class EnvioController extends Controller
         
         return $request;
         $pdf = PDF::loadView('paqueteria.envios.components.ticket_pago', [
-            'costo_sucursal' => $this->precios->costo_sucursal_envio ?? '0', 
+            'costo_sucursal'  => $this->precios->costo_sucursal_envio ?? '0', 
             'cargo_logistica' => $this->precios->cargo_logistica_interna, 
-            'cargo_envio' => $this->precios->cargos_envio, 
-            'impuesto' => $this->precios->impuestos_envio, 
-            'total_precio' => $this->precios->precio_total_sucursal, 
+            'cargo_envio'     => $this->precios->cargos_envio, 
+            'impuesto'        => $this->precios->impuestos_envio, 
+            'total_precio'    => $this->precios->precio_total_sucursal, 
         ])->setPaper('A5', 'portrait');
         return $pdf->download('ticket.pdf');
 

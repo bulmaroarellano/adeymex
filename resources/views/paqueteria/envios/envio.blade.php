@@ -38,21 +38,18 @@
     ]) !!}    
 
       @include('paqueteria/envios/components/cotizaciones')
+      @if (session()->has('countryCode') && ! ( session()->get('countryCode') == "MX" ) )  
+        @include('paqueteria/envios/components/data_international')  
+      @endif
       @include('paqueteria/envios/components/forms/datos_envio_form')
       @include('paqueteria/envios/helpers/variables_envio')
       
-      
 
     {!! Form::close() !!}
+    
+    
 
-    {!! Form::open([
-      // 'route' => 'envios.store',
-      'method' => 'POST',
-      'id' => 'data_intl'
 
-    ]) !!}    
-      @include('paqueteria/envios/components/data_international')
-    {!! Form::close() !!}
     
     
     {{-- @include('paqueteria/envios/fedex/envio-fedex')
