@@ -127,19 +127,19 @@ class EnvioController extends Controller
                 
                 $numberTracking = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
                 $urlGuia        = "fedex-guias/envio-{$numberTracking}.pdf";
-                $urlGuiaInvoice = "fedex-guias/invoice-{$numberTracking}.pdf";
+                // $urlGuiaInvoice = "fedex-guias/invoice-{$numberTracking}.pdf";
                 
-                $this->guardarGuias(
-                    $urlGuia,
-                    $processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image,
-                    'FEDEX'
-                );
-                // invoice 
-                $this->guardarGuias(
-                    $urlGuiaInvoice,
-                    $processShipmentReply->CompletedShipmentDetail->ShipmentDocuments[0]->Parts[0]->Image,
-                    'FEDEX'
-                );
+                // $this->guardarGuias(
+                //     $urlGuia,
+                //     $processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image,
+                //     'FEDEX'
+                // );
+                //  invoice 
+                // $this->guardarGuias(
+                //     $urlGuiaInvoice,
+                //     $processShipmentReply->CompletedShipmentDetail->ShipmentDocuments[0]->Parts[0]->Image,
+                //     'FEDEX'
+                // );
                 
                 
 

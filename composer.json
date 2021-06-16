@@ -12,6 +12,7 @@
         "alfallouji/dhl_api": "*",
         "aliabdulaziz/laravel-extended-user": "^1.0",
         "barryvdh/laravel-dompdf": "^0.9.0",
+        "clegginabox/pdf-merger": "dev-master",
         "crestapps/laravel-code-generator": "^2.4",
         "eklundkristoffer/seedster": "^4.0",
         "fideloper/proxy": "^4.4",

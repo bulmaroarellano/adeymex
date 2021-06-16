@@ -2,20 +2,18 @@
 
 namespace App\Services;
 
-
 use FedEx\ShipService;
 use FedEx\ShipService\ComplexType;
-use FedEx\ShipService\ComplexType\BrokerDetail;
 use FedEx\ShipService\ComplexType\CommercialInvoiceDetail;
 use FedEx\ShipService\ComplexType\CustomerImageUsage;
 use FedEx\ShipService\ComplexType\ShippingDocumentFormat;
 use FedEx\ShipService\ComplexType\ShippingDocumentSpecification;
 use FedEx\ShipService\SimpleType;
-use FedEx\ShipService\SimpleType\BrokerType;
 use FedEx\ShipService\SimpleType\InternalImageType;
 use FedEx\ShipService\SimpleType\RequestedShippingDocumentType;
 use FedEx\ShipService\SimpleType\ShippingDocumentImageType;
 use FedEx\ShipService\SimpleType\ShippingDocumentStockType;
+// use Karriere\PdfMerge\PdfMerge;
 
 class FedexEnvios
 {
@@ -53,6 +51,11 @@ class FedexEnvios
     private $processShipmentRequest;
     private $shipService;
 
+    // GUIA MASTER 
+    private $masterTrackingID;
+    private $pdfGuia;
+    
+
     public function __construct($key, $password, $accountNumber, $meterNumber)
     {
 
@@ -83,6 +86,8 @@ class FedexEnvios
         $this->requestedShipment = new ComplexType\RequestedShipment();
         $this->processShipmentRequest = new ComplexType\ProcessShipmentRequest();
         $this->shipService = new ShipService\Request();
+
+        $this->pdfGuia = new \Clegginabox\PDFMerger\PDFMerger;
     }
 
     public function configuraciones()
@@ -165,7 +170,8 @@ class FedexEnvios
         $this->requestedShipment->setRecipient($this->recipient);
 
         $this->labelSpecification
-            ->setLabelStockType(new SimpleType\LabelStockType(SimpleType\LabelStockType::_PAPER_7X4POINT75))
+            // ->setLabelStockType(new SimpleType\LabelStockType(SimpleType\LabelStockType::_PAPER_7X4POINT75))
+            ->setLabelStockType(new SimpleType\LabelStockType(SimpleType\LabelStockType::_PAPER_LETTER))
             ->setImageType(new SimpleType\ShippingDocumentImageType(SimpleType\ShippingDocumentImageType::_PDF))
             ->setLabelFormatType(new SimpleType\LabelFormatType(SimpleType\LabelFormatType::_COMMON2D));
         $this->requestedShipment->setLabelSpecification($this->labelSpecification);
@@ -203,11 +209,11 @@ class FedexEnvios
         
         if ($totalPackage > 1 ) {
         
-            list($masterID, $formID) = $this->getMasterID( $ancho[0], $alto[0] ,$largo[0], $peso[0], $descripcion);  
+            $formID = $this->getMasterID( $ancho[0], $alto[0] ,$largo[0], $peso[0], $descripcion);  
             
             $master = new ComplexType\TrackingId();
             $master->FormId = $formID;
-            $master->TrackingNumber = $masterID;
+            $master->TrackingNumber = $this->masterTrackingID;
             
             $this->requestedShipment->setMasterTrackingId($master) ;
         }
@@ -232,9 +238,21 @@ class FedexEnvios
                     $lineItem,
                     
                 ]);
+
+                $processShipmentReply = $this->getEnvio();
+                $urlGuia = $processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->TrackingIds[0]->TrackingNumber;
+                $contentGuia = $processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image;
+                $this->saveGuias($urlGuia, $contentGuia);
             }
             
         }
+        $urlGuiaFinal = "fedex-guias/master-{$this->masterTrackingID}.pdf";
+        //commercial invoice 
+        
+        // $contentInovice = $processShipmentReply->CompletedShipmentDetail->ShipmentDocuments[0]->Parts[0]->Image;
+        // $this->saveCommercialInvoice($this->masterTrackingID, $contentInovice);
+
+        $this->pdfGuia->merge('file', $urlGuiaFinal, 'P');
         
     }
 
@@ -258,12 +276,14 @@ class FedexEnvios
         $this->requestedShipment->setRequestedPackageLineItems([$lineItem]);
 
         $processShipmentReply = $this->getEnvio();
-        $masterID = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
-        $formId = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->FormId;
-
-    
         
-        return array($masterID, $formId);
+        $this->masterTrackingID = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
+        $contentGuia = $processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image;
+        $this->saveGuias($this->masterTrackingID, $contentGuia);
+
+        $formId = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->FormId;
+        
+        return $formId;
     }
 
     public function setInternational(array $dataInter)
@@ -341,18 +361,14 @@ class FedexEnvios
                 'Format' => new ShippingDocumentFormat([
                     'ImageType' => ShippingDocumentImageType::_PDF,
                     'StockType' => ShippingDocumentStockType::_PAPER_LETTER
+                    
                 ])
             ])
         ]);
        
         $this->requestedShipment->setShippingDocumentSpecification($shippingDocumentSpecification);
-        
-
-        
 
     }
-
-    
 
 
     public function getEnvio()
@@ -362,13 +378,31 @@ class FedexEnvios
         $this->processShipmentRequest->setVersion($this->version);
         $this->processShipmentRequest->setRequestedShipment($this->requestedShipment);
         
-        $result = $this->shipService->getProcessShipmentReply($this->processShipmentRequest);
-
+        $result = $this->shipService->getProcessShipmentReply($this->processShipmentRequest);        
+    
         echo '<pre>';
             var_dump($result);
             // var_dump($this->requestedShipment);
         echo '</pre>';
 
         return $result;
+    }
+
+    public function saveGuias($url, $contentGuia)
+    {
+        $urlGuia        = "fedex-guias/envio-{$url}.pdf"; // direccion principal (archivos all files)
+        //* direccion del archivo de las guias (master--> 4pag, children )
+
+        file_put_contents( $urlGuia, $contentGuia );
+        $this->pdfGuia->addPDF($urlGuia, 'all');
+
+
+    }
+    public function saveCommercialInvoice($urlGuia, $contentGuia)
+    {
+        $urlGuiaInvoice = "fedex-guias/invoice-{$urlGuia}.pdf";
+        file_put_contents( $urlGuiaInvoice, $contentGuia );
+        $this->pdfGuia->addPDF($urlGuiaInvoice, 'all');
+        
     }
 }
