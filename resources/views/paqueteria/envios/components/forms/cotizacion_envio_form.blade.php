@@ -50,7 +50,10 @@
                                 @enderror
                             </div>
 
-                            {{-- BUSCADORES ZIP'S  --}}
+
+                        </div>
+                        {{-- PAQUETES  --}}
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class="col-form-label  text-primary">Direccion destino  </label>
                                     <div class="row no-gutters">
@@ -90,50 +93,8 @@
                                         <small class="alert alert-danger">{{$message}}</small>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="col-form-label  text-primary">Seguro de envio</label>
-                                    <div class="input-group input-group-merge">
-                                        <div class="input-group input-group-merge">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">MXN</span>
-                                            </div>
-                                            {!! Form::input('number', 'seguro_envio', session()->get('values')->seguro_envio ?? '0', [
-                                                'readonly' => session()->has('edit')  
-                                                ?  session()->get('edit') == 0 ? true : false 
-                                                : false,
-                                                'min' => '0', 
-                                                'class' => 'form-control pl-1 seguro-envio ', 
-                                                // 'pattern' => "[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                                            ]) !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        {{-- PAQUETES  --}}
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label  text-primary">Tipo de paquete</label>
-                                <div class="input-group input-group-merge">
-                                    
-                                    {{ Form::select('type_paquete',[
-                                        '1' => 'Paquete',
-                                        '2' => 'Documento',
-                                        '3' => 'Fedex-pak'
-                                    ], 
-                                        session()->get('values')->type_paquete ?? '',[
-                                            'placeholder' => 'Elegir tipo de paquete',
-                                            'readonly' => session()->has('values')
-                                                ? (session()->get('edit') == 1 ? false : true )
-                                                : false,
-                                            'class' => 'type-paquete form-control  col-md-10 pl-1'
-                                    ])}}
-                                </div>
-                               
-                            </div>
                             <div class="row">
+                                
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label class="col-form-label  text-primary">Cargos por Logistica Interna*</label>
@@ -152,93 +113,45 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            {{-- MEDIDAS --}}
-                            <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-5">
+                                    
                                     <div class="form-group">
-                                        <label class="col-form-label  text-primary">Largo (cm)</label>
-                                        <div class="input-group input-group-merge">
-                                            
-                                            {!! Form::text(
-                                                'largo', session()->get('values')->largo ?? '',[
-                                                    'readonly' => session()->has('edit') 
-                                                    ? session()->get('edit') == 0 ? true : false
-                                                    : false,
-                                                    'class' => 'largo form-control pl-1'
-                                                ]) 
-                                            !!}
-                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                            <label class="form-check-label" for="inlineCheckbox1">
+                                                Habilitar Ocurre
+                                            </label>
+                                          </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
 
                                     <div class="form-group">
-                                        <label class="col-form-label  text-primary">Ancho (cm)</label>
                                         <div class="input-group input-group-merge">
-                                            
-                                            {!! Form::text(
-                                                'ancho', session()->get('values')->ancho ?? '',[
-                                                    'readonly' => session()->has('edit') 
-                                                    ? session()->get('edit') == 0 ? true : false
-                                                    : false,
-                                                    'class' => 'ancho form-control pl-1'
-                                                ]) 
-                                            !!}
+                                            <div class="input-group input-group-merge">
+                                                <input type="text" class="form-control" >
+                                            </div>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label class="col-form-label  text-primary">Alto (cm)</label>
-                                        <div class="input-group input-group-merge">
-                                            
-                                            {!! Form::text(
-                                                'alto', session()->get('values')->alto ?? '',[
-                                                    'readonly' => session()->has('edit') 
-                                                    ? session()->get('edit') == 0 ? true : false
-                                                    : false,
-                                                    'class' => 'alto form-control pl-1'
-                                                ]) 
-                                            !!}
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label class="col-form-label  text-primary">Peso (kg)</label>
-                                        <div class="input-group input-group-merge">
-                                            
-                                            {!! Form::text(
-                                                'peso', session()->get('values')->peso ?? '',[
-                                                    'readonly' => session()->has('edit') 
-                                                    ? session()->get('edit') == 0 ? true : false
-                                                    : false,
-                                                    'class' => 'peso form-control pl-1'
-                                                ]) 
-                                            !!}
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="row d-flex justify-content-sm-around mt-2">
-                                <button class="btn btn-success" type="submit">
-                                    {{ session()->get('edit') ? 'otra' : 'Cotizar' }}
-                                </button>
-                                <a href="{{ route('envios.index') }}">
-                                    <div class="btn btn-danger">
-                                        <i class="fas fa-ban mr-1"></i>
-                                        Cancelar
-                                    </div>
-                                </a>
-        
                             </div>
                         </div>
+
+                    </div>
+                    
+
+                    @include('paqueteria/envios/components/paquetes')  
+                    
+                    
+                    <div class="row d-flex justify-content-sm-around mt-2">
+                        <button class="btn btn-success" type="submit">
+                            {{ session()->get('edit') ? 'otra' : 'Cotizar' }}
+                        </button>
+                        <a href="{{ route('envios.index') }}">
+                            <div class="btn btn-danger">
+                                <i class="fas fa-ban mr-1"></i>
+                                Cancelar
+                            </div>
+                        </a>
 
                     </div>
                 </div>

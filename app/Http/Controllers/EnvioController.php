@@ -68,12 +68,8 @@ class EnvioController extends Controller
     //+ GUARDAR UN NUEVO ENVIO
     public function store(Request $request)
     {
-        
-        
-        
         // return $request;
-        
-       
+
         if (! is_numeric($request->remitente_id)) {
             
             $this->remitente = Remitente::create([
@@ -135,25 +131,31 @@ class EnvioController extends Controller
                 
                 $this->guardarGuias(
                     $urlGuia,
-                    $urlGuiaInvoice,
                     $processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image,
-                    $processShipmentReply->CompletedShipmentDetail->ShipmentDocuments[0]->Parts[0]->Image,
                     'FEDEX'
                 );
+                // invoice 
+                // $this->guardarGuias(
+                //     $urlGuiaInvoice,
+                //     $processShipmentReply->CompletedShipmentDetail->ShipmentDocuments[0]->Parts[0]->Image,
+                //     'FEDEX'
+                // );
+                
+                
 
                 $varEnvio['tipo_servicio'] = $request->paqueteria_code;
                 $varEnvio['numero_guia']   = $numberTracking;
                 $varEnvio['url_guia']      = $urlGuia;
                 
-                Envio::create($varEnvio);
+                // Envio::create($varEnvio);
 
-                return redirect()->route('envios.index')->with([
-                    'processShipmentReply' => $processShipmentReply,
-                    'successEnvio'  => $successEnvio,
-                    'urlGuia'       => $urlGuia, 
-                    'precios'       => $precios,
-                    'paqueteria'    => $request->nombre_paqueteria,
-                ]);
+                // return redirect()->route('envios.index')->with([
+                //     'processShipmentReply' => $processShipmentReply,
+                //     'successEnvio'  => $successEnvio,
+                //     'urlGuia'       => $urlGuia, 
+                //     'precios'       => $precios,
+                //     'paqueteria'    => $request->nombre_paqueteria,
+                // ]);
     
             } 
 
@@ -202,17 +204,17 @@ class EnvioController extends Controller
 
     }
 
-    public function guardarGuias($urlGuia, $urlGuiaInvoice, $contentGuia, $contentInvoice, $paqueteria)
+    public function guardarGuias($urlGuia, $contentGuia, $paqueteria)
     {
         
         if ($paqueteria == "FEDEX") {
             file_put_contents( $urlGuia, $contentGuia );
-            file_put_contents( $urlGuiaInvoice, $contentInvoice);
+           
         }
         
         if ($paqueteria == "DHL") {
             file_put_contents( $urlGuia, base64_decode( $contentGuia ) );
-            file_put_contents( $urlGuiaInvoice, base64_decode( $contentInvoice ) );
+            
         }
     }
 

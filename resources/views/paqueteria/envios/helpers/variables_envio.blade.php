@@ -5,11 +5,6 @@
 <input type="hidden" name="country_code"  value="" id="country-code" >
 <input type="hidden" name="seguro_envio"  value="" id="seguro-envio" >
 
-{{-- PAQUETE --}}
-<input type="hidden" name="largo_paquete" value="" id="largo-paquete" >
-<input type="hidden" name="ancho_paquete" value="" id="ancho-paquete" >
-<input type="hidden" name="alto_paquete"  value="" id="alto-paquete" >
-<input type="hidden" name="peso_paquete"  value="" id="peso-paquete" >
 
 {{-- COSTOS E IMPUESTOS --}}
 <input type="hidden" name="costo_sucursal_envio"  value="" id="costo-sucursal-envio">
@@ -23,9 +18,36 @@
 
 {{-- VARIANTE CODIGO ENVIO  --}}
 
-<input type="hidden" name="type_paquete_fedex"  value="" id="type-paquete-fedex">
+{{-- <input type="hidden" name="type_paquete_fedex"  value="" id="type-paquete-fedex"> --}}
 <input type="hidden" name="local_product_code"  value="" id="local-product-code">
 {{-- <input type="hidden" name="service_code"  value="" id="service-code"> --}}
+
+{{-- PAQUETE --}}
+
+@if ( session()->has('type_paquete') )
+
+    @php
+        $largo = session()->get('largo');
+        $ancho = session()->get('ancho');
+        $alto = session()->get('alto');
+        $peso = session()->get('peso');
+        $tipoPaquete = session()->get('type_paquete');
+    @endphp
+
+    @foreach ($tipoPaquete as $key => $paquete)
+
+        {{-- PAQUETE --}}
+        <input type="hidden" name="largo_paquete[]" value="{{$largo[$key]}}" id="largo-paquete" >
+        <input type="hidden" name="ancho_paquete[]" value="{{$ancho[$key]}}" id="ancho-paquete" >
+        <input type="hidden" name="alto_paquete[]"  value="{{$alto[$key]}}" id="alto-paquete" >
+        <input type="hidden" name="peso_paquete[]"  value="{{$peso[$key]}}" id="peso-paquete" >
+        <input type="hidden" name="type_paquete[]"  value="{{$paquete}}" id="type-paquete">
+        
+    @endforeach
+    
+    
+@endif
+
 
 
 

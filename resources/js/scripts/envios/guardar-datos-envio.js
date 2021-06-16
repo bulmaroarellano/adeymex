@@ -33,17 +33,12 @@ $("input[type='radio'][name='paqueteria_code']").on("change", function(){
     const id_cp_destinatario = document.querySelector('.zips-search').value;
     const cargoLogistica = document.querySelector('.cargo-logistica').value;
     const countryCode   = document.querySelector('.country-code').value;
-    const seguroEnvio   = document.querySelector('.seguro-envio').value;
+    // const seguroEnvio   = document.querySelector('.seguro-envio').value;
     if ( !( countryCode === "MX" ) ) {
       $("#data-intl").show();
     
     }
 
-    //+ DIMENSIONES DEL PAQUETE 
-    const largoPaquete = document.querySelector('.largo').value;
-    const anchoPaquete = document.querySelector('.ancho').value;
-    const altoPaquete  = document.querySelector('.alto').value;
-    const pesoPaquete  = document.querySelector('.peso').value;
 
     const precioEnvioSelec = document.getElementById(`${paqueteriaCode}-monto`).innerText;
 
@@ -72,12 +67,8 @@ $("input[type='radio'][name='paqueteria_code']").on("change", function(){
         document.querySelector('#id-cp-destinatario').value  = `${data.id_cp_destinatario}`;
         document.querySelector('#nombre-paqueteria').value  = `${nombrePaqueteria}`;
         document.querySelector('#country-code').value  = `${countryCode}`;
-        document.querySelector('#seguro-envio').value  = `${seguroEnvio}`;
-        // PAQUETE 
-        document.querySelector('#largo-paquete').value = `${largoPaquete}`;
-        document.querySelector('#ancho-paquete').value = `${anchoPaquete}`;
-        document.querySelector('#alto-paquete').value  = `${altoPaquete}`;
-        document.querySelector('#peso-paquete').value  = `${pesoPaquete}`;
+        // document.querySelector('#seguro-envio').value  = `${seguroEnvio}`;
+        
         //COSTOS E IMPUESTOS 
         document.querySelector('#costo-sucursal-envio').value  = `${precioEnvioSelec}`;
         document.querySelector('#cargo-logistica').value  = `${cargoLogistica}`;
@@ -102,7 +93,7 @@ const dataEnvioFedex = (paqueteriaCode, precioEnvioSelec, cargoLogistica) => {
   
   const costFuel = document.querySelector(`#${paqueteriaCode}-fuel`).value;
   const costTax = document.querySelector(`#${paqueteriaCode}-tax`).value;
-  const typePaquete  = document.querySelector('.type-paquete').value;
+  // const typePaquete  = document.querySelector('.type-paquete').value;
 
   document.querySelector('#precio-envio-fedex').innerText  = `${precioEnvioSelec}`;
   document.querySelector('#precio-logistica-interna').innerText  = `${cargoLogistica}`;
@@ -117,7 +108,7 @@ const dataEnvioFedex = (paqueteriaCode, precioEnvioSelec, cargoLogistica) => {
   document.querySelector('#precio-total-sucursal').value  = `${suma.toFixed(2)}`;
 
   //+ VARIANTE CODIGO ENVIO
-  document.querySelector('#type-paquete-fedex').value  = `${typePaquete}`;
+  // document.querySelector('#type-paquete-fedex').value  = `${typePaquete}`;
 
 }
 

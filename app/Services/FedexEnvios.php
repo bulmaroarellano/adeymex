@@ -44,9 +44,6 @@ class FedexEnvios
     //+ COMPROBANTE
     private $labelSpecification;
 
-    //+ PAQUETE
-    private $packageLineItem;
-
     //+REPONSABILIDADES
     private $shippingChargesPayor;
     private $shippingChargesPayment;
@@ -78,7 +75,7 @@ class FedexEnvios
         $this->recipientContact = new ComplexType\Contact();
 
         $this->labelSpecification = new ComplexType\LabelSpecification();
-        $this->packageLineItem = new ComplexType\RequestedPackageLineItem();
+        
 
         $this->shippingChargesPayor = new ComplexType\Payor();
         $this->shippingChargesPayment = new ComplexType\Payment();
@@ -156,32 +153,28 @@ class FedexEnvios
             ->setContact($this->recipientContact);
         
     }
-
-    public function especificacionesPaquete($ancho, $alto, $largo, $peso, $descripcion)
+    public function descEnvio($tipoServicio)
     {
-    
-        $this->packageLineItem
-            ->setSequenceNumber(1)
-            ->setItemDescription($descripcion)
-            ->setDimensions(new ComplexType\Dimensions(array(
+        $this->requestedShipment->setShipTimestamp(date('c'));
+        $this->requestedShipment->setDropoffType(new SimpleType\DropoffType(SimpleType\DropoffType::_REGULAR_PICKUP));
+        $this->requestedShipment->setServiceType(new SimpleType\ServiceType($tipoServicio)); // (FEDEX_GROUND)
 
-                'Width' => $ancho,
-                'Height' => $alto,
-                'Length' => $largo,
-                'Units' => SimpleType\LinearUnits::_CM
-
-            )))
-            ->setWeight(new ComplexType\Weight(array(
-                'Value' => $peso,
-                'Units' => SimpleType\WeightUnits::_KG
-            )));
+        $this->requestedShipment->setRateRequestTypes(array(new SimpleType\RateRequestType(SimpleType\RateRequestType::_PREFERRED)));
+        
+        $this->requestedShipment->setShipper($this->shipper);
+        $this->requestedShipment->setRecipient($this->recipient);
 
         $this->labelSpecification
             ->setLabelStockType(new SimpleType\LabelStockType(SimpleType\LabelStockType::_PAPER_7X4POINT75))
             ->setImageType(new SimpleType\ShippingDocumentImageType(SimpleType\ShippingDocumentImageType::_PDF))
             ->setLabelFormatType(new SimpleType\LabelFormatType(SimpleType\LabelFormatType::_COMMON2D));
-    }
+        $this->requestedShipment->setLabelSpecification($this->labelSpecification);
 
+        $this->requestedShipment->setPackagingType(
+            new \FedEx\ShipService\SimpleType\PackagingType(\FedEx\ShipService\SimpleType\PackagingType::_YOUR_PACKAGING)
+        );
+        
+    }
     public function impuestos()
     {
         $this->shippingChargesPayor->setResponsibleParty($this->shipper);
@@ -190,6 +183,74 @@ class FedexEnvios
             ->setPaymentType(SimpleType\PaymentType::_SENDER)
             ->setPayor($this->shippingChargesPayor);
         $this->requestedShipment->setShippingChargesPayment($this->shippingChargesPayment);
+    }
+
+    public function setPaquete($request, $descripcion)
+    {
+        $largo = $request->largo_paquete;
+        $ancho = $request->ancho_paquete;
+        $alto  = $request->alto_paquete;
+        $peso  = $request->peso_paquete;
+
+        
+        $this->requestedShipment->setPackageCount(2);
+        $this->requestedShipment->setTotalWeight(new ComplexType\Weight(array(
+            'Value' => $peso[0] + $peso[1],
+            'Units' => SimpleType\WeightUnits::_KG
+        )));
+
+        $totalPackage = count($largo);
+        
+        if ($totalPackage > 1 ) {
+            list($masterID, $formID) = $this->getMasterID();  
+            $master = new ComplexType\TrackingId();
+            $master->FormId = $formID;
+            $master->TrackingNumber = $masterID;
+            
+            $this->requestedShipment->setMasterTrackingId($master) ;
+        }
+
+        foreach ($largo as $key => $larg) {
+            if($key >  0 ){
+                $lineItem = new ComplexType\RequestedPackageLineItem();
+                $lineItem
+                    ->setSequenceNumber(($key + 1))
+                    ->setItemDescription($descripcion)
+                    ->setDimensions(new ComplexType\Dimensions(array(
+                        'Width' => $ancho[$key],
+                        'Height' => $alto[$key],
+                        'Length' => $larg,
+                        'Units' => SimpleType\LinearUnits::_CM
+                    )))
+                    ->setWeight(new ComplexType\Weight(array(
+                        'Value' => $peso[$key],
+                        'Units' => SimpleType\WeightUnits::_KG
+                    )));
+                $this->requestedShipment->setRequestedPackageLineItems([
+                    $lineItem,
+                    
+                ]);
+            }
+            
+
+        }
+        
+    }
+
+    public function getMasterID()
+    {
+        $this->processShipmentRequest->setWebAuthenticationDetail($this->webAuthenticationDetail);
+        $this->processShipmentRequest->setClientDetail($this->clientDetail);
+        $this->processShipmentRequest->setVersion($this->version);
+        $this->processShipmentRequest->setRequestedShipment($this->requestedShipment);
+        $processShipmentReply = $this->shipService->getProcessShipmentReply($this->processShipmentRequest);
+        $masterID = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
+        $formId = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->FormId;
+        echo '<pre>';
+            var_dump($processShipmentReply);
+            // var_dump($this->requestedShipment);
+        echo '</pre>';
+        return array($masterID, $formId);
     }
 
     public function setInternational(array $dataInter)
@@ -278,28 +339,10 @@ class FedexEnvios
 
     }
 
-    public function descEnvio($tipoServicio, $tipoPaquete )
-    {
-        $this->requestedShipment->setShipTimestamp(date('c'));
-        $this->requestedShipment->setDropoffType(new SimpleType\DropoffType(SimpleType\DropoffType::_REGULAR_PICKUP));
-        $this->requestedShipment->setServiceType(new SimpleType\ServiceType($tipoServicio)); // (FEDEX_GROUND)
-        $this->requestedShipment->setPackagingType(new SimpleType\PackagingType($tipoPaquete)); //(_YOUR_PAKING)
-        
-        $this->requestedShipment->setShipper($this->shipper);
-        $this->requestedShipment->setRecipient($this->recipient);
-        $this->requestedShipment->setLabelSpecification($this->labelSpecification);
-        
-        $this->requestedShipment->setRateRequestTypes(array(new SimpleType\RateRequestType(SimpleType\RateRequestType::_PREFERRED)));
-        $this->requestedShipment->setPackageCount(1);
-
-        $this->requestedShipment->setRequestedPackageLineItems([
-            $this->packageLineItem
-        ]);
-        
-    }
+    
 
 
-    public function peticionEnvio()
+    public function getEnvio()
     {
         $this->processShipmentRequest->setWebAuthenticationDetail($this->webAuthenticationDetail);
         $this->processShipmentRequest->setClientDetail($this->clientDetail);
@@ -307,17 +350,12 @@ class FedexEnvios
         $this->processShipmentRequest->setRequestedShipment($this->requestedShipment);
         
         $result = $this->shipService->getProcessShipmentReply($this->processShipmentRequest);
-        
-        
+
         echo '<pre>';
             var_dump($result);
             // var_dump($this->requestedShipment);
         echo '</pre>';
-        
-        
-        
+
         return $result;
-        
-        // var_dump($result->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image);
     }
 }

@@ -113,32 +113,37 @@ class UpsTarifas
 
     }
 
-    public function setPaquete($_peso, $_alto, $_largo, $_ancho)
+    public function setPaquete($request)
     {
-        $package = new Package();
         
-        
-        $package->getPackagingType()->setCode(\Ups\Entity\PackagingType::PT_PACKAGE);
-        $package->getPackageWeight()->setWeight($_peso);
+        $largo = $request->largo;
+        $ancho = $request->ancho;
+        $alto  = $request->alto;
+        $peso  = $request->peso;
 
-        $unitsWeight = new UnitOfMeasurement();
-        $unitsWeight->setCode(\Ups\Entity\UnitOfMeasurement::PROD_KILOGRAMS);
-        $package->getPackageWeight()->setUnitOfMeasurement($unitsWeight);
+        foreach ($largo as $key => $larg) {
+            
+            $package = new Package();
+            $package->getPackagingType()->setCode(\Ups\Entity\PackagingType::PT_PACKAGE);
+    
+            $unitsWeight = new UnitOfMeasurement();
+            $unitsWeight->setCode(\Ups\Entity\UnitOfMeasurement::PROD_KILOGRAMS);
+            $units = new UnitOfMeasurement();
+            $units->setCode(\Ups\Entity\UnitOfMeasurement::UOM_CM);
+    
+            $dimensions = new Dimensions();
+            $dimensions->setUnitOfMeasurement($units);
+            $dimensions->setWidth($larg);
+            $dimensions->setHeight($alto[$key]);
+            $dimensions->setLength($ancho[$key]);
+            $package->getPackageWeight()->setWeight($peso[$key]);
 
-        $dimensions = new Dimensions();
-        $dimensions->setHeight($_alto);
-        $dimensions->setWidth($_largo);
-        $dimensions->setLength($_ancho);
+            $package->getPackageWeight()->setUnitOfMeasurement($unitsWeight);
+            $package->setDimensions($dimensions);
+            
+            $this->shipment->addPackage($package);
 
-        $units = new UnitOfMeasurement();
-        $units->setCode(\Ups\Entity\UnitOfMeasurement::UOM_CM);
-        
-        $dimensions->setUnitOfMeasurement($units); 
-        $package->setDimensions($dimensions);
-
-
-        $this->shipment->addPackage($package);
-        
+        }
     }
 
     public function getTarifa()

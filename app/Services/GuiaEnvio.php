@@ -61,12 +61,9 @@ class GuiaEnvio
             "{$this->destinatario->nombre} {$this->destinatario->apellido_paterno}",
             $this->destinatario->telefono,
         );
-
-        $envio->especificacionesPaquete(
-            (int)   $this->request->ancho_paquete,
-            (int)   $this->request->alto_paquete,
-            (int)   $this->request->largo_paquete,
-            (float) $this->request->peso_paquete,
+        $envio->descEnvio($this->request->paqueteria_code);
+        $envio->setPaquete(
+            $this->request,
             'paquetePrueba'
         );
         $envio->impuestos();
@@ -86,8 +83,8 @@ class GuiaEnvio
             $envio->setInternational($interData);
         }
 
-        $envio->descEnvio($this->request->paqueteria_code, $tipoPaquete);
-        $processShipmentReply =  $envio->peticionEnvio();
+        
+        $processShipmentReply =  $envio->getEnvio();
         $successEnvio = $processShipmentReply->HighestSeverity;
 
         return array($processShipmentReply, $successEnvio);
@@ -150,7 +147,7 @@ class GuiaEnvio
                 "peso_neto" => $this->request->peso_neto,
                 "peso_bruto" => $this->request->peso_bruto,
             );
-            $envio->setInternational($interData, '30');
+            // $envio->setInternational($interData, '30');
         }
 
         $requestShipment = $envio->getEnvio();

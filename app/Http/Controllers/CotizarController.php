@@ -16,34 +16,20 @@ class CotizarController extends Controller
 
     public function getCotizacion(Request $request)
     {
-    //    return $request;
 
         $sucursal = Sucursal::where('id', $request->sucursal_id)->first();
-        // $sepomex = Sepomex::where('id', $request->destino)->first();
         $zip = Zip::where('id', $request->destino)->first();
 
         $values = new stdClass();
         $values->sucursal_id = $request->sucursal_id;
-        
         $values->destinoCP = $request->destino;
         $values->origen = $request->origen;
-        $values->type_paquete = $request->type_paquete;
         $values->cargo_logistica = $request->cargo_logistica;
-        $values->largo = $request->largo;
-        $values->ancho = $request->ancho;
-        $values->alto = $request->alto;
-        $values->peso = $request->peso;
-
         $values->country_code = $request->country_code;
-        $values->seguro_envio = $request->seguro_envio;
         
-        // $values = $request;
         $values->destino = [
             $request->destino => "{$zip->postal_code} {$zip->place_name} - {$zip->admin_name2}, {$zip->admin_name1}"
         ];
-
-
-        
             
         $rateReply = $this->getCotizacionFedex($request, $zip); // FEDEX
         $quoteResponse = $this->getCotizacionDhl($request, $zip); // DHL 
@@ -55,6 +41,11 @@ class CotizarController extends Controller
             'rateResponse' => $rateResponse,
             'values' => $values,
             'countryCode' => $request->country_code,
+            'type_paquete' => $request->type_paquete,
+            'largo' => $request->largo,
+            'ancho' => $request->ancho,
+            'alto' => $request->alto,
+            'peso' => $request->peso,
         ]);
         
     }
@@ -68,7 +59,9 @@ class CotizarController extends Controller
         $tarifas->remitente(['Col. Centro'], 'Toluca de Lerdo', 'EM', 50000, 'MX');
         //!  FALTA ABREVIACION
         $tarifas->destinatario([$zip->place_name], $zip->admin_name2, $zip->code_name1, $zip->postal_code, $zip->country_code);
-        $tarifas->paquetes((float)$request->peso, (int)$request->largo, (int)$request->ancho, (int) $request->alto);
+        $tarifas->paquetes(
+            $request
+        );
         $rateReply = $tarifas->peticion();
         
         
@@ -117,9 +110,8 @@ class CotizarController extends Controller
             $zip->postal_code, 
             $zip->country_code
         );
-        $tarifas->setPaquete((float)$request->peso, (int) $request->alto, (int) $request->largo,(int) $request->ancho);
+        $tarifas->setPaquete($request);
         $rateResponse = $tarifas->getTarifa();
-   
 
         return $rateResponse;
         

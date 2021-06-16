@@ -83,7 +83,7 @@
 
   <script src="{{ asset(mix('js/scripts/envios/find-sucursal.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/guardar-datos-envio.js')) }}"></script>
-  <script src="{{ asset(mix('js/scripts/envios/data-international.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/envios/add-package.js')) }}"></script>
 
   <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/catalogos/sucursales-search.js')) }}"></script>

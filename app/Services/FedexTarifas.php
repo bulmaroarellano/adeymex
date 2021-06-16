@@ -62,35 +62,41 @@ class FedexTarifas
         $this->rateRequest->RequestedShipment->Recipient->Address->CountryCode = $paisCode;
     }
 
-    public function paquetes($peso, $largo, $ancho, $alto)
+    public function paquetes($request)
     {
-        //rate request types
-        // $this->rateRequest->RequestedShipment->RateRequestTypes = [SimpleType\RateRequestType::_PREFERRED, SimpleType\RateRequestType::_LIST];
+        
+
+        $largo = $request->largo;
+        $ancho = $request->ancho;
+        $alto  = $request->alto;
+        $peso  = $request->peso;
+
+        $this->rateRequest->RequestedShipment->PackageCount = count($largo);
+        
+
         $this->rateRequest->RequestedShipment->RateRequestTypes = [SimpleType\RateRequestType::_PREFERRED];
-
+        // $this->rateRequest->RequestedShipment->RateRequestTypes = [SimpleType\RateRequestType::_PREFERRED, SimpleType\RateRequestType::_LIST];
         // $this->rateRequest->RequestedShipment->PackagingType = SimpleType\PackagingType::_FEDEX_ENVELOPE;
-        $this->rateRequest->RequestedShipment->PackageCount = 1;
+        $packageLineItems = array();
 
-        //create package line items
-        $this->rateRequest->RequestedShipment->RequestedPackageLineItems = [new ComplexType\RequestedPackageLineItem()];
+        foreach ($largo as $key => $larg) {
+            
+            $lineItem = new ComplexType\RequestedPackageLineItem();    
+            $lineItem->Dimensions->Length = $larg;
+            $lineItem->Dimensions->Width  = $ancho[$key];
+            $lineItem->Dimensions->Height = $alto[$key];
+            $lineItem->Weight->Value      = $peso[$key];
+            $lineItem->Weight->Units      = SimpleType\WeightUnits::_KG;
+            $lineItem->Dimensions->Units  = SimpleType\LinearUnits::_CM;
+            $lineItem->GroupPackageCount  = 1;
 
-        //package 1
-        $this->rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Weight->Value = $peso;
-        $this->rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Weight->Units = SimpleType\WeightUnits::_KG;
-        $this->rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Dimensions->Length = $largo;
-        $this->rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Dimensions->Width = $ancho;
-        $this->rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Dimensions->Height = $alto;
-        $this->rateRequest->RequestedShipment->RequestedPackageLineItems[0]->Dimensions->Units = SimpleType\LinearUnits::_CM;
-        $this->rateRequest->RequestedShipment->RequestedPackageLineItems[0]->GroupPackageCount = 1;
+            array_push($packageLineItems, $lineItem);
+        }
+  
+        $this->rateRequest->RequestedShipment->setRequestedPackageLineItems($packageLineItems);
+  
+        
 
-        //package 2
-        // $this->rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Weight->Value = 5;
-        // $this->rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Weight->Units = SimpleType\WeightUnits::_KG;
-        // $this->rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Dimensions->Length = 20;
-        // $this->rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Dimensions->Width = 20;
-        // $this->rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Dimensions->Height = 10;
-        // $this->rateRequest->RequestedShipment->RequestedPackageLineItems[1]->Dimensions->Units = SimpleType\LinearUnits::_CM;
-        // $this->rateRequest->RequestedShipment->RequestedPackageLineItems[1]->GroupPackageCount = 1;
     }
 
     public function peticion()
@@ -99,22 +105,10 @@ class FedexTarifas
         $rateReply = $rateServiceRequest->getGetRatesReply($this->rateRequest);
 
         if (!empty($rateReply->RateReplyDetails)) {
-            // foreach ($rateReply->RateReplyDetails as $rateReplyDetail) {
-            //     var_dump($rateReplyDetail->ServiceType);
-            //     if (!empty($rateReplyDetail->RatedShipmentDetails)) {
-            //         foreach ($rateReplyDetail->RatedShipmentDetails as $ratedShipmentDetail) {
-            //             var_dump($ratedShipmentDetail->ShipmentRateDetail->RateType . ": " . $ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Amount);
-            //         }
-            //     }
-            //     echo "<hr />";
-            // }
-            // echo '<pre>';
-            // var_dump($rateReply);
-            // echo '</pre>';
-            // return $rateReply->RateReplyDetails;
+          
             return $rateReply;
         }
-        
+       
         return $rateReply;
         
 

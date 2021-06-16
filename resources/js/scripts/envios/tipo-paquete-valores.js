@@ -1,36 +1,27 @@
 $(function () {
 
-    $(document).on('change', '.type-paquete', function () {
+    $(document).on('change', 'select[name="type_paquete[]"]', function () {
 
         const tipoPaquete = $(this).val();
-        console.log(tipoPaquete);
+
+
+        const tds = $(this).closest('td').siblings('td');
         if (tipoPaquete == "2") {
-            document.querySelector('.largo').value = "30";
-            document.querySelector('.largo').readOnly = true;
-            
-            document.querySelector('.ancho').value = "30";
-            document.querySelector('.ancho').readOnly = true;
-            
-            document.querySelector('.alto').value = "5";
-            document.querySelector('.alto').readOnly = true;
-            
-            document.querySelector('.peso').value = "0.5";
-            document.querySelector('.peso').readOnly = true;
+            tds[0].children[0].value = '30'; // largo
+            tds[1].children[0].value = '30'; // ancho
+            tds[2].children[0].value = '5'; // alto
+            tds[3].children[0].value = '0.5'; // peso
+
+           
         
         } else {
-            document.querySelector('.largo').value = "";
-            document.querySelector('.largo').readOnly = false;
-
-            document.querySelector('.ancho').value = "";
-            document.querySelector('.ancho').readOnly = false;
             
-            document.querySelector('.alto').value = "";
-            document.querySelector('.alto').readOnly = false;
-
-            document.querySelector('.peso').value = "";
-            document.querySelector('.peso').readOnly = false;
+            tds[0].children[0].value = ''; // largo
+            tds[1].children[0].value = ''; // ancho
+            tds[2].children[0].value = ''; // alto
+            tds[3].children[0].value = ''; // peso
         }
-    })
+    });
 
 
 });
