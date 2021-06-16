@@ -61,12 +61,8 @@ class GuiaEnvio
             "{$this->destinatario->nombre} {$this->destinatario->apellido_paterno}",
             $this->destinatario->telefono,
         );
-        $envio->descEnvio($this->request->paqueteria_code);
-        $envio->setPaquete(
-            $this->request,
-            'paquetePrueba'
-        );
-        $envio->impuestos();
+        
+        
 
         if ( !( $this->request->country_code == "MX" )) {
             // ESTABLECER VALORES INTERNACIONALES
@@ -81,6 +77,13 @@ class GuiaEnvio
 
             // return $interData;
             $envio->setInternational($interData);
+            $envio->impuestos();
+            $envio->descEnvio($this->request->paqueteria_code);
+        
+            $envio->setPaquete(
+                $this->request,
+                'paquetePrueba'
+            );
         }
 
         

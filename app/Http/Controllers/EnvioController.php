@@ -135,11 +135,11 @@ class EnvioController extends Controller
                     'FEDEX'
                 );
                 // invoice 
-                // $this->guardarGuias(
-                //     $urlGuiaInvoice,
-                //     $processShipmentReply->CompletedShipmentDetail->ShipmentDocuments[0]->Parts[0]->Image,
-                //     'FEDEX'
-                // );
+                $this->guardarGuias(
+                    $urlGuiaInvoice,
+                    $processShipmentReply->CompletedShipmentDetail->ShipmentDocuments[0]->Parts[0]->Image,
+                    'FEDEX'
+                );
                 
                 
 

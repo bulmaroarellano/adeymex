@@ -202,7 +202,9 @@ class FedexEnvios
         $totalPackage = count($largo);
         
         if ($totalPackage > 1 ) {
-            list($masterID, $formID) = $this->getMasterID();  
+        
+            list($masterID, $formID) = $this->getMasterID( $ancho[0], $alto[0] ,$largo[0], $peso[0], $descripcion);  
+            
             $master = new ComplexType\TrackingId();
             $master->FormId = $formID;
             $master->TrackingNumber = $masterID;
@@ -211,7 +213,7 @@ class FedexEnvios
         }
 
         foreach ($largo as $key => $larg) {
-            if($key >  0 ){
+            if( $key >  0 ){
                 $lineItem = new ComplexType\RequestedPackageLineItem();
                 $lineItem
                     ->setSequenceNumber(($key + 1))
@@ -232,24 +234,35 @@ class FedexEnvios
                 ]);
             }
             
-
         }
         
     }
 
-    public function getMasterID()
+    public function getMasterID($ancho, $alto, $largo, $peso, $descripcion)
     {
-        $this->processShipmentRequest->setWebAuthenticationDetail($this->webAuthenticationDetail);
-        $this->processShipmentRequest->setClientDetail($this->clientDetail);
-        $this->processShipmentRequest->setVersion($this->version);
-        $this->processShipmentRequest->setRequestedShipment($this->requestedShipment);
-        $processShipmentReply = $this->shipService->getProcessShipmentReply($this->processShipmentRequest);
+        //* PAQUETE 1 (MASTER)
+        $lineItem = new ComplexType\RequestedPackageLineItem();
+        $lineItem
+            ->setSequenceNumber(1)
+            ->setItemDescription($descripcion)
+            ->setDimensions(new ComplexType\Dimensions(array(
+                'Width' => $ancho,
+                'Height' => $alto,
+                'Length' => $largo,
+                'Units' => SimpleType\LinearUnits::_CM
+            )))
+            ->setWeight(new ComplexType\Weight(array(
+                'Value' => $peso,
+                'Units' => SimpleType\WeightUnits::_KG
+            )));
+        $this->requestedShipment->setRequestedPackageLineItems([$lineItem]);
+
+        $processShipmentReply = $this->getEnvio();
         $masterID = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
         $formId = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->FormId;
-        echo '<pre>';
-            var_dump($processShipmentReply);
-            // var_dump($this->requestedShipment);
-        echo '</pre>';
+
+    
+        
         return array($masterID, $formId);
     }
 
