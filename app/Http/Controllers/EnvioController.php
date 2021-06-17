@@ -122,40 +122,26 @@ class EnvioController extends Controller
             
             $guiaFedex = new GuiaEnvio($request, $sucursal, $this->remitente, $this->destinatario);
             list($processShipmentReply, $successEnvio) = $guiaFedex->getEnvioFedex();
-
+            
             if ( !( $successEnvio == "ERROR" ) ) {
                 
                 $numberTracking = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
                 $urlGuia        = "fedex-guias/envio-{$numberTracking}.pdf";
-                // $urlGuiaInvoice = "fedex-guias/invoice-{$numberTracking}.pdf";
-                
-                // $this->guardarGuias(
-                //     $urlGuia,
-                //     $processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image,
-                //     'FEDEX'
-                // );
-                //  invoice 
-                // $this->guardarGuias(
-                //     $urlGuiaInvoice,
-                //     $processShipmentReply->CompletedShipmentDetail->ShipmentDocuments[0]->Parts[0]->Image,
-                //     'FEDEX'
-                // );
-                
-                
-
+                $urlGuiaInvoice = "fedex-guias/invoice-{$numberTracking}.pdf";
+               
                 $varEnvio['tipo_servicio'] = $request->paqueteria_code;
                 $varEnvio['numero_guia']   = $numberTracking;
                 $varEnvio['url_guia']      = $urlGuia;
                 
-                // Envio::create($varEnvio);
-
-                // return redirect()->route('envios.index')->with([
-                //     'processShipmentReply' => $processShipmentReply,
-                //     'successEnvio'  => $successEnvio,
-                //     'urlGuia'       => $urlGuia, 
-                //     'precios'       => $precios,
-                //     'paqueteria'    => $request->nombre_paqueteria,
-                // ]);
+                $envio = Envio::create($varEnvio);
+               
+                return redirect()->route('envios.index')->with([
+                    'processShipmentReply' => $processShipmentReply,
+                    'successEnvio'  => $successEnvio,
+                    'urlGuia'       => $urlGuia, 
+                    'precios'       => $precios,
+                    'paqueteria'    => $request->nombre_paqueteria,
+                ]);
     
             } 
 

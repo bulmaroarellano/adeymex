@@ -87,10 +87,10 @@ class GuiaEnvio
         }
 
         
-        // $processShipmentReply =  $envio->getEnvio();
-        // $successEnvio = $processShipmentReply->HighestSeverity;
+        $processShipmentReply =  $envio->getEnvio();
+        $successEnvio = $processShipmentReply->HighestSeverity;
 
-        // return array($processShipmentReply, $successEnvio);
+        return array($processShipmentReply, $successEnvio);
 
     }
 
