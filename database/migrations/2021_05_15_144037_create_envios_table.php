@@ -18,14 +18,9 @@ class CreateEnviosTable extends Migration
             $table->text('paqueteria');
             $table->text('tipo_servicio');
             $table->text('tipo_paquete');
-            $table->text('largo_paquete');
-            $table->text('ancho_paquete');
-            $table->text('alto_paquete');
-            $table->text('peso_paquete');
             $table->text('status_envio')->default('ESPERANDO RECOLECCION');
-            $table->text('numero_guia');
-            $table->text('url_guia');
-            
+            $table->text('master_guia');
+            $table->text('url_master_guia');
             $table->text('origen_cp_envio');
             $table->text('destino_cp_envio');
             $table->unsignedBigInteger('sucursal_id');
