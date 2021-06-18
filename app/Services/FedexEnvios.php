@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Guia;
+use App\Models\Invoice;
+use App\Models\Paquete;
 use FedEx\ShipService;
 use FedEx\ShipService\ComplexType;
 use FedEx\ShipService\ComplexType\CommercialInvoiceDetail;
@@ -49,13 +52,18 @@ class FedexEnvios
 
     //+ENVIO
     private $requestedShipment;
-    private $processShipmentRequest;
     private $shipService;
+    private $processShipmentRequest;
+    private $processShipmentReply;
 
     // GUIA MASTER 
     private $masterTrackingID;
+    
+    //PDF'S
     private $pdfGuia;
     
+    // succes
+    private $success;
 
     public function __construct($key, $password, $accountNumber, $meterNumber)
     {
@@ -89,6 +97,7 @@ class FedexEnvios
         $this->shipService = new ShipService\Request();
 
         $this->pdfGuia = new Merger;
+        
     }
 
     public function configuraciones()
@@ -191,102 +200,6 @@ class FedexEnvios
             ->setPayor($this->shippingChargesPayor);
         $this->requestedShipment->setShippingChargesPayment($this->shippingChargesPayment);
     }
-
-    public function setPaquete($request, $descripcion)
-    {
-        $largo = $request->largo_paquete;
-        $ancho = $request->ancho_paquete;
-        $alto  = $request->alto_paquete;
-        $peso  = $request->peso_paquete;
-
-        
-        $this->requestedShipment->setPackageCount(2);
-        $this->requestedShipment->setTotalWeight(new ComplexType\Weight(array(
-            'Value' => $peso[0] + $peso[1],
-            'Units' => SimpleType\WeightUnits::_KG
-        )));
-
-        
-        if ( count($largo) > 1 ) {
-        
-            $formID = $this->getMasterID( $ancho[0], $alto[0] ,$largo[0], $peso[0], $descripcion);  
-            
-            $master = new ComplexType\TrackingId();
-            $master->FormId = $formID;
-            $master->TrackingNumber = $this->masterTrackingID;
-            
-            $this->requestedShipment->setMasterTrackingId($master) ;
-        }
-
-        foreach ($largo as $key => $larg) {
-            if( $key >  0 ){
-                $lineItem = new ComplexType\RequestedPackageLineItem();
-                $lineItem
-                    ->setSequenceNumber(($key + 1))
-                    ->setItemDescription($descripcion)
-                    ->setDimensions(new ComplexType\Dimensions(array(
-                        'Width' => $ancho[$key],
-                        'Height' => $alto[$key],
-                        'Length' => $larg,
-                        'Units' => SimpleType\LinearUnits::_CM
-                    )))
-                    ->setWeight(new ComplexType\Weight(array(
-                        'Value' => $peso[$key],
-                        'Units' => SimpleType\WeightUnits::_KG
-                    )));
-                $this->requestedShipment->setRequestedPackageLineItems([
-                    $lineItem,
-                    
-                ]);
-
-                $processShipmentReply = $this->getEnvio();
-                $urlGuia = $processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->TrackingIds[0]->TrackingNumber;
-                $contentGuia = $processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image;
-                $this->saveGuias($urlGuia, $contentGuia);
-            }
-            
-        }
-        
-        $contentInovice = $processShipmentReply->CompletedShipmentDetail->ShipmentDocuments[0]->Parts[0]->Image;
-        $this->saveCommercialInvoice($this->masterTrackingID, $contentInovice);
-        $urlGuiaFinal = "fedex-guias/master-{$this->masterTrackingID}.pdf";
-        $createdPDF = $this->pdfGuia->merge();
-        file_put_contents( $urlGuiaFinal, $createdPDF );
-
-
-        
-    }
-
-    public function getMasterID($ancho, $alto, $largo, $peso, $descripcion)
-    {
-        //* PAQUETE 1 (MASTER)
-        $lineItem = new ComplexType\RequestedPackageLineItem();
-        $lineItem
-            ->setSequenceNumber(1)
-            ->setItemDescription($descripcion)
-            ->setDimensions(new ComplexType\Dimensions(array(
-                'Width' => $ancho,
-                'Height' => $alto,
-                'Length' => $largo,
-                'Units' => SimpleType\LinearUnits::_CM
-            )))
-            ->setWeight(new ComplexType\Weight(array(
-                'Value' => $peso,
-                'Units' => SimpleType\WeightUnits::_KG
-            )));
-        $this->requestedShipment->setRequestedPackageLineItems([$lineItem]);
-
-        $processShipmentReply = $this->getEnvio();
-        
-        $this->masterTrackingID = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
-        $contentGuia = $processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image;
-        $this->saveGuias($this->masterTrackingID, $contentGuia);
-
-        $formId = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->FormId;
-        
-        return $formId;
-    }
-
     public function setInternational(array $dataInter)
     {
         $CommercialInvoice = new ComplexType\CommercialInvoice();
@@ -371,6 +284,110 @@ class FedexEnvios
 
     }
 
+    public function setPaquetes($request, $descripcion, bool $inter)
+    {
+        $largo = $request->largo_paquete;
+        $ancho = $request->ancho_paquete;
+        $alto  = $request->alto_paquete;
+        $peso  = $request->peso_paquete;
+
+        
+        $this->requestedShipment->setPackageCount(count($largo));
+        $totalWeight = 0;
+        foreach ($peso as $key => $value) {
+            $totalWeight += $value; 
+        }
+        $this->requestedShipment->setTotalWeight(new ComplexType\Weight(array(
+            'Value' => $totalWeight,
+            'Units' => SimpleType\WeightUnits::_KG
+        )));
+
+        $formID = $this->getMasterID( $ancho[0], $alto[0] ,$largo[0], $peso[0], $descripcion);          
+        $master = new ComplexType\TrackingId();
+        $master->FormId = $formID;
+        $master->TrackingNumber = $this->masterTrackingID;
+        
+        $this->requestedShipment->setMasterTrackingId($master) ;
+        
+        foreach ($largo as $key => $larg) {
+            if( $key >  0 ){
+                $lineItem = new ComplexType\RequestedPackageLineItem();
+                $lineItem
+                    ->setSequenceNumber(($key + 1))
+                    ->setItemDescription($descripcion)
+                    ->setDimensions(new ComplexType\Dimensions(array(
+                        'Width' => $ancho[$key],
+                        'Height' => $alto[$key],
+                        'Length' => $larg,
+                        'Units' => SimpleType\LinearUnits::_CM
+                    )))
+                    ->setWeight(new ComplexType\Weight(array(
+                        'Value' => $peso[$key],
+                        'Units' => SimpleType\WeightUnits::_KG
+                    )));
+                $this->requestedShipment->setRequestedPackageLineItems([
+                    $lineItem,
+                    
+                ]);
+
+                $this->processShipmentReply  = $this->getEnvio();
+                $slaveGuia = $this->processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->TrackingIds[0]->TrackingNumber;
+                $contentGuia = $this->processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image;
+                $this->saveSlaveGuias($slaveGuia, $contentGuia);
+                $this->savePaquete($slaveGuia, $larg, $ancho[$key], $alto[$key], $peso[$key]);
+
+            }
+            
+        }
+        
+        
+        if ($inter) {
+            $contentInovice = $this->processShipmentReply->CompletedShipmentDetail->ShipmentDocuments[0]->Parts[0]->Image;
+            $this->saveCommercialInvoice($this->masterTrackingID, $contentInovice);
+            
+        }
+        $urlGuiaFinal = "fedex-guias/master-{$this->masterTrackingID}.pdf";
+        $createdPDF = $this->pdfGuia->merge();
+        file_put_contents( $urlGuiaFinal, $createdPDF );
+
+
+        
+    }
+
+    public function getMasterID($ancho, $alto, $largo, $peso, $descripcion)
+    {
+        //* PAQUETE 1 (MASTER)
+        $lineItem = new ComplexType\RequestedPackageLineItem();
+        $lineItem
+            ->setSequenceNumber(1)
+            ->setItemDescription($descripcion)
+            ->setDimensions(new ComplexType\Dimensions(array(
+                'Width' => $ancho,
+                'Height' => $alto,
+                'Length' => $largo,
+                'Units' => SimpleType\LinearUnits::_CM
+            )))
+            ->setWeight(new ComplexType\Weight(array(
+                'Value' => $peso,
+                'Units' => SimpleType\WeightUnits::_KG
+            )));
+        $this->requestedShipment->setRequestedPackageLineItems([$lineItem]);
+        // CONDITIONES SUCCESS
+        $this->processShipmentReply  = $this->getEnvio();
+        
+        $this->masterTrackingID = $this->processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
+        $contentGuia = $this->processShipmentReply->CompletedShipmentDetail->CompletedPackageDetails[0]->Label->Parts[0]->Image;
+        
+        $urlGuia = "fedex-guias/envio-{$this->masterTrackingID}.pdf";
+        file_put_contents( $urlGuia, $contentGuia );
+        $this->pdfGuia->addFile($urlGuia);
+       
+        $this->savePaquete($this->masterTrackingID, $largo, $ancho, $alto, $peso);
+        $formId = $this->processShipmentReply->CompletedShipmentDetail->MasterTrackingId->FormId;
+
+        return $formId;
+    }
+
 
     public function getEnvio()
     {
@@ -379,21 +396,27 @@ class FedexEnvios
         $this->processShipmentRequest->setVersion($this->version);
         $this->processShipmentRequest->setRequestedShipment($this->requestedShipment);
         
-        $result = $this->shipService->getProcessShipmentReply($this->processShipmentRequest);        
+        $this->processShipmentReply = $this->shipService->getProcessShipmentReply($this->processShipmentRequest);        
     
         // echo '<pre>';
-            // var_dump($result);
+            // var_dump($this->processShipmentReply);
             // var_dump($this->requestedShipment);
         // echo '</pre>';
-
-        return $result;
+        $this->success = $this->processShipmentReply->HighestSeverity;
+        return $this->processShipmentReply;
     }
 
-    public function saveGuias($url, $contentGuia)
+    public function saveSlaveGuias($slaveGuia, $contentGuia)
     {
-        $urlGuia = "fedex-guias/envio-{$url}.pdf";
-        file_put_contents( $urlGuia, $contentGuia );
-        $this->pdfGuia->addFile($urlGuia);
+        $urlSlaveGuia = "fedex-guias/envio-{$slaveGuia}.pdf";
+        file_put_contents( $urlSlaveGuia, $contentGuia );
+        $this->pdfGuia->addFile($urlSlaveGuia);
+
+        Guia::create([
+            'master_guia' => $this->masterTrackingID, 
+            'slave_guia' => $slaveGuia, 
+            'url_slave_guia' => $urlSlaveGuia, 
+        ]);
 
 
     }
@@ -402,5 +425,29 @@ class FedexEnvios
         $urlGuiaInvoice = "fedex-guias/invoice-{$urlGuia}.pdf";
         file_put_contents( $urlGuiaInvoice, $contentGuia );
         // $this->pdfGuia->addFile($urlGuiaInvoice);
+        Invoice::create([
+            'master_guia' => $this->masterTrackingID, 
+            'invoice_guia' => "invoice-{$this->masterTrackingID}", 
+            'url_invoice_guia' => $urlGuiaInvoice, 
+        ]);
+    }
+
+    public function savePaquete($numeroGuia, $largo, $ancho, $alto, $peso)
+    {
+        Paquete::create([
+            'numero_guia' => $numeroGuia, 
+            'largo_paquete' => $largo, 
+            'ancho_paquete' => $ancho, 
+            'alto_paquete' => $alto, 
+            'peso_paquete' => $peso, 
+        ]);
+    }
+
+    public function getGuia()
+    {
+        $masterGuia = $this->masterTrackingID; 
+        $success = $this->success; 
+        return array($masterGuia, $success);
+
     }
 }

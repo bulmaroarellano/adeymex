@@ -28,6 +28,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">Sucursal</th>
+                                <th scope="col">Paqueteria</th>
                                 <th scope="col">Fecha de registro</th>
                                 <th scope="col">Tipo de envio </th>
                                 <th scope="col">Numero de seguimiento</th>

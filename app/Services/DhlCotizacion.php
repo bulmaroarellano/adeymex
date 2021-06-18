@@ -5,16 +5,18 @@ namespace App\Services;
 use DHL\Entity\AM\GetQuote;
 use DHL\Datatype\AM\PieceType;
 use DHL\Client\Web as WebserviceClient;
+use DHL\Datatype\AM\DCTDutiable;
+use DHL\Datatype\AM\Dutiable;
 
 class DhlCotizacion
 {
 
     private $cotizacion ;
-    private $piece;
+  
 
     public function __construct($_siteID, $_password) {
 
-        $this->piece = new PieceType();
+        
         
         $this->cotizacion = new GetQuote();
         $this->cotizacion->SiteID = $_siteID;
@@ -29,28 +31,6 @@ class DhlCotizacion
 
     }
 
-
-    public function setPaquete($peso, $largo, $ancho, $alto)
-    {
-        $this->piece->PieceID = 1;
-        $this->piece->Depth = $largo;
-        $this->piece->Width = $ancho;
-        $this->piece->Height = $alto;
-        $this->piece->Weight = $peso;
-
-        $this->cotizacion->BkgDetails->addPiece($this->piece);
-        
-        $this->cotizacion->BkgDetails->ReadyTime = 'PT17H20M';
-        $this->cotizacion->BkgDetails->ReadyTimeGMTOffset = '+01:00';
-        $this->cotizacion->BkgDetails->DimensionUnit = 'CM';
-        $this->cotizacion->BkgDetails->WeightUnit = 'KG';
-        $this->cotizacion->BkgDetails->PaymentCountryCode = 'MX';
-        $this->cotizacion->BkgDetails->IsDutiable = 'N';   // es obligatorio
-
-        $this->cotizacion->BkgDetails->QtdShp->QtdShpExChrg->SpecialServiceType = 'WY';
-    }
-
-
     public function setRemitente($countryCode, $postalCode, $city)
     {
         $this->cotizacion->From->CountryCode = $countryCode;
@@ -63,6 +43,47 @@ class DhlCotizacion
         $this->cotizacion->To->CountryCode = $countryCode;
         $this->cotizacion->To->Postalcode = $postalCode;
         $this->cotizacion->To->City = $city;
+    }
+
+    public function setPaquetes($request)
+    {
+        $largo = $request->largo;
+        $ancho = $request->ancho;
+        $alto  = $request->alto;
+        $peso  = $request->peso;
+        
+
+        foreach ($largo as $key => $larg) {
+            $piece = new PieceType();
+            $piece->PieceID = ( $key + 1 );
+            $piece->Depth = $larg;
+            $piece->Width = $ancho[$key];
+            $piece->Height = $alto[$key];
+            $piece->Weight = $peso[$key];
+            $this->cotizacion->BkgDetails->addPiece($piece);
+
+        }
+        if ( ! ($request->country_code == "MX") ) {
+            
+            $dutitable = new DCTDutiable();
+            $dutitable->DeclaredValue = '100';
+            $dutitable->DeclaredCurrency = 'USD';
+            $this->cotizacion->BkgDetails->IsDutiable = 'Y';   
+            $this->cotizacion->Dutiable = $dutitable;
+        }{
+            $this->cotizacion->BkgDetails->IsDutiable = 'N';   
+
+        }
+
+        $this->cotizacion->BkgDetails->ReadyTime = 'PT17H20M';
+        $this->cotizacion->BkgDetails->ReadyTimeGMTOffset = '+01:00';
+        $this->cotizacion->BkgDetails->DimensionUnit = 'CM';
+        $this->cotizacion->BkgDetails->WeightUnit = 'KG';
+        $this->cotizacion->BkgDetails->PaymentCountryCode = 'MX';
+        $this->cotizacion->BkgDetails->QtdShp->QtdShpExChrg->SpecialServiceType = 'WY';
+        
+
+
     }
 
     public function getCotizacion()

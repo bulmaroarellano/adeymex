@@ -1,7 +1,5 @@
 @extends('layouts/contentLayoutMaster')
-
 @section('title', 'Crear Envio')
-
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -12,23 +10,18 @@
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
+
 @section('content')
-{{-- COTIZAR-ENVIO --}}
-{{-- COTIZAR-RESULT  --}}
-{{-- COTIZACION-PRECIOS --}}
 
 <section class="envio">
-    {{-- <iframe name="envio" style="display:none;"></iframe> --}}
     
     {!! Form::open([
       'route' => 'cotizar.cotizacion',
       'method' => 'GET', 
-      // 'target' => 'envio'
     ]) !!}
 
       @include('paqueteria/envios/components/forms/cotizacion_envio_form')          
-                
-     
+    
     {!! Form::close() !!}
 
     {!! Form::open([
@@ -38,23 +31,35 @@
     ]) !!}    
 
       @include('paqueteria/envios/components/cotizaciones')
+      
       @if (session()->has('countryCode') && ! ( session()->get('countryCode') == "MX" ) )  
+        
         @include('paqueteria/envios/components/data_international')  
+
       @endif
+
       @include('paqueteria/envios/components/forms/datos_envio_form')
       @include('paqueteria/envios/helpers/variables_envio')
-      
 
     {!! Form::close() !!}
     
     
-
-
+    @if (session()->has('nuevoEnvio'))
+      
+      @include('paqueteria/envios/components/envio_result')  
     
-    
-    {{-- @include('paqueteria/envios/fedex/envio-fedex')
-    @include('paqueteria/envios/dhl/envio-dhl')
-    @include('paqueteria/envios/ups/envio-ups') --}}
+      {!! Form::open([
+        'route' => 'pagos.store',
+        'method' => 'POST',
+      ]) !!}   
+
+        @include('paqueteria/envios/components/forms/pagos_form')
+        @include('paqueteria/envios/helpers/variables_pago') 
+      
+      {!! Form::close() !!}
+
+    @endif
+
 </section>
 
 

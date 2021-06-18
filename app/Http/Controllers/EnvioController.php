@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Destinatario;
 use App\Models\Envio;
+use App\Models\Invoice;
 use App\Models\Pago;
 use App\Models\Remitente;
 use App\Models\Sucursal;
@@ -121,26 +122,29 @@ class EnvioController extends Controller
         if ($request->nombre_paqueteria == "FEDEX") {
             
             $guiaFedex = new GuiaEnvio($request, $sucursal, $this->remitente, $this->destinatario);
-            list($processShipmentReply, $successEnvio) = $guiaFedex->getEnvioFedex();
+            // list($processShipmentReply, $successEnvio) = $guiaFedex->getEnvioFedex();
+            //* masterGuia, slavesGuias , success
+            list($masterGuia, $successEnvio) = $guiaFedex->getEnvioFedex();
             
             if ( !( $successEnvio == "ERROR" ) ) {
                 
-                $numberTracking = $processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
-                $urlGuia        = "fedex-guias/envio-{$numberTracking}.pdf";
-                $urlGuiaInvoice = "fedex-guias/invoice-{$numberTracking}.pdf";
-               
-                $varEnvio['tipo_servicio'] = $request->paqueteria_code;
-                $varEnvio['numero_guia']   = $numberTracking;
-                $varEnvio['url_guia']      = $urlGuia;
                 
-                $envio = Envio::create($varEnvio);
+                $urlGuiaMaster = "fedex-guias/master-{$masterGuia}.pdf";
+                
                
+                $varEnvio['tipo_servicio']   = $request->paqueteria_code;
+                $varEnvio['master_guia']     = $masterGuia;
+                $varEnvio['url_master_guia'] = $urlGuiaMaster;
+                
+                $nuevoEnvio = Envio::create($varEnvio);
+                $invoice = Invoice::where('master_guia',$nuevoEnvio->master_guia)->first();
+                // return $invoice;
                 return redirect()->route('envios.index')->with([
-                    'processShipmentReply' => $processShipmentReply,
-                    'successEnvio'  => $successEnvio,
-                    'urlGuia'       => $urlGuia, 
-                    'precios'       => $precios,
-                    'paqueteria'    => $request->nombre_paqueteria,
+                    'nuevoEnvio'   => $nuevoEnvio,
+                    'invoice'      => $invoice,
+                    'successEnvio' => $successEnvio,
+                    'precios'      => $precios,
+                    'paqueteria'   => $request->nombre_paqueteria,
                 ]);
     
             } 
@@ -149,31 +153,23 @@ class EnvioController extends Controller
 
         if ($request->nombre_paqueteria == "DHL") {
             
+           
             $guiaDHL = new GuiaEnvio($request, $sucursal, $this->remitente, $this->destinatario);
-            list($requestShipment, $successEnvio) = $guiaDHL->getEnvioDhl();
+            list($masterGuia, $successEnvio, $tipoServicio) = $guiaDHL->getEnvioDhl();
         
             if ( $successEnvio == "Success" ) {
 
-                $numberTracking = $requestShipment['AirwayBillNumber'];
-                $urlGuia        = "dhl-guias/envio-{$numberTracking}.pdf";
-                $urlGuiaInvoice = "dhl-guias/invoice-{$numberTracking}.pdf";
+                $urlGuia        = "dhl-guias/envio-{$masterGuia}.pdf";
+                $varEnvio['tipo_servicio'] = $tipoServicio;
+                $varEnvio['master_guia']   = $masterGuia;
+                $varEnvio['url_master_guia']      = $urlGuia;
 
-                $this->guardarGuias(
-                    $urlGuia,
-                    $urlGuiaInvoice,
-                    $requestShipment['LabelImage']['OutputImage'],
-                    $requestShipment['LabelImage']['MultiLabels']['MultiLabel']['DocImageVal'],
-                    'DHL'
-                );
-                
-                $varEnvio['tipo_servicio'] = $requestShipment['ProductShortName'];
-                $varEnvio['numero_guia']   = $numberTracking;
-                $varEnvio['url_guia']      = $urlGuia;
-
-                Envio::create($varEnvio);
+                $nuevoEnvio = Envio::create($varEnvio);
+                $invoice = Invoice::where('master_guia',$nuevoEnvio->master_guia)->first();
 
                 return redirect()->route('envios.index')->with([
-                    'requestShipment' => $requestShipment,
+                    'nuevoEnvio'   => $nuevoEnvio,
+                    'invoice'      => $invoice,
                     'successEnvio' => $successEnvio,
                     'urlGuia'      => $urlGuia, 
                     'precios'      => $precios,

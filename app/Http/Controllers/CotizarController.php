@@ -74,13 +74,11 @@ class CotizarController extends Controller
     public function getCotizacionDhl($request, $zip)
     {
         $tarifas = new DhlCotizacion('v62_9kV6umb2sA', 'ooc0Yf6DHG');
-        $tarifas->setPaquete((float) $request->peso, (int) $request->largo, (int) $request->ancho, (int) $request->alto);
-        // $tarifas->setPaquete(10, 5, 10, 10);
 
         // $tarifas->setRemitente('MX', '50000', 'Toluca de lerdo');
         $tarifas->setRemitente('MX', '52280', 'Toluca');
         $tarifas->setDestinatario($zip->country_code,$zip->postal_code ,$zip->admin_name2);
-        // $tarifas->setDestinatario('US', '36532', 'Alabama');
+        $tarifas->setPaquetes($request);
         $getQuoteResponse = $tarifas->getCotizacion();
 
         return $getQuoteResponse;

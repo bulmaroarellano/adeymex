@@ -1,9 +1,8 @@
 <div class="col-md-12">
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-8">
+    <div class="row d-flex justify-content-around">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-        
                     <h4 class="font-weight-bolder">Desglose de costos envio</h4>
                 </div>
                 <div class="card-body">
@@ -75,6 +74,17 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-around ">
+                    <h4 class="font-weight-bolder">Suministros</h4>
+                    <button class="btn btn-success" id="add_suministro"><i class="fas fa-plus-circle"></i></button>
+                </div>
+                <div class="card-body">
+                    
                 </div>
             </div>
         </div>

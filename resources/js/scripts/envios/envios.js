@@ -8,9 +8,10 @@ $(function () {
         columns: [
 
             { data: 'sucursal_id.0.nombre' },
+            { data: 'paqueteria' },
             { data: 'created_at' },
             { data: 'tipo_servicio' },
-            { data: 'numero_guia' },
+            { data: 'master_guia' },
             { data: 'sucursal_id.0.domicilio1' },
             { data: 'destinatario_id.0.domicilio1' },
 
@@ -35,31 +36,31 @@ $(function () {
                         extend: 'print',
                         text: feather.icons['printer'].toSvg({ class: 'font-small-4 mr-50' }) + 'Print',
                         className: 'dropdown-item',
-                        exportOptions: { columns: [0, 1, 2, 3, 4, 5] }
+                        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
                     },
                     {
                         extend: 'csv',
                         text: feather.icons['file-text'].toSvg({ class: 'font-small-4 mr-50' }) + 'Csv',
                         className: 'dropdown-item',
-                        exportOptions: { columns: [0, 1, 2, 3, 4, 5] }
+                        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
                     },
                     {
                         extend: 'excel',
                         text: feather.icons['file'].toSvg({ class: 'font-small-4 mr-50' }) + 'Excel',
                         className: 'dropdown-item',
-                        exportOptions: { columns: [0, 1, 2, 3, 4, 5] }
+                        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
                     },
                     {
                         extend: 'pdf',
                         text: feather.icons['clipboard'].toSvg({ class: 'font-small-4 mr-50' }) + 'Pdf',
                         className: 'dropdown-item',
-                        exportOptions: { columns: [0, 1, 2, 3, 4, 5] }
+                        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
                     },
                     {
                         extend: 'copy',
                         text: feather.icons['copy'].toSvg({ class: 'font-small-4 mr-50' }) + 'Copy',
                         className: 'dropdown-item',
-                        exportOptions: { columns: [0, 1, 2, 3, 4, 5] }
+                        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6] }
                     }
                 ],
                 init: function (api, node, config) {

@@ -27,7 +27,7 @@ class GuiaEnvio
     public function getEnvioFedex()
     {
         
-        $tipoPaquete = Helper::getTipoPaquete($this->request->type_paquete_fedex); 
+        // $tipoPaquete = Helper::getTipoPaquete($this->request->type_paquete_fedex); 
         list($empresaRemitente, $empresaDestinatario, $countryCode, $countryName, $ciudad, $abreviacion) = $this->getDatosEnvio(
             $this->remitente->empresa_id, $this->destinatario->empresa_id, $this->request->id_cp_destinatario
         );
@@ -80,17 +80,29 @@ class GuiaEnvio
             $envio->impuestos();
             $envio->descEnvio($this->request->paqueteria_code);
         
-            $envio->setPaquete(
+            $envio->setPaquetes(
                 $this->request,
-                'paquetePrueba'
+                'paquetePrueba', 
+                true
+            );
+        }else{
+            $envio->impuestos();
+            $envio->descEnvio($this->request->paqueteria_code);
+            
+            $envio->setPaquetes(
+                $this->request,
+                'paquetePrueba', 
+                false
             );
         }
+        
+        
 
         
-        $processShipmentReply =  $envio->getEnvio();
-        $successEnvio = $processShipmentReply->HighestSeverity;
+        list($masterGuia, $success) =  $envio->getGuia();
+        
 
-        return array($processShipmentReply, $successEnvio);
+        return array($masterGuia, $success);
 
     }
 
@@ -126,15 +138,9 @@ class GuiaEnvio
             $this->destinatario->email
         );
 
-        $envio->setPaquete(
-            $this->request->peso_paquete,
-            $this->request->largo_paquete,
-            $this->request->ancho_paquete,
-            $this->request->alto_paquete
-        );
+        $envio->setPaquete($this->request);
 
         $envio->detallesEnvio(
-            $this->request->peso_paquete,
             $this->request->paqueteria_code,
             $this->request->local_product_code,
             'paquete de prueba'
@@ -150,13 +156,14 @@ class GuiaEnvio
                 "peso_neto" => $this->request->peso_neto,
                 "peso_bruto" => $this->request->peso_bruto,
             );
-            // $envio->setInternational($interData, '30');
+            $envio->setInternational($interData, '30');
+            // $requestShipment = $envio->getEnvio(true);
+            list($masterGuia, $successEnvio, $tipoServicio) = $envio->getEnvio(true);
+            return array($masterGuia, $successEnvio, $tipoServicio);
         }
-
-        $requestShipment = $envio->getEnvio();
-        $successEnvio    = $requestShipment['Note']['ActionNote'] ?? "error";
-
-        return array($requestShipment, $successEnvio);
+        
+        list($masterGuia, $successEnvio, $tipoServicio) = $envio->getEnvio(false);
+        return array($masterGuia, $successEnvio, $tipoServicio);
 
     }
 

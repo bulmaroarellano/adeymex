@@ -16,12 +16,8 @@ class Envio extends Model
         'paqueteria',
         'tipo_servicio', 
         'tipo_paquete', 
-        'largo_paquete', 
-        'ancho_paquete', 
-        'alto_paquete', 
-        'peso_paquete', 
-        'numero_guia', 
-        'url_guia', 
+        'master_guia', 
+        'url_master_guia', 
         'origen_cp_envio', 
         'destino_cp_envio', 
         'sucursal_id', 
@@ -30,6 +26,9 @@ class Envio extends Model
         'destinatario_id',   
         'pago_id',   
 
+    ];
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
     ];
 
     protected $table = 'envios';

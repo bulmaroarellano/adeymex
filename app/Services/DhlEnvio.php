@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Invoice;
+use App\Models\Paquete;
 use DHL\Datatype\GB\Piece;
 
 
@@ -17,11 +19,13 @@ class DhlEnvio
 {
 
     private $shipment;
-    private $piece;
+    private $pesoTotal;
+    private $paquetes ;
+
     
     public function __construct($_siteID, $_password) {
         
-        $this->piece = new Piece();
+        
         $this->shipment = new ShipmentRequest();
 
         $this->shipment->SiteID   = $_siteID; 
@@ -35,6 +39,8 @@ class DhlEnvio
         $this->shipment->NewShipper       = 'Y';
         $this->shipment->LanguageCode     = 'es';
         $this->shipment->PiecesEnabled    = 'Y';
+
+        $this->pesoTotal = 0;
         
 
     }
@@ -98,25 +104,35 @@ class DhlEnvio
 
     }
 
-    public function setPaquete($_peso, $_largo, $_ancho, $_alto)
+    public function setPaquete($request)
     {
-        $this->shipment->ShipmentDetails->NumberOfPieces = 1;
-        $this->piece->PieceID = '1';
-        
-        $this->piece->Depth  = $_largo;
-        $this->piece->Width  = $_ancho;
-        $this->piece->Height = $_alto;
-        $this->piece->Weight = $_peso;
+        $this->paquetes = $request;
 
-        $this->shipment->ShipmentDetails->addPiece($this->piece);
+        $largo = $request->largo_paquete;
+        $ancho = $request->ancho_paquete;
+        $alto  = $request->alto_paquete;
+        $peso  = $request->peso_paquete;
+        $this->shipment->ShipmentDetails->NumberOfPieces = count($largo);
+
+        foreach ($largo as $key => $larg) {
+            $piece = new Piece();
+            $piece->PieceID = ($key + 1);
+            $piece->Depth = $larg;
+            $piece->Width = $ancho[$key];
+            $piece->Height = $alto[$key];
+            $piece->Weight = $peso[$key];
+
+            $this->pesoTotal+= $peso[$key];
+            $this->shipment->ShipmentDetails->addPiece($piece);
+        }
 
         
     }
 
-    public function detallesEnvio($_pesoTotal, $_globalProductCode, $_localProductCode, $_descripcion)
+    public function detallesEnvio($_globalProductCode, $_localProductCode, $_descripcion)
     {
         
-        $this->shipment->ShipmentDetails->Weight     = $_pesoTotal;
+        $this->shipment->ShipmentDetails->Weight     = $this->pesoTotal;
         $this->shipment->ShipmentDetails->WeightUnit = 'K';
 
         $this->shipment->ShipmentDetails->GlobalProductCode = $_globalProductCode;
@@ -132,7 +148,7 @@ class DhlEnvio
 
         $this->shipment->EProcShip = 'N';
         $this->shipment->LabelImageFormat = 'PDF';
-        $this->shipment;
+
 
     }
 
@@ -187,29 +203,76 @@ class DhlEnvio
         
     }
 
-    public function getEnvio()
+    public function getEnvio(bool $inter)
     {   
         
         $client = new WebserviceClient('staging');
         $respXML = $client->call($this->shipment);
 
-        // echo '<pre>';
-        //     var_dump($respXML);
-        // echo '</pre>';
-        
         $xmltoJson =  simplexml_load_string($respXML, "SimpleXMLElement", LIBXML_NOCDATA);
         $json = json_encode($xmltoJson);
-        $resp = json_decode($json,TRUE);
+        $requestShipment = json_decode($json,TRUE);
+
+        // echo '<pre>';
+        //     var_dump($requestShipment);
+        // echo '</pre>';
+
+        $successEnvio = $requestShipment['Note']['ActionNote'] ?? "error";
+        $tipoServicio = $requestShipment['ProductShortName'];
+        $masterGuia = $requestShipment['AirwayBillNumber'];
+        $contentGuia = $requestShipment['LabelImage']['OutputImage'];
+        $this->saveGuias($masterGuia,$contentGuia);
+
+        $this->savePaquete($masterGuia);
+
+        if ($inter) {
+            $contentInvoice = $requestShipment['LabelImage']['MultiLabels']['MultiLabel']['DocImageVal'];
+            $this->saveCommercialInvoice($masterGuia, $contentInvoice);
+        }
+
+        return array($masterGuia, $successEnvio, $tipoServicio);
+
+    }
+
+    public function saveGuias($urlGuia, $contentGuia)
+    {
+
+        //! Checar en los multiples envios si solo me da una sola guia maestra
+        //* envio/ --> master-
+        $urlSlaveGuia = "dhl-guias/envio-{$urlGuia}.pdf";
+        file_put_contents( $urlSlaveGuia, base64_decode( $contentGuia ) );
+    }
+
+
+    public function saveCommercialInvoice($masterGuia,$contentGuia)
+    {
+        $urlGuiaInvoice = "dhl-guias/invoice-{$masterGuia}.pdf";
+        file_put_contents( $urlGuiaInvoice, base64_decode( $contentGuia ) );
+        Invoice::create([
+            'master_guia' => $masterGuia, 
+            'invoice_guia' => "invoice-{$masterGuia}", 
+            'url_invoice_guia' => $urlGuiaInvoice, 
+        ]);
+    }
+
+    public function savePaquete($numeroGuia)
+    {
+
+        $largo = $this->paquetes->largo_paquete;
+        $ancho = $this->paquetes->ancho_paquete;
+        $alto  = $this->paquetes->alto_paquete;
+        $peso  = $this->paquetes->peso_paquete;
+
+        foreach ($largo as $key => $larg) {
+            Paquete::create([
+                'numero_guia' => $numeroGuia, 
+                'largo_paquete' => $larg, 
+                'ancho_paquete' => $ancho[$key], 
+                'alto_paquete' => $alto[$key], 
+                'peso_paquete' => $peso[$key], 
+            ]);
+        }
         
-        echo '<pre>';
-            var_dump($resp);
-        echo '</pre>';
-
-        // Store it as a . PDF file in the filesystem
-        
-
-        return $resp;
-
     }
 
 }

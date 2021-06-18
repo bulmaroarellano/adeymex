@@ -4,7 +4,7 @@
     $success = session()->get('rateReply')->HighestSeverity;
 @endphp
 
-@if ($success == "SUCCESS" || $success == "WARNING" || $success ==  "NOTE")
+@if ( ! ($success == "FAILURE") )
 
 
     @foreach ($rateReplyDetails as $rateReplyDetail)

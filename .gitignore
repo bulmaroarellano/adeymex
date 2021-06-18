@@ -7,6 +7,8 @@
 /public/js
 /public/css
 /public/vendors
+/public/dhl-guias
+/public/fedex-guias
 /storage/*.key
 /vendor
 .env.backup

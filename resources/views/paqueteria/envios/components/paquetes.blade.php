@@ -1,5 +1,5 @@
 
-<div class="row" id="paquetes">
+<div class="row mt-2" id="paquetes">
     <div class="col-12">
       <div class="card">
        
