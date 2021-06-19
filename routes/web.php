@@ -117,6 +117,7 @@ Route::delete('/destinatarios/{destinatario}', [DestinatarioController::class, '
 //-SUMINISTROS 
 Route::get('/suministros', [SuministroController::class, 'index'])->name('suministros.index');
 Route::get('/suministros/list', [SuministroController::class, 'getSuministros'])->name('suministros.list');
+Route::get('/suministros-search', [SuministroController::class, 'suministrosSearch'])->name('suministros.search');
 Route::get('/suministros/{suministro}{edit}', [SuministroController::class, 'show'])->name('suministros.show');
 Route::put('/suministros/{suministro}', [SuministroController::class, 'update'])->name('suministros.update');
 Route::post('/suministros/', [SuministroController::class, 'store'])->name('suministros.store');

@@ -58,6 +58,21 @@ class SuministroController extends Controller
         }
     }
 
+    public function suministrosSearch(Request $request)
+    {
+        $suministros = [];
+
+        if ($request->has('q')) {
+            
+            $search = $request->q;
+            $suministros = Suministro::select("id", "nombre", "precio_publico")
+                ->where('nombre', 'LIKE', "%$search%")->limit(5)
+                ->get();
+        }
+        return response()->json($suministros);
+        
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -69,7 +69,7 @@ class EnvioController extends Controller
     //+ GUARDAR UN NUEVO ENVIO
     public function store(Request $request)
     {
-        // return $request;
+        return $request;
 
         if (! is_numeric($request->remitente_id)) {
             

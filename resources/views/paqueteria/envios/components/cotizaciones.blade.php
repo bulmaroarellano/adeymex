@@ -26,7 +26,8 @@
             </div>
         </div>
     </div>
-    {{-- @include('paqueteria/envios/components/cotizacion_precios') --}}
+    @include('paqueteria/envios/components/cotizacion_precios')
     
 @endif
-    @include('paqueteria/envios/components/cotizacion_precios')
+{{-- @include('paqueteria/envios/components/cotizacion_precios') --}}
+    

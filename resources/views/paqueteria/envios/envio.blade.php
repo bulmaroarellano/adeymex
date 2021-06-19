@@ -91,10 +91,13 @@
   <script src="{{ asset(mix('js/scripts/envios/add-package.js')) }}"></script>
 
   <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
+
   <script src="{{ asset(mix('js/scripts/catalogos/sucursales-search.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/zips-search.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/remitentes-search.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/destinatarios-search.js')) }}"></script>
+  
+
   <script src="{{ asset(mix('js/scripts/envios/tipo-paquete-valores.js')) }}"></script>
   
   
