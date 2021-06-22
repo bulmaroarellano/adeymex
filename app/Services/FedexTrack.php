@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use FedEx\TrackService\ComplexType\Localization;
 use FedEx\TrackService\ComplexType\TrackRequest;
 use FedEx\TrackService\ComplexType\TrackSelectionDetail;
+use FedEx\TrackService\ComplexType\TransactionDetail;
 use FedEx\TrackService\Request;
 use FedEx\TrackService\SimpleType;
+
 
 class FedexTrack  
 {
@@ -25,6 +28,15 @@ class FedexTrack
         $this->trackRequest->Version->Major = 19;
         $this->trackRequest->Version->Intermediate = 0;
         $this->trackRequest->Version->Minor = 0;
+
+        $transactionDetail = new TransactionDetail([
+            'Localization' => new Localization([
+                'LanguageCode' => 'ES', 
+                'LocaleCode' => 'es'
+            ])
+        ]);
+
+        $this->trackRequest->TransactionDetail = $transactionDetail;
     }
 
 

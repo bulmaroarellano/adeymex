@@ -18,6 +18,7 @@ use App\Http\Controllers\MercanciaController;
 use App\Http\Controllers\MonedaController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PaisController;
+use App\Http\Controllers\RecoleccionController;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\RemitenteController;
@@ -212,3 +213,10 @@ Route::get('/tracking/{envio}', [TrackingController::class, 'track'])->name('tra
 
 // DATA INTERNATIONAL
 Route::post('/intl-data', [DataIntlController::class, 'index'])->name('intl.index');
+
+
+// RECOLECCIONES -- (PIckUP)
+Route::get('/recolecciones', [RecoleccionController::class, 'index'])->name('recoleccion.index');
+Route::get('/recoleccion', [RecoleccionController::class, 'create'])->name('recoleccion.create');
+Route::get('/recolecciones/list', [RecoleccionController::class, 'getRecolecciones'])->name('recoleccion.list');
+

@@ -69,7 +69,7 @@ class EnvioController extends Controller
     //+ GUARDAR UN NUEVO ENVIO
     public function store(Request $request)
     {
-        return $request;
+        // return $request;
 
         if (! is_numeric($request->remitente_id)) {
             
@@ -184,20 +184,6 @@ class EnvioController extends Controller
         }
         // return $request;
 
-    }
-
-    public function guardarGuias($urlGuia, $contentGuia, $paqueteria)
-    {
-        
-        if ($paqueteria == "FEDEX") {
-            file_put_contents( $urlGuia, $contentGuia );
-           
-        }
-        
-        if ($paqueteria == "DHL") {
-            file_put_contents( $urlGuia, base64_decode( $contentGuia ) );
-            
-        }
     }
 
     public function ticket(Request $request)

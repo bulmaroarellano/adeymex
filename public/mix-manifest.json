@@ -97,6 +97,7 @@
     "/js/scripts/envios/envios.js": "/js/scripts/envios/envios.js",
     "/js/scripts/envios/find-sucursal.js": "/js/scripts/envios/find-sucursal.js",
     "/js/scripts/envios/guardar-datos-envio.js": "/js/scripts/envios/guardar-datos-envio.js",
+    "/js/scripts/envios/recolecciones.js": "/js/scripts/envios/recolecciones.js",
     "/js/scripts/envios/remitentes-search.js": "/js/scripts/envios/remitentes-search.js",
     "/js/scripts/envios/tipo-paquete-valores.js": "/js/scripts/envios/tipo-paquete-valores.js",
     "/js/scripts/envios/zips-search.js": "/js/scripts/envios/zips-search.js",

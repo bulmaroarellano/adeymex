@@ -21,7 +21,7 @@
                                 </tr>
                                 <tr>
                                     <th>Cargo por combustible</th>
-                                    <th id="precio-cargo-combustible"></th>
+                                    <th></th>
                                 </tr>
                                 <tr>
                                     <th>Impuestos</th>
@@ -35,7 +35,6 @@
                                     <th class="text-danger">Precio Total</th>
                                     <th id="precio-total"></th>
                                 </tr>
-                           
                             </tbody>
 
                             <tbody id="DHL" style="display: none">
@@ -72,6 +71,7 @@
                                     <th id="precio-total-ups"></th>
                                 </tr>
                             </tbody>
+                            
                         </table>
                     </div>
                 </div>

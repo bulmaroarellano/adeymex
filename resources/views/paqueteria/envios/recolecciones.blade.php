@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Envios')
+@section('title', 'Recolecciones')
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -16,9 +16,9 @@
 <section class="envios" id="basic-datatable">
 
     <div class="row">
-        <div class="col-md-2 mb-1">
-            <a href="{{route('envios.index')}}">
-                <button class="btn btn-primary">Nuevo Envio</button>
+        <div class="col-md-3 mb-1">
+            <a href="{{route('recoleccion.create')}}">
+                <button class="btn btn-primary">Nueva Recoleccion</button>
             </a>
         </div>
         <div class="col-12">
@@ -29,10 +29,9 @@
                             <tr>
                                 <th scope="col">Sucursal</th>
                                 <th scope="col">Paqueteria</th>
-                                <th scope="col">Fecha de registro</th>
-                                <th scope="col">Tipo de envio </th>
-                                <th scope="col">Numero de seguimiento</th>
-                                <th scope="col">Status Envio</th>
+                                <th scope="col">Fecha de recoleccion</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Folio de recoleccion</th>
                                 <th scope="col">Acciones </th>
                             </tr>
                         </thead>
@@ -70,6 +69,6 @@
 
 @section('page-script')
   {{-- Page js files --}}
-  <script src="{{ asset(mix('js/scripts/envios/envios.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/envios/recolecciones.js')) }}"></script>
 @endsection
 

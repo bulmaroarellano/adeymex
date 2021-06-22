@@ -37,8 +37,12 @@ class PagoController extends Controller
     public function store(Request $request)
     {
         // return $request;
+        // $idEnvio = $request->nuevo_envio->id;
+        $envio = json_decode($request->nuevo_envio, true);
+        // return $envio['id'];
         $nuevoPago = Pago::create($request->all());
-        Envio::where('id', $nuevoPago->id)->update(['pago_id' => $nuevoPago->id]);
+        // Envio::where('id', $nuevoPago->id)->update(['pago_id' => $nuevoPago->id]);
+        Envio::where('id', $envio['id'])->update(['pago_id' => $nuevoPago->id]);
         
         return redirect()->route('envios.lista');
 

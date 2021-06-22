@@ -139,7 +139,11 @@ $(function () {
 
         const inputTotal = $(this).closest('td').siblings('td')[2].children[0]
         inputTotal.value = `${cantidad * precioUnitario}`
-                
+
+        const paqueteriaCode = $("input[type='radio'][name='paqueteria_code']:checked").val();
+
+        const nombrePaqueteria = document.getElementById(`${paqueteriaCode}-paqueteria`).innerText;
+        console.log(nombrePaqueteria)
     });
 
    

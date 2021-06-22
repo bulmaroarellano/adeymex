@@ -80,7 +80,7 @@
                     "slug": "envios"
                 },
                 {
-                    "url": "/",
+                    "url": "/recolecciones",
                     "name": "Recolecciones",
                     "icon": "package",
                     "slug": "recolecciones"

@@ -1,6 +1,5 @@
 @extends('layouts/contentLayoutMaster')
-
-@section('title', 'Envios')
+@section('title', 'Nuevo Envio')
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -11,42 +10,16 @@
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
+
 @section('content')
 
-<section class="envios" id="basic-datatable">
+<section class="recoleccion">
+    
 
-    <div class="row">
-        <div class="col-md-2 mb-1">
-            <a href="{{route('envios.index')}}">
-                <button class="btn btn-primary">Nuevo Envio</button>
-            </a>
-        </div>
-        <div class="col-12">
-            <div class="card px-1">
-                <div class="table-responsive">
-                    <table class="datatables-basic table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Sucursal</th>
-                                <th scope="col">Paqueteria</th>
-                                <th scope="col">Fecha de registro</th>
-                                <th scope="col">Tipo de envio </th>
-                                <th scope="col">Numero de seguimiento</th>
-                                <th scope="col">Status Envio</th>
-                                <th scope="col">Acciones </th>
-                            </tr>
-                        </thead>
-            
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    @include('paqueteria/envios/components/forms/recoleccion_form')
     
 
 </section>
-
 
 
 @endsection
@@ -65,11 +38,13 @@
     <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
 
+
 @endsection
 
 
 @section('page-script')
   {{-- Page js files --}}
-  <script src="{{ asset(mix('js/scripts/envios/envios.js')) }}"></script>
+  
+
 @endsection
 
