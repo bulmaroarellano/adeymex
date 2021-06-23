@@ -218,5 +218,7 @@ Route::post('/intl-data', [DataIntlController::class, 'index'])->name('intl.inde
 // RECOLECCIONES -- (PIckUP)
 Route::get('/recolecciones', [RecoleccionController::class, 'index'])->name('recoleccion.index');
 Route::get('/recoleccion', [RecoleccionController::class, 'create'])->name('recoleccion.create');
+Route::post('/recoleccion', [RecoleccionController::class, 'store'])->name('recoleccion.store');
+Route::get('/recoleccion/paqueteria', [RecoleccionController::class, 'getPaquetes'])->name('recoleccion.paquetes');
 Route::get('/recolecciones/list', [RecoleccionController::class, 'getRecolecciones'])->name('recoleccion.list');
 

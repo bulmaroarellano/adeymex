@@ -21,7 +21,7 @@
                                 </tr>
                                 <tr>
                                     <th>Cargo por combustible</th>
-                                    <th></th>
+                                    <th id="precio-cargo-combustible"></th>
                                 </tr>
                                 <tr>
                                     <th>Impuestos</th>

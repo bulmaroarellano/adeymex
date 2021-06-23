@@ -7,9 +7,9 @@
     @foreach ($qtdShps as $qtdShp)
         
         @php
-            $globalProductCode = $qtdShp['GlobalProductCode'];
-            $localProductCode = $qtdShp['LocalProductCode'];
-            $nombreServicio = $qtdShp['ProductShortName'];
+            $globalProductCode = $qtdShp['GlobalProductCode'] ?? 'Error en la solicitud';
+            $localProductCode  = $qtdShp['LocalProductCode']  ?? 'Error en la solicitud';
+            $nombreServicio    = $qtdShp['ProductShortName']  ?? 'Error en la solicitud';
         @endphp
 
         @if ((float) $qtdShp['ShippingCharge'] > 0 && !($nombreServicio == 'DOMESTICO ENVIO RETORNO' || $nombreServicio == 'EXPRESS DOMESTIC 12:00' || $nombreServicio == 'EXPRESS 12:00'))

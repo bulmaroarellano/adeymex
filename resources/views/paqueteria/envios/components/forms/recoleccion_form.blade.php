@@ -1,7 +1,7 @@
 <div class="col-md-12">
 
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header ">
                     <h4  class="font-weight-bolder">Recoleccion</h4>
@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <div class="row ">
                         {{-- DATOS GENERALES COTIZACION--}}
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class="col-form-label  text-primary">Sucursal *</label>
                                 <div class="input-group input-group-merge">
@@ -35,7 +35,7 @@
                                 <div class="input-group input-group-merge">
                                     <div class="input-group input-group-merge">
                                         
-                                        {{ Form::select('paquteria',[
+                                        {{ Form::select('paqueteria',[
                                             'FEDEX' => 'FEDEX',
                                             'DHL' => 'DHL',
                                             'UPS' => 'UPS'
@@ -45,7 +45,7 @@
                                                 'readonly' => session()->has('values')
                                                     ? (session()->get('edit') == 1 ? false : true )
                                                     : false,
-                                                'class' => 'paquteria form-control '
+                                                'class' => 'paqueteria form-control '
                                         ])}}
                                     </div>
                                 </div>
@@ -53,15 +53,27 @@
                         </div>
                     
                         <div class="col-md-6">
-                            
-                            <div class="row">
-                                
+                    
+                            <div class="mt-2">
+                                <div class="form-group ">
+                                    <label class="text-primary">Horario de Recoleccion*</label>
+                                    <div class="col-md-10">
+                                            
+                                        <input id="datetimepicker-recoleccion" type="text" class="col-md-12">
+                                        <input id="datetimepicker-recoleccion-fecha" type="hidden" class="col-md-12" name="fecha_recoleccion">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-1">
+                                <div class="form-group">
+                                    <label class="text-primary">Horario de cierre Oficina*</label>
+                                    <div class="col-md-6">                                                                                    
+                                        <input id="datetimepicker-oficina" type="text" class="col-md-12" name="hrs_cierre">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
                     </div>
-                    
-                    
                 </div>
             </div>
         </div>

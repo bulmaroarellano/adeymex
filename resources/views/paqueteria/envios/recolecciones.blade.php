@@ -70,5 +70,6 @@
 @section('page-script')
   {{-- Page js files --}}
   <script src="{{ asset(mix('js/scripts/envios/recolecciones.js')) }}"></script>
+  
 @endsection
 

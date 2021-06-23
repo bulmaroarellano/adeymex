@@ -1,5 +1,5 @@
 @extends('layouts/contentLayoutMaster')
-@section('title', 'Nuevo Envio')
+@section('title', 'Recoleccion')
 
 @section('vendor-style')
     {{-- vendor css files --}}
@@ -14,10 +14,58 @@
 @section('content')
 
 <section class="recoleccion">
-    
+   
+    @if (isset($message))
+        
+        <h4 class="text-danger">Error: {{$message}}</h4>
+    @endif
+
+    {!! Form::open([
+        'route' => 'recoleccion.store',
+        'method' => 'POST', 
+    ]) !!}
 
     @include('paqueteria/envios/components/forms/recoleccion_form')
+    <div class="col-12">
+        <div class="card px-1">
+            <div class="table-responsive">
+                <table class="datatables-basic table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sucursal</th>
+                            <th scope="col">Paqueteria</th>
+                            <th scope="col">Numero de guia</th>
+                            <th scope="col">Status Envio</th>
+                            <th scope="col">Status Recoleccion</th>
+                            <th scope="col">Remitente</th>
+                            <th scope="col">Destinatario</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+        
+                </table>
+            </div>
+        </div>
+    </div>
     
+
+    <div class="col-md-12">
+      
+            <div class="row d-flex justify-content-sm-around mt-2">
+                <button class="btn btn-success" type="submit">
+                    {{ session()->get('edit') ? 'otra' : 'Recolectar' }}
+                </button>
+                <a href="{{ route('recoleccion.create') }}">
+                    <div class="btn btn-danger">
+                        <i class="fas fa-ban mr-1"></i>
+                        Cancelar
+                    </div>
+                </a>
+        </div>
+    </div>
+
+    {!! Form::close() !!}
+
 
 </section>
 
@@ -44,7 +92,12 @@
 
 @section('page-script')
   {{-- Page js files --}}
-  
+  <script src="{{ asset(mix('js/scripts/envios/jquery.datetimepicker.full.min.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
+
+  <script src="{{ asset(mix('js/scripts/catalogos/sucursales-search.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/envios/date-time-picker.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/envios/paquetes-recoleccion.js')) }}"></script>
 
 @endsection
 

@@ -19,7 +19,7 @@ class CreateRecoleccionsTable extends Migration
             $table->text('paqueteria');
             $table->text('status')->default('Generado');
             $table->date('fecha_recoleccion');
-            $table->date('folio_recoleccion');
+            $table->text('folio_recoleccion');
 
             $table->timestamps();
             $table->softDeletes();

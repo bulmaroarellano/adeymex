@@ -18,8 +18,10 @@ class CreateEnviosTable extends Migration
             $table->text('paqueteria');
             $table->text('tipo_servicio');
             $table->text('tipo_paquete');
-            $table->text('status_envio')->default('ESPERANDO RECOLECCION');
+            $table->text('status_envio')->default('GUIA GENERADA');
+            $table->text('status_recoleccion')->default('SIN RECOLECCION');
             $table->text('master_guia');
+            $table->text('recoleccion_guia')->default('N/A');
             $table->text('url_master_guia');
             $table->text('origen_cp_envio');
             $table->text('destino_cp_envio');

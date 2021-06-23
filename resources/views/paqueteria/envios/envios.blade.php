@@ -33,6 +33,8 @@
                                 <th scope="col">Tipo de envio </th>
                                 <th scope="col">Numero de seguimiento</th>
                                 <th scope="col">Status Envio</th>
+                                <th scope="col">Numero de recoleccion</th>
+                                <th scope="col">Status Recoleccion</th>
                                 <th scope="col">Acciones </th>
                             </tr>
                         </thead>
