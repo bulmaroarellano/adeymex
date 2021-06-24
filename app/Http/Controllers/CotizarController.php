@@ -17,6 +17,8 @@ class CotizarController extends Controller
     public function getCotizacion(Request $request)
     {
 
+        // return $request;
+
         $sucursal = Sucursal::where('id', $request->sucursal_id)->first();
         $zip = Zip::where('id', $request->destino)->first();
 
@@ -30,23 +32,47 @@ class CotizarController extends Controller
         $values->destino = [
             $request->destino => "{$zip->postal_code} {$zip->place_name} - {$zip->admin_name2}, {$zip->admin_name1}"
         ];
-            
-        $rateReply = $this->getCotizacionFedex($request, $zip); // FEDEX
-        $quoteResponse = $this->getCotizacionDhl($request, $zip); // DHL 
-        $rateResponse = $this->getCotizacionUps($request, $zip); // UPS
+
+        if ($request->country_code != 'MX') {
+
+            // Internacionales
+            $rateReply = $this->getCotizacionFedex($request, $zip); // FEDEX
+            $quoteResponse = $this->getCotizacionDhl($request, $zip); // DHL 
+            $rateResponse = $this->getCotizacionUps($request, $zip); // UPS
         
-        return redirect()->route('envios.index')->with([
-            'rateReply' => $rateReply,
-            'quoteResponse' => $quoteResponse,
-            'rateResponse' => $rateResponse,
-            'values' => $values,
-            'countryCode' => $request->country_code,
-            'type_paquete' => $request->type_paquete,
-            'largo' => $request->largo,
-            'ancho' => $request->ancho,
-            'alto' => $request->alto,
-            'peso' => $request->peso,
-        ]);
+            return redirect()->route('envios.index')->with([
+                'rateReply' => $rateReply,
+                'quoteResponse' => $quoteResponse,
+                'rateResponse' => $rateResponse,
+                'values' => $values,
+                'countryCode' => $request->country_code,
+                'type_paquete' => $request->type_paquete,
+                'largo' => $request->largo,
+                'ancho' => $request->ancho,
+                'alto' => $request->alto,
+                'peso' => $request->peso,
+            ]);
+        }else{
+            // Nacionales
+            $rateReply = $this->getCotizacionFedex($request, $zip); // FEDEX
+            $quoteResponse = $this->getCotizacionDhl($request, $zip); // DHL 
+            
+        
+            return redirect()->route('envios.index')->with([
+                'rateReply' => $rateReply,
+                'quoteResponse' => $quoteResponse,
+                'values' => $values,
+                'countryCode' => $request->country_code,
+                'type_paquete' => $request->type_paquete,
+                'largo' => $request->largo,
+                'ancho' => $request->ancho,
+                'alto' => $request->alto,
+                'peso' => $request->peso,
+            ]);
+
+        }
+            
+        
         
     }
 
