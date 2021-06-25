@@ -29,7 +29,7 @@ class CotizarController extends Controller
         $values->origen = $request->origen;
         $values->cargo_logistica = $request->cargo_logistica;
         $values->country_code = $request->country_code;
-        $values->destinatario_domicilio1 = $request->ocurre;
+        
         
         $values->destino = [
             $request->destino => "{$zip->postal_code} {$zip->place_name} - {$zip->admin_name2}, {$zip->admin_name1}"
@@ -41,6 +41,7 @@ class CotizarController extends Controller
 
             return redirect()->route('envios.index')->with([
                 'ocurres' => $ocurres, 
+                'ocurre' => false,
                 'values' => $values,
                 'countryCode' => $request->country_code,
                 'type_paquete' => $request->type_paquete,
@@ -76,6 +77,8 @@ class CotizarController extends Controller
 
         }else{
             // return $request;
+            $jsonOcurre = json_decode($request->ocurre);
+            $values->destinatario_domicilio1 = $jsonOcurre->dir ?? '';
             // Nacionales
             $rateReply = $this->getCotizacionFedex($request, $zip); // FEDEX
             $quoteResponse = $this->getCotizacionDhl($request, $zip); // DHL 
@@ -85,6 +88,8 @@ class CotizarController extends Controller
                 'rateReply' => $rateReply,
                 'quoteResponse' => $quoteResponse,
                 'values' => $values,
+                'ocurres' => json_decode( $request->ocurre, true), 
+                'ocurre' => true, 
                 'countryCode' => $request->country_code,
                 'type_paquete' => $request->type_paquete,
                 'largo' => $request->largo,
@@ -92,7 +97,7 @@ class CotizarController extends Controller
                 'alto' => $request->alto,
                 'peso' => $request->peso,
             ]);
-
+            
         }
             
         
