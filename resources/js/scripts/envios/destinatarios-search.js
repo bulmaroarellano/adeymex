@@ -41,7 +41,13 @@ $(function(){
                 
                 document.querySelector('.destinatario-empresa').value = `${data.nombre_empresa.nombre}`;
                 document.querySelector('.destinatario-pais').value = `${data.nombre_pais.nombre}`;
-                document.querySelector('.destinatario-domicilio1').value = `${data.domicilio1}`;
+
+                const valueD1 = document.querySelector('.destinatario-domicilio1').value;
+
+                if ( valueD1 == "") {
+                    document.querySelector('.destinatario-domicilio1').value = `${data.domicilio1}`;
+                }
+
                 document.querySelector('.destinatario-domicilio2').value = `${data.domicilio2}`;
                 document.querySelector('.destinatario-domicilio3').value = `${data.domicilio3}`;
                 document.querySelector('.destinatario-telefono').value = `${data.telefono}`;

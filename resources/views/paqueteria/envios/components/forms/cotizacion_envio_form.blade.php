@@ -95,9 +95,9 @@
                             </div>
                             <div class="row">
                                 
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="col-form-label  text-primary">Cargos por Logistica Interna*</label>
+                                        <label class="col-form-label  text-primary">logistica Interna*</label>
                                         <div class="input-group input-group-merge">
                                             <div class="input-group input-group-merge">
                                                 <div class="input-group-prepend">
@@ -113,49 +113,38 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
-                                    
-                                    <div class="form-group">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                            <label class="form-check-label" for="inlineCheckbox1">
-                                                Habilitar Ocurre
-                                            </label>
-                                          </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="input-group input-group-merge">
-                                            <div class="input-group input-group-merge">
-                                                <input type="text" class="form-control" >
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
+                                @include('paqueteria/envios/components/ocurre')                                    
                             </div>
                         </div>
 
                     </div>
                     
-
-                    @include('paqueteria/envios/components/paquetes')  
-                    
-                    
-                    <div class="row d-flex justify-content-sm-around mt-2">
-                        <button class="btn btn-success" type="submit">
-                            {{ session()->get('edit') ? 'otra' : 'Cotizar' }}
-                        </button>
-                        <a href="{{ route('envios.index') }}">
-                            <div class="btn btn-danger">
-                                <i class="fas fa-ban mr-1"></i>
-                                Cancelar
-                            </div>
-                        </a>
-
-                    </div>
                 </div>
             </div>
+            @if ( ( session()->has('ocurres') ) && ( count( session()->get('ocurres') ) > 0 ) )
+                
+                
+                @include('paqueteria/envios/components/table-ocurre')          
+
+            @endif
+            @include('paqueteria/envios/components/paquetes')          
+            
+            <div class="row d-flex justify-content-sm-around mt-2">
+                
+                {{-- <input class="btn btn-success" type="submit" name="cotizar" value="Cotizar" form="cotizar" /> --}}
+                <label for="cotizar" class="btn btn-success">
+                    Cotizar
+                    <input id="cotizar" type="submit" value="true" class="hidden" name="cotizar[]"/>
+                </label>
+
+                <a href="{{ route('envios.index') }}">
+                    <div class="btn btn-danger">
+                        <i class="fas fa-ban mr-1"></i>
+                        Cancelar
+                    </div>
+                </a>
+            </div>
+
         </div>
     </div>
 </div>

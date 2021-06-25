@@ -1,7 +1,7 @@
 
+
+
 @if (session()->has('rateReply') && session()->has('quoteResponse') && session()->has('rateResponse'))
-
-
     <div class="col-md-12">
         <div class="card">
             <div class="card-header"></div>
@@ -27,10 +27,8 @@
         </div>
     </div>
     @include('paqueteria/envios/components/cotizacion_precios')
-    
-@endif
-
-@if (session()->has('rateReply') && session()->has('quoteResponse'))
+@else
+    @if (session()->has('rateReply') && session()->has('quoteResponse'))
 
 
     <div class="col-md-12">
@@ -58,6 +56,9 @@
         </div>
     </div>
     @include('paqueteria/envios/components/cotizacion_precios')
+
+@endif
+
     
 @endif
 

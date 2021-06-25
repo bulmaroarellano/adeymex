@@ -6,6 +6,7 @@ use App\Models\Sepomex;
 use App\Models\Sucursal;
 use App\Models\Zip;
 use App\Services\DhlCotizacion;
+use App\Services\FedexOcurre;
 use App\Services\FedexTarifas;
 use App\Services\UpsTarifas;
 use Illuminate\Http\Request;
@@ -17,8 +18,8 @@ class CotizarController extends Controller
     public function getCotizacion(Request $request)
     {
 
-        // return $request;
-
+        
+        
         $sucursal = Sucursal::where('id', $request->sucursal_id)->first();
         $zip = Zip::where('id', $request->destino)->first();
 
@@ -28,12 +29,31 @@ class CotizarController extends Controller
         $values->origen = $request->origen;
         $values->cargo_logistica = $request->cargo_logistica;
         $values->country_code = $request->country_code;
+        $values->destinatario_domicilio1 = $request->ocurre;
         
         $values->destino = [
             $request->destino => "{$zip->postal_code} {$zip->place_name} - {$zip->admin_name2}, {$zip->admin_name1}"
         ];
 
-        if ($request->country_code != 'MX') {
+        if ( ( $request->cotizar[0] == 'false' ) && ( $request->country_code == 'MX' )) {
+    
+            $ocurres = $this->searchOcurre($request->destino);
+
+            return redirect()->route('envios.index')->with([
+                'ocurres' => $ocurres, 
+                'values' => $values,
+                'countryCode' => $request->country_code,
+                'type_paquete' => $request->type_paquete,
+                'largo' => $request->largo,
+                'ancho' => $request->ancho,
+                'alto' => $request->alto,
+                'peso' => $request->peso,
+            ]);
+
+
+        }
+
+        if ( $request->country_code != 'MX' ) {
 
             // Internacionales
             $rateReply = $this->getCotizacionFedex($request, $zip); // FEDEX
@@ -52,7 +72,10 @@ class CotizarController extends Controller
                 'alto' => $request->alto,
                 'peso' => $request->peso,
             ]);
+
+
         }else{
+            // return $request;
             // Nacionales
             $rateReply = $this->getCotizacionFedex($request, $zip); // FEDEX
             $quoteResponse = $this->getCotizacionDhl($request, $zip); // DHL 
@@ -75,6 +98,42 @@ class CotizarController extends Controller
         
         
     }
+
+    public function searchOcurre($zipId)
+    {
+        $ocurres = [];
+        $zip = Zip::select('postal_code', 'place_name', 'admin_name1', 'admin_name2')
+                    ->where('id', 'LIKE', "%$zipId%")->get();
+
+        $locations = new FedexOcurre('4J4xrVU6gOh0EJ9p', 'Ko7Vmc7pJ3XryfZsXhKSm07op', '510087100', '119225568');
+        // $locations->setDireccion(['Col. De la Veracruz'],'Toluca de Lerdo', 'MX', 51356 , 'EM');
+        $locations->setDireccion([$zip[0]->place_name],$zip[0]->admin_name2, 'MX', $zip[0]->postal_code, $zip[0]->code_name1);
+        $searchLocationsReply = $locations->getLocations();
+        
+        if ($searchLocationsReply->ResultsReturned > 0) {
+
+            $addressToLocationRelationship = $searchLocationsReply->AddressToLocationRelationships[0];
+
+            foreach ($addressToLocationRelationship->DistanceAndLocationDetails as $key => $distanceAndLocationDetail) {
+                
+                $ciudad = $distanceAndLocationDetail->LocationDetail->LocationContactAndAddress->Address->City;
+                $dir = $distanceAndLocationDetail->LocationDetail->LocationContactAndAddress->Address->StreetLines;
+                
+                array_push($ocurres, (object) [
+                    'id' => $key,
+                    'dis' => "{$distanceAndLocationDetail->Distance->Value} {$distanceAndLocationDetail->Distance->Units}",
+                    'ser' => "{$distanceAndLocationDetail->LocationDetail->LocationType}", 
+                    'des' => "{$distanceAndLocationDetail->LocationDetail->LocationTypeForDisplay}",
+                    'dir' => "{$ciudad} {$dir}"
+                ]);
+                
+            }
+
+        }
+
+        return $ocurres;
+    }
+    
 
     public function getCotizacionFedex($request, $zip)
     {

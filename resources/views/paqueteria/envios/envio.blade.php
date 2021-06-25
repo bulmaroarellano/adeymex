@@ -18,11 +18,14 @@
     {!! Form::open([
       'route' => 'cotizar.cotizacion',
       'method' => 'GET', 
+      // 'id' => 'cotizar', 
     ]) !!}
 
-      @include('paqueteria/envios/components/forms/cotizacion_envio_form')          
+      @include('paqueteria/envios/components/forms/cotizacion_envio_form')    
     
     {!! Form::close() !!}
+
+          
 
     {!! Form::open([
       'route' => 'envios.store',
@@ -89,13 +92,14 @@
   <script src="{{ asset(mix('js/scripts/envios/find-sucursal.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/guardar-datos-envio.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/add-package.js')) }}"></script>
-
+  
   <script src="{{ asset(mix('js/scripts/catalogos/select2.min.js')) }}"></script>
-
+  
   <script src="{{ asset(mix('js/scripts/catalogos/sucursales-search.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/zips-search.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/remitentes-search.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/destinatarios-search.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/envios/ocurre-search.js')) }}"></script>
   
 
   <script src="{{ asset(mix('js/scripts/envios/tipo-paquete-valores.js')) }}"></script>

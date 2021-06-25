@@ -71,10 +71,12 @@ class FedexOcurre
         $locationServiceRequest = new Request();
         $searchLocationsReply = $locationServiceRequest->getSearchLocationsReply($this->locationRequest);
 
-        echo '<pre>';
+        // echo '<pre>';
             // var_dump($this->locationRequest);
-            var_dump($searchLocationsReply);
-        echo '</pre>';
+            // var_dump($searchLocationsReply);
+        // echo '</pre>';
+
+        return $searchLocationsReply;
         
     }
 

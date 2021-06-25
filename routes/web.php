@@ -16,6 +16,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\MensajeriaController;
 use App\Http\Controllers\MercanciaController;
 use App\Http\Controllers\MonedaController;
+use App\Http\Controllers\OcurreController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PaisController;
 use App\Http\Controllers\RecoleccionController;
@@ -221,4 +222,11 @@ Route::get('/recoleccion', [RecoleccionController::class, 'create'])->name('reco
 Route::post('/recoleccion', [RecoleccionController::class, 'store'])->name('recoleccion.store');
 Route::get('/recoleccion/paqueteria', [RecoleccionController::class, 'getPaquetes'])->name('recoleccion.paquetes');
 Route::get('/recolecciones/list', [RecoleccionController::class, 'getRecolecciones'])->name('recoleccion.list');
+
+
+// OCURRE 
+
+Route::get('/ocurre', [OcurreController::class, 'searchOcurre'])->name('ocurre.search');
+Route::get('/ocurre-index', [OcurreController::class, 'index'])->name('ocurre.index');
+
 

@@ -99,6 +99,7 @@
     "/js/scripts/envios/find-sucursal.js": "/js/scripts/envios/find-sucursal.js",
     "/js/scripts/envios/guardar-datos-envio.js": "/js/scripts/envios/guardar-datos-envio.js",
     "/js/scripts/envios/jquery.datetimepicker.full.min.js": "/js/scripts/envios/jquery.datetimepicker.full.min.js",
+    "/js/scripts/envios/ocurre-search.js": "/js/scripts/envios/ocurre-search.js",
     "/js/scripts/envios/paquetes-recoleccion.js": "/js/scripts/envios/paquetes-recoleccion.js",
     "/js/scripts/envios/recolecciones.js": "/js/scripts/envios/recolecciones.js",
     "/js/scripts/envios/remitentes-search.js": "/js/scripts/envios/remitentes-search.js",
