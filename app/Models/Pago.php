@@ -15,6 +15,7 @@ class Pago extends Model
     use Searchable;
 
     protected $fillable = [
+        'insumo_id', 
         'metodo_pago', 
         'cantidad_pago', 
         'referencia_pago', 
@@ -31,6 +32,11 @@ class Pago extends Model
     public function envios()
     {
         return $this->hasMany(Envio::class);
+    }
+
+    public function insumo()
+    {
+        return $this->belongsTo(Insumo::class);
     }
 
 }

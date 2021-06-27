@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Envio;
 use App\Models\Pago;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
+use stdClass;
 
 class PagoController extends Controller
 {
@@ -36,15 +38,45 @@ class PagoController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
-        // $idEnvio = $request->nuevo_envio->id;
-        $envio = json_decode($request->nuevo_envio, true);
-        // return $envio['id'];
-        $nuevoPago = Pago::create($request->all());
-        // Envio::where('id', $nuevoPago->id)->update(['pago_id' => $nuevoPago->id]);
-        Envio::where('id', $envio['id'])->update(['pago_id' => $nuevoPago->id]);
+     
+        $values = new stdClass();
+        $values->metodo_pago    = $request->metodo_pago;
+        $values->cantidad_pago = $request->cantidad_pago;
+        $values->referencia_pago         = $request->referencia_pago;
+
+        $precios = new stdClass();
+        $precios->costo_sucursal_envio    = $request->costo_sucursal_envio;
+        $precios->cargo_logistica_interna = $request->cargo_logistica_interna;
+        $precios->impuestos_envio         = $request->impuestos_envio;
+        $precios->precio_total_sucursal   = $request->precio_total_sucursal;
+        $precios->cargos_envio            = $request->cargos_envio ?? '0';
         
-        return redirect()->route('envios.lista');
+        
+        $envio = json_decode($request->nuevo_envio, true);
+        $nuevoPago = Pago::create($request->all());
+        Envio::where('id', $envio['id'])->update(['pago_id' => $nuevoPago->id]);
+
+        // Genera Ticket 
+        $pago = Pago::select(
+            'metodo_pago',
+            'cantidad_pago',
+            'costo_sucursal_envio',
+            'impuestos_envio',
+            'cargo_logistica_interna'
+        )->where('id', $nuevoPago->id)->first();
+
+        $urlTicket = "tickets/{$envio['master_guia']}";
+        $pdf = PDF::loadView('paqueteria.envios.components.ticket', ['pago' => $pago])->setPaper('a5');
+        file_put_contents( $urlTicket, $pdf->output() );
+        // return $pdf->stream();
+        
+        // return redirect()->route('envios.lista');
+        return redirect()->route('envios.index')->with([
+         
+            'pagos'     => $values,
+            'ticket'     => $urlTicket,
+        
+        ]);
 
     }
 

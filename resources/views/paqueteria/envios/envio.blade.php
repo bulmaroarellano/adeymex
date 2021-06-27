@@ -63,6 +63,10 @@
 
     @endif
 
+    @if (session()->has('ticket'))
+      @include('paqueteria/envios/components/forms/pagos_form')
+    @endif
+
 </section>
 
 

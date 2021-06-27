@@ -13,4 +13,3 @@
 @if ( ( $success == "Success" ) && (  $envio->paqueteria == "DHL" ) )
     @include('paqueteria/envios/dhl/envio_dhl_result')
 @endif
-

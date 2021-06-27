@@ -10,9 +10,10 @@
             $globalProductCode = $qtdShp['GlobalProductCode'] ?? 'Error en la solicitud';
             $localProductCode  = $qtdShp['LocalProductCode']  ?? 'Error en la solicitud';
             $nombreServicio    = $qtdShp['ProductShortName']  ?? 'Error en la solicitud';
+            $costoEnvio = $qtdShp['ShippingCharge'] ?? 0;
         @endphp
 
-        @if ((float) $qtdShp['ShippingCharge'] > 0 && !($nombreServicio == 'DOMESTICO ENVIO RETORNO' || $nombreServicio == 'EXPRESS DOMESTIC 12:00' || $nombreServicio == 'EXPRESS 12:00'))
+        @if ( ( (float) $costoEnvio > 0 ) && !($nombreServicio == 'DOMESTICO ENVIO RETORNO' || $nombreServicio == 'EXPRESS DOMESTIC 12:00' || $nombreServicio == 'EXPRESS 12:00'))
             <tr>
 
                 <th id="{{ $globalProductCode }}-paqueteria">DHL</th>

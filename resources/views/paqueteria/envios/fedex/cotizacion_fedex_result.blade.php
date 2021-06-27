@@ -1,6 +1,6 @@
 
 @php
-    $rateReplyDetails = session()->get('rateReply')->RateReplyDetails;
+    $rateReplyDetails = session()->get('rateReply')->RateReplyDetails ??[];
     $success = session()->get('rateReply')->HighestSeverity;
 @endphp
 
@@ -10,14 +10,20 @@
     @foreach ($rateReplyDetails as $rateReplyDetail)
 
         @php
-            $nombreServicio = $rateReplyDetail->ServiceType;
-            $montoEnvio = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->TotalNetCharge->Amount ?? 'error';
-            $fechaEstimadaEnvio = $rateReplyDetail->DeliveryTimestamp ?? 'error';   
+            
+
+            try {
+                $nombreServicio = $rateReplyDetail->ServiceType ?? 'ERROR';
+                $montoEnvio = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->TotalNetCharge->Amount ?? 'error';
+                $fechaEstimadaEnvio = $rateReplyDetail?->DeliveryTimestamp ?? 'error';   
+            } catch (\Throwable $th) {
+                
+            }
         @endphp
     
         <tr>
             <th id="{{$nombreServicio}}-paqueteria">FEDEX</th>
-            <th>{{ $fechaEstimadaEnvio }}</th>
+            <th>{{ $fechaEstimadaEnvio ?? 'erro'}}</th>
             <th>{{ $rateReplyDetail->ServiceDescription->Names[1]->Value  }}</th>
             <th id="{{$nombreServicio}}-monto"> {{ $montoEnvio }}</th>
 
@@ -42,13 +48,9 @@
 
 @endif
 
-<small>{{session()->get('rateReply')->Notifications[0]->Message ?? ''}}</small>
-<small>{{$success ?? ''}}</small>
-
 @if ($success == "FAILURE")
     <div class="">
-        <small class="text-danger">ERROR EN AL PETICION </small>
-        <small>{{session()->get('rateReply')->Notifications[0]->Message }}</small>
-        
+        <small class="text-danger">FEDEX:</small>
+        <small class="text-danger">{{session()->get('rateReply')->Notifications[0]->Message }}</small>
     </div>
 @endif

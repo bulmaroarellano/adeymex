@@ -6,11 +6,6 @@
     $precios      = session()->get('precios') ;
 @endphp
 
-<ul>
-    <li>Tipo de envio  {{$tipoServicio}}</li>
-    <li>NUmero de guia {{$numeroGuia}}</li>
-</ul>
-
 <div class="col-md-12">
     <div class="row">
         <div class="col-md-6">

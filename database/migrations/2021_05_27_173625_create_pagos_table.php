@@ -15,6 +15,7 @@ class CreatePagosTable extends Migration
     {
         Schema::create('pagos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('insumo_id');
             $table->text('metodo_pago');
             $table->text('cantidad_pago');
             $table->text('referencia_pago');

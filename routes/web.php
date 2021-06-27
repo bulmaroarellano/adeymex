@@ -26,6 +26,7 @@ use App\Http\Controllers\RemitenteController;
 use App\Http\Controllers\SepomexController;
 use App\Http\Controllers\SucursalesController;
 use App\Http\Controllers\SuministroController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\UnidadController;
 use App\Http\Controllers\UnidadMedidaController;
@@ -228,5 +229,9 @@ Route::get('/recolecciones/list', [RecoleccionController::class, 'getRecoleccion
 
 Route::get('/ocurre', [OcurreController::class, 'searchOcurre'])->name('ocurre.search');
 Route::get('/ocurre-index', [OcurreController::class, 'index'])->name('ocurre.index');
+
+//ticket 
+Route::get('/ticket', [TicketController::class, 'index'])->name('ticket.index');
+
 
 

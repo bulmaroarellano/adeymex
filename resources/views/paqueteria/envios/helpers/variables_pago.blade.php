@@ -4,6 +4,7 @@
     $nombrePaqueteria = session()->get('paqueteria');
     $nuevoEnvio = session()->get('nuevoEnvio');
 @endphp
+
 <input type="hidden" name="costo_sucursal_envio"      value="{{$precios->costo_sucursal_envio}}" id="costo-sucursal-envio" >
 {{-- <input type="hidden" name="costo_publico_envio"       value="{{$precios->costo_publico_envio}}" id="costo-publico-envio" > --}}
 
@@ -14,5 +15,3 @@
 
 
 <input type="hidden" name="cargos_envio" value="{{$precios->cargos_envio}}" id="cargos-envio">    
-@if ($nombrePaqueteria == "fedex")
-@endif

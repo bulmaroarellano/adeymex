@@ -57,9 +57,22 @@ class CotizarController extends Controller
         if ( $request->country_code != 'MX' ) {
 
             // Internacionales
-            $rateReply = $this->getCotizacionFedex($request, $zip); // FEDEX
-            $quoteResponse = $this->getCotizacionDhl($request, $zip); // DHL 
-            $rateResponse = $this->getCotizacionUps($request, $zip); // UPS
+            
+
+            
+
+            try {
+               
+                $rateReply = $this->getCotizacionFedex($request, $zip); // FEDEX
+                $quoteResponse = $this->getCotizacionDhl($request, $zip); // DHL 
+                $rateResponse = $this->getCotizacionUps($request, $zip); // UPS
+            } catch (\Throwable $th) {
+                throw $th;
+            }
+
+            // echo '<pre>';
+            //     var_dump($quoteResponse);
+            // echo '</pre>';
         
             return redirect()->route('envios.index')->with([
                 'rateReply' => $rateReply,
@@ -73,7 +86,7 @@ class CotizarController extends Controller
                 'alto' => $request->alto,
                 'peso' => $request->peso,
             ]);
-
+            
 
         }else{
             // return $request;

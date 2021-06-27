@@ -17,6 +17,11 @@ class Suministro extends Model
 
     protected $searchableFields = ['*'];
 
+    public function insumos()
+    {
+        return $this->hasMany(Insumo::class);
+    }
+
     public function sucursal()
     {
         return $this->belongsTo(Sucursal::class);

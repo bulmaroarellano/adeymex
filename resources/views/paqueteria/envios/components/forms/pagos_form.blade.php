@@ -21,7 +21,7 @@
                                         'Tarjeta de credito' => 'Tarjeta de credito',
                                         'Transferencia' => 'Transferencia',
                                     ], 
-                                        session()->get('values')->metodo_pago ?? '',[
+                                        session()->get('pagos')->metodo_pago ?? '',[
                                             'placeholder' => 'Elegir tipo de pago ',
                                             'readonly' => session()->has('values')
                                                 ? (session()->get('edit') == 1 ? false : true )
@@ -40,7 +40,8 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">MXN</span>
                                         </div>
-                                        {!! Form::input('number', 'cantidad_pago', $precios->precio_total_sucursal?? null, [
+                                        {!! Form::input('number', 'cantidad_pago', $precios->precio_total_sucursal?? session()->get('pagos')->cantidad_pago ?? null, 
+                                        [
                                             'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
                                             'min' => '0', 
                                             'step' => '0.01',
@@ -55,7 +56,7 @@
                             <div class="form-group">
                                 <label class="col-form-label  text-primary">Referencia </label>
                                 <div class="input-group input-group-merge">
-                                    {!! Form::input('number', 'referencia_pago', session()->get('values')->referencia_pago ?? null, [
+                                    {!! Form::input('number', 'referencia_pago', session()->get('pagos')->referencia_pago ?? null, [
                                             'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
                                             'min' => '0', 
                                             'class' => 'form-control pl-1 referencia-pago', 
@@ -67,18 +68,41 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row d-flex justify-content-sm-around mt-2">
-                        <button class="btn btn-success" type="submit">
-                            {{ session()->get('edit') ? 'otra' : 'Pagar' }}
-                        </button>
-                        <a href="{{ route('envios.index') }}">
-                            <div class="btn btn-danger">
-                                <i class="fas fa-ban mr-1"></i>
-                                Cancelar
-                            </div>
-                        </a>
 
-                    </div>
+                    @if (session()->has('ticket'))
+                        @php
+                            $urlTicket = session()->get('ticket');
+                        @endphp
+                
+
+                        <div class="row d-flex justify-content-sm-around mt-2">
+                            <a href="{{$urlTicket}}" download>
+                                <button class="btn btn-danger">
+                                    Ticket
+                                    <i class="fas fa-file-pdf fa-lg"></i>
+                                </button>
+                            </a>
+                            <a href="{{ route('envios.lista') }}">
+                                <div class="btn btn-primary">
+                                    <i class="fas fa-ban mr-1"></i>
+                                    Ver Envios
+                                </div>
+                            </a>
+                        </div>
+                    @else
+                        <div class="row d-flex justify-content-sm-around mt-2">
+                            <button class="btn btn-success" type="submit">
+                                {{ session()->get('edit') ? 'otra' : 'Pagar' }}
+                            </button>
+                            <a href="{{ route('envios.index') }}">
+                                <div class="btn btn-danger">
+                                    <i class="fas fa-ban mr-1"></i>
+                                    Cancelar
+                                </div>
+                            </a>
+                        </div>
+                    @endif
+                    
                 </div>
             </div>
         </div>
