@@ -38,6 +38,11 @@ class PagoController extends Controller
      */
     public function store(Request $request)
     {
+
+        
+        $suministros = json_decode($request->suministros);
+        
+        $this->loadSuministros($suministros);
      
         $values = new stdClass();
         $values->metodo_pago    = $request->metodo_pago;
@@ -78,6 +83,11 @@ class PagoController extends Controller
         
         ]);
 
+    }
+
+    public function loadSuministros($suministros)
+    {
+        
     }
 
     /**

@@ -69,7 +69,6 @@ $(function () {
 
 $(function () {
 
-    let precioUnitario = '';
 
     $('#add_suministro').on('click', function(e) {
         e.preventDefault();
@@ -77,7 +76,7 @@ $(function () {
             `
             <tr>
                 <td>
-                    <select name="suministro[]" class="suministro-search form-control"></select>
+                    <select name="suministro_id[]" class="suministro-search form-control"></select>
                 </td>
                 <td><input class="form-control" type="text" name="suministro_cantidad[]"/></td>
                 <td><input class="form-control" type="text" name="suministro_precio_unitario[]"  /></td>
@@ -101,32 +100,38 @@ $(function () {
                     return {
                         results: $.map(data, function (item) {
                             
-                            precioUnitario = item.precio_publico;
                             return {
                                 text: `${item.nombre}`,
+                                precioUnitario: `${item.precio_publico}`,
                                 id: item.id
                             }
                         })
                     };
                 },
                 cache: true
-            }
+            }, 
         });
+
+
      
     });
+
+    
 
     $(document).on('click', '#remove', function () {
         console.log('Borrando')
         $(this).closest('tr').remove();
 
     });
-
-    $(document).on('change', 'select[name="suministro[]"]', function () {
+    
+    $(document).on('change', 'select[name="suministro_id[]"]', function () {
 
         const inputCantidad       = $(this).closest('td').siblings('td')[0].children[0].value;
         const inputPrecioUnitario = $(this).closest('td').siblings('td')[1].children[0];
         const inputTotal          = $(this).closest('td').siblings('td')[2].children[0];
-        inputPrecioUnitario.value = precioUnitario;
+        const suministro = $('.suministro-search').select2('data'); 
+        
+        inputPrecioUnitario.value = suministro[0].precioUnitario;
 
         if (inputCantidad) {
             inputTotal.value =  `${inputCantidad * inputPrecioUnitario.value}`;
@@ -135,10 +140,12 @@ $(function () {
     });
 
     $(document).on('change', 'input[name="suministro_cantidad[]"]', function () {
+        const suministro = $('.suministro-search').select2('data'); 
+        
         const cantidad = $(this).val();
 
         const inputTotal = $(this).closest('td').siblings('td')[2].children[0]
-        inputTotal.value = `${cantidad * precioUnitario}`
+        inputTotal.value = `${cantidad * suministro[0].precioUnitario}`
 
         const paqueteriaCode = $("input[type='radio'][name='paqueteria_code']:checked").val();
 

@@ -69,7 +69,7 @@ class EnvioController extends Controller
     //+ GUARDAR UN NUEVO ENVIO
     public function store(Request $request)
     {
-        return $request;
+        // return $request;
 
         if (! is_numeric($request->remitente_id)) {
             
@@ -105,19 +105,7 @@ class EnvioController extends Controller
         }else{ $this->destinatario = Destinatario::where('id', $request->destinatario_id)->first(); }
         
         $sucursal = Sucursal::where('id', $request->sucursal_id)->first();
-        
-        $precios = new stdClass();
-        $precios->costo_sucursal_envio    = $request->costo_sucursal_envio;
-        $precios->cargo_logistica_interna = $request->cargo_logistica_interna;
-        $precios->impuestos_envio         = $request->impuestos_envio;
-        $precios->precio_total_sucursal   = $request->precio_total_sucursal;
-        $precios->cargos_envio            = $request->cargos_envio ?? '0';
-
-        $varEnvio = $request->all();  
-        $varEnvio['paqueteria']       = $request->nombre_paqueteria;
-        $varEnvio['tipo_paquete']     = 'YOUR_PACKING';
-        $varEnvio['origen_cp_envio']  = '50000';
-        $varEnvio['destino_cp_envio'] = $request->destinatario_codigo_postal;
+        list($precios, $varEnvio, $suministros) = $this->getObjects($request);
 
         if ($request->nombre_paqueteria == "FEDEX") {
             
@@ -145,6 +133,7 @@ class EnvioController extends Controller
                     'successEnvio' => $successEnvio,
                     'precios'      => $precios,
                     'paqueteria'   => $request->nombre_paqueteria,
+                    'suministros'   => json_encode($suministros),
                 ]);
     
             } 
@@ -173,7 +162,8 @@ class EnvioController extends Controller
                     'successEnvio' => $successEnvio,
                     'urlGuia'      => $urlGuia, 
                     'precios'      => $precios,
-                    'paqueteria'   => $request->nombre_paqueteria
+                    'paqueteria'   => $request->nombre_paqueteria,
+                    'suministros'   => $suministros,
                 ]);
 
             }
@@ -186,20 +176,40 @@ class EnvioController extends Controller
 
     }
 
-    public function ticket(Request $request)
-    {
-        
-        return $request;
-        $pdf = PDF::loadView('paqueteria.envios.components.ticket_pago', [
-            'costo_sucursal'  => $this->precios->costo_sucursal_envio ?? '0', 
-            'cargo_logistica' => $this->precios->cargo_logistica_interna, 
-            'cargo_envio'     => $this->precios->cargos_envio, 
-            'impuesto'        => $this->precios->impuestos_envio, 
-            'total_precio'    => $this->precios->precio_total_sucursal, 
-        ])->setPaper('A5', 'portrait');
-        return $pdf->download('ticket.pdf');
+   public function getObjects($request)
+   {
 
-    }
+        $precios = new stdClass();
+        $precios->costo_sucursal_envio    = $request->costo_sucursal_envio;
+        $precios->cargo_logistica_interna = $request->cargo_logistica_interna;
+        $precios->impuestos_envio         = $request->impuestos_envio;
+        $precios->precio_total_sucursal   = $request->precio_total_sucursal;
+        $precios->cargos_envio            = $request->cargos_envio ?? '0';
+
+        $varEnvio = $request->all();  
+        $varEnvio['paqueteria']       = $request->nombre_paqueteria;
+        $varEnvio['tipo_paquete']     = 'YOUR_PACKING';
+        $varEnvio['origen_cp_envio']  = '50000';
+        $varEnvio['destino_cp_envio'] = $request->destinatario_codigo_postal;
+
+        $suministros = array();
+        
+        $sumID = $request->suministro_id;
+        $sumCantidad = $request->suministro_cantidad;
+        $sumPrecioTotal = $request->suministro_precio_total;
+        foreach ($sumID as $key => $value ) {
+            
+            $sum = new stdClass();
+            $sum->suministro_id = $value;
+            $sum->suministro_cantidad = $sumCantidad[$key];
+            $sum->suministro_precio_total = $sumPrecioTotal[$key];
+
+            array_push($suministros, $sum);
+        }
+
+        return array($precios, $varEnvio, $suministros);
+
+   }
 
     public function listEnvios()
     {

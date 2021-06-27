@@ -3,6 +3,7 @@
     $precios = session()->get('precios') ;
     $nombrePaqueteria = session()->get('paqueteria');
     $nuevoEnvio = session()->get('nuevoEnvio');
+    $suministros = session()->get('suministros');
 @endphp
 
 <input type="hidden" name="costo_sucursal_envio"      value="{{$precios->costo_sucursal_envio}}" id="costo-sucursal-envio" >
@@ -15,3 +16,7 @@
 
 
 <input type="hidden" name="cargos_envio" value="{{$precios->cargos_envio}}" id="cargos-envio">    
+
+<input type="hidden" name="suministros" value="{{$suministros}}" id="suministros">    
+
+

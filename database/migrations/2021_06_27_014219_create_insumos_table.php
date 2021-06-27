@@ -17,8 +17,8 @@ class CreateInsumosTable extends Migration
             
             $table->id();
             $table->unsignedBigInteger('suministro_id');
-            $table->text('cantidad_suministro');
-            $table->text('costo_total_suministro');
+            $table->text('suministro_cantidad');
+            $table->text('suministro_precio_total');
             
             $table->timestamps();
             $table->softDeletes();
