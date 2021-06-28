@@ -37,18 +37,6 @@ class EnvioController extends Controller
         ]);
     }
 
-
-
-
-    public function selecPaqueteria(Request $request)
-    {
-
-
-        return $request;
-
-
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -106,6 +94,7 @@ class EnvioController extends Controller
         
         $sucursal = Sucursal::where('id', $request->sucursal_id)->first();
         list($precios, $varEnvio, $suministros) = $this->getObjects($request);
+        
 
         if ($request->nombre_paqueteria == "FEDEX") {
             
@@ -131,9 +120,10 @@ class EnvioController extends Controller
                     'nuevoEnvio'   => $nuevoEnvio,
                     'invoice'      => $invoice,
                     'successEnvio' => $successEnvio,
-                    'precios'      => $precios,
+                    'precios'      => json_encode($precios),
                     'paqueteria'   => $request->nombre_paqueteria,
                     'suministros'   => json_encode($suministros),
+                    
                 ]);
     
             } 
@@ -161,9 +151,10 @@ class EnvioController extends Controller
                     'invoice'      => $invoice,
                     'successEnvio' => $successEnvio,
                     'urlGuia'      => $urlGuia, 
-                    'precios'      => $precios,
+                    'precios'      => json_encode($precios),
                     'paqueteria'   => $request->nombre_paqueteria,
-                    'suministros'   => $suministros,
+                    'suministros'   => json_encode($suministros),
+                    
                 ]);
 
             }
@@ -180,11 +171,12 @@ class EnvioController extends Controller
    {
 
         $precios = new stdClass();
+
         $precios->costo_sucursal_envio    = $request->costo_sucursal_envio;
         $precios->cargo_logistica_interna = $request->cargo_logistica_interna;
         $precios->impuestos_envio         = $request->impuestos_envio;
-        $precios->precio_total_sucursal   = $request->precio_total_sucursal;
-        $precios->cargos_envio            = $request->cargos_envio ?? '0';
+        $precios->seguro_envio            = $request->seguro_envio ?? '0';
+        $precios->cargos_envio            = $request->cargos_envio ?? '0' ;
 
         $varEnvio = $request->all();  
         $varEnvio['paqueteria']       = $request->nombre_paqueteria;
@@ -194,20 +186,29 @@ class EnvioController extends Controller
 
         $suministros = array();
         
-        $sumID = $request->suministro_id;
+        $sumID = $request->suministro_id ??[];
         $sumCantidad = $request->suministro_cantidad;
         $sumPrecioTotal = $request->suministro_precio_total;
+        $costoTotalSuministros = 0;
         foreach ($sumID as $key => $value ) {
             
             $sum = new stdClass();
             $sum->suministro_id = $value;
             $sum->suministro_cantidad = $sumCantidad[$key];
             $sum->suministro_precio_total = $sumPrecioTotal[$key];
+            $costoTotalSuministros +=  (int)$sumPrecioTotal[$key];
 
             array_push($suministros, $sum);
         }
 
+        $precios->precio_total_sucursal   = strval(
+            (float) $request->precio_envio_total +  $costoTotalSuministros + (float)$request->seguro_envio
+        );
+        $precios->suministros_precio_total   = strval($costoTotalSuministros);
+
         return array($precios, $varEnvio, $suministros);
+
+        
 
    }
 

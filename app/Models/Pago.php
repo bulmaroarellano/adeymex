@@ -16,14 +16,15 @@ class Pago extends Model
 
     protected $fillable = [
         'metodo_pago', 
-        'cantidad_pago', 
         'referencia_pago', 
         'costo_sucursal_envio', 
         'costo_publico_envio', 
         'cargos_envio', 
         'impuestos_envio', 
         'cargo_logistica_interna', 
-        'precio_total_sucursal', 
+        'suministros_precio_total',
+        'precio_total_sucursal'
+
     ];
     protected $searchableFields = ['*'];
 
@@ -31,6 +32,11 @@ class Pago extends Model
     public function envios()
     {
         return $this->hasMany(Envio::class);
+    }
+
+    public function insumos()
+    {
+        return $this->hasMany(Insumo::class);
     }
 
 

@@ -16,9 +16,10 @@ class CreateInsumosTable extends Migration
         Schema::create('insumos', function (Blueprint $table) {
             
             $table->id();
+            $table->unsignedBigInteger('pago_id');
             $table->unsignedBigInteger('suministro_id');
             $table->text('suministro_cantidad');
-            $table->text('suministro_precio_total');
+
             
             $table->timestamps();
             $table->softDeletes();

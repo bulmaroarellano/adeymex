@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Envio;
+use App\Models\Insumo;
 use App\Models\Pago;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -39,39 +40,47 @@ class PagoController extends Controller
     public function store(Request $request)
     {
 
-        
-        $suministros = json_decode($request->suministros);
-        
-        $this->loadSuministros($suministros);
-     
-        $values = new stdClass();
-        $values->metodo_pago    = $request->metodo_pago;
-        $values->cantidad_pago = $request->cantidad_pago;
-        $values->referencia_pago         = $request->referencia_pago;
-
-        $precios = new stdClass();
-        $precios->costo_sucursal_envio    = $request->costo_sucursal_envio;
-        $precios->cargo_logistica_interna = $request->cargo_logistica_interna;
-        $precios->impuestos_envio         = $request->impuestos_envio;
-        $precios->precio_total_sucursal   = $request->precio_total_sucursal;
-        $precios->cargos_envio            = $request->cargos_envio ?? '0';
-        
-        
+        // return $request;
+        $suministros = json_decode($request->suministros, true);
         $envio = json_decode($request->nuevo_envio, true);
-        $nuevoPago = Pago::create($request->all());
+        $precios = json_decode($request->precios, true);
+        
+
+        $pago = array_merge(
+            ["metodo_pago"     => $request->metodo_pago], 
+            ["referencia_pago" => $request->referencia_pago], 
+            $precios
+            
+        );
+
+        // return $pago;
+        
+        list($values) = $this->getObjects($request, $precios['precio_total_sucursal']);
+
+        
+        $nuevoPago = Pago::create($pago);
+        
         Envio::where('id', $envio['id'])->update(['pago_id' => $nuevoPago->id]);
 
+        
+        $this->loadSuministros($suministros, $nuevoPago->id);
         // Genera Ticket 
         $pago = Pago::select(
             'metodo_pago',
-            'cantidad_pago',
             'costo_sucursal_envio',
+            'cargo_logistica_interna',
             'impuestos_envio',
-            'cargo_logistica_interna'
+            'cargos_envio',
+            'suministros_precio_total',
+            'precio_total_sucursal'
         )->where('id', $nuevoPago->id)->first();
 
         $urlTicket = "tickets/{$envio['master_guia']}";
-        $pdf = PDF::loadView('paqueteria.envios.components.ticket', ['pago' => $pago])->setPaper('a5');
+        $pdf = PDF::loadView('paqueteria.envios.components.ticket',
+        [
+            'pago' => $pago,
+            'seguro' => $precios['seguro_envio']
+        ])->setPaper('a5');
         file_put_contents( $urlTicket, $pdf->output() );
         // return $pdf->stream();
         
@@ -84,9 +93,24 @@ class PagoController extends Controller
         ]);
 
     }
-
-    public function loadSuministros($suministros)
+    public function getObjects($request, $precio_total_sucursal)
     {
+        $values = new stdClass();
+        $values->metodo_pago       = $request->metodo_pago;
+        $values->referencia_pago   = $request->referencia_pago;
+        $values->precio_total_sucursal   = $precio_total_sucursal;
+
+        return array($values);
+        
+    }
+
+    public function loadSuministros($suministros, $pago_id)
+    {
+
+        foreach ($suministros as $key => $suministro) {
+            $suministro['pago_id'] = $pago_id;
+            Insumo::create($suministro);
+        }
         
     }
 

@@ -105,28 +105,31 @@
                         <strong>Costo Envio</strong>
                     </td>
                     
-                    <td class="text-right">{{$pago->costo_sucursal_envio}}</td>
+                    <td class="text-right">
+                      {{(float)$pago->costo_sucursal_envio + (float)$pago->cargo_logistica_interna + (float)$pago->impuestos_envio + (float)$pago->cargos_envio}}
+                    </td>
                   </tr>
                   <tr>
                     <td>
-                        <strong>Impuestos</strong>
+                        <strong>Suministros</strong>
                     </td>
                     
-                    <td class="text-right">{{$pago->impuestos_envio}}</td>
+                    <td class="text-right">{{$pago->suministros_precio_total}}</td>
                   </tr>
                   <tr>
                     <td>
-                        <strong>Cargo Logistica Inaterna</strong>
+                        <strong>Seguro</strong>
                     </td>
                     
-                    <td class="text-right">{{$pago->cargo_logistica_interna}}</td>
+                    <td class="text-right">{{$seguro}}</td>
                   </tr>
+
                   <tr>
                     <td>
                         <strong>Total</strong>
                     </td>
                     
-                    <td class="text-right">{{$pago->cantidad_pago}}</td>
+                    <td class="text-right">{{$pago->precio_total_sucursal }}</td>
                   </tr>
 
                   </tbody>

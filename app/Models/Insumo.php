@@ -14,22 +14,24 @@ class Insumo extends Model
     use Searchable;
 
     protected $fillable = [
+        'pago_id', 
         'suministro_id', 
-        'cantidad_suministro', 
-        'costo_total_suministro', 
+        'suministro_cantidad', 
     ];
 
     protected $table = 'insumos';
 
-    public function pagos()
+    public function pago()
     {
-        return $this->hasMany(Pago::class);
+        return $this->belongsTo(Pago::class);
     }
 
     public function suministro()
     {
         return $this->belongsTo(Suministro::class);
     }
+
+    
 
 
 }

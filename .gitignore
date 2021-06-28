@@ -9,6 +9,7 @@
 /public/vendors
 /public/dhl-guias
 /public/fedex-guias
+/public/tickets
 /storage/*.key
 /vendor
 .env.backup

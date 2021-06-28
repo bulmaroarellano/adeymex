@@ -3,13 +3,13 @@
 <input type="hidden" name="id_cp_destinatario"  value="" id="id-cp-destinatario" >
 <input type="hidden" name="nombre_paqueteria"  value="" id="nombre-paqueteria" >
 <input type="hidden" name="country_code"  value="" id="country-code" >
-<input type="hidden" name="seguro_envio"  value="" id="seguro-envio" >
+{{-- <input type="hidden" name="seguro_envio"  value="" id="seguro-envio" > --}}
 
 
 {{-- COSTOS E IMPUESTOS --}}
 <input type="hidden" name="costo_sucursal_envio"  value="" id="costo-sucursal-envio">
 <input type="hidden" name="cargo_logistica_interna"  value="" id="cargo-logistica">
-<input type="hidden" name="precio_total_sucursal"  value="" id="precio-total-sucursal">
+<input type="hidden" name="precio_envio_total"  value="" id="precio-envio-total">
 
 {{-- SOLO PARA FEDEX --}}
 <input type="hidden" name="cargos_envio"  value="" id="cargos-envio"> 

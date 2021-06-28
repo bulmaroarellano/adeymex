@@ -1,5 +1,5 @@
 @php
-    $precios = session()->get('precios') ;
+    $precios =json_decode(session()->get('precios')) ;
 @endphp
 <div class="col-md-12">
     <div class="row justify-content-center">
@@ -40,7 +40,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">MXN</span>
                                         </div>
-                                        {!! Form::input('number', 'cantidad_pago', $precios->precio_total_sucursal?? session()->get('pagos')->cantidad_pago ?? null, 
+                                        {!! Form::input('number', 'precio_total_sucursal', $precios->precio_total_sucursal ?? session()->get('pagos')->precio_total_sucursal ?? null, 
                                         [
                                             'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
                                             'min' => '0', 

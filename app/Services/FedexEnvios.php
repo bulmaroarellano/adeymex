@@ -200,7 +200,7 @@ class FedexEnvios
             ->setPayor($this->shippingChargesPayor);
         $this->requestedShipment->setShippingChargesPayment($this->shippingChargesPayment);
     }
-    public function setInternational(array $dataInter)
+    public function setInternational(array $dataInter, $valorAsegurado)
     {
         $CommercialInvoice = new ComplexType\CommercialInvoice();
         $CommercialInvoice->setPurpose(new SimpleType\PurposeOfShipmentType(SimpleType\PurposeOfShipmentType::_SOLD));
@@ -249,7 +249,7 @@ class FedexEnvios
             'DocumentContent' => 'NON_DOCUMENTS',
             'CustomsValue' => new ComplexType\Money([
               'Currency' => 'USD',
-              'Amount' => 400.0
+              'Amount' => (float) $valorAsegurado
             ]),
             'Commodities' =>$commodities,
             'ExportDetail' => new ComplexType\ExportDetail([

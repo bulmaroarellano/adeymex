@@ -105,7 +105,7 @@ const dataEnvioFedex = (paqueteriaCode, precioEnvioSelec, cargoLogistica) => {
 
   document.querySelector('#cargos-envio').value  = `${costFuel}`;
   document.querySelector('#impuestos-envio').value  = `${costTax}`;
-  document.querySelector('#precio-total-sucursal').value  = `${suma.toFixed(2)}`;
+  document.querySelector('#precio-envio-total').value  = `${suma.toFixed(2)}`;
 
   //+ VARIANTE CODIGO ENVIO
   // document.querySelector('#type-paquete-fedex').value  = `${typePaquete}`;
@@ -125,7 +125,7 @@ const dataEnvioDhl = (paqueteriaCode, precioEnvioSelec, cargoLogistica) => {
 
   //+ VARIABLES COSTOS E IMPUESTOS 
   document.querySelector('#impuestos-envio').value  = `${impuestos}`;
-  document.querySelector('#precio-total-sucursal').value  = `${suma.toFixed(2)}`;
+  document.querySelector('#precio-envio-total').value  = `${suma.toFixed(2)}`;
 
   //+ VARIANTE CODIGO ENVIO
   document.querySelector('#local-product-code').value  = `${localProductCode}`;
@@ -142,7 +142,7 @@ const dataEnvioUps = ( paqueteriaCode, precioEnvioSelec, cargoLogistica ) => {
   document.querySelector('#precio-total-ups').innerText  = `${suma.toFixed(2)}`;
 
   //+ VARIABLES COSTOS E IMPUESTOS 
-  document.querySelector('#precio-total-sucursal').value  = `${suma.toFixed(2)}`;
+  document.querySelector('#precio-envio-total').value  = `${suma.toFixed(2)}`;
 
   //+ VARIANTE CODIGO ENVIO
   // document.querySelector('#local-product-code').value  = `${localProductCode}`;
