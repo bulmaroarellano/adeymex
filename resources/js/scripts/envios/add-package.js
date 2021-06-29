@@ -23,6 +23,22 @@ $(function () {
         console.log('Borrando')
         $(this).closest('tr').remove();
 
+        const cantidades = $('input[name="cantidad[]"]').map( function(){
+            return $(this).val();
+        }).get(); 
+
+        const precios = $('input[name="precio_unitario[]"]').map(function(){
+            return $(this).val();
+        }).get();
+
+        const valuesMulti = cantidades.map((cantidad, i ) => cantidad * precios[i]);
+
+        console.log(valuesMulti);
+
+        const valorDeclarado = valuesMulti.reduce((a, b) => a+b);
+
+        $("#valor-declarado").val(valorDeclarado);
+
     })
 
 

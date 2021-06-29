@@ -175,7 +175,9 @@ class EnvioController extends Controller
         $precios->costo_sucursal_envio    = $request->costo_sucursal_envio;
         $precios->cargo_logistica_interna = $request->cargo_logistica_interna;
         $precios->impuestos_envio         = $request->impuestos_envio;
-        $precios->seguro_envio            = $request->seguro_envio ?? '0';
+        $precios->valor_declarado         = $request->valor_declarado ;
+        $precios->valor_asegurado         = $request->valor_asegurado ;
+        $precios->costo_seguro            = $request->costo_seguro ;
         $precios->cargos_envio            = $request->cargos_envio ?? '0' ;
 
         $varEnvio = $request->all();  

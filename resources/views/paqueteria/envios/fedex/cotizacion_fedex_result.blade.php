@@ -14,7 +14,9 @@
 
             try {
                 $nombreServicio = $rateReplyDetail->ServiceType ?? 'ERROR';
-                $montoEnvio = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->TotalNetCharge->Amount ?? 'error';
+                // $montoEnvio = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->TotalNetCharge->Amount ?? 'error';
+                // $montoEnvio = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->TotalNetFedExCharge->Amount ?? 'error';
+                $montoEnvio = $rateReplyDetail->RatedShipmentDetails[1]->ShipmentRateDetail->TotalBaseCharge->Amount ?? 'No disponible';
                 $fechaEstimadaEnvio = $rateReplyDetail?->DeliveryTimestamp ?? 'error';   
             } catch (\Throwable $th) {
                 
@@ -23,7 +25,7 @@
     
         <tr>
             <th id="{{$nombreServicio}}-paqueteria">FEDEX</th>
-            <th>{{ $fechaEstimadaEnvio ?? 'erro'}}</th>
+            <th>{{ $fechaEstimadaEnvio ?? 'No Disponible'}}</th>
             <th>{{ $rateReplyDetail->ServiceDescription->Names[1]->Value  }}</th>
             <th id="{{$nombreServicio}}-monto"> {{ $montoEnvio }}</th>
 
@@ -45,6 +47,11 @@
             <input type="hidden" value="{{$impuesto}}" id="{{$nombreServicio}}-tax">
 
     @endforeach
+
+    @if (count($rateReplyDetails) == 0 )
+        <small class="text-danger">FEDEX:</small>
+        <small class="text-danger">{{session()->get('rateReply')->Notifications[0]->Message }}</small>
+    @endif
 
 @endif
 

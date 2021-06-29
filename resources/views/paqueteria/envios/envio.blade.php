@@ -41,6 +41,14 @@
 
       @endif
 
+      
+      <div class="col-md-12 mt-2">
+        <div class="row">
+          @include('paqueteria/envios/components/suministros')
+          @include('paqueteria/envios/components/valores_asegurados')
+  
+        </div>
+      </div>
       @include('paqueteria/envios/components/forms/datos_envio_form')
       @include('paqueteria/envios/helpers/variables_envio')
 
@@ -104,9 +112,12 @@
   <script src="{{ asset(mix('js/scripts/envios/remitentes-search.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/destinatarios-search.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/envios/ocurre-search.js')) }}"></script>
+
+  <script src="{{ asset(mix('js/scripts/envios/jquery.validate.min.js')) }}"></script>
   
 
   <script src="{{ asset(mix('js/scripts/envios/tipo-paquete-valores.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/envios/valores-asegurados.js')) }}"></script>
   
   
 

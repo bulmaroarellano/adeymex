@@ -77,7 +77,7 @@ class GuiaEnvio
 
             // return $interData;
             //! Agregar el valor declarado 
-            $envio->setInternational($interData, $this->request->seguro_envio);
+            $envio->setInternational($interData, $this->request->valor_declarado, $this->request->valor_asegurado);
             $envio->impuestos();
             $envio->descEnvio($this->request->paqueteria_code);
         
@@ -158,7 +158,7 @@ class GuiaEnvio
                 "peso_bruto" => $this->request->peso_bruto,
             );
             //! Agregar el valor declarado  
-            $envio->setInternational($interData, $this->request->seguro_envio);
+            $envio->setInternational($interData, $this->request->valor_declarado);
             // $requestShipment = $envio->getEnvio(true);
             list($masterGuia, $successEnvio, $tipoServicio) = $envio->getEnvio(true);
             return array($masterGuia, $successEnvio, $tipoServicio);

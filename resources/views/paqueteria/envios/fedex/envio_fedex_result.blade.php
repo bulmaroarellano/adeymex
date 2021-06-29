@@ -54,7 +54,7 @@
                         <li>Cargos:    {{ $precios->cargos_envio    }}</li>
                         <li>Impuestos: {{ $precios->impuestos_envio }}</li>
                         <li>Cargo Logistica Interna: {{$precios->cargo_logistica_interna }}</li>
-                        <li>Valor Asegurado: {{$precios->seguro_envio }}</li>
+                        <li>Costo del seguro: {{$precios->costo_seguro }}</li>
                         <li>Suministros: {{$precios->suministros_precio_total ?? '0'}}</li>
                         <li>Total a pagar: {{$precios->precio_total_sucursal }}</li>
                     </ul>

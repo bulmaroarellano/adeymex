@@ -71,7 +71,7 @@ class CotizarController extends Controller
             }
 
             // echo '<pre>';
-            //     var_dump($quoteResponse);
+            //     var_dump($rateReply);
             // echo '</pre>';
         
             return redirect()->route('envios.index')->with([

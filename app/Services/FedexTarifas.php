@@ -24,6 +24,7 @@ class FedexTarifas
         $this->rateRequest->ClientDetail->MeterNumber = $meterNumber;
 
         $this->rateRequest->RequestedShipment->PreferredCurrency = $moneda;
+        
         $this->rateRequest->TransactionDetail->CustomerTransactionId = 'testing rate service request';
 
 

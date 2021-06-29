@@ -96,6 +96,7 @@ class FedexEnvios
         $this->processShipmentRequest = new ComplexType\ProcessShipmentRequest();
         $this->shipService = new ShipService\Request();
 
+        $this->requestedShipment->setPreferredCurrency('NMP');
         $this->pdfGuia = new Merger;
         
     }
@@ -200,7 +201,7 @@ class FedexEnvios
             ->setPayor($this->shippingChargesPayor);
         $this->requestedShipment->setShippingChargesPayment($this->shippingChargesPayment);
     }
-    public function setInternational(array $dataInter, $valorAsegurado)
+    public function setInternational(array $dataInter, $valorDeclarado,$valorAsegurado)
     {
         $CommercialInvoice = new ComplexType\CommercialInvoice();
         $CommercialInvoice->setPurpose(new SimpleType\PurposeOfShipmentType(SimpleType\PurposeOfShipmentType::_SOLD));
@@ -211,7 +212,7 @@ class FedexEnvios
         $cantidades = $dataInter['cantidad'];
         $unidades = $dataInter['unidad_medida'];
         $precios = $dataInter['precio_unitario'];
-        
+
         foreach ($descripciones as $key => $value) {
             
             $commodities[] = array(
@@ -225,16 +226,23 @@ class FedexEnvios
                 'Quantity' => $cantidades[$key],
                 'QuantityUnits' => $unidades[$key],
                 'UnitPrice' => array(
-                  'Currency' => 'USD',
+                  'Currency' => 'USD', //* Valor de cada unidad en Cantidad.
                   'Amount' => $precios[$key]
                 ),
                 'CustomsValue' => array(
                   'Currency' => 'USD',
-                  'Amount' => $precios[$key]
+                  'Amount' => $precios[$key]   //* Especificar el valor en aduana de la mercancía
                 )
             );
 
         }
+        //* CARRIAGE VALUE
+        // $this->requestedShipment->setTotalInsuredValue(new ComplexType\Money([
+        //     'Currency'=>  'USD', 
+        //     'Amount'=>  (float) $valorAsegurado, 
+
+        // ]));
+
         $CustomsClearanceDetail = [
             'DutiesPayment' => new ComplexType\Payment([
               'PaymentType' => 'SENDER', // valid values RECIPIENT, SENDER and THIRD_PARTY
@@ -247,10 +255,14 @@ class FedexEnvios
              ])
             ]),
             'DocumentContent' => 'NON_DOCUMENTS',
-            'CustomsValue' => new ComplexType\Money([
+            'CustomsValue' => new ComplexType\Money([  //* Especifique el valor de la aduana para todo su envio
               'Currency' => 'USD',
-              'Amount' => (float) $valorAsegurado
+              'Amount' => $valorDeclarado
             ]),
+            // 'InsuranceCharges' => new ComplexType\Money([
+            //     'Currency' => 'USD',
+            //   'Amount' => (float) $valorAsegurado
+            // ]), 
             'Commodities' =>$commodities,
             'ExportDetail' => new ComplexType\ExportDetail([
               'B13AFilingOption' => 'NOT_REQUIRED'
@@ -398,10 +410,10 @@ class FedexEnvios
         
         $this->processShipmentReply = $this->shipService->getProcessShipmentReply($this->processShipmentRequest);        
     
-        // echo '<pre>';
-            // var_dump($this->processShipmentReply);
+        echo '<pre>';
+            var_dump($this->processShipmentReply);
             // var_dump($this->requestedShipment);
-        // echo '</pre>';
+        echo '</pre>';
         $this->success = $this->processShipmentReply->HighestSeverity;
         return $this->processShipmentReply;
     }
