@@ -63,6 +63,8 @@ $(function () {
 
         });
         
+    }else{
+        //! SEGURO NACIONAL 1.5 CADA 100 PESOS 
     }
 
 });

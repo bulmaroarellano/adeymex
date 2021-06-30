@@ -5,10 +5,14 @@ use Illuminate\Http\Request;
 
 use App\Models\Destinatario;
 use App\Models\Envio;
+use App\Models\Guia;
+use App\Models\Insumo;
 use App\Models\Invoice;
 use App\Models\Pago;
+use App\Models\Paquete;
 use App\Models\Remitente;
 use App\Models\Sucursal;
+use App\Models\Suministro;
 use App\Services\GuiaEnvio;
 use stdClass;
 
@@ -264,6 +268,40 @@ class EnvioController extends Controller
      */
     public function show(Envio $envio, $edit)
     {
+
+
+        // return $envio;
+
+        $sucursal     = Sucursal::where('id', $envio->sucursal_id)->first();
+        $remitente    = Remitente::where('id', $envio->remitente_id)->first();
+        $destinatario = Destinatario::where('id', $envio->destinatario_id)->first();
+        $pago         = Pago::where('id', $envio->pago_id)->first();
+        $insumos      = Insumo::where('id', $envio->pago_id)->first();
+
+        $suministros  = Suministro::where('id', $insumos->suministro_id)->get();
+        $guias        = Guia::where('master_guia', $envio->master_guia)->get();
+        $invoices     = Invoice::where('master_guia', $envio->master_guia)->get();
+
+        $masterPaquete = Paquete::where('numero_guia', $envio->master_guia)->first();
+
+        $slavePaquetes = array();
+        foreach ($guias as $key => $slaveGuia) {
+            
+            array_push($slavePaquetes, Paquete::where('numero_guia', $slaveGuia->slave_guia)->first());
+        }
+
+        // return $slavePaquetes;
+
+
+        return view('/paqueteria/envios/envio-show', [
+            'masterPaquete' => $masterPaquete,
+            'slavePaquetes' => $slavePaquetes,
+            'guias' => $guias,
+            'guias' => $guias,
+            'invoices' => $invoices,
+            
+        ]);
+
         
     }
 
