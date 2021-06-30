@@ -26,6 +26,7 @@
         "lab404/laravel-auth-checker": "^1.6",
         "laracasts/flash": "^3.2",
         "laravel/framework": "^8.12",
+        "laravel/sanctum": "^2.9",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.2",
