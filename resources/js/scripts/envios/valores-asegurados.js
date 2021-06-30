@@ -36,9 +36,9 @@ $(function () {
 
             const valorAsegurado = $(this).val();
             const valorDeclarado = $("#valor-declarado").val();
-
-            if (valorAsegurado > valorDeclarado) {
-
+            
+            if (+valorAsegurado > valorDeclarado) {
+                
                 const message = $(this).closest('div').siblings('strong');
 
                 if ( message.length === 0) {
@@ -46,13 +46,15 @@ $(function () {
                 }
 
             } else {
+                    
                 $(this).closest('div').siblings('strong').remove();
             }
 
 
             if (valorAsegurado > 99 && !(valorAsegurado > valorDeclarado)) {
 
-                const costoSeguro = `${((+valorAsegurado) - ('+99')) * 30}`
+                const costoSeguro = `${ (+valorAsegurado.slice(0, 1) *30) }`;
+                
                 $("#costo_seguro").val(`${costoSeguro}`);
 
             } else {

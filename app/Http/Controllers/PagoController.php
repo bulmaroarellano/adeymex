@@ -57,7 +57,7 @@ class PagoController extends Controller
         
         list($values) = $this->getObjects($request, $precios['precio_total_sucursal']);
 
-        
+        // return $pago;
         $nuevoPago = Pago::create($pago);
         
         Envio::where('id', $envio['id'])->update(['pago_id' => $nuevoPago->id]);
@@ -79,7 +79,7 @@ class PagoController extends Controller
         $pdf = PDF::loadView('paqueteria.envios.components.ticket',
         [
             'pago' => $pago,
-            'seguro' => $precios['costo_seguro']
+            'seguro' => $precios['costo_seguro'], 
         ])->setPaper('a5');
         file_put_contents( $urlTicket, $pdf->output() );
         // return $pdf->stream();

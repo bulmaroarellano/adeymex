@@ -410,10 +410,10 @@ class FedexEnvios
         
         $this->processShipmentReply = $this->shipService->getProcessShipmentReply($this->processShipmentRequest);        
     
-        echo '<pre>';
-            var_dump($this->processShipmentReply);
+        // echo '<pre>';
+            // var_dump($this->processShipmentReply);
             // var_dump($this->requestedShipment);
-        echo '</pre>';
+        // echo '</pre>';
         $this->success = $this->processShipmentReply->HighestSeverity;
         return $this->processShipmentReply;
     }
