@@ -23,13 +23,11 @@ use App\Http\Controllers\RecoleccionController;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\RemitenteController;
-use App\Http\Controllers\SepomexController;
 use App\Http\Controllers\SucursalesController;
 use App\Http\Controllers\SuministroController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\UnidadController;
-use App\Http\Controllers\UnidadMedidaController;
 use App\Http\Controllers\ZipController;
 use Illuminate\Http\Request;
 

@@ -75,16 +75,19 @@ class PagoController extends Controller
             'precio_total_sucursal'
         )->where('id', $nuevoPago->id)->first();
 
+        // return $pago;
+
         $urlTicket = "tickets/{$envio['master_guia']}";
+
         $pdf = PDF::loadView('paqueteria.envios.components.ticket',
+    
         [
             'pago' => $pago,
             'seguro' => $precios['costo_seguro'], 
         ])->setPaper('a5');
-        file_put_contents( $urlTicket, $pdf->output() );
-        // return $pdf->stream();
         
-        // return redirect()->route('envios.lista');
+        file_put_contents( $urlTicket, $pdf->output() );
+
         return redirect()->route('envios.index')->with([
          
             'pagos'     => $values,

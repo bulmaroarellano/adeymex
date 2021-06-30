@@ -64,7 +64,7 @@
                         <label class="col-form-label text-primary">Valor asegurado *</label>
                         <div class="input-group input-group-merge">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">USD</span>
+                                <span class="input-group-text" id="moneda-valor-asegurado"></span>
                             </div>
                             <input type="number" class="form-control pl-1" name="valor_asegurado" value="0" id="valor-asegurado" >
                         </div>
@@ -76,7 +76,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">MXN</span>
                             </div>
-                            <input type="number" class="form-control pl-1" name="costo_seguro" value="0" readonly>
+                            <input type="number" class="form-control pl-1" name="costo_seguro" value="0" readonly id="costo_seguro">
                         </div>
                     </div>
                     

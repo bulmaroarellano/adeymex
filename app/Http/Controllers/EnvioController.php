@@ -208,7 +208,7 @@ class EnvioController extends Controller
         }
 
         $precios->precio_total_sucursal   = strval(
-            (float) $request->precio_envio_total +  $costoTotalSuministros + (float)$request->seguro_envio
+            (float) $request->precio_envio_total +  $costoTotalSuministros + (float)$request->costo_seguro
         );
         $precios->suministros_precio_total   = strval($costoTotalSuministros);
 

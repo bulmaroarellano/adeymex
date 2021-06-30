@@ -1,16 +1,12 @@
 $(function () {
 
 
-
     const countryCode = $(".country-code").val();
 
-    console.log(`countryCOde -> ${countryCode}`);
-
-
-    //* ValorAsegurado = Cantidad * precio Unitario 
 
     if (countryCode !== "MX") {
 
+        $("#moneda-valor-asegurado").text('USD');
 
         $("#table-intl").on("change", "tbody tr td input[name='precio_unitario[]']", function () {
 
@@ -65,6 +61,31 @@ $(function () {
         
     }else{
         //! SEGURO NACIONAL 1.5 CADA 100 PESOS 
+        $("#moneda-valor-asegurado").text('MXN');
+
+
+        $("#valor-asegurado").on('change', function () {
+
+            const valorAsegurado = $(this).val();
+            
+            
+            if ( +valorAsegurado > 3500) {
+
+                const costoSeguro = 132.5 + ((+valorAsegurado - 3500) *0.015);
+                
+                $("#costo_seguro").val(`${costoSeguro.toFixed(2)}`);
+
+            } else {
+                $("#costo_seguro").val('0');
+            }
+
+
+        })
+
+
+
+
+
     }
 
 });
