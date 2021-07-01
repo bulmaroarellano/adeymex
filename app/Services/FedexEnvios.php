@@ -312,7 +312,7 @@ class FedexEnvios
             'Units' => SimpleType\WeightUnits::_KG
         )));
 
-        $formID = $this->getMasterID( $ancho[0], $alto[0] ,$largo[0], $peso[0], $descripcion);          
+        $formID = $this->getMasterID( $ancho[0], $alto[0] ,$largo[0], $peso[0], $descripcion, $request);          
         $master = new ComplexType\TrackingId();
         $master->FormId = $formID;
         $master->TrackingNumber = $this->masterTrackingID;
@@ -364,7 +364,7 @@ class FedexEnvios
         
     }
 
-    public function getMasterID($ancho, $alto, $largo, $peso, $descripcion)
+    public function getMasterID($ancho, $alto, $largo, $peso, $descripcion, $request)
     {
         //* PAQUETE 1 (MASTER)
         $lineItem = new ComplexType\RequestedPackageLineItem();
@@ -381,8 +381,8 @@ class FedexEnvios
                 'Value' => $peso,
                 'Units' => SimpleType\WeightUnits::_KG
             )));
+
         $this->requestedShipment->setRequestedPackageLineItems([$lineItem]);
-        // CONDITIONES SUCCESS
         $this->processShipmentReply  = $this->getEnvio();
         
         $this->masterTrackingID = $this->processShipmentReply->CompletedShipmentDetail->MasterTrackingId->TrackingNumber;
@@ -391,7 +391,14 @@ class FedexEnvios
         $urlGuia = "fedex-guias/envio-{$this->masterTrackingID}.pdf";
         file_put_contents( $urlGuia, $contentGuia );
         $this->pdfGuia->addFile($urlGuia);
-        $this->pdfGuia->addFile($urlGuia);
+        
+        
+        if ($request->country_code == "MX") {
+            
+            $this->pdfGuia->addFile($urlGuia);
+            $this->pdfGuia->addFile($urlGuia);
+            $this->pdfGuia->addFile($urlGuia);
+        }
        
         $this->savePaquete($this->masterTrackingID, $largo, $ancho, $alto, $peso);
         $formId = $this->processShipmentReply->CompletedShipmentDetail->MasterTrackingId->FormId;
