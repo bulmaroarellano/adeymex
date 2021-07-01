@@ -391,6 +391,7 @@ class FedexEnvios
         $urlGuia = "fedex-guias/envio-{$this->masterTrackingID}.pdf";
         file_put_contents( $urlGuia, $contentGuia );
         $this->pdfGuia->addFile($urlGuia);
+        $this->pdfGuia->addFile($urlGuia);
        
         $this->savePaquete($this->masterTrackingID, $largo, $ancho, $alto, $peso);
         $formId = $this->processShipmentReply->CompletedShipmentDetail->MasterTrackingId->FormId;
