@@ -60,8 +60,10 @@
       @include('paqueteria/envios/components/envio_result')  
     
       {!! Form::open([
-        'route' => 'pagos.store',
+        'route'  => 'pagos.store',
         'method' => 'POST',
+        'files'  => true, 
+        'enctype'=> "multipart/form-data"
       ]) !!}   
 
         @include('paqueteria/envios/components/forms/pagos_form')

@@ -1,5 +1,6 @@
 @php
     $precios =json_decode(session()->get('precios')) ;
+    $invoice      = session()->get('invoice');
 @endphp
 <div class="col-md-12">
     @if (! is_null($invoice))
