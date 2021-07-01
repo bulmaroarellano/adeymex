@@ -39,31 +39,24 @@ class PagoController extends Controller
      */
     public function store(Request $request)
     {
+        
 
         // return $request;
         $suministros = json_decode($request->suministros, true);
         $envio = json_decode($request->nuevo_envio, true);
         $precios = json_decode($request->precios, true);
         
-
         $pago = array_merge(
             ["metodo_pago"     => $request->metodo_pago], 
             ["referencia_pago" => $request->referencia_pago], 
             $precios
             
         );
-
-        // return $pago;
         
-        list($values) = $this->getObjects($request, $precios['precio_total_sucursal']);
-
-        // return $pago;
         $nuevoPago = Pago::create($pago);
-        
+        $this->loadSuministros($suministros, $nuevoPago->id);
         Envio::where('id', $envio['id'])->update(['pago_id' => $nuevoPago->id]);
 
-        
-        $this->loadSuministros($suministros, $nuevoPago->id);
         // Genera Ticket 
         $pago = Pago::select(
             'metodo_pago',
@@ -75,24 +68,22 @@ class PagoController extends Controller
             'precio_total_sucursal'
         )->where('id', $nuevoPago->id)->first();
 
-        // return $pago;
-
-        $urlTicket = "tickets/{$envio['master_guia']}";
-
-        $pdf = PDF::loadView('paqueteria.envios.components.ticket',
-    
-        [
+        $pdf = PDF::loadView('paqueteria.envios.components.ticket',[
             'pago' => $pago,
             'seguro' => $precios['costo_seguro'], 
         ])->setPaper('a5');
-        
-        file_put_contents( $urlTicket, $pdf->output() );
 
+        $urlFda = "fdas/{$envio['master_guia']}";
+        $file = $request->file('fda'); 
+        file_put_contents( "{$urlFda}.{$file->extension()}", $file );
+        
+        $urlTicket = "tickets/{$envio['master_guia']}.pdf";
+        file_put_contents( $urlTicket, $pdf->output() );
+        
+        list($values) = $this->getObjects($request, $precios['precio_total_sucursal']);
         return redirect()->route('envios.index')->with([
-         
             'pagos'     => $values,
             'ticket'     => $urlTicket,
-        
         ]);
 
     }

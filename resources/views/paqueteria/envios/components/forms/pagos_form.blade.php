@@ -2,6 +2,22 @@
     $precios =json_decode(session()->get('precios')) ;
 @endphp
 <div class="col-md-12">
+    @if (! is_null($invoice))
+        <div class="row justify-content-start">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header"><h4>Cargar Fda</h4></div>
+                    <div class="card-body">
+                        <div class="form-group mt-1">
+                            {{ Form::file('fda', [
+                                'accept' => '.jpg, .png, .jpeg, .pdf'
+                            ])}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
