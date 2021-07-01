@@ -21,6 +21,16 @@
       // 'id' => 'cotizar', 
     ]) !!}
 
+      @if ($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+      @endif
+
       @include('paqueteria/envios/components/forms/cotizacion_envio_form')    
     
     {!! Form::close() !!}

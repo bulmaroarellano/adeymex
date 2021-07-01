@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CotizarRequest;
 use App\Models\Sepomex;
 use App\Models\Sucursal;
 use App\Models\Zip;
@@ -15,11 +16,11 @@ use stdClass;
 class CotizarController extends Controller
 {
 
-    public function getCotizacion(Request $request)
+    public function getCotizacion(CotizarRequest $request)
     {
 
         
-        
+        // return $request;
         $sucursal = Sucursal::where('id', $request->sucursal_id)->first();
         $zip = Zip::where('id', $request->destino)->first();
 
@@ -57,10 +58,6 @@ class CotizarController extends Controller
         if ( $request->country_code != 'MX' ) {
 
             // Internacionales
-            
-
-            
-
             try {
                
                 $rateReply = $this->getCotizacionFedex($request, $zip); // FEDEX

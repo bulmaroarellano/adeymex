@@ -146,6 +146,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'type_paquete.*' => 'paquete', 
+        'largo.*' => 'largo', 
+        'ancho.*' => 'ancho', 
+        'peso.*' =>  'peso', 
+    ],
 
 ];

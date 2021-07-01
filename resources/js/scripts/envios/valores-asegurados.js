@@ -5,6 +5,7 @@ $(function () {
 
 
     if (countryCode !== "MX") {
+        // INTERNACIONAL 
 
         $("#moneda-valor-asegurado").text('USD');
 
@@ -28,36 +29,54 @@ $(function () {
 
         });
 
-        $("#valor-asegurado").on('change', function () {
+        $("input[type='radio'][name='paqueteria_code']").on("change", function(){
 
-            const valorAsegurado = $(this).val();
-            const valorDeclarado = $("#valor-declarado").val();
-            
-            if (+valorAsegurado > valorDeclarado) {
-                
-                const message = $(this).closest('div').siblings('strong');
+            if($(this).is(':checked')){
+                const paqueteriaCode = $(this).val();   
+                const nombrePaqueteria = document.getElementById(`${paqueteriaCode}-paqueteria`).innerText;
 
-                if ( message.length === 0) {
-                    $(this).closest('div').after(`<strong class="text-danger">El valor tiene que ser menor o igual a ${valorDeclarado} </strong>`);
-                }
+                $("#valor-asegurado").on('change', function () {
 
-            } else {
+                    const valorAsegurado = $(this).val();
+                    const valorDeclarado = $("#valor-declarado").val();
                     
-                $(this).closest('div').siblings('strong').remove();
+                    if (+valorAsegurado > valorDeclarado) {
+                        
+                        const message = $(this).closest('div').siblings('strong');
+        
+                        if ( message.length === 0) {
+                            $(this).closest('div').after(`<strong class="text-danger">El valor tiene que ser menor o igual a ${valorDeclarado} </strong>`);
+                        }
+        
+                    } else {
+                            
+                        $(this).closest('div').siblings('strong').remove();
+                    }
+        
+        
+                    if (valorAsegurado > 99 && !(valorAsegurado > valorDeclarado) && (nombrePaqueteria == "FEDEX")) {
+        
+                        const costoSeguro = `${ (+valorAsegurado.slice(0, 1) *30) }`;
+                        
+                        $("#costo_seguro").val(`${costoSeguro}`);
+        
+                    } 
+
+                    if (valorAsegurado > 99 && !(valorAsegurado > valorDeclarado ) && (nombrePaqueteria == "DHL")) {
+        
+                        const costoSeguro = `${ (+valorAsegurado.slice(0, 1) *50) }`;
+                        
+                        $("#costo_seguro").val(`${costoSeguro}`);
+        
+                    } else {
+                        $("#costo_seguro").val('0');
+                    }
+        
+                });
             }
-
-
-            if (valorAsegurado > 99 && !(valorAsegurado > valorDeclarado)) {
-
-                const costoSeguro = `${ (+valorAsegurado.slice(0, 1) *30) }`;
-                
-                $("#costo_seguro").val(`${costoSeguro}`);
-
-            } else {
-                $("#costo_seguro").val('0');
-            }
-
         });
+
+        
         
     }else{
         //! SEGURO NACIONAL 1.5 CADA 100 PESOS 
@@ -80,12 +99,10 @@ $(function () {
             }
 
 
-        })
-
-
-
-
-
+        });
     }
+
+
+
 
 });

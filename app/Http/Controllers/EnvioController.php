@@ -282,7 +282,8 @@ class EnvioController extends Controller
         $pago         = Pago::where('id', $envio->pago_id)->first();
         $insumos      = Insumo::where('id', $envio->pago_id)->first();
 
-        $suministros  = Suministro::where('id', $insumos?->suministro_id)->get() ??[];
+        // $suministros  = Suministro::where('id', $insumos?->suministro_id)->get() ??[];
+        // $suministros  = Suministro::where('id', $insumos? $insumos->suministro_id : '')->get() ??[];
         $guias        = Guia::where('master_guia', $envio->master_guia)->get();
         $invoice      = Invoice::where('master_guia', $envio->master_guia)->first();
         $fda          = Fda::where('envio_id', $envio->id)->first();
