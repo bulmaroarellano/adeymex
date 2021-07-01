@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Envio;
+use App\Models\Fda;
 use App\Models\Insumo;
 use App\Models\Pago;
 use Illuminate\Http\Request;
@@ -73,9 +74,16 @@ class PagoController extends Controller
             'seguro' => $precios['costo_seguro'], 
         ])->setPaper('a5');
 
-        $urlFda = "fdas/{$envio['master_guia']}";
-        $file = $request->file('fda'); 
-        file_put_contents( "{$urlFda}.{$file->extension()}", $file );
+        if ($request->has('fda')) {
+            
+            $urlFda = "fdas/{$envio['master_guia']}";
+            $file = $request->file('fda'); 
+            file_put_contents( "{$urlFda}.{$file->extension()}", $file );
+            Fda::create([
+                'envio_id' => $envio['id'], 
+                'url_fda' => $urlFda, 
+            ]);
+        }
         
         $urlTicket = "tickets/{$envio['master_guia']}.pdf";
         file_put_contents( $urlTicket, $pdf->output() );
