@@ -6,6 +6,7 @@ use App\Models\Envio;
 use App\Models\Fda;
 use App\Models\Insumo;
 use App\Models\Pago;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use stdClass;
@@ -76,9 +77,9 @@ class PagoController extends Controller
 
         if ($request->has('fda')) {
             
-            $urlFda = "fdas/{$envio['master_guia']}";
             $file = $request->file('fda'); 
-            file_put_contents( "{$urlFda}.{$file->extension()}", $file );
+            $urlFda = "fdas/{$envio['master_guia']}.{$file->extension()}";
+            file_put_contents( "{$urlFda}", base64_decode($file) );
             Fda::create([
                 'envio_id' => $envio['id'], 
                 'url_fda' => $urlFda, 
@@ -87,6 +88,11 @@ class PagoController extends Controller
         
         $urlTicket = "tickets/{$envio['master_guia']}.pdf";
         file_put_contents( $urlTicket, $pdf->output() );
+
+        Ticket::create([
+            'envio_id'   =>  $envio['id'], 
+            'url_ticket' => $urlTicket, 
+        ]);
         
         list($values) = $this->getObjects($request, $precios['precio_total_sucursal']);
         return redirect()->route('envios.index')->with([

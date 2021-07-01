@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Destinatario;
 use App\Models\Envio;
+use App\Models\Fda;
 use App\Models\Guia;
 use App\Models\Insumo;
 use App\Models\Invoice;
@@ -13,6 +14,7 @@ use App\Models\Paquete;
 use App\Models\Remitente;
 use App\Models\Sucursal;
 use App\Models\Suministro;
+use App\Models\Ticket;
 use App\Services\GuiaEnvio;
 use stdClass;
 
@@ -280,12 +282,13 @@ class EnvioController extends Controller
         $pago         = Pago::where('id', $envio->pago_id)->first();
         $insumos      = Insumo::where('id', $envio->pago_id)->first();
 
-        $suministros  = Suministro::where('id', $insumos->suministro_id)->get();
+        $suministros  = Suministro::where('id', $insumos?->suministro_id)->get() ??[];
         $guias        = Guia::where('master_guia', $envio->master_guia)->get();
-        $invoices     = Invoice::where('master_guia', $envio->master_guia)->get();
+        $invoice      = Invoice::where('master_guia', $envio->master_guia)->first();
+        $fda          = Fda::where('envio_id', $envio->id)->first();
+        $ticket       = Ticket::where('envio_id', $envio->id)->first();
 
         $masterPaquete = Paquete::where('numero_guia', $envio->master_guia)->first();
-
         $slavePaquetes = array();
         foreach ($guias as $key => $slaveGuia) {
             
@@ -296,11 +299,17 @@ class EnvioController extends Controller
 
 
         return view('/paqueteria/envios/envio-show', [
+            'masterGuia' => $envio->master_guia,
+            'urlMasterGuia' => $envio->url_master_guia,
             'masterPaquete' => $masterPaquete,
             'slavePaquetes' => $slavePaquetes,
+
             'guias' => $guias,
-            'guias' => $guias,
-            'invoices' => $invoices,
+            'invoice' => $invoice,
+            'fda' => $fda,
+
+            'pago' => $pago, 
+            'ticket' => $ticket, 
             
         ]);
 

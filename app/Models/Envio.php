@@ -57,6 +57,10 @@ class Envio extends Model
     {
         return $this->hasMany(Fda::class);
     }
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
 
 
 
