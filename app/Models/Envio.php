@@ -53,6 +53,12 @@ class Envio extends Model
     {    
         return $this->belongsTo(Pago::class);
     }
+    public function fdas()
+    {
+        return $this->hasMany(Fda::class);
+    }
+
+
 
 
 
