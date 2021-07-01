@@ -186,6 +186,8 @@ class EnvioController extends Controller
 
         $varEnvio = $request->all();  
         $varEnvio['paqueteria']       = $request->nombre_paqueteria;
+        $varEnvio['remitente_id']     = $this->remitente->id;
+        $varEnvio['destinatario_id']  = $this->destinatario->id;
         $varEnvio['tipo_paquete']     = 'YOUR_PACKING';
         $varEnvio['origen_cp_envio']  = '50000';
         $varEnvio['destino_cp_envio'] = $request->destinatario_codigo_postal;

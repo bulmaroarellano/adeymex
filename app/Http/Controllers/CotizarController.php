@@ -65,7 +65,7 @@ class CotizarController extends Controller
                
                 $rateReply = $this->getCotizacionFedex($request, $zip); // FEDEX
                 $quoteResponse = $this->getCotizacionDhl($request, $zip); // DHL 
-                $rateResponse = $this->getCotizacionUps($request, $zip); // UPS
+                // $rateResponse = $this->getCotizacionUps($request, $zip); // UPS
             } catch (\Throwable $th) {
                 throw $th;
             }
@@ -77,7 +77,7 @@ class CotizarController extends Controller
             return redirect()->route('envios.index')->with([
                 'rateReply' => $rateReply,
                 'quoteResponse' => $quoteResponse,
-                'rateResponse' => $rateResponse,
+                // 'rateResponse' => $rateResponse,
                 'values' => $values,
                 'countryCode' => $request->country_code,
                 'type_paquete' => $request->type_paquete,

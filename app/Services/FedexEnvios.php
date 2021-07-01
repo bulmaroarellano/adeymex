@@ -9,9 +9,12 @@ use FedEx\ShipService;
 use FedEx\ShipService\ComplexType;
 use FedEx\ShipService\ComplexType\CommercialInvoiceDetail;
 use FedEx\ShipService\ComplexType\CustomerImageUsage;
+use FedEx\ShipService\ComplexType\FreightShipmentDetail;
 use FedEx\ShipService\ComplexType\ShippingDocumentFormat;
 use FedEx\ShipService\ComplexType\ShippingDocumentSpecification;
 use FedEx\ShipService\SimpleType;
+use FedEx\ShipService\SimpleType\BrokerType;
+use FedEx\ShipService\SimpleType\FreightShipmentRoleType;
 use FedEx\ShipService\SimpleType\InternalImageType;
 use FedEx\ShipService\SimpleType\RequestedShippingDocumentType;
 use FedEx\ShipService\SimpleType\ShippingDocumentImageType;
@@ -192,19 +195,34 @@ class FedexEnvios
         );
         
     }
+
+
     public function impuestos()
     {
         $this->shippingChargesPayor->setResponsibleParty($this->shipper);
+        // $this->shippingChargesPayor->setResponsibleParty($this->recipient);
 
         $this->shippingChargesPayment
-            ->setPaymentType(SimpleType\PaymentType::_SENDER)
+            ->setPaymentType(SimpleType\PaymentType::_RECIPIENT)
             ->setPayor($this->shippingChargesPayor);
         $this->requestedShipment->setShippingChargesPayment($this->shippingChargesPayment);
     }
+
+
     public function setInternational(array $dataInter, $valorDeclarado,$valorAsegurado)
     {
+
+
+        //* CARRIAGE VALUE
+        $this->requestedShipment->setTotalInsuredValue(new ComplexType\Money([
+            'Currency'=>  'USD', 
+            'Amount'=>  (float) $valorDeclarado, 
+
+        ]));
         $CommercialInvoice = new ComplexType\CommercialInvoice();
-        $CommercialInvoice->setPurpose(new SimpleType\PurposeOfShipmentType(SimpleType\PurposeOfShipmentType::_SOLD));
+        $CommercialInvoice->setPurpose(new SimpleType\PurposeOfShipmentType(
+            SimpleType\PurposeOfShipmentType::_SOLD)
+        );
         
         $commodities = array();
         $descripciones = $dataInter['desc_producto'];
@@ -236,39 +254,19 @@ class FedexEnvios
             );
 
         }
-        //* CARRIAGE VALUE
-        // $this->requestedShipment->setTotalInsuredValue(new ComplexType\Money([
-        //     'Currency'=>  'USD', 
-        //     'Amount'=>  (float) $valorAsegurado, 
-
-        // ]));
 
         $CustomsClearanceDetail = [
+
             'DutiesPayment' => new ComplexType\Payment([
-              'PaymentType' => 'SENDER', // valid values RECIPIENT, SENDER and THIRD_PARTY
-             'Payor' => new ComplexType\Payor([
-               'ResponsibleParty' => new ComplexType\Party([
-                 'AccountNumber' => $this->FEDEX_ACCOUNT_NUMBER, // OPTIONAL  
-                 'Contact' => new ComplexType\Contact([]),
-                 'Address' => new ComplexType\Address([])
-               ])  
-             ])
+              'PaymentType' => 'RECIPIENT', // valid values RECIPIENT (Consignee), SENDER and THIRD_PARTY
             ]),
-            'DocumentContent' => 'NON_DOCUMENTS',
             'CustomsValue' => new ComplexType\Money([  //* Especifique el valor de la aduana para todo su envio
               'Currency' => 'USD',
               'Amount' => $valorDeclarado
             ]),
-            // 'InsuranceCharges' => new ComplexType\Money([
-            //     'Currency' => 'USD',
-            //   'Amount' => (float) $valorAsegurado
-            // ]), 
             'Commodities' =>$commodities,
-            'ExportDetail' => new ComplexType\ExportDetail([
-              'B13AFilingOption' => 'NOT_REQUIRED'
-            ]),
-            // 'PartiesToTransactionAreRelated' => true, 
-            'CommercialInvoice' => $CommercialInvoice
+            'PartiesToTransactionAreRelated' => false, 
+            'CommercialInvoice' => $CommercialInvoice, 
         ];
 
         $this->requestedShipment->setCustomsClearanceDetail(
