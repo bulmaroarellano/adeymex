@@ -21,6 +21,7 @@ class Pago extends Model
         'costo_publico_envio', 
         'cargos_envio', 
         'impuestos_envio', 
+        'costo_seguro', 
         'cargo_logistica_interna', 
         'suministros_precio_total',
         'precio_total_sucursal'

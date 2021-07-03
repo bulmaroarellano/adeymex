@@ -1,10 +1,10 @@
 $(function () {
 
-    var table = $('.datatables-basic').DataTable({
+    $('.datatables-basic').DataTable({
 
         processing: true,
         serverSide: true,
-        ajax: "/envios/list",
+        ajax: "/aydemex/public/envios/list",
         columns: [
 
             { data: 'sucursal_id.0.nombre' },

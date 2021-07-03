@@ -21,6 +21,7 @@ class CreatePagosTable extends Migration
             $table->text('costo_publico_envio')->nullable();
             $table->text('cargos_envio');
             $table->text('impuestos_envio');
+            $table->text('costo_seguro');
             $table->text('cargo_logistica_interna');
             $table->text('suministros_precio_total');
             $table->text('precio_total_sucursal');

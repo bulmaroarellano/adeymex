@@ -1,12 +1,12 @@
 @if (session()->has('rateReply') && session()->has('quoteResponse') && session()->has('rateResponse'))
-    <div class="col-md-12">
+    <div class="col-md-12 mt-2">
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header"></div>
                     <div class="card-body">
 
-                        <table class="table">
+                        <table class="table ">
                             <thead>
                                 <tr>
                                     <th>Linea de transporte</th>
@@ -37,13 +37,13 @@
     @if (session()->has('rateReply') && session()->has('quoteResponse'))
 
 
-        <div class="col-md-12">
+        <div class="col-md-12 mt-2">
             <div class="row ">
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header"></div>
                         <div class="card-body">
-                            <table class="table">
+                            <table class="table ">
                                 <thead>
                                     <tr>
                                         <th>Linea de transporte</th>
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 my-auto">
                     @include('paqueteria/envios/components/cotizacion_precios')
                 </div>
             </div>

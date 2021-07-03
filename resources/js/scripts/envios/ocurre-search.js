@@ -16,7 +16,7 @@ $(function () {
                     return markup;
                 },
                 ajax: {
-                    url: '/ocurre',
+                    url: '/aydemex/public/ocurre',
                     dataType: 'json',
                     delay: 250,
                     data: function(params){

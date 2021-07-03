@@ -101,7 +101,8 @@ $(function () {
             </tr>
         
         `;
-        const tbody = $(this).closest('div').siblings('div').children('div').children('table').children('tbody');
+        const tbody = $(this).siblings('div').children('div').children('table').children('tbody');
+        console.log(tbody)
         tbody.append(html);
 
         $('.suministro-search').select2({

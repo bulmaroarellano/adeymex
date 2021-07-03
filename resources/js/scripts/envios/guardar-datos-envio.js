@@ -3,6 +3,8 @@ $("input[type='radio'][name='paqueteria_code']").on("change", function(){
   if($(this).is(':checked')){
 
     $("#datos-envio").show();
+    $("#suministros-envio").show();
+    $("#valores-asegurados-envio").show();
 
     const paqueteriaCode = $(this).val();    
     const nombrePaqueteria = document.getElementById(`${paqueteriaCode}-paqueteria`).innerText;

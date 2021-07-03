@@ -6,7 +6,7 @@ $('.remitentes-search').select2({
         return markup;
     },
     ajax: {
-        url: '/remitentes-search',
+        url: '/aydemex/public/remitentes-search',
         dataType: 'json',
         delay: 250,
         processResults: function (data) {

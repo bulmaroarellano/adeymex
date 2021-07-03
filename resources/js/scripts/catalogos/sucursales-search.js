@@ -5,7 +5,7 @@ $('.sucursales-search').select2({
         return markup;
     },
     ajax: {
-        url: '/sucursales-search',
+        url: '/aydemex/public/sucursales-search',
         dataType: 'json',
         delay: 250,
         processResults: function (data) {

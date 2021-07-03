@@ -23,11 +23,11 @@
                 <th id="{{ $globalProductCode }}-monto"> {{ $qtdShp['QtdSInAdCur'][1]['TotalAmount'] }}
                     {{ $qtdShp['QtdSInAdCur'][1]['CurrencyCode'] }}</th>
                 <th>
-                    <div class="form-check bg-primary d-flex align-items-center">
-                        <input class="form-check-input" type="radio" name="paqueteria_code"
+                    
+                        <input type="radio" name="paqueteria_code"
                             id="{{ $globalProductCode }}" value="{{ $globalProductCode }}">
 
-                    </div>
+                    
 
                 </th>
 

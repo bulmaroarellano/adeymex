@@ -5,7 +5,7 @@ $('.paises-search').select2({
         return markup;
     },
     ajax: {
-        url: '/paises-search',
+        url: '/aydemex/public/paises-search',
         dataType: 'json',
         delay: 250,
         processResults: function (data) {

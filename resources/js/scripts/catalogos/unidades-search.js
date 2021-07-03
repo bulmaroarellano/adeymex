@@ -5,7 +5,7 @@ $('.unidades-search').select2({
         return markup;
     },
     ajax: {
-        url: '/unidades-search',
+        url: '/aydemex/public/unidades-search',
         dataType: 'json',
         delay: 250,
         processResults: function (data) {

@@ -6,7 +6,7 @@ $('.destinatarios-search').select2({
         return markup;
     },
     ajax: {
-        url: '/destinatarios-search',
+        url: '/aydemex/public/destinatarios-search',
         dataType: 'json',
         delay: 250,
         processResults: function (data) {

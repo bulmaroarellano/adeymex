@@ -13,7 +13,7 @@ $(function () {
             serverSide: true,
             destroy: true,
             ajax: {
-                'url': '/recoleccion/paqueteria', 
+                'url': '/aydemex/public/recoleccion/paqueteria', 
                 'data' :{
                     'paqueteria': paqueteria
                 }

@@ -5,7 +5,7 @@ $('.monedas-search').select2({
         return markup;
     },
     ajax: {
-        url: '/monedas-search',
+        url: '/aydemex/public/monedas-search',
         dataType: 'json',
         delay: 250,
         processResults: function (data) {

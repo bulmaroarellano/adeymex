@@ -1,6 +1,9 @@
 $(function () {
 
-    var table = $('.datatables-basic').DataTable({
+
+    
+
+    $('.datatables-basic').DataTable({
 
         processing: true,
         serverSide: true,

@@ -1,10 +1,10 @@
 $(function () {
 
-    var table = $('.datatables-basic').DataTable({
+    $('.datatables-basic').DataTable({
 
         processing: true,
         serverSide: true,
-        ajax: "/unidadesmedidas/list",
+        ajax: "/aydemex/public/unidadesmedidas/list",
         columns: [
     
             { data: 'unidad_medida' },

@@ -1,10 +1,10 @@
 $(function () {
 
-    var table = $('.datatables-basic').DataTable({
+    $('.datatables-basic').DataTable({
 
         processing: true,
         serverSide: true,
-        ajax: "/monedas/list",
+        ajax: "/aydemex/public/monedas/list",
         columns: [
     
             { data: 'nombre' },

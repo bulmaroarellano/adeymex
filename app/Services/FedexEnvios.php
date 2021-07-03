@@ -165,11 +165,13 @@ class FedexEnvios
 
         $this->recipientContact
             ->setPersonName($nombre)
-            ->setPhoneNumber(($telefono));
+            ->setPhoneNumber(($telefono))
+            ->setContactId('1');
 
         $this->recipient
             ->setAddress($this->recipientAddress)
-            ->setContact($this->recipientContact);
+            ->setContact($this->recipientContact)
+            ->setAccountNumber('123456');
         
     }
     public function descEnvio($tipoServicio)
@@ -203,7 +205,7 @@ class FedexEnvios
         // $this->shippingChargesPayor->setResponsibleParty($this->recipient);
 
         $this->shippingChargesPayment
-            ->setPaymentType(SimpleType\PaymentType::_RECIPIENT)
+            ->setPaymentType(SimpleType\PaymentType::_SENDER)
             ->setPayor($this->shippingChargesPayor);
         $this->requestedShipment->setShippingChargesPayment($this->shippingChargesPayment);
     }
@@ -219,10 +221,11 @@ class FedexEnvios
             'Amount'=>  (float) $valorDeclarado, 
 
         ]));
-        $CommercialInvoice = new ComplexType\CommercialInvoice();
-        $CommercialInvoice->setPurpose(new SimpleType\PurposeOfShipmentType(
-            SimpleType\PurposeOfShipmentType::_SOLD)
-        );
+        
+        // $CommercialInvoice->setPurpose(new SimpleType\PurposeOfShipmentType(
+        //     SimpleType\PurposeOfShipmentType::_SOLD)
+        // );
+        
         
         $commodities = array();
         $descripciones = $dataInter['desc_producto'];
@@ -254,6 +257,7 @@ class FedexEnvios
             );
 
         }
+        $CommercialInvoice = new ComplexType\CommercialInvoice();
 
         $CustomsClearanceDetail = [
 
@@ -267,6 +271,7 @@ class FedexEnvios
             'Commodities' =>$commodities,
             'PartiesToTransactionAreRelated' => false, 
             'CommercialInvoice' => $CommercialInvoice, 
+            'ImporterOfRecord' => $this->recipient, 
         ];
 
         $this->requestedShipment->setCustomsClearanceDetail(
@@ -416,10 +421,10 @@ class FedexEnvios
         
         $this->processShipmentReply = $this->shipService->getProcessShipmentReply($this->processShipmentRequest);        
     
-        // echo '<pre>';
-            // var_dump($this->processShipmentReply);
+        echo '<pre>';
+            var_dump($this->processShipmentReply);
             // var_dump($this->requestedShipment);
-        // echo '</pre>';
+        echo '</pre>';
         $this->success = $this->processShipmentReply->HighestSeverity;
         return $this->processShipmentReply;
     }

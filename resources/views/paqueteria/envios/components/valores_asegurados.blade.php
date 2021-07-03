@@ -2,7 +2,7 @@
 @if (session()->has('countryCode') && ! ( session()->get('countryCode') == "MX" ))
 {{-- INTERNACIONAL  --}}
 
-    <div class="col-md-4 ">
+    <div class="col-md-4 " id="valores-asegurados-envio" style="display: none">
         <div class="card">
             <div class="card-body ">
                 <div class="card-header"><h4 class="font-weight-bolder">Seguro</h4></div>
@@ -53,7 +53,7 @@
 @else
 
     {{-- NACIONAL  --}}
-    <div class="col-md-4 ">
+    <div class="col-md-4 " id="valores-asegurados-envio" style="display: none">
         <div class="card">
             <div class="card-body ">
                 <div class="card-header"><h4 class="font-weight-bolder">Seguro</h4></div>

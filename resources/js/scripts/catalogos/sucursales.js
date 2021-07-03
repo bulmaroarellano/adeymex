@@ -1,10 +1,21 @@
 $(function () {
 
-    var table = $('.datatables-basic').DataTable({
+    $('.datatables-basic').DataTable({
 
         processing: true,
         serverSide: true,
-        ajax: "/sucursales/list",
+        ajax: {
+            url: "/aydemex/public/sucursales/list", 
+            type: "POST", 
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: "json", 
+            error: function(data){
+                alert(JSON.stringify(data));
+            }
+        },
+        
         columns: [
             { data: 'nombre' },
             { data: 'domicilio1' },

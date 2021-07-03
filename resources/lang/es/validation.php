@@ -151,6 +151,7 @@ return [
         'largo.*' => 'largo', 
         'ancho.*' => 'ancho', 
         'peso.*' =>  'peso', 
+        'sucursal_id' =>  'sucursal', 
     ],
 
 ];

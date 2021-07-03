@@ -5,7 +5,7 @@ $('.zips-search').select2({
         return markup;
     },
     ajax: {
-        url: '/zips-search',
+        url: '/aydemex/public/zips-search',
         dataType: 'json',
         delay: 250,
         data: function(params){

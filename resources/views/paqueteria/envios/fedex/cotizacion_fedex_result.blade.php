@@ -30,13 +30,7 @@
             <th id="{{$nombreServicio}}-monto"> {{ $montoEnvio }}</th>
 
             <th>
-                <div class="form-check bg-primary d-flex align-items-center">
-                    {{-- <input class="form-check-input" type="radio" name="tipo_servicio" --}}
-                    <input class="form-check-input" type="radio" name="paqueteria_code"
-                                            id="{{ $nombreServicio }}"
-                                            value="{{ $nombreServicio }}">
-
-                </div>
+                <input  type="radio" name="paqueteria_code" id="{{ $nombreServicio }}" value="{{ $nombreServicio }}">
             </th>
         </tr>
         @php

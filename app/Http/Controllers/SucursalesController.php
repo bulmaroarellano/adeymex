@@ -101,7 +101,7 @@ class SucursalesController extends Controller
      */
     public function store(SucursalStoreRequest $request)
     {
-        // return $request;
+        return $request;
         Sucursal::create($request->all());
         return redirect()->route('sucursales.index');
     }

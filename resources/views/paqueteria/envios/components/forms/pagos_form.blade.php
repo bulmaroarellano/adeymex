@@ -1,9 +1,10 @@
 @php
     $precios =json_decode(session()->get('precios')) ;
     $invoice      = session()->get('invoice');
+    $paqueteria      = session()->get('paqueteria');
 @endphp
 <div class="col-md-12">
-    @if (! is_null($invoice))
+    @if (! is_null($invoice) && $paqueteria != "DHL")
         <div class="row justify-content-start">
             <div class="col-md-5">
                 <div class="card">

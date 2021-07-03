@@ -1,10 +1,10 @@
 $(function () {
 
-    var table = $('.datatables-basic').DataTable({
+    $('.datatables-basic').DataTable({
 
         processing: true,
         serverSide: true,
-        ajax: "/paises/list",
+        ajax: "/aydemex/public/paises/list",
         columns: [
     
             { data: 'nombre' },

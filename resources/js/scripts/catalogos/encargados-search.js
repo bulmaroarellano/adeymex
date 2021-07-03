@@ -1,11 +1,12 @@
 $('.encargados-search').select2({
 
     placeholder: '<i class="fas fa-user-alt"></i> Buscar encargado',
+    tags: true, 
     escapeMarkup : function(markup) {
         return markup;
     },
     ajax: {
-        url: '/encargados-search',
+        url: '/aydemex/public/encargados-search',
         dataType: 'json',
         delay: 250,
         processResults: function (data) {

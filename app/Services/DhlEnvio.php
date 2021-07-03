@@ -163,6 +163,7 @@ class DhlEnvio
         $exportDeclaration->InvoiceDate = date('Y-m-d');
         // $exportDeclaration->InterConsignee = 'Intermediate Consignee';
         // $exportDeclaration->IsPartiesRelation = 'N';
+       
         $this->shipment->ExportDeclaration = $exportDeclaration;
 
         // $lineItems = array();
@@ -197,7 +198,8 @@ class DhlEnvio
             $this->shipment->ExportDeclaration->addExportLineItem($exportLineItem);
         }
         
-
+        $this->shipment->DHLInvoiceType = 'PFI';
+        $this->shipment->DHLInvoiceLanguageCode = 'sp';
         $this->shipment->UseDHLInvoice = 'Y';
         $this->shipment->Dutiable = $dutitable;
         

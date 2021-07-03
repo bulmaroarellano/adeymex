@@ -4,7 +4,7 @@
     </div>
     <div class="card-body">
         <div class="container ">
-            <table class="table">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">Concepto</th>

@@ -85,7 +85,7 @@
                                             @enderror
                                         </div>
                                         
-                                        <div class="form-group row">
+                                        {{-- <div class="form-group row">
                                             <div class="col-sm-4 col-form-label">
                                                 <label class="col-form-label ">Encargado *</label>
                                             </div>
@@ -110,7 +110,7 @@
                                             @error('encargado_id')
                                                 <small class="alert alert-danger ml-3 mt-1">{{ $message }}</small>
                                             @enderror
-                                        </div>  
+                                        </div>   --}}
                                     </div>
                                 </div>
                             </div>
