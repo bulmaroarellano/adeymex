@@ -234,35 +234,4 @@ Route::get('/ocurre-index', [OcurreController::class, 'index'])->name('ocurre.in
 
 //ticket 
 Route::get('/ticket', [TicketController::class, 'index'])->name('ticket.index');
-
-<<<<<<< Updated upstream
-
-
-Route::prefix('/admin')
-    ->middleware('auth')
-    ->group(function () {
-        Route::get('/dashboard', function () {
-            return view('pages.dashboard');
-        })->name('dashboard');
-
-
-	Route::get('/clear-cache', [HomeController::class,'clearCache']);
-
-        Route::resource('roles', RoleController::class);
-        Route::resource('permissions', PermissionController::class);
-
-        Route::resource('menus', MenuController::class);
-        Route::resource('customers', CustomerController::class);
-        Route::resource('events', EventController::class);
-        Route::resource('settings', SettingController::class);
-        Route::resource('users', UserController::class);
-        Route::resource('invoices', InvoiceController::class);
-    });
-
-Route::get('login', [LoginController::class,'showLoginForm'])->name('login');
-Route::post('login', [LoginController::class,'login']);
-Route::post('register', [RegisterController::class,'register']);
-=======
 });
- 
->>>>>>> Stashed changes
