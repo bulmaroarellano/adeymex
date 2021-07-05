@@ -110,36 +110,6 @@
                     "slug": "paquetes-recibidos"
                 }
             ]
-        },
-        
-        
-        {
-            "navheader": "Forms & Tables",
-            "slug": ""
-        },
-        {
-            "name": "Datatable",
-            "icon": "grid",
-            "slug": "",
-            "submenu": [{
-                    "url": "table/datatable/basic",
-                    "name": "Basic",
-                    "icon": "circle",
-                    "slug": "datatable-basic"
-                },
-                {
-                    "url": "table/datatable/advance",
-                    "name": "Advanced",
-                    "icon": "circle",
-                    "slug": "datatable-advance"
-                }
-            ]
-        },
-        {
-            "url": "table/ag-grid",
-            "name": "agGrid Table",
-            "icon": "grid",
-            "slug": "ag-grid"
         }
     ]
 }

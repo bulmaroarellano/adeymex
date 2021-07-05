@@ -29,12 +29,14 @@ class EnvioRequest extends FormRequest
             'remitente_codigo_postal' => 'required',
             'remitente_pais' => 'required',
             'remitente_domicilio1' => 'required',
-            'remitente_domicilio1' => 'max:35',
+            'remitente_remitente_nombre_completo' => 'max:35',
+            
 
             'destinatario_id' => 'required',
             'destinatario_codigo_postal' => 'required',
             'destinatario_pais' => 'required',
             'destinatario_domicilio1' => 'required',
+            'destinatario_remitente_nombre_completo' => 'max:35',
     
             'largo_paquete.*' => 'required', 
             'ancho_paquete.*' => 'required', 
