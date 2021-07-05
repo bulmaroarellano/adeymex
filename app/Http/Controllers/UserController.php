@@ -25,11 +25,7 @@ class UserController extends Controller
             ->latest()
             ->paginate(5);
 
-<<<<<<< Updated upstream
-        return view('app.users.index', compact('users', 'search'));
-=======
         return view('paqueteria.users.index', compact('users', 'search'));
->>>>>>> Stashed changes
     }
 
     /**
@@ -42,11 +38,7 @@ class UserController extends Controller
 
         $roles = Role::get();
 
-<<<<<<< Updated upstream
-        return view('app.users.create', compact('roles'));
-=======
         return view('paqueteria.users.create', compact('roles'));
->>>>>>> Stashed changes
     }
 
     /**
@@ -79,11 +71,7 @@ class UserController extends Controller
     {
         $this->authorize('view', $user);
 
-<<<<<<< Updated upstream
-        return view('app.users.show', compact('user'));
-=======
         return view('paqueteria.users.show', compact('user'));
->>>>>>> Stashed changes
     }
 
     /**
@@ -97,11 +85,7 @@ class UserController extends Controller
 
         $roles = Role::get();
 
-<<<<<<< Updated upstream
-        return view('app.users.edit', compact('user', 'roles'));
-=======
         return view('paqueteria.users.edit', compact('user', 'roles'));
->>>>>>> Stashed changes
     }
 
     /**
