@@ -1,6 +1,11 @@
 {{--    ENVIOS-FORM --}}
 <div class="col-md-12" id="datos-envio" style="display: none">
-{{-- <div class="col-md-12" id="datos-envio" > --}}
+
+    @if ($errors->any())
+    
+        @include('paqueteria/envios/components/alertas')
+
+    @endif
     <div class="card">
         <div class="card-header">
             <h4  class="font-weight-bolder">Datos envio</h4>
@@ -19,7 +24,8 @@
                                     'readonly' => session()->has('values')
                                         ? (session()->get('edit') == 1 ? false : true )
                                         : false,
-                                    'class' => 'remitentes-search form-control  col-md-10 pl-1'
+                                    'class' => 'remitentes-search form-control  col-md-10 pl-1', 
+                                    'required' => true
                             ])}}
                         </div>
                     </div>
@@ -34,7 +40,9 @@
                                     'readonly' => session()->has('edit') 
                                     ? session()->get('edit') == 0 ? true : false
                                     : false,
-                                    'class' => 'remitente-nombre-completo form-control pl-1'
+                                    'class' => 'remitente-nombre-completo form-control pl-1', 
+                                    'required' => true, 
+                                    'maxlength' => '35'
                                 ]) 
                             !!}
                         </div>
@@ -64,7 +72,8 @@
                                     'readonly' => session()->has('edit') 
                                     ? session()->get('edit') == 0 ? true : false
                                     : false,
-                                    'class' => 'remitente-codigo-postal form-control pl-1'
+                                    'class' => 'remitente-codigo-postal form-control pl-1', 
+                                    'required' => true
                                 ]) 
                             !!}
                         </div>
@@ -79,7 +88,8 @@
                                     'readonly' => session()->has('edit') 
                                     ? session()->get('edit') == 0 ? true : false
                                     : false,
-                                    'class' => 'remitente-pais form-control pl-1'
+                                    'class' => 'remitente-pais form-control pl-1', 
+                                    
                                 ]) 
                             !!}
 
@@ -95,7 +105,8 @@
                                     'readonly' => session()->has('edit') 
                                     ? session()->get('edit') == 0 ? true : false
                                     : false,
-                                    'class' => 'remitente-domicilio1 form-control pl-1'
+                                    'class' => 'remitente-domicilio1 form-control pl-1', 
+                                    'required' => true
                                 ]) 
                             !!}
                         </div>
@@ -174,7 +185,8 @@
                                     'readonly' => session()->has('values')
                                         ? (session()->get('edit') == 1 ? false : true )
                                         : false,
-                                    'class' => 'destinatarios-search form-control  col-md-10 pl-1'
+                                    'class' => 'destinatarios-search form-control  col-md-10 pl-1', 
+                                    'required' => true
                             ])}}
                         </div>
                     </div>
@@ -189,7 +201,9 @@
                                     'readonly' => session()->has('edit') 
                                     ? session()->get('edit') == 0 ? true : false
                                     : false,
-                                    'class' => 'destinatario-nombre-completo form-control pl-1'
+                                    'class' => 'destinatario-nombre-completo form-control pl-1', 
+                                    'required' => true, 
+                                    'maxlength' => '35'
                                 ]) 
                             !!}
                         </div>
@@ -219,7 +233,8 @@
                                     'readonly' => session()->has('edit') 
                                     ? session()->get('edit') == 0 ? true : false
                                     : false,
-                                    'class' => 'destinatario-codigo-postal form-control pl-1'
+                                    'class' => 'destinatario-codigo-postal form-control pl-1', 
+                                    'required' => true
                                 ]) 
                             !!}
                         </div>
@@ -250,7 +265,8 @@
                                     'readonly' => session()->has('edit') 
                                     ? session()->get('edit') == 0 ? true : false
                                     : false,
-                                    'class' => 'destinatario-domicilio1 form-control pl-1'
+                                    'class' => 'destinatario-domicilio1 form-control pl-1', 
+                                    'required' => true
                                 ]) 
                             !!}
                         </div>

@@ -4,7 +4,7 @@ $(function () {
 
         processing: true,
         serverSide: true,
-        ajax: "/aydemex/public/unidadesmedidas/list",
+        ajax: `${window.location.pathname}/list`,
         columns: [
     
             { data: 'unidad_medida' },

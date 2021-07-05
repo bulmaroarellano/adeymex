@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function() {
 
 //-SUCURSALES 
 Route::get('/sucursales', [SucursalesController::class, 'index'])->name('sucursales.index');
-Route::post('/sucursales/list', [SucursalesController::class, 'getSucursales'])->name('sucursales.list');
+Route::get('/sucursales/list', [SucursalesController::class, 'getSucursales'])->name('sucursales.list');
 Route::get('/sucursales-search', [SucursalesController::class, 'sucursalesSearch'])->name('sucursales.search');
 Route::get('/sucursales-find', [SucursalesController::class, 'findSucursal'])->name('sucursales.find');
 Route::get('/sucursales/{sucursal}{edit}', [SucursalesController::class, 'show'])->name('sucursales.show');

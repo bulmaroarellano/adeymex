@@ -1,10 +1,13 @@
 $(function () {
+    
+    
+    
 
     $('.datatables-basic').DataTable({
 
         processing: true,
         serverSide: true,
-        ajax: "/aydemex/public/paises/list",
+        ajax: `${window.location.pathname}/list`,
         columns: [
     
             { data: 'nombre' },

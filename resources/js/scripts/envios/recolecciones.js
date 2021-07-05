@@ -1,10 +1,12 @@
 $(function () {
 
+    
+
     $('.datatables-basic').DataTable({
 
         processing: true,
         serverSide: true,
-        ajax: "/aydemex/public/recolecciones/list",
+        ajax: `${window.location.pathname}/list`,
         columns: [
 
             { data: 'sucursal_id.0.nombre' },

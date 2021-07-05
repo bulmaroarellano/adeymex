@@ -32,7 +32,8 @@
                                       'readonly' => session()->has('values')
                                           ? (session()->get('edit') == 1 ? false : true )
                                           : false,
-                                      'class' => 'type-paquete form-control'
+                                      'class' => 'type-paquete form-control', 
+                                      
                               ])}}
                           </td>
                           <td>
@@ -41,7 +42,8 @@
                                       'readonly' => session()->has('edit') 
                                       ? session()->get('edit') == 0 ? true : false
                                       : false,
-                                      'class' => 'largo form-control'
+                                      'class' => 'largo form-control', 
+                                      'required' => true
                                   ]) 
                               !!}
                           </td>
@@ -51,7 +53,8 @@
                                       'readonly' => session()->has('edit') 
                                       ? session()->get('edit') == 0 ? true : false
                                       : false,
-                                      'class' => 'ancho form-control'
+                                      'class' => 'ancho form-control', 
+                                      'required' => true
                                   ]) 
                               !!}
                           </td>
@@ -61,7 +64,8 @@
                                       'readonly' => session()->has('edit') 
                                       ? session()->get('edit') == 0 ? true : false
                                       : false,
-                                      'class' => 'alto form-control'
+                                      'class' => 'alto form-control', 
+                                      'required' => true
                                   ]) 
                               !!}
                           </td>
@@ -71,7 +75,8 @@
                                       'readonly' => session()->has('edit') 
                                       ? session()->get('edit') == 0 ? true : false
                                       : false,
-                                      'class' => 'peso form-control'
+                                      'class' => 'peso form-control', 
+                                      'required' => true
                                   ]) 
                               !!}
                           </td>

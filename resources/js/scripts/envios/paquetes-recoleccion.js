@@ -5,7 +5,11 @@ $(function () {
         const paqueteria = $(this).val();
 
         console.log(`busqueda paqueteria :  ${paqueteria}`);
+        const path = window.location.pathname.split('/');
 
+        const url =( path.length > 1) 
+            ? window.location.origin + '/' + path[1] + '/'+ path[2] 
+            : window.location.origin;
 
         var table = $('.datatables-basic').DataTable({
 
@@ -13,7 +17,7 @@ $(function () {
             serverSide: true,
             destroy: true,
             ajax: {
-                'url': '/aydemex/public/recoleccion/paqueteria', 
+                'url': `${url}/recoleccion/paqueteria`, 
                 'data' :{
                     'paqueteria': paqueteria
                 }

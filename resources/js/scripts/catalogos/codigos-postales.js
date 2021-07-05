@@ -1,10 +1,10 @@
 $(function () {
 
-    var table = $('.datatables-basic').DataTable({
+    $('.datatables-basic').DataTable({
 
         processing: true,
         serverSide: true,
-        ajax: "/codigospostales/list",
+        ajax: `${window.location.pathname}/list`,
         columns: [
             
             { data: 'codigo_postal' },

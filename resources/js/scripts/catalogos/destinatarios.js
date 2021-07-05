@@ -1,13 +1,11 @@
+
 $(function () {
-
-
-    
 
     $('.datatables-basic').DataTable({
 
         processing: true,
         serverSide: true,
-        ajax: "/destinatarios/list",
+        ajax: `${window.location.pathname}/list`,
         columns: [
             { data: 'sucursal_id.0.nombre' },
             { data: 'nombre' },

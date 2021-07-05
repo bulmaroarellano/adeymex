@@ -1,10 +1,13 @@
 $(function () {
 
+    const path = window.location.pathname.split('/');
+    const url = '/' + path[1] + '/' + path[2];
+
     $('.datatables-basic').DataTable({
 
         processing: true,
         serverSide: true,
-        ajax: "/aydemex/public/monedas/list",
+        ajax: `${window.location.pathname}/list`,
         columns: [
     
             { data: 'nombre' },

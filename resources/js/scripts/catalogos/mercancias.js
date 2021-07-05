@@ -4,7 +4,7 @@ $(function () {
 
         processing: true,
         serverSide: true,
-        ajax: "/aydemex/public/mercancias/list",
+        ajax: `${window.location.pathname}/list`,
         columns: [
             { data: 'producto' },
             { data: 'producto_ingles' },

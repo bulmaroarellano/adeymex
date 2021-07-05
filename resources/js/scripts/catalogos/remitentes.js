@@ -4,7 +4,7 @@ $(function () {
 
         processing: true,
         serverSide: true,
-        ajax: "/aydemex/public/remitentes/list",
+        ajax: `${window.location.pathname}/list`,
         columns: [
             { data: 'sucursal_id.0.nombre' },
             { data: 'nombre' },

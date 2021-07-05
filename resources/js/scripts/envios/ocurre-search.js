@@ -1,5 +1,11 @@
 $(function () {
 
+    const path = window.location.pathname.split('/');
+
+    const url =( path.length > 2) 
+        ? window.location.origin + '/' + path[1] + '/'+ path[2] 
+        : window.location.origin;
+
     $('#add_ocurre').on('click', function(e) {
         e.preventDefault();
 
@@ -16,7 +22,7 @@ $(function () {
                     return markup;
                 },
                 ajax: {
-                    url: '/aydemex/public/ocurre',
+                    url:`${url}/ocurre`,
                     dataType: 'json',
                     delay: 250,
                     data: function(params){

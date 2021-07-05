@@ -1,5 +1,18 @@
-<div class="col-md-12">
 
+<div class="col-md-12">
+    @php
+        $zip = App\Models\Zip::where('id', old('destino'))->first();
+        $destino = [
+            $zip?->id => "{$zip?->postal_code} {$zip?->place_name} - {$zip?->admin_name2}, {$zip?->admin_name1}",  
+        ];
+        @endphp
+    @if ($errors->any())
+    
+        @include('paqueteria/envios/components/alertas')
+
+    @endif
+
+    
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -23,12 +36,10 @@
                                            'readonly' => session()->has('values')
                                                ? (session()->get('edit') == 1 ? false : true )
                                                : false,
-                                           'class' => 'sucursales-search form-control  col-md-10 pl-1'
+                                           'class' => 'sucursales-search form-control  col-md-10 pl-1', 
+                                           'required' => true
                                     ])}}
                                 </div>
-                                @error('sucursal')
-                                        <small class="alert alert-danger">{{$message}}</small>
-                                @enderror
                             </div>
 
                             {{-- direccion de la sucursal   --}}
@@ -41,13 +52,11 @@
                                             'readonly' => session()->has('edit') 
                                             ? session()->get('edit') == 0 ? true : false
                                             : false,
-                                            'class' => 'origen-envio form-control pl-1'
+                                            'class' => 'origen-envio form-control pl-1', 
+                                            'required' => true
                                         ]) 
                                     !!}
                                 </div>
-                                @error('cp_sucursal')
-                                        <small class="alert alert-danger">{{$message}}</small>
-                                @enderror
                             </div>
 
 
@@ -58,13 +67,14 @@
                                 <label class="col-form-label  text-primary">Direccion destino  </label>
                                     <div class="row no-gutters">
                                         <div class="col-md-10">
-                                            {{ Form::select('destino',  session()->has('values') ? session()->get('values')->destino : [], 
+                                            {{ Form::select('destino',  session()->has('values') ? session()->get('values')->destino : $destino, 
                                                 session()->has('values') ? session()->get('values')->destinoCP : old('destino'),[
                                                    'placeholder' => '',
                                                    'readonly' => session()->has('values')
                                                        ? (session()->get('edit') == 1 ? false : true )
                                                        : false,
-                                                   'class' => 'zips-search form-control  col-sm-10'
+                                                   'class' => 'zips-search form-control  col-sm-10', 
+                                                   'required' => true
                                             ])}}
                                         </div>
                                         <div class="col-md-2">
@@ -84,14 +94,12 @@
                                                             'readonly' => session()->has('values')
                                                                 ? (session()->get('edit') == 1 ? false : true )
                                                                 : false,
-                                                            'class' => 'country-code form-control  col-md-12 pl-1'
+                                                            'class' => 'country-code form-control  col-md-12 pl-1', 
+                                                            
                                                     ])}}
                                             </div>
                                         </div>
                                     </div>
-                                @error('destino')
-                                        <small class="alert alert-danger">{{$message}}</small>
-                                @enderror
                             </div>
                             <div class="row">
                                 
@@ -103,11 +111,12 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">MXN</span>
                                                 </div>
-                                                {!! Form::input('number', 'cargo_logistica', session()->get('values')->cargo_logistica ?? null, [
+                                                {!! Form::input('number', 'cargo_logistica', session()->get('values')->cargo_logistica ?? old('cargo_logistica'), [
                                                     'readonly' => session()->has('edit') ? (session()->get('edit') == 0 ? true : false) : false,
                                                     'min' => '0', 
                                                     'class' => 'form-control pl-1 cargo-logistica', 
-                                                    // 'pattern' => "[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                                                    'required' => true
+                                                    
                                                 ]) !!}
                                             </div>
                                         </div>

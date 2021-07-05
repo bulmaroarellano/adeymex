@@ -97,11 +97,11 @@ class DhlCotizacion
         $resp = json_decode($json,TRUE);
 
         // echo '<pre>';
-            // var_dump($resp['GetQuoteResponse']);
             // var_dump($resp);
+            // var_dump($resp['GetQuoteResponse']);
         // echo '</pre>';
 
-        return $resp['GetQuoteResponse'];
+        return $resp['GetQuoteResponse'] ?? $resp['Response']['Status']['ActionStatus'];
     }
 
     

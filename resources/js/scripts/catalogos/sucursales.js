@@ -4,18 +4,7 @@ $(function () {
 
         processing: true,
         serverSide: true,
-        ajax: {
-            url: "/aydemex/public/sucursales/list", 
-            type: "POST", 
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            dataType: "json", 
-            error: function(data){
-                alert(JSON.stringify(data));
-            }
-        },
-        
+        ajax: `${window.location.pathname}/list`,
         columns: [
             { data: 'nombre' },
             { data: 'domicilio1' },
