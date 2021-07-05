@@ -20,7 +20,7 @@
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
 
-    <div class="content-wrapper">
+    <div cclass="content-wrapper container-xxl p-0">
       {{-- Include Breadcrumb --}}
       @if($configData['pageHeader'] == true && isset($configData['pageHeader']))
       @include('panels.breadcrumb')

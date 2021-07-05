@@ -2,10 +2,10 @@
 
 return [
 
-    'create'  => 'New',
-    'edit'    => 'Edit',
-    'destroy' => 'Delete',
-    'back'    => 'Back',
-    'save'    => 'Save'
+    'create'  => 'Nuevo',
+    'edit'    => 'Editar',
+    'destroy' => 'Eliminar',
+    'back'    => 'Atrás',
+    'save'    => 'Guardar'
 
 ];

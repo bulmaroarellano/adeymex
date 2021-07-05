@@ -1,0 +1,336 @@
+.navire {
+  background-size: 100% auto;
+  width: 120px;
+  height: 100px;
+  position: absolute;
+  top: -50px;
+  right: -130px;
+  -webkit-transition: right 0.2s ease;
+  transition: right 0.2s ease;
+}
+
+.mainMenuOverlay.open .navire {
+  right: 70%;
+  -webkit-transition: right 28s ease 1s;
+  transition: right 28s ease 1s;
+}
+
+/* ### main Menu Overlay */
+.mainMenuOverlay {
+  z-index: 999;
+}
+
+.mainMenuOverlay.open {
+  bottom: 0;
+}
+
+.mainMenuOverlay .toggleMenu {
+  display: block;
+  width: 62px;
+  height: 62px;
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  margin: -31px 0 0 -31px;
+  cursor: pointer;
+  font-size: 24px;
+  color: #FFF;
+  text-align: center;
+  line-height: 62px;
+  -webkit-transition: top 0.5s ease, -webkit-box-shadow 0.5s ease;
+  transition: top 0.5s ease, -webkit-box-shadow 0.5s ease;
+  transition: box-shadow 0.5s ease, top 0.5s ease;
+  transition: box-shadow 0.5s ease, top 0.5s ease, -webkit-box-shadow 0.5s ease;
+}
+
+.mainMenuOverlay .itemMenuBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -31px 0 0 -31px;
+  height: 62px;
+  width: 142px;
+  text-align: right;
+  border-radius: 40px;
+  -webkit-transform-origin: 31px 31px;
+  transform-origin: 31px 31px;
+  -webkit-transition: all 1s ease 0.4s;
+  transition: all 1s ease 0.4s;
+}
+
+.mainMenuOverlay.open .itemMenuBox {
+  width: 182px;
+  -webkit-transition: all 1s ease 0s;
+  transition: all 1s ease 0s;
+}
+
+.mainMenuOverlay .itemMenuBox.bills {
+  -webkit-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+
+.mainMenuOverlay .itemMenuBox.tarsheed {
+  -webkit-transform: rotate(330deg);
+  transform: rotate(330deg);
+}
+
+.mainMenuOverlay .itemMenuBox.employees {
+  -webkit-transform: rotate(30deg);
+  transform: rotate(30deg);
+}
+
+.mainMenuOverlay .itemMenuBox.location {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.mainMenuOverlay .itemMenuBox.eservices {
+  -webkit-transform: rotate(150deg);
+  transform: rotate(150deg);
+}
+
+.mainMenuOverlay .itemMenuBox.contact {
+  -webkit-transform: rotate(210deg);
+  transform: rotate(210deg);
+}
+
+.mainMenuOverlay .itemMenuBox .itemMenu {
+  display: inline-block;
+  border-radius: 40px;
+  width: 62px;
+  height: 62px;
+  border-radius: 40px;
+  -webkit-transition: all 0.8s ease;
+  transition: all 0.8s ease;
+  color: #FFF;
+}
+
+.mainMenuOverlay .itemMenuBox.bills .itemMenu {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.mainMenuOverlay .itemMenuBox.tarsheed .itemMenu {
+  -webkit-transform: rotate(30deg);
+  transform: rotate(30deg);
+}
+
+.mainMenuOverlay .itemMenuBox.employees .itemMenu {
+  -webkit-transform: rotate(330deg);
+  transform: rotate(330deg);
+}
+
+.mainMenuOverlay .itemMenuBox.location .itemMenu {
+  -webkit-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+
+.mainMenuOverlay .itemMenuBox.eservices .itemMenu {
+  -webkit-transform: rotate(210deg);
+  transform: rotate(210deg);
+}
+
+.mainMenuOverlay .itemMenuBox.contact .itemMenu {
+  -webkit-transform: rotate(150deg);
+  transform: rotate(150deg);
+}
+
+/* Hover */
+.mainMenuOverlay .itemMenuBox.bills .itemMenu:hover {
+  -webkit-transform: rotate(450deg);
+  transform: rotate(450deg);
+}
+
+.mainMenuOverlay .itemMenuBox.tarsheed .itemMenu:hover {
+  -webkit-transform: rotate(390deg);
+  transform: rotate(390deg);
+}
+
+.mainMenuOverlay .itemMenuBox.employees .itemMenu:hover {
+  -webkit-transform: rotate(690deg);
+  transform: rotate(690deg);
+}
+
+.mainMenuOverlay .itemMenuBox.location .itemMenu:hover {
+  -webkit-transform: rotate(630deg);
+  transform: rotate(630deg);
+}
+
+.mainMenuOverlay .itemMenuBox.eservices .itemMenu:hover {
+  -webkit-transform: rotate(570deg);
+  transform: rotate(570deg);
+}
+
+.mainMenuOverlay .itemMenuBox.contact .itemMenu:hover {
+  -webkit-transform: rotate(510deg);
+  transform: rotate(510deg);
+}
+
+.floating {
+  --webkit-animation-name: Floatingx;
+  --webkit-animation-duration: 3s;
+  --webkit-animation-iteration-count: infinite;
+  --webkit-animation-timing-function: ease-in-out;
+  --moz-animation-name: Floating;
+  --moz-animation-duration: 3s;
+  --moz-animation-iteration-count: infinite;
+  --moz-animation-timing-function: ease-in-out;
+}
+
+-webkit-keyframes Floatingx from {
+  --webkit-transform: translate(0, 0px);
+}
+
+-webkit-keyframes Floatingx 65% {
+  --webkit-transform: translate(0, 5px);
+}
+
+-webkit-keyframes Floatingx to {
+  --webkit-transform: translate(0, -0px);
+}
+
+-moz-keyframes Floating from {
+  --moz-transform: translate(0, 0px);
+}
+
+-moz-keyframes Floating 65% {
+  --moz-transform: translate(0, 5px);
+}
+
+-moz-keyframes Floating to {
+  --moz-transform: translate(0, -0px);
+}
+
+.floating2 {
+  --webkit-animation-name: Floatingx2;
+  --webkit-animation-duration: 3s;
+  --webkit-animation-iteration-count: infinite;
+  --webkit-animation-timing-function: ease-in-out;
+  --moz-animation-name: Floating2;
+  --moz-animation-duration: 3s;
+  --moz-animation-iteration-count: infinite;
+  --moz-animation-timing-function: ease-in-out;
+}
+
+@-webkit-keyframes Floatingx2 {
+  from {
+    -webkit-transform: translate(0, 0px);
+  }
+  45% {
+    -webkit-transform: translate(0, 8px);
+  }
+  to {
+    -webkit-transform: translate(0, 0px);
+  }
+}
+
+.floating3 {
+  -webkit-animation-name: Floatingx3;
+  -webkit-animation-duration: 3s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: ease-in-out;
+  -moz-animation-name: Floating3;
+  -moz-animation-duration: 3s;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: ease-in-out;
+}
+
+@-webkit-keyframes Floatingx3 {
+  from {
+    -webkit-transform: translate(0, 0px);
+  }
+  50% {
+    -webkit-transform: translate(2px, 4px);
+  }
+  to {
+    -webkit-transform: translate(0, 0px);
+  }
+}
+
+@-webkit-keyframes --moz-keyframes Floating3 {
+  from {
+    --moz-transform: translate(0, 0px);
+  }
+  50% {
+    --moz-transform: translate(2px, 4px) !important;
+  }
+  to {
+    --moz-transform: translate(0, -0px);
+  }
+}
+
+@keyframes --moz-keyframes Floating3 {
+  from {
+    --moz-transform: translate(0, 0px);
+  }
+  50% {
+    --moz-transform: translate(2px, 4px) !important;
+  }
+  to {
+    --moz-transform: translate(0, -0px);
+  }
+}
+
+/* signature */
+.signatureBox {
+  text-align: right;
+  padding: 4px;
+}
+
+.signatureBox.fixed {
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+}
+
+.signature,
+.signature a {
+  color: #484848;
+}
+
+.signature:before,
+.signature:after {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  --webkit-transition: all 0.5s;
+  --webkit-transition: all 0.5s;
+  width: 11px;
+}
+
+.signature:before {
+  content: 'Mahmoud';
+}
+
+.signature:after {
+  content: 'NBET';
+  margin-left: 0px;
+  width: 10px;
+}
+
+.signature:hover {
+  color: #484848;
+}
+
+.signature:hover:before {
+  width: 76px;
+}
+
+.signature:hover:after {
+  width: 34px;
+  margin-left: 3px;
+}
+
+.mainMenuOverlay .itemMenuBox {
+  background-size: 28px auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -31px 0 0 -31px;
+  height: 62px;
+  width: 142px;
+  text-align: right;
+  border-radius: 40px;
+  --webkit-transform-origin: 31px 31px;
+}
+/*# sourceMappingURL=menu-styles.css.map */

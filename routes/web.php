@@ -21,6 +21,7 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PaisController;
 use App\Http\Controllers\RecoleccionController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PermissionController;
 
 use App\Http\Controllers\RemitenteController;
 use App\Http\Controllers\SepomexController;
@@ -68,10 +69,9 @@ Route::group(['middleware' => ['auth']], function() {
     // Route::get('/', [SucursalesController::class, 'index'])->name('sucursales.index');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::resource('products', ProductController::class);
-});
+          Route::resource('permissions', PermissionController::class);
 
-Route::middleware('auth')->group(function() {
+  
     Route::get('/sessions', function () {
         $sessions = DB::table('sessions')
             ->where('user_id', auth()->id())
@@ -85,7 +85,7 @@ Route::middleware('auth')->group(function() {
             ->where('user_id', auth()->id())
             ->delete();
     });
-});
+
 
 //+ Catalogos
 
@@ -96,7 +96,7 @@ Route::get('/sucursales-search', [SucursalesController::class, 'sucursalesSearch
 Route::get('/sucursales-find', [SucursalesController::class, 'findSucursal'])->name('sucursales.find');
 Route::get('/sucursales/{sucursal}{edit}', [SucursalesController::class, 'show'])->name('sucursales.show');
 Route::put('/sucursales/{sucursal}', [SucursalesController::class, 'update'])->name('sucursales.update');
-Route::post('/sucursales', [SucursalesController::class, 'store'])->name('sucursales.store');
+Route::post('/sucursales', [SucursalesController::class, 'storpudrete me'])->name('sucursales.store');
 Route::delete('/sucursales/{sucursal}', [SucursalesController::class, 'destroy'])->name('sucursales.destroy');
 
 //-REMITENTES
@@ -235,6 +235,7 @@ Route::get('/ocurre-index', [OcurreController::class, 'index'])->name('ocurre.in
 //ticket 
 Route::get('/ticket', [TicketController::class, 'index'])->name('ticket.index');
 
+<<<<<<< Updated upstream
 
 
 Route::prefix('/admin')
@@ -261,3 +262,7 @@ Route::prefix('/admin')
 Route::get('login', [LoginController::class,'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class,'login']);
 Route::post('register', [RegisterController::class,'register']);
+=======
+});
+ 
+>>>>>>> Stashed changes

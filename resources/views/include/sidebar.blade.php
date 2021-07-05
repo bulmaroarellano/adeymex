@@ -2,7 +2,11 @@
     <div class="sidebar-header">
         <a class="header-brand" href="{{route('dashboard')}}">
             <div class="logo-img">
+<<<<<<< Updated upstream
                <img height="30" src="{{ asset('img/logo_white.png')}}" class="header-brand-img" title="RADMIN">
+=======
+               <img height="50" src="{{ asset('./img/logo.png')}}" class="header-brand-img" title="RADMIN">
+>>>>>>> Stashed changes
             </div>
         </a>
         <div class="sidebar-action"><i class="ik ik-arrow-left-circle"></i></div>
@@ -40,10 +44,20 @@
                            @can('view-any', App\Models\Invoice::class)
                                 <div class="nav-item {{ ($segment2 == 'invoices') ? 'active' : '' }}">
 
+<<<<<<< Updated upstream
                             <a class="dropdown-item" href="{{ route('invoices.index') }}"><i class="ik ik-calendar"></i><span>Invoices</span></a>
                             </div>
                             @endcan
                     <div class="nav-lavel">{{ __('Users, Permissions and +')}} </div>
+=======
+                            <a class="" href="{{ route('invoices.index') }}"><i class="ik ik-book-open"></i><span>Invoices</span></a>
+                            </div>
+                            @endcan
+                    
+                    
+                    
+                            <div class="nav-lavel">{{ __('Users, Permissions and +')}} </div>
+>>>>>>> Stashed changes
                         <div class="nav-item {{ ($segment2 == 'users' || $segment2 == 'roles'||$segment2 == 'permissions' ||$segment2 == 'user') ? 'active open' : '' }} has-sub">
                             <a href="#"><i class="ik ik-user"></i><span>{{ __('Adminstrator')}}</span></a>
                             <div class="submenu-content">

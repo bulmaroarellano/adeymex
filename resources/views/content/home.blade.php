@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Kick start -->
-<div class="card">
+<!-- <div class="card">
   <div class="card-header">
     <h4 class="card-title">Kick start your next project 🚀</h4>
   </div>
@@ -26,37 +26,25 @@
       </ul>
     </div>
   </div>
-</div>
+</div> -->
 <!--/ Kick start -->
 
 <!-- Page layout -->
-<div class="card">
-  <div class="card-header">
-    <h4 class="card-title">What is page layout?</h4>
-  </div>
+<div class="card dashboard">
+ 
   <div class="card-body">
     <div class="card-text">
-      <p>
-        Starter kit includes pages with different layouts, useful for your next project to start development process
-        from scratch with no time.
-      </p>
-      <ul>
-        <li>Each layout includes required only assets only.</li>
-        <li>
-          Select your choice of layout from starter kit, customize it with optional changes like colors and branding,
-          add required dependency only.
-        </li>
-      </ul>
-      <div class="alert alert-primary" role="alert">
-        <div class="alert-body">
-          <strong>Info:</strong> Please check the &nbsp;<a
-            class="text-primary"
-            href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-layouts.html#layout-collapsed-menu"
-            target="_blank"
-            >Layout documentation</a
-          >&nbsp; for more layout options i.e collapsed menu, without menu, empty & blank.
-        </div>
-      </div>
+    <div id="mainMenu" class="mainMenuOverlay floating2 open">
+  <div class="navire floating3"></div>
+	<div class="itemMenuBox bills"><a href="/envios" target="_blank" class="itemMenu "><i class="fas fa-truck"></i><span>Envíos</span></a></div>
+	<div class="itemMenuBox tarsheed"><a href="#" class="itemMenu "><i class="fas fa-search"></i></a></div>
+	<div class="itemMenuBox employees"><a href="#" class="itemMenu "><i class="fas fa-envelope-open-text"></i></a></div>
+	<div class="itemMenuBox location"><a href="{{ url('/suminitros')}}" class="itemMenu "><i class="fab fa-dropbox"></i></a></div>
+	<div class="itemMenuBox eservices"><a href="{{url('#')}}" class="itemMenu "><i class="fas fa-clipboard-list"></i></a></div>
+	<div class="itemMenuBox contact"><a href="#" class="itemMenu"><i class="fas fa-clipboard-check"></i></a></div>
+ 	
+	<a href="#" class="toggleMenu floating"><img src="{{ asset('images/adeymex-menu.png')}}" height="96" width="101" alt="" class=""></a>
+</div>
     </div>
   </div>
 </div>

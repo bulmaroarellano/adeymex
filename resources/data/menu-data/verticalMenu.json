@@ -114,24 +114,24 @@
         
         
         {
-            "navheader": "Forms & Tables",
+            "navheader": "Administración",
             "slug": ""
         },
         {
-            "name": "Datatable",
-            "icon": "grid",
+            "name": "Users",
+            "icon": "",
             "slug": "",
             "submenu": [{
-                    "url": "table/datatable/basic",
-                    "name": "Basic",
-                    "icon": "circle",
-                    "slug": "datatable-basic"
+                    "url": "users",
+                    "name": "users",
+                    "icon": "users",
+                    "slug": ""
                 },
                 {
-                    "url": "table/datatable/advance",
-                    "name": "Advanced",
+                    "url": "roles",
+                    "name": "roles",
                     "icon": "circle",
-                    "slug": "datatable-advance"
+                    "slug": ""
                 }
             ]
         },
