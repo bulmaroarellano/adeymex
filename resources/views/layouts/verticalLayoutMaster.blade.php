@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="{{ $configData['contentsidebarClass'] }}">
-        <div class="content-wrapper">
+        <div class="content-wrapper container-xxl p-0">
           <div class="content-body">
             {{-- Include Page Content --}}
             @yield('content')
@@ -35,7 +35,7 @@
       </div>
     </div>
     @else
-    <div class="content-wrapper {{ $configData['layoutWidth'] === 'boxed' ? 'container p-0' : '' }}">
+    <div cclass="content-wrapper container-xxl p-0 {{ $configData['layoutWidth'] === 'boxed' ? 'container p-0' : '' }}">
       {{-- Include Breadcrumb --}}
       @if($configData['pageHeader'] === true && isset($configData['pageHeader']))
       @include('panels.breadcrumb')

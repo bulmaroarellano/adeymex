@@ -2,134 +2,132 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
-use DB;
-use Hash;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $data = User::orderBy('id','DESC')->paginate(5);
-        return view('users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        $this->authorize('view-any', User::class);
+
+        $search = $request->get('search', '');
+
+        $users = User::search($search)
+            ->latest()->get();
+
+        return view('paqueteria.users.index', compact('users', 'search'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $roles = Role::pluck('name','name')->all();
-        return view('users.create',compact('roles'));
+        $this->authorize('create', User::class);
+
+        $roles = Role::get();
+
+        return view('paqueteria.users.create', compact('roles'));
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\UserStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required'
-        ]);
+        $this->authorize('create', User::class);
 
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
+        $validated = $request->validated();
 
-        $user = User::create($input);
-        $user->assignRole($request->input('roles'));
+        $validated['password'] = Hash::make($validated['password']);
 
-        return redirect()->route('users.index')
-                        ->with('success','User created successfully');
+        $user = User::create($validated);
+
+        $user->syncRoles($request->roles);
+
+        $search = $request->get('search', '');
+
+        $users = User::search($search)
+            ->latest()->get();
+        return view('paqueteria.users.index', compact('users', 'search'));
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, User $user)
     {
-        $user = User::find($id);
-        return view('users.show',compact('user'));
+        $this->authorize('view', $user);
+
+        return view('paqueteria.users.show', compact('user'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, User $user)
     {
-        $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
+        $this->authorize('update', $user);
 
-        return view('users.edit',compact('user','roles','userRole'));
+        $roles = Role::get();
+
+        return view('paqueteria.users.edit', compact('user', 'roles'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \App\Http\Requests\UserUpdateRequest $request
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
-        ]);
+        $this->authorize('update', $user);
 
-        $input = $request->all();
-        if(!empty($input['password'])){
-            $input['password'] = Hash::make($input['password']);
-        }else{
-            $input = Arr::except($input,array('password'));
+        $validated = $request->validated();
+
+        if (empty($validated['password'])) {
+            unset($validated['password']);
+        } else {
+            $validated['password'] = Hash::make($validated['password']);
         }
 
-        $user = User::find($id);
-        $user->update($input);
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
+        $user->update($validated);
 
-        $user->assignRole($request->input('roles'));
+        $user->syncRoles($request->roles);
 
-        return redirect()->route('users.index')
-                        ->with('success','User updated successfully');
+        return redirect()
+            ->route('users.edit', $user)
+            ->withSuccess(__('crud.common.saved'));
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, User $user)
     {
-        User::find($id)->delete();
-        return redirect()->route('users.index')
-                        ->with('success','User deleted successfully');
+        $this->authorize('delete', $user);
+
+        $user->delete();
+
+        return redirect()
+            ->route('users.index')
+            ->withSuccess(__('crud.common.removed'));
     }
 }

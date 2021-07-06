@@ -20,8 +20,10 @@ class DatabaseSeeder extends Seeder
                 'email' => 'admin@admin.com',
                 'password' => \Hash::make('admin'),
             ]);
+        // $this->call(PermissionsSeeder::class);
         $this->call(PermissionsSeeder::class);
-
+        $this->call(UserSeeder::class);
+        
         $this->call(MonedaSeeder::class);
         $this->call(PaisSeeder::class);
         $this->call(RemitenteSeeder::class);
@@ -34,7 +36,9 @@ class DatabaseSeeder extends Seeder
         $this->call(EmpresaSeeder::class);
         $this->call(MercanciaSeeder::class);
         $this->call(UnidadSeeder::class);
-        $this->call(UserSeeder::class);
+        // $this->call(UserSeeder::class);
         $this->call(CodigoPostalSeeder::class);
+
+        
     }
 }

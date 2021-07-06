@@ -110,6 +110,36 @@
                     "slug": "paquetes-recibidos"
                 }
             ]
+        },
+        
+        
+        {
+            "navheader": "Administración",
+            "slug": ""
+        },
+        {
+            "name": "Users",
+            "icon": "users",
+            "slug": "",
+            "submenu": [{
+                    "url": "/users",
+                    "name": "users",
+                    "icon": "users",
+                    "slug": ""
+                },
+                {
+                    "url": "/roles",
+                    "name": "roles",
+                    "icon": "circle",
+                    "slug": ""
+                },
+                {
+                    "url": "/permissions",
+                    "name": "Permisos",
+                    "icon": "hexagon",
+                    "slug": ""
+                }
+            ]
         }
     ]
 }
