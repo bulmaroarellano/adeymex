@@ -139,5 +139,6 @@
 
 @section('page-script')
   {{-- Page js files --}}
+  <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
   <script src="{{ asset(mix('js/scripts/administracion/roles-table.js')) }}"></script>
 @endsection

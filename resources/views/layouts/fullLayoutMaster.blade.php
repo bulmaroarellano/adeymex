@@ -36,8 +36,7 @@ $configData = Helper::applClasses();
     <div class="content-wrapper container-xxl p-0 {{ $configData['layoutWidth'] === 'boxed' ? 'container p-0' : '' }}">
       <div class="content-body">
 
-        {{-- Include Startkit Content --}}
-        @yield('content')
+         @yield('content')
 
       </div>
     </div>

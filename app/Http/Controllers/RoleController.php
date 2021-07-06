@@ -66,7 +66,9 @@ class RoleController extends Controller
                     if ($data->name == 'super-admin') {
                         return '';
                     }
-                    //! REVISAR ESTA CONDICION, porque no retorna nada 
+                    //! REVISAR ESTA CONDICION, porque no retorna nada
+                    //Si es un super-admin 
+
                     if (Auth::user()->can('manage_roles')) {
                         return '<div class="table-actions">
                                     <a href="' . url('role/edit/' . $data->id) . '" ><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>

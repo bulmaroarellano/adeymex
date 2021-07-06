@@ -19,17 +19,25 @@ class UserController extends Controller
     {
         $this->authorize('view-any', User::class);
 
+        $pageConfigs = ['sidebarCollapsed' => true];
         $search = $request->get('search', '');
 
         $users = User::search($search)
             ->latest()->get();
 
-        return view('paqueteria.users.index', compact('users', 'search'));
-    }
+  
+  
+  
+        $breadcrumbs = [
+            ['link'=>"javascript:void(0)",'name'=>"Administración"],['link'=>"users",'name'=>"Usuarios"]
+        ];
+        return view('paqueteria.users.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'users'=> $users, "search" => $search]);
+         }
+    
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Responses
      */
     public function create(Request $request)
     {
