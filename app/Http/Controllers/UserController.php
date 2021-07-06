@@ -22,8 +22,7 @@ class UserController extends Controller
         $search = $request->get('search', '');
 
         $users = User::search($search)
-            ->latest()
-            ->paginate(5);
+            ->latest()->get();
 
         return view('paqueteria.users.index', compact('users', 'search'));
     }
@@ -57,9 +56,11 @@ class UserController extends Controller
 
         $user->syncRoles($request->roles);
 
-        return redirect()
-            ->route('users.edit', $user)
-            ->withSuccess(__('crud.common.created'));
+        $search = $request->get('search', '');
+
+        $users = User::search($search)
+            ->latest()->get();
+        return view('paqueteria.users.index', compact('users', 'search'));
     }
 
     /**

@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
-use DataTables,Auth;
+use Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class RoleController extends Controller
 {
@@ -26,14 +27,13 @@ class RoleController extends Controller
      */
     public function index()
     {
-        try{
-            $permissions = Permission::pluck('name','id');
+        try {
+            $permissions = Permission::pluck('name', 'id');
 
             return view('paqueteria.roles.index', compact('permissions'));
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $bug = $e->getMessage();
             return redirect()->back()->with('error', $bug);
-
         }
     }
 
@@ -44,37 +44,41 @@ class RoleController extends Controller
 
     public function getRoleList(Request $request)
     {
-        
-        $data  = Role::get();
 
-        return Datatables::of($data)
-                ->addColumn('permissions', function($data){
+        if ($request->ajax()) {
+            $data  = Role::get();
+
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('permissions', function ($data) {
                     $roles = $data->permissions()->get();
                     $badges = '';
                     foreach ($roles as $key => $role) {
-                        $badges .= '<span class="badge badge-dark m-1">'.$role->name.'</span>';
+                        $badges .= '<span class="badge badge-dark m-1">' . $role->name . '</span>';
                     }
-                    if($data->name == 'Super Admin'){
+                    if ($data->name == 'super-admin') {
                         return '<span class="badge badge-success m-1">All permissions</span>';
                     }
 
                     return $badges;
                 })
-                ->addColumn('action', function($data){
-                    if($data->name == 'Super Admin'){
+                ->addColumn('action', function ($data) {
+                    if ($data->name == 'super-admin') {
                         return '';
                     }
-                    if (Auth::user()->can('manage_roles')){
+                    //! REVISAR ESTA CONDICION, porque no retorna nada 
+                    if (Auth::user()->can('manage_roles')) {
                         return '<div class="table-actions">
-                                    <a href="'.url('role/edit/'.$data->id).'" ><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
-                                    <a href="'.url('role/delete/'.$data->id).'"  ><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                                    <a href="' . url('role/edit/' . $data->id) . '" ><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
+                                    <a href="' . url('role/delete/' . $data->id) . '"  ><i class="ik ik-trash-2 f-16 text-red"></i></a>
                                 </div>';
-                    }else{
+                    } else {
                         return '';
                     }
                 })
-                ->rawColumns(['permissions','action'])
+                ->rawColumns(['permissions', 'action'])
                 ->make(true);
+        }
     }
 
     /**
@@ -88,21 +92,21 @@ class RoleController extends Controller
         $validator = Validator::make($request->all(), [
             'role' => 'required'
         ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()->withInput()->with('error', $validator->messages()->first());
         }
-        try{
+        try {
 
             $role = Role::create(['name' => $request->role]);
             $role->syncPermissions($request->permissions);
 
-            if($role){ 
+            if ($role) {
                 return redirect('roles')->with('success', 'Role created succesfully!');
-            }else{
+            } else {
                 return redirect('roles')->with('error', 'Failed to create role! Try again.');
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $bug = $e->getMessage();
             return redirect()->back()->with('error', $bug);
         }
@@ -110,50 +114,49 @@ class RoleController extends Controller
 
     public function edit($id)
     {
-        $role  = Role::where('id',$id)->first();
+        $role  = Role::where('id', $id)->first();
         // if role exist
-        if($role){
+        if ($role) {
             $role_permission = $role->permissions()
-                                    ->pluck('id')
-                                    ->toArray();
+                ->pluck('id')
+                ->toArray();
 
-            $permissions = Permission::pluck('name','id');
+            $permissions = Permission::pluck('name', 'id');
 
-            return view('edit-roles', compact('role','role_permission','permissions'));
-        }else{
+            return view('edit-roles', compact('role', 'role_permission', 'permissions'));
+        } else {
             return redirect('404');
         }
     }
 
     public function update(Request $request)
     {
-        
+
 
         // update role
         $validator = Validator::make($request->all(), [
             'role' => 'required',
             'id'   => 'required'
         ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()->withInput()->with('error', $validator->messages()->first());
         }
-        try{
-            
+        try {
+
             $role = Role::find($request->id);
 
             $update = $role->update([
-                          'name' => $request->role
-                      ]);
+                'name' => $request->role
+            ]);
 
             // Sync role permissions
             $role->syncPermissions($request->permissions);
 
             return redirect('roles')->with('success', 'Role info updated succesfully!');
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $bug = $e->getMessage();
             return redirect()->back()->with('error', $bug);
-
         }
     }
 
@@ -161,12 +164,12 @@ class RoleController extends Controller
     public function delete($id)
     {
         $role   = Role::find($id);
-        if($role){
+        if ($role) {
             $delete = $role->delete();
             $perm   = $role->permissions()->delete();
 
             return redirect('roles')->with('success', 'Role deleted!');
-        }else{
+        } else {
             return redirect('404');
         }
     }

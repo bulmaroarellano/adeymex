@@ -119,27 +119,21 @@
         },
         {
             "name": "Users",
-            "icon": "",
+            "icon": "users",
             "slug": "",
             "submenu": [{
-                    "url": "users",
+                    "url": "/users",
                     "name": "users",
                     "icon": "users",
                     "slug": ""
                 },
                 {
-                    "url": "roles",
+                    "url": "/roles",
                     "name": "roles",
                     "icon": "circle",
                     "slug": ""
                 }
             ]
-        },
-        {
-            "url": "table/ag-grid",
-            "name": "agGrid Table",
-            "icon": "grid",
-            "slug": "ag-grid"
         }
     ]
 }

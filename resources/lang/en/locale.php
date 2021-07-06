@@ -200,5 +200,8 @@ return [
   "Facturas" => "Facturas",
   "Recepcion" => "Recepcion",
   "Paquetes recibidos" => "Paquetes recibidos",
+  "Users" => "Usuarios",
+  "users" => "Usuarios",
+  "roles" => "Roles",
 
 ];

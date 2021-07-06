@@ -1,10 +1,18 @@
 @extends('layouts/contentLayoutMaster')
 @section('title', 'Roles')
+
+@section('vendor-style')
+    {{-- vendor css files --}}
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/dataTables.bootstrap4.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/responsive.bootstrap4.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap4.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
+
 @section('content')
-    <!-- push external head elements to head -->
-    @section('psge-styles')
-        <link rel="stylesheet" href="{{ asset('plugins/DataTables/datatables.min.css') }}">
-    @endsection
+
 
     
     <div class="container-fluid">
@@ -43,7 +51,8 @@
 	            <div class="card">
 	                <div class="card-header"><h3>{{ __('Add Role')}}</h3></div>
 	                <div class="card-body">
-	                    <form class="forms-sample" method="POST" action="{{url('role/create')}}">
+						{{-- CAMBIE EL METODO PORQUE "POST" no existe en esta ruta --}}
+	                    <form class="forms-sample" method="GET" action="{{url('roles/create')}}">
 	                    	@csrf
 	                        <div class="row">
 	                            <div class="col-sm-5">
@@ -61,7 +70,8 @@
                                                 <input type="checkbox" class="custom-control-input" id="item_checkbox" name="permissions[]" value="{{$key}}">
                                                 <span class="custom-control-label">
                                                 	<!-- clean unescaped data is to avoid potential XSS risk -->
-                                                	{{ clean($permission,'titles')}}
+														{{-- Tuve que comentar esta linea porque me sa un error --}}
+                                                	{{-- {{ clean($permission,'titles')}} --}}
                                                 </span>
                                             </label>
 	                                		
@@ -85,27 +95,49 @@
 	            <div class="card p-3">
 	                <div class="card-header"><h3>{{ __('Roles')}}</h3></div>
 	                <div class="card-body">
-	                    <table id="roles_table" class="table">
-	                        <thead>
-	                            <tr>
-	                                <th>{{ __('Role')}}</th>
-	                                <th>{{ __('Permissions')}}</th>
-	                                <th>{{ __('Action')}}</th>
-	                            </tr>
-	                        </thead>
-	                        <tbody>
-	                        </tbody>
-	                    </table>
+	                    <div class="table-responsive">
+							<table id="roles_table" class="table">
+								<thead>
+									<tr>
+										{{-- <th>{{ __('Role')}}</th>
+										<th>{{ __('Permissions')}}</th>
+										<th>{{ __('Action')}}</th> --}}
+	
+										<th>Role</th>
+										<th>Permissions</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
 	                </div>
 	            </div>
 	        </div>
 	    </div>
     </div>
-    <!-- push external js -->
-    @section('page-script')
-    <script src="{{ asset('plugins/DataTables/datatables.min.js') }}"></script>
-    <script src="{{ asset('plugins/select2/dist/js/select2.min.js') }}"></script>
-    <!--server side roles table script-->
-    <script src="{{ asset('js/custom.js') }}"></script>
-	@endsection
+@endsection
+
+@section('vendor-script')
+    <script src="{{ asset(mix('vendors/js/tables/datatable/jquery.dataTables.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.bootstrap4.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.responsive.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/responsive.bootstrap4.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.checkboxes.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.buttons.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/jszip.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/pdfmake.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/vfs_fonts.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.html5.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.print.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
+
+@endsection
+
+
+@section('page-script')
+  {{-- Page js files --}}
+  <script src="{{ asset(mix('js/scripts/administracion/roles-table.js')) }}"></script>
 @endsection

@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
-use DataTables,Auth;
+use Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class PermissionController extends Controller
 {
