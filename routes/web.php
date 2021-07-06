@@ -71,8 +71,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/roles/list', [RoleController::class, 'getRoleList'])->name('roles.list');
     Route::resource('roles', RoleController::class);
-    
-    
+
+    Route::get('/permissions/list', [PermissionController::class, 'getPermissionList'])->name('permissions.list');
     Route::resource('permissions', PermissionController::class);
 
 

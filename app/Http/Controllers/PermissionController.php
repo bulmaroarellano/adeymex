@@ -27,14 +27,13 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        try{
-            $roles = Role::pluck('name','id');
+        try {
+            $roles = Role::pluck('name', 'id');
 
             return view('paqueteria.permissions.index', compact('roles'));
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $bug = $e->getMessage();
             return redirect()->back()->with('error', $bug);
-
         }
     }
 
@@ -45,31 +44,33 @@ class PermissionController extends Controller
 
     public function getPermissionList(Request $request)
     {
-        
-        $data  = Permission::get();
 
-        return Datatables::of($data)
-                ->addColumn('roles', function($data){
+        if ($request->ajax()) {
+            $data  = Permission::get();
+
+            return Datatables::of($data)
+                ->addColumn('roles', function ($data) {
                     $roles = $data->roles()->get();
                     $badges = '';
                     foreach ($roles as $key => $role) {
-                        $badges .= '<span class="badge badge-dark m-1">'.$role->name.'</span>';
+                        $badges .= '<span class="badge badge-dark m-1">' . $role->name . '</span>';
                     }
 
                     return $badges;
                 })
-                ->addColumn('action', function($data){
+                ->addColumn('action', function ($data) {
 
-                    if (Auth::user()->can('manage_permission')){
+                    if (Auth::user()->can('manage_permission')) {
                         return '<div class="table-actions">
-                                    <a href="'.url('permission/delete/'.$data->id).'"><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                                    <a href="' . url('permission/delete/' . $data->id) . '"><i class="ik ik-trash-2 f-16 text-red"></i></a>
                                 </div>';
-                    }else{
+                    } else {
                         return '';
                     }
                 })
-                ->rawColumns(['roles','action'])
+                ->rawColumns(['roles', 'action'])
                 ->make(true);
+        }
     }
 
     /**
@@ -79,30 +80,30 @@ class PermissionController extends Controller
 
     public function create(Request $request)
     {
-        
+
         $validator = Validator::make($request->all(), [
             'permission' => 'required'
         ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()->withInput()->with('error', $validator->messages()->first());
         }
-        try{
+        try {
             $permission = Permission::create(['name' => $request->permission]);
             $permission->syncRoles($request->roles);
 
-            if($permission){ 
+            if ($permission) {
                 return redirect('permission')->with('success', 'Permission created succesfully!');
-            }else{
+            } else {
                 return redirect('permission')->with('error', 'Failed to create permission! Try again.');
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $bug = $e->getMessage();
             return redirect()->back()->with('error', $bug);
         }
     }
 
-  
+
 
     public function update(Request $request)
     {
@@ -119,28 +120,29 @@ class PermissionController extends Controller
     public function delete($id)
     {
         $permission   = Permission::find($id);
-        if($permission){
+        if ($permission) {
             $delete = $permission->delete();
             $perm   = $permission->roles()->delete();
 
             return redirect('permission')->with('success', 'Permission deleted!');
-        }else{
+        } else {
             return redirect('404');
         }
     }
 
 
-    public function getPermissionBadgeByRole(Request $request){
+    public function getPermissionBadgeByRole(Request $request)
+    {
         $badges = '';
         if ($request->id) {
             $role = Role::find($request->id);
-            $permissions =  $role->permissions()->pluck('name','id');
+            $permissions =  $role->permissions()->pluck('name', 'id');
             foreach ($permissions as $key => $permission) {
-                $badges .= '<span class="badge badge-dark m-1">'.$permission.'</span>';
+                $badges .= '<span class="badge badge-dark m-1">' . $permission . '</span>';
             }
         }
 
-        if($role->name == 'Super Admin'){
+        if ($role->name == 'Super Admin') {
             $badges = 'Super Admin has all the permissions!';
         }
 

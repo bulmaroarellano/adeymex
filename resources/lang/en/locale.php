@@ -203,5 +203,6 @@ return [
   "Users" => "Usuarios",
   "users" => "Usuarios",
   "roles" => "Roles",
+  "Permisos" => "Permisos",
 
 ];

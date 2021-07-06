@@ -132,6 +132,12 @@
                     "name": "roles",
                     "icon": "circle",
                     "slug": ""
+                },
+                {
+                    "url": "/permissions",
+                    "name": "Permisos",
+                    "icon": "hexagon",
+                    "slug": ""
                 }
             ]
         }

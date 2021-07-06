@@ -61,6 +61,7 @@
     "/css/base/plugins/extensions/ext-component-swiper.css": "/css/base/plugins/extensions/ext-component-swiper.css",
     "/css/base/plugins/extensions/ext-component-sweet-alerts.css": "/css/base/plugins/extensions/ext-component-sweet-alerts.css",
     "/css/base/plugins/extensions/ext-component-sliders.css": "/css/base/plugins/extensions/ext-component-sliders.css",
+    "/js/scripts/administracion/permission-table.js": "/js/scripts/administracion/permission-table.js",
     "/js/scripts/administracion/roles-table.js": "/js/scripts/administracion/roles-table.js",
     "/js/scripts/cards/card-advance.js": "/js/scripts/cards/card-advance.js",
     "/js/scripts/cards/card-analytics.js": "/js/scripts/cards/card-analytics.js",
