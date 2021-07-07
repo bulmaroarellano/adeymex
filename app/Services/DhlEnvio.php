@@ -211,7 +211,7 @@ class DhlEnvio
         $client = new WebserviceClient('staging');
         $respXML = $client->call($this->shipment);
 
-        $xmltoJson =  simplexml_load_string($respXML, "SimpleXMLElement", LIBXML_NOCDATA);
+        $xmltoJson =  simplexml_load_string($respXML);
         $json = json_encode($xmltoJson);
         $requestShipment = json_decode($json,TRUE);
 

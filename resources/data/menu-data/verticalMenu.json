@@ -92,19 +92,19 @@
                     "slug": "seguimiento"
                 },
                 {
-                    "url": "/",
+                    "url": "fac",
                     "name": "Facturas",
                     "icon": "file",
                     "slug": "facturas"
                 },
                 {
-                    "url": "/",
+                    "url": "/recepcion",
                     "name": "Recepcion",
                     "icon": "inbox",
                     "slug": "recepcion"
                 },
                 {
-                    "url": "/",
+                    "url": "/recepciones",
                     "name": "Paquetes recibidos",
                     "icon": "archive",
                     "slug": "paquetes-recibidos"

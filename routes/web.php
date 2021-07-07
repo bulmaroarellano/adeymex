@@ -33,6 +33,7 @@ use App\Http\Controllers\ZipController;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\FacturaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -234,7 +235,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/ocurre', [OcurreController::class, 'searchOcurre'])->name('ocurre.search');
     Route::get('/ocurre-index', [OcurreController::class, 'index'])->name('ocurre.index');
-
+    
     //ticket 
-    Route::get('/ticket', [TicketController::class, 'index'])->name('ticket.index');
+    // Route::get('/ticket', [TicketController::class, 'index'])->name('ticket.index');
+    Route::get('/fac/list', [FacturaController::class, 'getFacturas'])->name('facturas.list');
+    Route::resource('fac', FacturaController::class);
+    
 });
+

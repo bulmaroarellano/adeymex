@@ -98,6 +98,7 @@
     "/js/scripts/envios/date-time-picker.js": "/js/scripts/envios/date-time-picker.js",
     "/js/scripts/envios/destinatarios-search.js": "/js/scripts/envios/destinatarios-search.js",
     "/js/scripts/envios/envios.js": "/js/scripts/envios/envios.js",
+    "/js/scripts/envios/facturas-table.js": "/js/scripts/envios/facturas-table.js",
     "/js/scripts/envios/find-sucursal.js": "/js/scripts/envios/find-sucursal.js",
     "/js/scripts/envios/guardar-datos-envio.js": "/js/scripts/envios/guardar-datos-envio.js",
     "/js/scripts/envios/jquery.datetimepicker.full.min.js": "/js/scripts/envios/jquery.datetimepicker.full.min.js",
