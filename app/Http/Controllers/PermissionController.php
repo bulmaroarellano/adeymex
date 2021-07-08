@@ -80,8 +80,7 @@ class PermissionController extends Controller
 
     public function create(Request $request)
     {
-
-        $validator = Validator::make($request->all(), [
+          $validator = Validator::make($request->all(), [
             'permission' => 'required'
         ]);
 
@@ -93,9 +92,9 @@ class PermissionController extends Controller
             $permission->syncRoles($request->roles);
 
             if ($permission) {
-                return redirect('permission')->with('success', 'Permission created succesfully!');
+                return redirect('permissions')->with('success', 'Permission created succesfully!');
             } else {
-                return redirect('permission')->with('error', 'Failed to create permission! Try again.');
+                return redirect('permissions')->with('error', 'Failed to create permission! Try again.');
             }
         } catch (\Exception $e) {
             $bug = $e->getMessage();

@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         $this->authorize('view-any', User::class);
 
-        $pageConfigs = ['sidebarCollapsed' => true];
+        $pageConfigs = ['sidebarCollapsed' => false];
         $search = $request->get('search', '');
 
         $users = User::search($search)

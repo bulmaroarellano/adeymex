@@ -55,4 +55,10 @@ class StaterkitController extends Controller
     $breadcrumbs = [['link' => "/dashboard/analytics", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Layouts"], ['name' => "Layout Blank"]];
     return view('/content/layout-blank', ['pageConfigs' => $pageConfigs, 'breadcrumbs' => $breadcrumbs]);
   }
+
+  public function clearCache()
+  {
+      \Artisan::call('cache:clear');
+      return view('clear-cache');
+  }
 }

@@ -16,7 +16,7 @@
                         <i class="ik ik-unlock bg-blue"></i>
                         <div class="d-inline">
                             <h5>{{ __('Permissions')}}</h5>
-                            <span>{{ __('Define permissions of user')}}</span>
+                            <span>{{ __('Define permisos de usuario')}}</span>
                         </div>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                                 <a href="../index.html"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">{{ __('Permissions')}}</a>
+                                <a href="#">{{ __('Permisos')}}</a>
                             </li>
                         </ol>
                     </nav>
@@ -42,26 +42,26 @@
             @can('manage_permission')
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><h3>{{ __('Add Permission')}}</h3></div>
+                    <div class="card-header"><h3>{{ __('Añadir Permisos')}}</h3></div>
                     <div class="card-body">
-                        <form class="forms-sample" method="POST" action="{{url('permission/create')}}">
+                        <form class="forms-sample" method="PUT" action="{{url('permissions/create')}}">
                             @csrf
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label for="permission">{{ __('Permission')}}<span class="text-red">*</span></label>
+                                        <label for="permission">{{ __('Permiso')}}<span class="text-red">*</span></label>
                                         <input type="text" class="form-control" id="permission" name="permission" placeholder="Permission Name" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail3">{{ __('Assigned to Role')}} </label>
+                                        <label for="exampleInputEmail3">{{ __('Asignar a role')}} </label>
                                         {!! Form::select('roles[]', $roles, null,[ 'class'=>'form-control select2', 'multiple' => 'multiple']) !!}
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-rounded">{{ __('Save')}}</button>
+                                        <button type="submit" class="btn btn-primary btn-rounded">{{ __('Guardar')}}</button>
                                     </div>
                                 </div>
                             </div>
