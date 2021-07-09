@@ -12,7 +12,7 @@
                     <div class="card-body">
                         <div class="form-group mt-1">
                             {{ Form::file('fda', [
-                                'accept' => '.jpg, .png, .jpeg, .pdf'
+                                'accept' => '.docx, .doc'
                             ])}}
                         </div>
                     </div>
