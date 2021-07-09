@@ -7,31 +7,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Factura extends Model
+class Nota extends Model
 {
     use HasFactory;
     use SoftDeletes;
     use Searchable;
 
-
     protected $fillable = [
-        'paqueteria', 
-        'folio', 
-        'fecha', 
-        'precio_total', 
-
+        'factura_id', 
+        'numero_guia', 
+        'precio', 
     ];
 
-    protected $casts = [
-        'fecha' => 'datetime:Y-m-d',
-    ];
-
-    public function notas()
+    public function factura()
     {
-        return $this->hasMany(Nota::class);
+        return $this->belongsTo(Factura::class);
     }
-
-
-
-
 }

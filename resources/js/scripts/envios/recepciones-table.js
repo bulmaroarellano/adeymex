@@ -1,6 +1,6 @@
 $(function () {
 
-    $('#facturas-table').DataTable({
+    $('#recepciones-table').DataTable({
 
         processing: true,
         serverSide: true,
@@ -8,9 +8,11 @@ $(function () {
         columns: [
 
             { data: 'paqueteria' },
-            { data: 'folio' },
             { data: 'fecha' },
-            { data: 'precio_total' },
+            { data: 'numero_paquetes' },
+            { data: 'numero_guia',  },
+            { data: 'precio',  },
+            { data: 'observaciones',  },
             {
                 data: 'action',
                 name: 'action',

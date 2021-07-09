@@ -29,7 +29,7 @@
                     <div class="card-header"><h4>Facturas</h4></div>
                     <div class="card-body">
                         <div class="form-group">
-                            {{ Form::select('country_code',[
+                            {{ Form::select('paqueteria',[
                                 'FEDEX' => 'FEDEX',
                                 'DHL' => 'DHL',
                             ], 
@@ -70,13 +70,9 @@
                 <thead>
                     <tr>
                         <th scope="col">Paqueteria</th>
-                        <th scope="col">Fecha</th>
                         <th scope="col">Folio</th>
-                        <th scope="col">Unidad</th>
-                        <th scope="col">Descripcion</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col">Iva</th>
-                        <th scope="col">Total </th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Precio Total</th>                       
                         <th scope="col">Acciones </th>
                     </tr>
                 </thead>

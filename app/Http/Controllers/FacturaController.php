@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Factura;
+use App\Models\Nota;
 use Illuminate\Http\Request;
 use stdClass;
 use Yajra\DataTables\Facades\DataTables;
@@ -36,11 +37,12 @@ class FacturaController extends Controller
             $data  = Factura::get();
 
             return Datatables::of($data)
-                ->addColumn('action', function ($data) {
-                   
-                    $badges = '';
-                   
+                ->addColumn('action', function ($fac) {
 
+                    $badges = '    
+                        <a href=" ' . route('fac.show', $fac) . ' "> <i class="far fa-eye "></i> </a>
+                
+                    ';
                     return $badges;
                 })
                 ->rawColumns(['action'])
@@ -56,77 +58,58 @@ class FacturaController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         // return $request;
+
         $file = $request->file('factura');
-        $xmlObject = simplexml_load_string($file->getContent());
-        $ns = $xmlObject->getNamespaces(true);
-        $facturaArray = $this->XMLNode($xmlObject, $ns);
-        
-        $factura = array();
-        $factura['precio_base'] = $facturaArray['Conceptos']['Concepto']['Impuestos']['Traslados']['Traslado']['Base'];
-        $factura['iva'] = $facturaArray['Conceptos']['Concepto']['Impuestos']['Traslados']['Traslado']['Importe'];
-        $factura['total'] = $facturaArray['Total'];
-        $factura['claveProd'] = $facturaArray['Conceptos']['Concepto']['ClaveProdServ'];
-        $factura['folio'] = "{$facturaArray['Serie']} {$facturaArray['Folio']}" ;
-        $factura['unidad'] = $facturaArray['Conceptos']['Concepto']['Unidad'];
-        $factura['fecha'] = $facturaArray['Fecha'];
-        $factura['descripcion'] = $facturaArray['Conceptos']['Concepto']['Descripcion'];
-        $factura['paqueteria'] = 'FEDEX';
-        
-        Factura::create($factura);
-        
-        return view('/paqueteria/envios/facturas/index');
-    }
 
-    function XMLNode($XMLNode, $ns)
-    {
-        $nodes = array();
-        $response = array();
-        $attributes = array();
-        $_isfirst = true;
+        $lines = explode("\n", $file->getContent());
+        $headers = str_getcsv(array_shift($lines));
+        $data = array();
+        
+        foreach ($lines as $line) {
+            $row = array();
+            foreach (str_getcsv($line) as $key => $field) {
+                $key = trim($key);
+                $row[$headers[$key]] = $field;
+            }
+            $row = array_filter($row);
 
-        foreach ($ns as $eachSpace) {
-            
-            foreach ($XMLNode->children($eachSpace) as $_tag => $_node) {
-                //
-                $_value = $this->XMLNode($_node, $ns);
-                if (key_exists($_tag, $nodes)) {
-                    if ($_isfirst) {
-                        $tmp = $nodes[$_tag];
-                        unset($nodes[$_tag]);
-                        $nodes[] = $tmp;
-                        $is_first = false;
-                    }
-                    $nodes[] = $_value;
-                } else {
-                    $nodes[$_tag] = $_value;
-                }
+            $data[] = $row;
+        }
+
+        // return ;
+
+        $facturaValues = array();
+        $fecha = date_format(date_create($data[0]['Fecha de origen']), 'Y-m-d');
+
+        $facturaValues['paqueteria'] = $request->paqueteria;
+        $facturaValues['folio'] = $data[0]['Número de factura'];
+        $facturaValues['fecha'] = $fecha;
+        $facturaValues['precio_total'] = $data[0]['Factura total adeudada'];
+
+        $factura = Factura::create($facturaValues);
+        
+        foreach ($data as $key => $nota) {
+
+            if ($key < count($data) - 1) {
+
+                $guia = $nota['Número de guía aérea'];
+                $precio = $nota['Monto total de la guía aérea'];
+
+                $notaValues = array();
+                $notaValues['factura_id'] = $factura->id;
+                $notaValues['numero_guia'] = $guia;
+                $notaValues['precio'] = $precio;
+
+                Nota::create($notaValues);
             }
         }
 
-        $attributes = array_merge(
-            $attributes,
-            (array)current($XMLNode->attributes())
-        );
-
-        if (count($nodes)) {
-            $response = array_merge(
-                $response,
-                $nodes
-            );
-        }
-
-        // attributes ?
-        if (count($attributes)) {
-            $response = array_merge(
-                $response,
-                $attributes
-            );
-        }
-
-        return (empty($response) ? null : $response);
+        return view('/paqueteria/envios/facturas/index');
+        
     }
+
 
     /**
      * Display the specified resource.
@@ -134,9 +117,16 @@ class FacturaController extends Controller
      * @param  \App\Models\Factura  $factura
      * @return \Illuminate\Http\Response
      */
-    public function show(Factura $factura)
+    public function show(Factura $fac)
     {
-        //
+
+        $notas = Nota::where('factura_id', $fac->id)->get();
+
+        // return $notas;
+        return view('/paqueteria/envios/facturas/show', [
+            'notas' => $notas, 
+            'factura' => $fac
+        ]);
     }
 
     /**

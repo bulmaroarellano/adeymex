@@ -105,6 +105,7 @@
     "/js/scripts/envios/jquery.validate.min.js": "/js/scripts/envios/jquery.validate.min.js",
     "/js/scripts/envios/ocurre-search.js": "/js/scripts/envios/ocurre-search.js",
     "/js/scripts/envios/paquetes-recoleccion.js": "/js/scripts/envios/paquetes-recoleccion.js",
+    "/js/scripts/envios/recepciones-table.js": "/js/scripts/envios/recepciones-table.js",
     "/js/scripts/envios/recolecciones.js": "/js/scripts/envios/recolecciones.js",
     "/js/scripts/envios/remitentes-search.js": "/js/scripts/envios/remitentes-search.js",
     "/js/scripts/envios/tipo-paquete-valores.js": "/js/scripts/envios/tipo-paquete-valores.js",

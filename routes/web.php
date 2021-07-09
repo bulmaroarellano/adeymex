@@ -34,6 +34,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FacturaController;
+use App\Http\Controllers\RecepcionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -240,6 +241,10 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('/ticket', [TicketController::class, 'index'])->name('ticket.index');
     Route::get('/fac/list', [FacturaController::class, 'getFacturas'])->name('facturas.list');
     Route::resource('fac', FacturaController::class);
+    
+    //Recepcion
+    Route::get('/recepciones/list', [RecepcionController::class, 'getRecepciones'])->name('recepciones.list');
+    Route::resource('recepciones', RecepcionController::class);
     
 });
 

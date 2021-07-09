@@ -102,7 +102,6 @@ $(function () {
         
         `;
         const tbody = $(this).siblings('div').children('div').children('table').children('tbody');
-        console.log(tbody)
         tbody.append(html);
 
         $('.suministro-search').select2({
@@ -177,7 +176,36 @@ $(function () {
 
 
 
+$(function () {
 
+    $('#add_recepcion').on('click', function(e) {
+        e.preventDefault();
+        const html =
+            `
+            <tr>
+
+                <td><input class="form-control " type="text" name="cantidad_paquetes[]"  /></td>
+                <td><input class="form-control " type="text" name="numero_guia[]"  /></td>
+                <td><input class="form-control " type="text" name="costo[]"   /></td>
+                <td><input class="form-control " type="text" name="observaciones[]"   /></td>
+                <td><button class="btn btn-danger" id="remove"><i class="fas fa-times-circle"></i></button></td>
+            </tr>
+        
+        `;
+
+        const tbody = $(this).siblings('div').children('div').children('table').children('tbody');
+        tbody.append(html);
+
+     
+    });
+
+    $(document).on('click', '#remove', function () {
+        console.log('Borrando')
+        $(this).closest('tr').remove();
+
+    });
+
+});
         
         
 

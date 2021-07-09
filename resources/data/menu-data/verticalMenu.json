@@ -98,17 +98,12 @@
                     "slug": "facturas"
                 },
                 {
-                    "url": "/recepcion",
-                    "name": "Recepcion",
+                    "url": "/recepciones",
+                    "name": "Recepciones",
                     "icon": "inbox",
                     "slug": "recepcion"
-                },
-                {
-                    "url": "/recepciones",
-                    "name": "Paquetes recibidos",
-                    "icon": "archive",
-                    "slug": "paquetes-recibidos"
                 }
+
             ]
         },
         

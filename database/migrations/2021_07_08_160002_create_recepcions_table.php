@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFacturasTable extends Migration
+class CreateRecepcionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateFacturasTable extends Migration
      */
     public function up()
     {
-        Schema::create('facturas', function (Blueprint $table) {
+        Schema::create('recepcions', function (Blueprint $table) {
             $table->id();
             $table->text('paqueteria');
-            $table->text('folio');
-            $table->text('fecha');
-            $table->text('precio_total');
-
+            $table->text('numero_paquetes');
+            $table->date('fecha');
+            $table->text('numero_guia');
+            $table->text('precio');
+            $table->text('observaciones')->nullable();
             $table->timestamps();
-            $table->softDeletes();
-            
         });
     }
 
@@ -33,6 +32,6 @@ class CreateFacturasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('facturas');
+        Schema::dropIfExists('recepcions');
     }
 }

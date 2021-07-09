@@ -7,7 +7,7 @@ $(function () {
         console.log(`busqueda paqueteria :  ${paqueteria}`);
         const path = window.location.pathname.split('/');
 
-        const url =( path.length > 1) 
+        const url =( path.length > 2) 
             ? window.location.origin + '/' + path[1] + '/'+ path[2] 
             : window.location.origin;
 
@@ -17,7 +17,7 @@ $(function () {
             serverSide: true,
             destroy: true,
             ajax: {
-                'url': `${url}/recoleccion/paqueteria`, 
+                'url': `${window.location.pathname}/paqueteria`, 
                 'data' :{
                     'paqueteria': paqueteria
                 }
