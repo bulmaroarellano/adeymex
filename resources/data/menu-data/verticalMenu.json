@@ -115,12 +115,13 @@
         
         {
             "navheader": "Administración",
-            "slug": ""
+            "badge": "3"
         },
         {
-            "name": "Users",
-            "icon": "users",
+            "name": "Usarios, Roles y +",
+            "icon":"tool",
             "slug": "",
+            "badge": "3",
             "submenu": [{
                     "url": "/users",
                     "name": "users",
@@ -130,13 +131,13 @@
                 {
                     "url": "/roles",
                     "name": "roles",
-                    "icon": "circle",
+                    "icon": "menu",
                     "slug": ""
                 },
                 {
                     "url": "/permissions",
                     "name": "Permisos",
-                    "icon": "hexagon",
+                    "icon": "check",
                     "slug": ""
                 }
             ]

@@ -44,7 +44,6 @@ class PermissionController extends Controller
 
     public function getPermissionList(Request $request)
     {
-
         if ($request->ajax()) {
             $data  = Permission::get();
 
@@ -59,10 +58,9 @@ class PermissionController extends Controller
                     return $badges;
                 })
                 ->addColumn('action', function ($data) {
-
                     if (Auth::user()->can('manage_permission')) {
                         return '<div class="table-actions">
-                                    <a href="' . url('permission/delete/' . $data->id) . '"><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                                    <a href="' . url('permission/delete/' . $data->id) . '"><i alt="Eliminar permiso" class="text-danger" data-feather="x-circle"></i></a>
                                 </div>';
                     } else {
                         return '';
@@ -80,7 +78,7 @@ class PermissionController extends Controller
 
     public function create(Request $request)
     {
-          $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'permission' => 'required'
         ]);
 

@@ -24,7 +24,7 @@
                     <nav class="breadcrumb-container" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="../index.html"><i class="ik ik-home"></i></a>
+                                <a href="#"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="#">{{ __('Permisos')}}</a>
@@ -78,9 +78,9 @@
                         <table id="permission_table" class="table">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Permission')}}</th>
-                                    <th>{{ __('Assigned Role')}}</th>
-                                    <th>{{ __('Action')}}</th>
+                                    <th>{{ __('Permiso')}}</th>
+                                    <th>{{ __('Rol(es) asignado(s)')}}</th>
+                                    <th>{{ __('Acciones')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
