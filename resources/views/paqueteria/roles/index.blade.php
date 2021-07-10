@@ -23,7 +23,7 @@
                         <i class="ik ik-award bg-blue"></i>
                         <div class="d-inline">
                             <h5>{{ __('Roles')}}</h5>
-                            <span>{{ __('Define roles of user')}}</span>
+                            <span>{{ __('Defina los roles de usuario')}}</span>
                         </div>
                     </div>
                 </div>
@@ -69,9 +69,8 @@
                                             <label class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="item_checkbox" name="permissions[]" value="{{$key}}">
                                                 <span class="custom-control-label">
-                                                	<!-- clean unescaped data is to avoid potential XSS risk -->
-														{{-- Tuve que comentar esta linea porque me sa un error --}}
-                                                 </span>
+                                                	 {{ $permission }}  
+                                                </span>
                                             </label>
 	                                		
 	                                	</div>
@@ -79,7 +78,7 @@
 	                                </div>
 	                                
 	                                <div class="form-group">
-	                                	<button type="submit" class="btn btn-primary btn-rounded">{{ __('Save')}}</button>
+	                                	<button type="submit" class="btn btn-primary btn-rounded">{{ __('Guardar')}}</button>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -98,10 +97,9 @@
 							<table id="roles_table" class="table">
 								<thead>
 									<tr>
-	
 										<th>Rol</th>
 										<th>Permisos</th>
-										<th>Acciones</th>
+                                        <th>Acciones</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -122,7 +120,7 @@
     <script src="{{ asset(mix('vendors/js/tables/datatable/responsive.bootstrap4.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.checkboxes.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.buttons.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/tables/datatable/jszip.min.js')) }}"></script>
+     <script src="{{ asset(mix('vendors/js/tables/datatable/jszip.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/tables/datatable/pdfmake.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/tables/datatable/vfs_fonts.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.html5.min.js')) }}"></script>
