@@ -43,11 +43,16 @@ $("input[type='radio'][name='paqueteria_code']").on("change", function(){
 
 
     const precioEnvioSelec = document.getElementById(`${paqueteriaCode}-monto`).innerText;
+    const path = window.location.pathname.split('/');
 
+    const url =( path.length > 2) 
+        ? window.location.origin + '/' + path[1] + '/'+ path[2] 
+        : window.location.origin;
     $.ajax({
 
       type: 'get', 
-      url : '/search-zips', 
+      // url : '/search-zips', 
+      url : `${url}/search-zips`, 
       data : {
         'id_sucursal': id_sucursal,
         'id_cp_destinatario' : id_cp_destinatario, 

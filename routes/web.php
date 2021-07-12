@@ -35,6 +35,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\RecepcionController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -245,6 +246,10 @@ Route::group(['middleware' => ['auth']], function () {
     //Recepcion
     Route::get('/recepciones/list', [RecepcionController::class, 'getRecepciones'])->name('recepciones.list');
     Route::resource('recepciones', RecepcionController::class);
+
+    Route::get('storage-link', function () {
+        Artisan::call('storage:link');
+    });
     
 });
 

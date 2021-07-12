@@ -9,6 +9,7 @@ use App\Models\Pago;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Storage;
 use stdClass;
 
 class PagoController extends Controller
@@ -43,7 +44,6 @@ class PagoController extends Controller
     {
         
 
-        // return $request;
         $suministros = json_decode($request->suministros, true);
         $envio = json_decode($request->nuevo_envio, true);
         $precios = json_decode($request->precios, true);
@@ -73,17 +73,19 @@ class PagoController extends Controller
         $pdf = PDF::loadView('paqueteria.envios.components.ticket',[
             'pago' => $pago,
             'seguro' => $precios['costo_seguro'], 
-        ])->setPaper('a5');
+        ])->setPaper('a8');
 
         if ($request->has('fda')) {
-            
+
             $file = $request->file('fda'); 
-            $urlFda = "fdas/{$envio['master_guia']}.{$file->extension()}";
-            file_put_contents( "{$urlFda}", base64_decode($file) );
+            $fda = $request->file('fda')->storeAs('public/fdas', "{$envio['master_guia']}.{$file->extension()}"); 
+            $urlFda = Storage::url($fda);
+
             Fda::create([
                 'envio_id' => $envio['id'], 
                 'url_fda' => $urlFda, 
             ]);
+            
         }
         
         $urlTicket = "tickets/{$envio['master_guia']}.pdf";

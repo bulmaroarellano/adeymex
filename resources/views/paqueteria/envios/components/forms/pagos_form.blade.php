@@ -4,7 +4,7 @@
     $paqueteria      = session()->get('paqueteria');
 @endphp
 <div class="col-md-12">
-    @if (! is_null($invoice) && $paqueteria != "DHL")
+    {{-- @if (! is_null($invoice) && $paqueteria != "DHL") --}}
         <div class="row justify-content-start">
             <div class="col-md-5">
                 <div class="card">
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-    @endif
+    {{-- @endif --}}
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
