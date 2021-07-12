@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Laravel\Sanctum\HasApiTokens;
@@ -14,7 +13,6 @@ use Lab404\AuthChecker\Models\HasLoginsAndDevices;
  use Illuminate\Database\Eloquent\SoftDeletes;
  
 class User extends Authenticatable
-
 {
     use Notifiable;
     use HasRoles;
@@ -34,8 +32,8 @@ class User extends Authenticatable
 
     protected $searchableFields = ['*'];
 
-     /* @var array
-     */
+    /* @var array
+    */
     protected $hidden = [
         'password',
         'remember_token',
@@ -47,5 +45,14 @@ class User extends Authenticatable
     public function isSuperAdmin()
     {
         return $this->hasRole('super-admin');
+    }
+
+    public function getRoles()
+    {
+        $roles = [];
+        foreach ($this->getRoleNames() as $key => $role) {
+            $roles[$key] = $role;
+        }
+        return $roles;
     }
 }

@@ -23,7 +23,7 @@
                         <i class="ik ik-award bg-blue"></i>
                         <div class="d-inline">
                             <h5>{{ __('Roles')}}</h5>
-                            <span>{{ __('Define roles of user')}}</span>
+                            <span>{{ __('Defina los roles de usuario')}}</span>
                         </div>
                     </div>
                 </div>
@@ -49,10 +49,10 @@
             @can('manage_role')
 			<div class="col-md-12">
 	            <div class="card">
-	                <div class="card-header"><h3>{{ __('Add Role')}}</h3></div>
+	                <div class="card-header"><h3>{{ __('Añadir' )}}</h3></div>
 	                <div class="card-body">
 						{{-- CAMBIE EL METODO PORQUE "POST" no existe en esta ruta --}}
-	                    <form class="forms-sample" method="GET" action="{{url('roles/create')}}">
+	                    <form class="forms-sample" method="PUT" action="{{url('roles/create')}}">
 	                    	@csrf
 	                        <div class="row">
 	                            <div class="col-sm-5">
@@ -62,16 +62,14 @@
 	                                </div>
 	                            </div>
 	                            <div class="col-sm-7">
-	                                <label for="exampleInputEmail3">{{ __('Assign Permission')}} </label>
+	                                <label for="exampleInputEmail3">{{ __('Asignación de permisos')}} </label>
 	                                <div class="row">
 	                                	@foreach($permissions as $key => $permission)
 	                                	<div class="col-sm-4">
                                             <label class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="item_checkbox" name="permissions[]" value="{{$key}}">
                                                 <span class="custom-control-label">
-                                                	<!-- clean unescaped data is to avoid potential XSS risk -->
-														{{-- Tuve que comentar esta linea porque me sa un error --}}
-                                                	{{-- {{ clean($permission,'titles')}} --}}
+                                                	 {{ $permission }}  
                                                 </span>
                                             </label>
 	                                		
@@ -80,7 +78,7 @@
 	                                </div>
 	                                
 	                                <div class="form-group">
-	                                	<button type="submit" class="btn btn-primary btn-rounded">{{ __('Save')}}</button>
+	                                	<button type="submit" class="btn btn-primary btn-rounded">{{ __('Guardar')}}</button>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -99,13 +97,9 @@
 							<table id="roles_table" class="table">
 								<thead>
 									<tr>
-										{{-- <th>{{ __('Role')}}</th>
-										<th>{{ __('Permissions')}}</th>
-										<th>{{ __('Action')}}</th> --}}
-	
-										<th>Role</th>
-										<th>Permissions</th>
-										<th>Action</th>
+										<th>Rol</th>
+										<th>Permisos</th>
+                                        <th>Acciones</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -126,7 +120,7 @@
     <script src="{{ asset(mix('vendors/js/tables/datatable/responsive.bootstrap4.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.checkboxes.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.buttons.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/tables/datatable/jszip.min.js')) }}"></script>
+     <script src="{{ asset(mix('vendors/js/tables/datatable/jszip.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/tables/datatable/pdfmake.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/tables/datatable/vfs_fonts.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.html5.min.js')) }}"></script>
@@ -140,4 +134,5 @@
 @section('page-script')
   {{-- Page js files --}}
   <script src="{{ asset(mix('js/scripts/administracion/roles-table.js')) }}"></script>
+  <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
 @endsection

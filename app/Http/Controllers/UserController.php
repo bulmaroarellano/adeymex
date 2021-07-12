@@ -19,17 +19,25 @@ class UserController extends Controller
     {
         $this->authorize('view-any', User::class);
 
+        $pageConfigs = ['sidebarCollapsed' => false];
         $search = $request->get('search', '');
 
         $users = User::search($search)
             ->latest()->get();
 
-        return view('paqueteria.users.index', compact('users', 'search'));
-    }
+  
+  
+  
+        $breadcrumbs = [
+            ['link'=>"javascript:void(0)",'name'=>"Administración"],['link'=>"users",'name'=>"Usuarios"]
+        ];
+        return view('paqueteria.users.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'users'=> $users, "search" => $search]);
+         }
+    
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Responses
      */
     public function create(Request $request)
     {
@@ -130,4 +138,42 @@ class UserController extends Controller
             ->route('users.index')
             ->withSuccess(__('crud.common.removed'));
     }
+
+    public function getUserList(Request $request)
+{
+    
+    $data  = User::get();
+    return Datatables::of($data)
+            ->addColumn('roles', function($data){
+                $roles = $data->getRoleNames()->toArray();
+                $badge = '';
+                if($roles){
+                    $badge = implode(' , ', $roles);
+                }
+                return $badge;
+            })
+            ->addColumn('permissions', function($data){
+                $roles = $data->getAllPermissions();
+                $badges = '';
+                foreach ($roles as $key => $role) {
+                    $badges .= '<span class="badge badge-dark m-1">'.$role->name.'</span>';
+                }
+                return $badges;
+            })
+            ->addColumn('action', function($data){
+                if($data->name == 'Super Admin'){
+                    return '';
+                }
+                if (Auth::user()->can('manage_user')){
+                    return '<div class="table-actions">
+                            <a href="'.url('user/'.$data->id).'" ><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
+                            <a href="'.url('user/delete/'.$data->id).'"><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                        </div>';
+                }else{
+                    return '';
+                }
+            })
+            ->rawColumns(['roles','permissions','action'])
+            ->make(true);
+}
 }

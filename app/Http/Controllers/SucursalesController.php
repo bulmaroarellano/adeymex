@@ -10,6 +10,7 @@ use App\Models\Pais;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 
 class SucursalesController extends Controller
@@ -21,6 +22,10 @@ class SucursalesController extends Controller
      */
     public function index()
     {
+
+        $this->authorize('view-any', Sucursal::class);
+
+
         $sucursales = Sucursal::orderBy('id', 'desc')->paginate(8);
         $paises = Pais::all()->pluck('nombre', 'id');
         $encargados = Encargado::all()->pluck('nombre', 'id');
@@ -59,7 +64,7 @@ class SucursalesController extends Controller
                 ->make(true);
         }
     }
-
+    
     public function findSucursal(Request $request)
     {
         if ($request->ajax()) {
@@ -101,7 +106,9 @@ class SucursalesController extends Controller
      */
     public function store(SucursalStoreRequest $request)
     {
-        return $request;
+        $this->authorize('create', Sucursal::class);
+
+        // return $request;
         Sucursal::create($request->all());
         return redirect()->route('sucursales.index');
     }
@@ -114,6 +121,8 @@ class SucursalesController extends Controller
      */
     public function show(Sucursal $sucursal, $edit)
     {
+        $this->authorize('view', $sucursal);
+
         return redirect()->route('sucursales.index')->with([
             'values' => $sucursal,
 
@@ -126,14 +135,10 @@ class SucursalesController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */
-    public function edit(Sucursal $sucursal)
-    {
-    }
+/
+*
+ Update the specified resource in storage.
 
-    /**
-     * Update the specified resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response

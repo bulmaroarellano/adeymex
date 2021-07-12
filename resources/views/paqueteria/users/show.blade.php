@@ -1,13 +1,14 @@
-@extends('layouts.app')
+@extends('layouts/contentLayoutMaster')
 
 @section('content')
+<div class="container-fluid">
+
 <div class="page-header">
     <div class="row align-items-end">
         <div class="col-lg-8">
             <div class="page-header-title">
-                <i class="ik ik-users bg-blue"></i>
-                <div class="d-inline">
-                    <h5>{{ __('Users')}}</h5>
+            <i data-feather='edit' class="bg-blue"></i>
+                                <h5>{{ __('Users')}}</h5>
                     <span>{{ __('List of users')}}</span>
                 </div>
             </div>
@@ -16,7 +17,7 @@
             <nav class="breadcrumb-container" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{route('dashboard')}}"><i class="ik ik-home"></i></a>
+                        <a href="{{route('home')}}"><i class="ik ik-home"></i></a>
                     </li>
                     <li class="breadcrumb-item">
                         <a href="#">{{ __('Users')}}</a>
@@ -75,4 +76,9 @@
         </div>
     </div>
 </div>
+@endsection
+@section('page-script')
+  {{-- Page js files --}}
+  <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+  <script src="{{ asset(mix('js/scripts/administracion/roles-table.js')) }}"></script>
 @endsection

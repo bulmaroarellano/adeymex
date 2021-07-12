@@ -44,7 +44,6 @@ class PermissionController extends Controller
 
     public function getPermissionList(Request $request)
     {
-
         if ($request->ajax()) {
             $data  = Permission::get();
 
@@ -59,10 +58,9 @@ class PermissionController extends Controller
                     return $badges;
                 })
                 ->addColumn('action', function ($data) {
-
                     if (Auth::user()->can('manage_permission')) {
                         return '<div class="table-actions">
-                                    <a href="' . url('permission/delete/' . $data->id) . '"><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                                    <a href="' . url('permission/delete/' . $data->id) . '"><i alt="Eliminar permiso" class="text-danger" data-feather="x-circle"></i></a>
                                 </div>';
                     } else {
                         return '';
@@ -80,7 +78,6 @@ class PermissionController extends Controller
 
     public function create(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'permission' => 'required'
         ]);
@@ -93,9 +90,9 @@ class PermissionController extends Controller
             $permission->syncRoles($request->roles);
 
             if ($permission) {
-                return redirect('permission')->with('success', 'Permission created succesfully!');
+                return redirect('permissions')->with('success', 'Permission created succesfully!');
             } else {
-                return redirect('permission')->with('error', 'Failed to create permission! Try again.');
+                return redirect('permissions')->with('error', 'Failed to create permission! Try again.');
             }
         } catch (\Exception $e) {
             $bug = $e->getMessage();

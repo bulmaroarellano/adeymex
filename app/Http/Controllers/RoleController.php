@@ -44,7 +44,6 @@ class RoleController extends Controller
 
     public function getRoleList(Request $request)
     {
-
         if ($request->ajax()) {
             $data  = Role::get();
 
@@ -66,11 +65,15 @@ class RoleController extends Controller
                     if ($data->name == 'super-admin') {
                         return '';
                     }
-                    //! REVISAR ESTA CONDICION, porque no retorna nada 
+                    //! REVISAR ESTA CONDICION, porque no retorna nada
+                    //Si es un super-admin
+
                     if (Auth::user()->can('manage_roles')) {
                         return '<div class="table-actions">
-                                    <a href="' . url('role/edit/' . $data->id) . '" ><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
-                                    <a href="' . url('role/delete/' . $data->id) . '"  ><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                                    <a href="' . url('role/edit/' . $data->id) . '" ><i data-feather="edit"></i></a></a>
+                                    <a href="' . url('role/delete/' . $data->id) . '"  >
+                                    <i class="text-danger" data-feather="x-circle"></i>
+                                    </a>
                                 </div>';
                     } else {
                         return '';
@@ -97,7 +100,6 @@ class RoleController extends Controller
             return redirect()->back()->withInput()->with('error', $validator->messages()->first());
         }
         try {
-
             $role = Role::create(['name' => $request->role]);
             $role->syncPermissions($request->permissions);
 
@@ -143,7 +145,6 @@ class RoleController extends Controller
             return redirect()->back()->withInput()->with('error', $validator->messages()->first());
         }
         try {
-
             $role = Role::find($request->id);
 
             $update = $role->update([

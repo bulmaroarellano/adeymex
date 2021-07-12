@@ -74,8 +74,8 @@
         <li class="nav-item dropdown dropdown-user">
           <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="user-nav d-sm-flex d-none">
-              <span class="user-name font-weight-bolder">John Doe</span>
-              <span class="user-status">Admin</span>
+              <span class="user-name font-weight-bolder">{{Auth::user()->name}} </span>
+              <span class="user-status">{{Auth::user()->getRoles()[0]}}</span>
             </div>
             <span class="avatar">
               <img class="round" src="{{asset('images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40">
@@ -83,9 +83,9 @@
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
-            <a class="dropdown-item" href="javascript:void(0)">
-              <i class="mr-50" data-feather="user"></i> Profile
-            </a>
+            {{-- <a class="dropdown-item" href="javascript:void(0)"> --}}
+              {{-- <i class="mr-50" data-feather="user"></i> Profile --}}
+            {{-- </a> --}}
             {{--  <a class="dropdown-item" href="javascript:void(0)">
               <i class="mr-50" data-feather="mail"></i> Inbox
             </a>

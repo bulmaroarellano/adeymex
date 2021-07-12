@@ -25,7 +25,7 @@
                             </li>
                             <li class="breadcrumb-item">
                                 <!-- clean unescaped data is to avoid potential XSS risk -->
-                                {{ clean($role->name, 'titles')}}
+                                {{ __($role->name, 'titles')}}
                             </li>
 
                         </ol>
@@ -65,7 +65,7 @@
                                             @endif>
                                             <span class="custom-control-label">
                                                 <!-- clean unescaped data is to avoid potential XSS risk -->
-                                                {{ clean($permission, 'titles')}}
+                                          {{$permission }}
                                             </span>
                                         </label>
                                 	</div>
