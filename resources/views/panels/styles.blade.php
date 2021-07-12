@@ -19,13 +19,13 @@
 {{-- Page Styles --}}
 @yield('page-style')
     <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap-extended.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/colors.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/components.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/themes/dark-layout.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/themes/bordered-layout.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('css/themes/semi-dark-layout.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/themes/semi-dark-layout.min.css')}}"> --}}
 
 {{-- Laravel Style --}}
 <link rel="stylesheet" href="{{ asset(mix('css/overrides.css')) }}" />
