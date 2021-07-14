@@ -185,7 +185,7 @@ $(function () {
             <tr>
 
                 <td><input class="form-control " type="text" name="cantidad_paquetes[]"  /></td>
-                <td><input class="form-control " type="text" name="numero_guia[]"  /></td>
+                <td><input class="form-control " type="text" name="numero_guia[]" maxlength="18" /></td>
                 <td><input class="form-control " type="text" name="costo[]"   /></td>
                 <td><input class="form-control " type="text" name="observaciones[]"   /></td>
                 <td><button class="btn btn-danger" id="remove"><i class="fas fa-times-circle"></i></button></td>

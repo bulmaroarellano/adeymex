@@ -10,7 +10,7 @@ $(function () {
             { data: 'paqueteria' },
             { data: 'fecha' },
             { data: 'numero_paquetes' },
-            { data: 'numero_guia'  },
+            { data: 'numero_guia', width: "40%"  },
             { data: 'precio'  },
             { data: 'observaciones'  },
             {
