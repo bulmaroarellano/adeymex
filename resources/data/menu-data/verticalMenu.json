@@ -117,7 +117,8 @@
             "icon":"tool",
             "slug": "",
             "badge": "3",
-            "submenu": [{
+            "submenu": [
+                {
                     "url": "/users",
                     "name": "users",
                     "icon": "users",
@@ -133,6 +134,18 @@
                     "url": "/permissions",
                     "name": "Permisos",
                     "icon": "check",
+                    "slug": ""
+                },
+                {
+                    "url": "/caja",
+                    "name": "Caja",
+                    "icon": "shopping-bag",
+                    "slug": ""
+                }, 
+                {
+                    "url": "/gastos",
+                    "name": "Gastos",
+                    "icon": "dollar-sign",
                     "slug": ""
                 }
             ]

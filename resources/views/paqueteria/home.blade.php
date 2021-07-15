@@ -31,9 +31,9 @@
         <span>Suministros</span>
     </a>
     
-    <a href="" class="menu-item-home lightblue"> 
-        <i class="fa fa-diamond"></i> 
-        <span>Seguimiento</span>
+    <a href="{{route('caja.index')}}" class="menu-item-home lightblue"> 
+        <i class="fas fa-cash-register"></i>
+        <span>Caja</span>
     </a>
 </nav>
 

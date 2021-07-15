@@ -33,7 +33,9 @@ use App\Http\Controllers\ZipController;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CajaController;
 use App\Http\Controllers\FacturaController;
+use App\Http\Controllers\GastoController;
 use App\Http\Controllers\RecepcionController;
 use Illuminate\Support\Facades\Artisan;
 
@@ -246,6 +248,12 @@ Route::group(['middleware' => ['auth']], function () {
     //Recepcion
     Route::get('/recepciones/list', [RecepcionController::class, 'getRecepciones'])->name('recepciones.list');
     Route::resource('recepciones', RecepcionController::class);
+    
+    //Gastos
+    Route::get('/gastos/list', [GastoController::class, 'getGastos'])->name('gastos.list');
+    Route::resource('gastos', GastoController::class);
+    //Caja
+    Route::resource('caja', CajaController::class);
 
     Route::get('storage-link', function () {
         Artisan::call('storage:link');

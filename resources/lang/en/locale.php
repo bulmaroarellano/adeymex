@@ -205,6 +205,8 @@ return [
   "roles" => "Roles",
   "Permisos" => "Permisos",
   "Recepciones" => "Recepciones",
-  "Usarios, Roles y +"=>"Usuarios y +"
+  "Usarios, Roles y +"=>"Usuarios y +",
+  "Caja"=>"Caja",
+  "Gastos"=>"Gastos"
 
 ];
